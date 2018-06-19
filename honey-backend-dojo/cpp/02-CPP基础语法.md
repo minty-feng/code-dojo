@@ -844,3 +844,49 @@ void func() {
 10. **代码可读性优先**：清晰的代码胜过聪明的技巧，他人能快速理解最重要
 
 **核心思想**：写安全、清晰、高效的代码，按这个优先级排序。
+
+## 性能优化技巧
+
+### 避免不必要的拷贝
+
+C++对象默认值传递会触发拷贝，大对象拷贝成本高。使用引用和移动语义可显著提升性能。
+
+```cpp
+// ❌ 低效：拷贝大对象
+void process(std::string str) {  // 拷贝整个字符串
+    // ...
+}
+
+// ✅ 高效：const引用（只读）
+void process(const std::string& str) {  // 无拷贝
+    // ...
+}
+
+// ✅ 高效：移动语义（转移所有权）
+void process(std::string&& str) {  // 移动而非拷贝
+    // ...
+}
+
+// ✅ 返回值优化（RVO）
+std::string createString() {
+    std::string result = "Hello";
+    return result;  // 编译器会优化掉拷贝
+}
+
+// ❌ 低效：范围for的拷贝
+for (std::string item : vec) {  // 每次拷贝string
+    // ...
+}
+
+// ✅ 高效：引用
+for (const auto& item : vec) {  // 无拷贝
+    // ...
+}
+```
+
+**关键点：**
+- 大对象传参用 `const&`
+- 修改参数用非const引用 `&`
+- 转移所有权用右值引用 `&&`
+- 范围for必须加 `&` 或 `const&`
+- 信任编译器的返回值优化（RVO/NRVO）
