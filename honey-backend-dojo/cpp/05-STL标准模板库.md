@@ -422,3 +422,97 @@ if (auto locked = weak.lock()) {
     cout << *locked << endl;
 }
 ```
+
+## 容器选择指南
+
+### 时间复杂度对比表
+
+| 操作 | vector | deque | list | set/map | unordered_set/map |
+|------|--------|-------|------|---------|-------------------|
+| 随机访问 | O(1) | O(1) | O(n) | O(log n) | - |
+| 头部插入 | O(n) | O(1) | O(1) | O(log n) | O(1) |
+| 尾部插入 | O(1) | O(1) | O(1) | O(log n) | O(1) |
+| 中间插入 | O(n) | O(n) | O(1) | O(log n) | O(1) |
+| 查找 | O(n) | O(n) | O(n) | O(log n) | O(1) |
+| 删除 | O(n) | O(n) | O(1) | O(log n) | O(1) |
+
+### 选择决策树
+
+```cpp
+需要随机访问？
+├─ 是 → 需要两端插入？
+│  ├─ 是 → deque
+│  └─ 否 → vector (首选)
+└─ 否 → 需要排序？
+   ├─ 是 → 需要键值对？
+   │  ├─ 是 → map/multimap
+   │  └─ 否 → set/multiset
+   └─ 否 → 需要快速查找？
+      ├─ 是 → 需要键值对？
+      │  ├─ 是 → unordered_map
+      │  └─ 否 → unordered_set
+      └─ 否 → 频繁中间插入删除？
+         ├─ 是 → list
+         └─ 否 → vector
+```
+
+### 场景推荐
+
+**vector（默认首选）：**
+- 90%的情况下最佳选择
+- 内存连续，缓存友好
+- 动态数组，尾部操作O(1)
+- 适用：数组、栈、动态缓冲区
+
+**deque：**
+- 需要两端插入删除
+- 适用：双端队列、滑动窗口
+
+**list：**
+- 频繁中间插入删除
+- 需要在任意位置O(1)插入
+- 适用：LRU缓存、链表算法
+
+**set/map：**
+- 需要自动排序
+- 需要O(log n)查找
+- 适用：去重、有序数据、范围查询
+
+**unordered_set/map：**
+- 只关心存在性
+- 需要O(1)查找
+- 适用：计数、去重、哈希表
+
+**priority_queue：**
+- 需要快速访问最大/最小元素
+- 适用：堆排序、Top K问题
+
+### 性能陷阱
+
+```cpp
+// ❌ vector频繁头部插入
+for (int i = 0; i < n; ++i) {
+    vec.insert(vec.begin(), i);  // O(n)，总复杂度O(n²)
+}
+
+// ✅ 改用deque
+deque<int> dq;
+for (int i = 0; i < n; ++i) {
+    dq.push_front(i);  // O(1)，总复杂度O(n)
+}
+
+// ❌ 未预留空间导致多次重新分配
+vector<int> vec;
+for (int i = 0; i < 10000; ++i) {
+    vec.push_back(i);  // 可能多次重新分配
+}
+
+// ✅ 预留空间
+vector<int> vec;
+vec.reserve(10000);  // 一次分配
+for (int i = 0; i < 10000; ++i) {
+    vec.push_back(i);
+}
+```
+
+**关键原则：默认用vector，有特殊需求再换其他容器。**
