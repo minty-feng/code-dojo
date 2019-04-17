@@ -1,1268 +1,846 @@
-# 02-C++基础语法
-
-## 学习目标
-
-本章学习目标如下：
-
-- **理解C++的基本数据类型**：知道什么时候使用什么类型
-- **掌握变量和常量的使用**：能够正确声明和使用变量
-- **熟练运用各种运算符**：进行数学运算和逻辑判断
-- **编写基本的控制结构**：实现条件判断和循环
-- **理解函数的基本概念**：能够定义和调用函数
-- **掌握数组和字符串**：处理多个数据
-- **了解指针和引用的基础**：为后续学习做准备
+# C++ 基础语法
 
 ## 数据类型
 
-数据类型是编程的基础，就像生活中的容器一样，不同的容器适合装不同的东西。在C++中，不同的数据类型适合存储不同类型的数据。
+C++ 是强类型语言，每个变量必须声明类型。类型决定了内存占用、取值范围和支持的操作。
 
-### 为什么需要数据类型？
+### 整型
 
-C++的数据类型系统具有以下作用：
+整型用于存储整数。根据内存大小和是否支持负数选择合适的类型。
 
-1. **节省内存**：选择合适大小的类型
-2. **提高性能**：不同类型有不同的处理速度
-3. **避免错误**：编译器会检查类型匹配
-4. **提高可读性**：代码更容易理解
-
-### 基本数据类型
-
-C++的基本数据类型可以分为几个主要类别，每个类别都有其特定的用途和内存占用。
-
-#### 整型数据类型
-整型用于存储整数，就像数学中的整数一样。
-
-**int类型（最常用）：**
-- 占用4字节内存
-- 范围：-2,147,483,648 到 2,147,483,647
-- 适用于：年龄、数量、计数器等
-- 示例：`int age = 25;`
-
-**short类型（节省内存）：**
-- 占用2字节内存
-- 范围：-32,768 到 32,767
-- 适用于：小范围的数值，如月份、星期
-- 示例：`short month = 12;`
-
-**long类型（大范围）：**
-- 占用4或8字节（取决于系统）
-- 适用于：需要更大范围的整数
-- 示例：`long population = 1000000;`
-
-**long long类型（超大范围）：**
-- 占用8字节内存
-- 范围：-9,223,372,036,854,775,808 到 9,223,372,036,854,775,807
-- 适用于：天文数字、科学计算
-- 示例：`long long distance = 150000000000;`
-
-**实际应用示例：**
 ```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int studentAge = 20;           // 学生年龄
-    short examScore = 95;          // 考试分数
-    long studentID = 2023001234;   // 学号
-    long long nationalID = 123456789012345; // 身份证号
-    
-    cout << "年龄: " << studentAge << endl;
-    cout << "分数: " << examScore << endl;
-    cout << "学号: " << studentID << endl;
-    cout << "身份证: " << nationalID << endl;
-    
-    return 0;
-}
+char        // 1字节, -128 ~ 127
+short       // 2字节, -32768 ~ 32767
+int         // 4字节, -2147483648 ~ 2147483647（常用）
+long        // 4/8字节（平台相关）
+long long   // 8字节（大整数）
+unsigned    // 无符号修饰符，范围翻倍但只能表示非负数
 ```
 
-#### 浮点型数据类型
-浮点型用于存储小数，就像数学中的实数一样。
+**类型选择建议**：优先使用 `int`，需要大范围时用 `long long`，明确非负时用 `unsigned`。
 
-**float类型（单精度）：**
-- 占用4字节内存
-- 精度：约7位小数
-- 适用于：一般计算，如价格、温度
-- 示例：`float price = 19.99f;`
+### 浮点型
 
-**double类型（双精度，推荐）：**
-- 占用8字节内存
-- 精度：约15位小数
-- 适用于：科学计算、工程计算
-- 示例：`double pi = 3.14159265359;`
+浮点型用于存储小数。精度和内存成正比。
 
-**long double类型（高精度）：**
-- 占用更多内存
-- 精度：更高
-- 适用于：高精度科学计算
-- 示例：`long double preciseValue = 3.14159265358979323846L;`
-
-**实际应用示例：**
 ```cpp
-#include <iostream>
-#include <iomanip>
-using namespace std;
-
-int main() {
-    float temperature = 36.5f;        // 体温
-    double salary = 8500.50;           // 工资
-    long double interestRate = 0.035L; // 利率
-    
-    cout << fixed << setprecision(2);
-    cout << "体温: " << temperature << "°C" << endl;
-    cout << "工资: ¥" << salary << endl;
-    cout << "利率: " << interestRate << "%" << endl;
-    
-    return 0;
-}
+float       // 4字节, 7位精度（节省内存）
+double      // 8字节, 15位精度（默认选择）
+long double // 更高精度（科学计算）
 ```
 
-#### 字符型数据类型
-字符型用于存储单个字符。
+**注意**：浮点数存在精度误差，避免用 `==` 比较，改用误差范围判断。
 
-**char类型（基本字符）：**
-- 占用1字节内存
-- 存储ASCII字符
-- 适用于：单个字符，如字母、数字、符号
-- 示例：`char grade = 'A';`
+### 其他类型
 
-**字符编码说明：**
-- ASCII：英文字符，0-127
-- 扩展ASCII：128-255
-- Unicode：国际字符
-
-**实际应用示例：**
 ```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    char firstLetter = 'A';
-    char operatorSymbol = '+';
-    char digit = '5';
-    
-    cout << "首字母: " << firstLetter << endl;
-    cout << "运算符: " << operatorSymbol << endl;
-    cout << "数字: " << digit << endl;
-    
-    // 字符的ASCII值
-    cout << "A的ASCII值: " << (int)firstLetter << endl;
-    
-    return 0;
-}
+bool        // true/false，逻辑值
+char        // 单字符，ASCII 编码
+void        // 无类型，用于函数返回值
 ```
 
-#### 布尔型数据类型
-布尔型用于存储逻辑值，只有两个值。
+### 类型大小查询
 
-**bool类型：**
-- 占用1字节内存
-- 只有两个值：`true`（真）和`false`（假）
-- 适用于：条件判断、开关状态
-- 示例：`bool isStudent = true;`
+`sizeof` 运算符返回类型或变量占用的字节数，编译期计算。
 
-**实际应用示例：**
 ```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    bool isStudent = true;
-    bool hasLicense = false;
-    bool isWeekend = false;
-    
-    cout << "是学生: " << (isStudent ? "是" : "否") << endl;
-    cout << "有驾照: " << (hasLicense ? "有" : "无") << endl;
-    cout << "是周末: " << (isWeekend ? "是" : "否") << endl;
-    
-    return 0;
-}
+sizeof(int)      // 通常为 4
+sizeof(double)   // 通常为 8
+sizeof(variable) // 变量占用的字节数
 ```
-
-### 类型修饰符
-类型修饰符可以改变数据类型的行为，就像给容器贴上标签一样。
-
-#### 符号修饰符
-决定数据类型是否可以表示负数。
-
-**signed（有符号，默认）：**
-- 可以表示正数和负数
-- 范围是对称的
-- 示例：`signed int temperature = -10;`
-
-**unsigned（无符号）：**
-- 只能表示正数和零
-- 范围更大
-- 适用于：年龄、数量、索引
-- 示例：`unsigned int age = 25;`
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    signed int temperature = -5;      // 温度可以是负数
-    unsigned int age = 25;           // 年龄不能是负数
-    unsigned int studentCount = 100; // 学生数量不能是负数
-    
-    cout << "温度: " << temperature << "°C" << endl;
-    cout << "年龄: " << age << "岁" << endl;
-    cout << "学生数: " << studentCount << "人" << endl;
-    
-    return 0;
-}
-```
-
-#### 存储修饰符
-控制数据的存储方式和访问权限。
-
-**const（常量）：**
-- 值不可修改
-- 提供编译时保护
-- 示例：`const double PI = 3.14159;`
-
-**volatile（易变）：**
-- 值可能被外部因素改变
-- 防止编译器优化
-- 适用于：硬件寄存器、多线程变量
-- 示例：`volatile int sensorValue = 0;`
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    const double PI = 3.14159;        // 数学常数
-    const int MAX_STUDENTS = 100;     // 最大学生数
-    volatile int sensorReading = 0;    // 传感器读数
-    
-    cout << "圆周率: " << PI << endl;
-    cout << "最大学生数: " << MAX_STUDENTS << endl;
-    cout << "传感器读数: " << sensorReading << endl;
-    
-    // PI = 3.14;  // 错误！不能修改常量
-    
-    return 0;
-}
-```
-
-### 类型大小
-了解数据类型的大小对于内存管理和性能优化很重要。
-
-**常见类型大小（64位系统）：**
-```cpp
-sizeof(char)        // 1字节
-sizeof(int)         // 4字节（通常）
-sizeof(long)        // 8字节（64位系统）
-sizeof(float)       // 4字节
-sizeof(double)      // 8字节
-sizeof(bool)        // 1字节
-```
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "数据类型大小（字节）:" << endl;
-    cout << "char: " << sizeof(char) << endl;
-    cout << "int: " << sizeof(int) << endl;
-    cout << "long: " << sizeof(long) << endl;
-    cout << "float: " << sizeof(float) << endl;
-    cout << "double: " << sizeof(double) << endl;
-    cout << "bool: " << sizeof(bool) << endl;
-    
-    return 0;
-}
-```
-
-**类型选择建议：**
-- **整数**：优先使用`int`，需要大范围时使用`long long`
-- **小数**：优先使用`double`，需要节省内存时使用`float`
-- **字符**：使用`char`
-- **逻辑值**：使用`bool`
-- **常量**：使用`const`修饰
 
 ## 变量和常量
 
-变量和常量是程序中存储数据的基本方式，就像生活中的盒子一样，可以存放不同的东西。
-
 ### 变量声明
-变量是存储数据的容器，必须先声明后使用。
 
-#### 基本声明方式
+变量是存储数据的命名内存空间。声明变量时应初始化，避免未定义行为。
+
 ```cpp
 int age = 25;           // 声明并初始化
-int height;             // 仅声明，值未定义
-height = 180;           // 后续赋值
-auto name = "Alice";    // 自动类型推导（C++11）
+int height;             // 仅声明（值未定义，危险）
+auto x = 10;            // 自动类型推导（C++11）
+int a{5};              // 列表初始化（推荐，防止窄化转换）
 ```
 
-#### 变量命名规则
-良好的变量命名是编程的重要技能：
+**命名规范**：使用有意义的名称（`studentAge` 而非 `a`），驼峰命名法，避免关键字。
 
-**基本规则：**
-- 必须以字母或下划线开头
-- 只能包含字母、数字和下划线
-- 区分大小写
-- 不能使用C++关键字
+### 常量
 
-**命名建议：**
-- 使用有意义的名称：`studentAge`而不是`a`
-- 使用驼峰命名：`firstName`、`lastName`
-- 常量使用大写：`MAX_SIZE`
-- 避免缩写：`numberOfStudents`而不是`numStud`
+常量的值不可修改，编译器会强制检查。使用常量可提高代码可读性和安全性。
 
-**实际应用示例：**
 ```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    // 好的命名示例
-    int studentAge = 20;
-    string studentName = "张三";
-    double averageScore = 85.5;
-    bool isGraduated = false;
-    
-    // 不好的命名示例（避免这样做）
-    int a = 20;           // 没有意义
-    string n = "张三";    // 缩写不清楚
-    double s = 85.5;      // 含义不明
-    
-    cout << "学生姓名: " << studentName << endl;
-    cout << "年龄: " << studentAge << endl;
-    cout << "平均分: " << averageScore << endl;
-    cout << "是否毕业: " << (isGraduated ? "是" : "否") << endl;
-    
-    return 0;
-}
+const int MAX = 100;    // 运行时常量，可用变量初始化
+constexpr int SIZE = 10; // 编译时常量，必须编译期可计算
+#define PI 3.14159      // 宏常量（不推荐，无类型检查）
 ```
 
-#### 初始化的重要性
-未初始化的变量包含垃圾值，可能导致程序行为不可预测。
-
-**初始化方法：**
-```cpp
-int x = 10;        // 传统初始化
-int y(20);         // 构造函数初始化
-int z{30};         // 列表初始化（推荐）
-int w = {40};      // 列表初始化
-```
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    // 不同的初始化方式
-    int traditional = 10;     // 传统方式
-    int constructor(20);      // 构造函数方式
-    int list{30};            // 列表初始化（推荐）
-    int mixed = {40};        // 混合方式
-    
-    cout << "传统初始化: " << traditional << endl;
-    cout << "构造函数初始化: " << constructor << endl;
-    cout << "列表初始化: " << list << endl;
-    cout << "混合初始化: " << mixed << endl;
-    
-    return 0;
-}
-```
-
-### 常量定义
-常量是值不可改变的变量，就像数学中的常数一样。
-
-#### const关键字
-```cpp
-const int MAX_SIZE = 100;           // 编译时常量
-const double PI = 3.14159;         // 浮点常量
-const char* MESSAGE = "Hello";     // 字符串常量
-```
-
-#### constexpr关键字（C++11）
-```cpp
-constexpr int BUFFER_SIZE = 1024;   // 编译时计算
-constexpr int factorial(int n) {    // 编译时函数
-    return (n <= 1) ? 1 : n * factorial(n - 1);
-}
-```
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    const int MAX_STUDENTS = 50;        // 最大学生数
-    const double PI = 3.14159;          // 圆周率
-    const string SCHOOL_NAME = "北京大学"; // 学校名称
-    
-    constexpr int BUFFER_SIZE = 1024;   // 缓冲区大小
-    constexpr int ARRAY_SIZE = 10;      // 数组大小
-    
-    cout << "最大学生数: " << MAX_STUDENTS << endl;
-    cout << "圆周率: " << PI << endl;
-    cout << "学校名称: " << SCHOOL_NAME << endl;
-    cout << "缓冲区大小: " << BUFFER_SIZE << endl;
-    cout << "数组大小: " << ARRAY_SIZE << endl;
-    
-    return 0;
-}
-```
+**最佳实践**：优先使用 `constexpr`，其次 `const`，避免 `#define`。
 
 ### 作用域
-作用域决定了变量的可见性和生命周期，就像房间的门一样，决定了谁能看到里面的东西。
 
-#### 局部作用域
-函数内部的作用域，是最常用的作用域。
+作用域决定变量的可见范围和生命周期。内层作用域可访问外层变量，但反之不行。
 
-**特点：**
-- 只在函数内部可见
-- 函数结束时销毁
-- 不同函数中的同名变量互不影响
-
-**实际应用示例：**
 ```cpp
-#include <iostream>
-using namespace std;
+int global = 1;         // 全局作用域，程序结束时销毁
 
-void function1() {
-    int localVar = 100;  // 局部变量
-    cout << "函数1中的变量: " << localVar << endl;
-}
-
-void function2() {
-    int localVar = 200;  // 同名局部变量
-    cout << "函数2中的变量: " << localVar << endl;
-}
-
-int main() {
-    function1();
-    function2();
-    // cout << localVar;  // 错误！局部变量不可见
-    return 0;
-}
-```
-
-#### 全局作用域
-文件级别的作用域，在整个文件中可见。
-
-**特点：**
-- 在整个文件中可见
-- 程序结束时销毁
-- 可能造成命名冲突
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-// 全局变量
-int globalCounter = 0;
-const string APP_NAME = "学生管理系统";
-
-void incrementCounter() {
-    globalCounter++;
-    cout << "计数器: " << globalCounter << endl;
-}
-
-int main() {
-    cout << "应用名称: " << APP_NAME << endl;
-    incrementCounter();
-    incrementCounter();
-    cout << "最终计数: " << globalCounter << endl;
-    return 0;
-}
-```
-
-#### 块作用域
-{}块内的作用域，支持嵌套。
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int outerVar = 10;
-    cout << "外层变量: " << outerVar << endl;
-    
+void func() {
+    int local = 2;      // 局部作用域，函数结束时销毁
     {
-        int innerVar = 20;
-        cout << "内层变量: " << innerVar << endl;
-        cout << "外层变量在内层: " << outerVar << endl;
+        int block = 3;  // 块作用域，出块时销毁
+        // 可访问 global, local, block
     }
-    
-    // cout << innerVar;  // 错误！内层变量不可见
-    cout << "外层变量在外层: " << outerVar << endl;
-    
-    return 0;
+    // 可访问 global, local，但不可访问 block
 }
 ```
+
+**原则**：尽量缩小变量作用域，减少命名冲突和意外修改。
 
 ## 运算符
 
-运算符是C++中用于执行各种操作的符号，就像数学中的加减乘除一样。
+运算符是执行特定操作的符号。掌握运算符优先级和结合性是编写正确表达式的基础。
 
 ### 算术运算符
-算术运算符用于执行基本的数学运算。
 
-#### 基本算术运算符
+基本数学运算。注意整数除法会截断小数部分。
+
 ```cpp
-int a = 10, b = 3;
-int sum = a + b;        // 加法：13
-int diff = a - b;       // 减法：7
-int product = a * b;    // 乘法：30
-int quotient = a / b;   // 除法：3
-int remainder = a % b;  // 取模：1
++  -  *  /  %          // 加减乘除取模（%仅用于整数）
+++  --                 // 自增自减（前置：先改后用，后置：先用后改）
++=  -=  *=  /=  %=     // 复合赋值（x += 5 等价于 x = x + 5）
 ```
 
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int num1, num2;
-    cout << "请输入两个整数: ";
-    cin >> num1 >> num2;
-    
-    cout << "加法: " << num1 << " + " << num2 << " = " << (num1 + num2) << endl;
-    cout << "减法: " << num1 << " - " << num2 << " = " << (num1 - num2) << endl;
-    cout << "乘法: " << num1 << " * " << num2 << " = " << (num1 * num2) << endl;
-    cout << "除法: " << num1 << " / " << num2 << " = " << (num1 / num2) << endl;
-    cout << "取模: " << num1 << " % " << num2 << " = " << (num1 % num2) << endl;
-    
-    return 0;
-}
-```
-
-#### 自增自减运算符
-自增自减运算符是C++特有的运算符。
-
-**前置和后置的区别：**
-```cpp
-int x = 5;
-int y = ++x;    // 前置：x=6, y=6
-int z = x++;    // 后置：x=7, z=6
-```
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int counter = 0;
-    
-    cout << "初始值: " << counter << endl;
-    
-    cout << "前置自增: " << ++counter << endl;  // 先自增再使用
-    cout << "当前值: " << counter << endl;
-    
-    cout << "后置自增: " << counter++ << endl;  // 先使用再自增
-    cout << "当前值: " << counter << endl;
-    
-    return 0;
-}
-```
+**示例**：`5 / 2` 结果为 `2`（整数除法），`5.0 / 2` 结果为 `2.5`（浮点除法）。
 
 ### 关系运算符
-关系运算符用于比较两个值的大小关系，返回布尔值。
+
+比较运算，返回布尔值。
 
 ```cpp
-int a = 10, b = 20;
-bool equal = (a == b);      // false
-bool notEqual = (a != b);   // true
-bool less = (a < b);        // true
-bool greater = (a > b);     // false
-bool lessEqual = (a <= b);  // true
-bool greaterEqual = (a >= b); // false
+==  !=  >  <  >=  <=   // 相等、不等、大于、小于、大于等于、小于等于
 ```
 
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int score;
-    cout << "请输入分数: ";
-    cin >> score;
-    
-    if (score >= 90) {
-        cout << "优秀" << endl;
-    } else if (score >= 80) {
-        cout << "良好" << endl;
-    } else if (score >= 70) {
-        cout << "中等" << endl;
-    } else if (score >= 60) {
-        cout << "及格" << endl;
-    } else {
-        cout << "不及格" << endl;
-    }
-    
-    return 0;
-}
-```
+**注意**：赋值是 `=`，比较是 `==`，初学者易混淆。
 
 ### 逻辑运算符
-逻辑运算符用于组合多个条件，实现复杂的逻辑判断。逻辑运算是程序控制流的基础，掌握逻辑运算符对于编写条件判断和循环控制至关重要。
 
-#### 基本逻辑运算符
-C++提供了三种基本逻辑运算符，每种都有其特定的用途和优先级。
-
-**逻辑与运算符 (&&)：**
-- 当且仅当两个操作数都为true时，结果才为true
-- 具有短路求值特性：如果第一个操作数为false，不会计算第二个操作数
-- 优先级高于逻辑或运算符
-
-**逻辑或运算符 (||)：**
-- 当至少有一个操作数为true时，结果就为true
-- 具有短路求值特性：如果第一个操作数为true，不会计算第二个操作数
-- 优先级低于逻辑与运算符
-
-**逻辑非运算符 (!)：**
-- 对操作数进行逻辑取反
-- 一元运算符，优先级最高
-- 将true变为false，将false变为true
+组合条件判断，支持短路求值。
 
 ```cpp
-bool condition1 = true;
-bool condition2 = false;
-bool result1 = condition1 && condition2;  // 逻辑与：false
-bool result2 = condition1 || condition2;   // 逻辑或：true
-bool result3 = !condition1;                // 逻辑非：false
+&&  ||  !              // 与（都为真）、或（至少一个为真）、非（取反）
 ```
 
-#### 逻辑运算符的优先级和结合性
-理解运算符的优先级对于编写正确的逻辑表达式非常重要。
+**短路求值**：`a && b` 中若 `a` 为假则不计算 `b`；`a || b` 中若 `a` 为真则不计算 `b`。
 
-**优先级顺序（从高到低）：**
-1. `!` (逻辑非) - 一元运算符，右结合
-2. `&&` (逻辑与) - 二元运算符，左结合
-3. `||` (逻辑或) - 二元运算符，左结合
+### 位运算符
 
-**复杂逻辑表达式示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int age = 25;
-    bool hasLicense = true;
-    bool hasInsurance = false;
-    bool isWeekend = true;
-    
-    // 复杂逻辑表达式
-    bool canDrive = (age >= 18) && hasLicense && hasInsurance;
-    bool canDriveWeekend = (age >= 18) && hasLicense && (hasInsurance || isWeekend);
-    
-    cout << "工作日可以开车: " << canDrive << endl;
-    cout << "周末可以开车: " << canDriveWeekend << endl;
-    
-    // 使用括号明确优先级
-    bool complexCondition = (age >= 18 && hasLicense) || (age >= 16 && isWeekend);
-    cout << "复杂条件: " << complexCondition << endl;
-    
-    return 0;
-}
-```
-
-#### 短路求值详解
-短路求值是逻辑运算符的重要特性，可以提高程序效率并实现条件执行。
-
-**短路求值的工作原理：**
-- 逻辑与(&&)：如果左操作数为false，右操作数不会被计算
-- 逻辑或(||)：如果左操作数为true，右操作数不会被计算
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-bool checkAge(int age) {
-    cout << "检查年龄: " << age << endl;
-    return age >= 18;
-}
-
-bool checkLicense(bool hasLicense) {
-    cout << "检查驾照" << endl;
-    return hasLicense;
-}
-
-bool checkInsurance(bool hasInsurance) {
-    cout << "检查保险" << endl;
-    return hasInsurance;
-}
-
-int main() {
-    int age = 16;
-    bool hasLicense = true;
-    bool hasInsurance = true;
-    
-    cout << "=== 短路求值示例 ===" << endl;
-    
-    // 逻辑与短路求值：age < 18，不会检查驾照
-    if (checkAge(age) && checkLicense(hasLicense)) {
-        cout << "可以开车" << endl;
-    } else {
-        cout << "不能开车" << endl;
-    }
-    
-    cout << "\n=== 逻辑或短路求值 ===" << endl;
-    
-    // 逻辑或短路求值：第一个条件为true，不会检查保险
-    if (checkAge(25) || checkInsurance(hasInsurance)) {
-        cout << "满足条件" << endl;
-    }
-    
-    return 0;
-}
-```
-
-#### 逻辑运算符的实际应用场景
-逻辑运算符在实际编程中有广泛的应用，特别是在条件判断和循环控制中。
-
-**用户权限验证：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    string username = "admin";
-    string password = "123456";
-    bool isLoggedIn = false;
-    bool hasPermission = true;
-    
-    // 用户登录验证
-    if (username == "admin" && password == "123456") {
-        isLoggedIn = true;
-        cout << "登录成功" << endl;
-    }
-    
-    // 权限检查
-    if (isLoggedIn && hasPermission) {
-        cout << "可以访问管理功能" << endl;
-    } else {
-        cout << "权限不足" << endl;
-    }
-    
-    return 0;
-}
-```
-
-**数据验证：**
-```cpp
-#include <iostream>
-using namespace std;
-
-bool isValidAge(int age) {
-    return age >= 0 && age <= 150;
-}
-
-bool isValidScore(int score) {
-    return score >= 0 && score <= 100;
-}
-
-int main() {
-    int age = 25;
-    int score = 85;
-    
-    // 数据验证
-    if (isValidAge(age) && isValidScore(score)) {
-        cout << "数据有效" << endl;
-        
-        // 成绩等级判断
-        if (score >= 90) {
-            cout << "优秀" << endl;
-        } else if (score >= 80) {
-            cout << "良好" << endl;
-        } else if (score >= 70) {
-            cout << "中等" << endl;
-        } else if (score >= 60) {
-            cout << "及格" << endl;
-        } else {
-            cout << "不及格" << endl;
-        }
-    } else {
-        cout << "数据无效" << endl;
-    }
-    
-    return 0;
-}
-```
-
-**条件组合：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int temperature = 25;
-    bool isSunny = true;
-    bool isWeekend = false;
-    bool hasUmbrella = false;
-    
-    // 复杂的天气判断逻辑
-    if (isSunny && temperature > 20) {
-        cout << "适合户外活动" << endl;
-    } else if (!isSunny && hasUmbrella) {
-        cout << "可以出门，记得带伞" << endl;
-    } else if (isWeekend && temperature > 15) {
-        cout << "周末可以出门" << endl;
-    } else {
-        cout << "建议待在家里" << endl;
-    }
-    
-    return 0;
-}
-```
-
-### 数学运算符
-数学运算符是编程中最基础也是最重要的运算符，包括基本算术运算和高级数学函数。
-
-#### 基本算术运算符
-C++提供了五种基本算术运算符，用于执行基本的数学运算。
-
-**加法运算符 (+)：**
-- 用于两个数值相加
-- 也可以用于字符串连接（重载）
-- 支持整数和浮点数运算
-
-**减法运算符 (-)：**
-- 用于两个数值相减
-- 也可以用作一元运算符表示负数
-- 支持整数和浮点数运算
-
-**乘法运算符 (*)：**
-- 用于两个数值相乘
-- 支持整数和浮点数运算
-- 注意整数乘法的溢出问题
-
-**除法运算符 (/)：**
-- 用于两个数值相除
-- 整数除法会截断小数部分
-- 浮点数除法保留小数部分
-
-**取模运算符 (%)：**
-- 用于计算两个整数相除的余数
-- 只适用于整数类型
-- 常用于判断奇偶性、周期性计算
+直接操作二进制位，常用于底层编程、标志位管理和性能优化。
 
 ```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int a = 10, b = 3;
-    double x = 10.0, y = 3.0;
-    
-    // 基本算术运算
-    cout << "整数运算:" << endl;
-    cout << "a + b = " << (a + b) << endl;  // 13
-    cout << "a - b = " << (a - b) << endl;  // 7
-    cout << "a * b = " << (a * b) << endl;  // 30
-    cout << "a / b = " << (a / b) << endl;  // 3 (整数除法)
-    cout << "a % b = " << (a % b) << endl;  // 1
-    
-    cout << "\n浮点数运算:" << endl;
-    cout << "x + y = " << (x + y) << endl;  // 13.0
-    cout << "x - y = " << (x - y) << endl;  // 7.0
-    cout << "x * y = " << (x * y) << endl;  // 30.0
-    cout << "x / y = " << (x / y) << endl;  // 3.33333
-    
-    return 0;
-}
+&   |   ^   ~          // 按位与、或、异或、取反
+<<  >>                 // 左移（乘2^n）、右移（除2^n）
 ```
 
-#### 高级数学函数
-C++标准库提供了丰富的数学函数，需要包含`<cmath>`头文件。
+**应用**：`x & 1` 判断奇偶，`x << 1` 快速乘2，`x | (1 << n)` 设置第n位。
 
-**幂运算函数：**
-- `pow(base, exponent)`：计算base的exponent次幂
-- `sqrt(x)`：计算x的平方根
-- `cbrt(x)`：计算x的立方根（C++11）
+### 运算符优先级（高到低）
 
-**三角函数：**
-- `sin(x)`：正弦函数，x为弧度
-- `cos(x)`：余弦函数，x为弧度
-- `tan(x)`：正切函数，x为弧度
-- `asin(x)`：反正弦函数
-- `acos(x)`：反余弦函数
-- `atan(x)`：反正切函数
+优先级决定运算顺序，不确定时用括号明确。
 
-**对数函数：**
-- `log(x)`：自然对数（以e为底）
-- `log10(x)`：常用对数（以10为底）
-- `log2(x)`：以2为底的对数（C++11）
+1. `()` - 括号
+2. `!  ~  ++  --` - 一元运算符
+3. `*  /  %` - 乘除取模
+4. `+  -` - 加减
+5. `<<  >>` - 移位
+6. `<  <=  >  >=` - 关系
+7. `==  !=` - 相等
+8. `&` - 按位与
+9. `^` - 按位异或
+10. `|` - 按位或
+11. `&&` - 逻辑与
+12. `||` - 逻辑或
+13. `=  +=  -=` - 赋值
 
-**其他数学函数：**
-- `abs(x)`：绝对值
-- `fabs(x)`：浮点数绝对值
-- `ceil(x)`：向上取整
-- `floor(x)`：向下取整
-- `round(x)`：四舍五入
-- `fmod(x, y)`：浮点数取模
-
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-int main() {
-    double x = 2.0;
-    double y = 3.0;
-    double angle = 45.0; // 角度
-    
-    cout << "=== 幂运算 ===" << endl;
-    cout << "pow(2, 3) = " << pow(x, y) << endl;        // 8.0
-    cout << "sqrt(16) = " << sqrt(16.0) << endl;        // 4.0
-    cout << "cbrt(27) = " << cbrt(27.0) << endl;        // 3.0
-    
-    cout << "\n=== 三角函数 ===" << endl;
-    double radians = angle * M_PI / 180.0; // 转换为弧度
-    cout << "sin(45°) = " << sin(radians) << endl;      // 0.707107
-    cout << "cos(45°) = " << cos(radians) << endl;      // 0.707107
-    cout << "tan(45°) = " << tan(radians) << endl;      // 1.0
-    
-    cout << "\n=== 对数函数 ===" << endl;
-    cout << "log(e) = " << log(M_E) << endl;            // 1.0
-    cout << "log10(100) = " << log10(100.0) << endl;    // 2.0
-    cout << "log2(8) = " << log2(8.0) << endl;          // 3.0
-    
-    cout << "\n=== 其他函数 ===" << endl;
-    cout << "abs(-5) = " << abs(-5) << endl;            // 5
-    cout << "ceil(3.2) = " << ceil(3.2) << endl;        // 4.0
-    cout << "floor(3.8) = " << floor(3.8) << endl;      // 3.0
-    cout << "round(3.6) = " << round(3.6) << endl;      // 4.0
-    cout << "fmod(10.5, 3.0) = " << fmod(10.5, 3.0) << endl; // 1.5
-    
-    return 0;
-}
-```
-
-#### 数学运算的实际应用
-数学运算在实际编程中有广泛的应用，特别是在科学计算、图形处理和游戏开发中。
-
-**几何计算：**
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-int main() {
-    // 计算圆的面积和周长
-    double radius = 5.0;
-    double area = M_PI * pow(radius, 2);
-    double circumference = 2 * M_PI * radius;
-    
-    cout << "半径: " << radius << endl;
-    cout << "面积: " << area << endl;
-    cout << "周长: " << circumference << endl;
-    
-    // 计算两点间距离
-    double x1 = 0, y1 = 0;
-    double x2 = 3, y2 = 4;
-    double distance = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-    cout << "两点间距离: " << distance << endl;
-    
-    return 0;
-}
-```
-
-**科学计算：**
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-int main() {
-    // 物理计算：自由落体运动
-    double g = 9.81;  // 重力加速度
-    double t = 2.0;   // 时间
-    double height = 0.5 * g * pow(t, 2);
-    double velocity = g * t;
-    
-    cout << "自由落体运动计算:" << endl;
-    cout << "时间: " << t << " 秒" << endl;
-    cout << "下落高度: " << height << " 米" << endl;
-    cout << "瞬时速度: " << velocity << " 米/秒" << endl;
-    
-    // 复利计算
-    double principal = 1000.0;  // 本金
-    double rate = 0.05;         // 年利率
-    int years = 10;             // 年数
-    double amount = principal * pow(1 + rate, years);
-    
-    cout << "\n复利计算:" << endl;
-    cout << "本金: " << principal << " 元" << endl;
-    cout << "年利率: " << rate * 100 << "%" << endl;
-    cout << "年数: " << years << " 年" << endl;
-    cout << "最终金额: " << amount << " 元" << endl;
-    
-    return 0;
-}
-```
-
-**统计计算：**
-```cpp
-#include <iostream>
-#include <cmath>
-using namespace std;
-
-int main() {
-    // 计算平均值和标准差
-    double data[] = {85, 90, 78, 92, 88, 76, 95, 82, 89, 91};
-    int n = sizeof(data) / sizeof(data[0]);
-    
-    // 计算平均值
-    double sum = 0;
-    for (int i = 0; i < n; i++) {
-        sum += data[i];
-    }
-    double mean = sum / n;
-    
-    // 计算标准差
-    double variance = 0;
-    for (int i = 0; i < n; i++) {
-        variance += pow(data[i] - mean, 2);
-    }
-    double stdDev = sqrt(variance / n);
-    
-    cout << "数据统计:" << endl;
-    cout << "平均值: " << mean << endl;
-    cout << "标准差: " << stdDev << endl;
-    
-    return 0;
-}
-```
-
-### 赋值运算符
-赋值运算符用于给变量赋值，C++提供了多种复合赋值运算符。
-
-**基本赋值运算符 (=)：**
-- 将右操作数的值赋给左操作数
-- 左操作数必须是可修改的左值
-
-**复合赋值运算符：**
-- `+=`：加法赋值
-- `-=`：减法赋值
-- `*=`：乘法赋值
-- `/=`：除法赋值
-- `%=`：取模赋值
-
-```cpp
-int x = 10;
-x += 5;     // x = 15
-x -= 3;     // x = 12
-x *= 2;     // x = 24
-x /= 4;     // x = 6
-x %= 5;     // x = 1
-```
-
-**实际应用示例：**
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    int balance = 1000;
-    cout << "初始余额: " << balance << endl;
-    
-    balance += 500;  // 存款
-    cout << "存款后: " << balance << endl;
-    
-    balance -= 200;  // 取款
-    cout << "取款后: " << balance << endl;
-    
-    balance *= 2;    // 翻倍
-    cout << "翻倍后: " << balance << endl;
-    
-    return 0;
-}
-```
-
-## 学习建议
-
-### 初学者学习路径
-1. **理解概念**：先理解每个概念的含义再编写代码
-2. **动手实践**：每个概念都需要代码验证
-3. **注意细节**：C++对细节要求很严格
-4. **循序渐进**：按顺序掌握知识点
-
-### 常见错误和避免方法
-1. **未初始化变量**：总是初始化变量
-2. **类型不匹配**：注意数据类型的选择
-3. **命名不规范**：使用有意义的变量名
-4. **忽略警告**：认真对待编译器的警告
-
-### 练习建议
-1. **编写小程序**：每个概念都编写一个小程序
-2. **修改示例**：修改书中的示例代码
-3. **解决问题**：运用学到的知识解决实际问题
-4. **代码审查**：检查自己的代码是否有问题
+**建议**：复杂表达式加括号，提高可读性。
 
 ## 控制结构
 
+控制结构决定程序执行流程。合理使用可提高代码可读性和效率。
+
 ### 条件语句
+
+根据条件执行不同代码分支。
+
 ```cpp
-// if-else
+// if-else：基本条件判断
 if (condition) {
-    // 代码块
+    // condition为真时执行
 } else if (condition2) {
-    // 代码块
+    // condition为假且condition2为真时执行
 } else {
-    // 代码块
+    // 以上都为假时执行
 }
 
-// 三元运算符
-result = (condition) ? value1 : value2;
+// switch：多分支选择（值必须是整型或枚举）
+switch (value) {
+    case 1:
+        // value == 1
+        break;      // 必须break，否则继续执行下一case
+    case 2:
+        // value == 2
+        break;
+    default:
+        // 其他情况
+}
+
+// 三元运算符：简洁的条件表达式
+result = (condition) ? value1 : value2;  // condition真取value1，假取value2
 ```
+
+**技巧**：`switch` 比多个 `if-else` 更高效；三元运算符适合简单赋值。
 
 ### 循环语句
+
+重复执行代码块，直到条件不满足。
+
 ```cpp
-// for循环
-for (int i = 0; i < 10; ++i) {
-    // 代码块
+// for循环：次数确定时使用
+for (int i = 0; i < n; ++i) {  // 初始化; 条件; 更新
+    // 循环体
 }
 
-// while循环
+// while循环：次数不确定时使用
 while (condition) {
-    // 代码块
+    // 先判断条件，再执行
 }
 
-// do-while循环
+// do-while循环：至少执行一次
 do {
-    // 代码块
+    // 先执行，再判断条件
 } while (condition);
 
-// 范围for循环（C++11）
-for (auto item : container) {
-    // 代码块
+// 范围for（C++11）：遍历容器
+for (auto& item : container) {  // auto自动推导类型，&避免拷贝
+    // 处理item
 }
 ```
 
+**选择**：已知次数用 `for`，未知次数用 `while`，需要先执行用 `do-while`。
+
 ### 跳转语句
-- **break**：跳出循环
-- **continue**：跳过本次循环
-- **return**：返回函数
-- **goto**：跳转到标签（不推荐）
+
+改变正常的顺序执行流程。
+
+```cpp
+break;      // 跳出当前循环或switch
+continue;   // 跳过本次循环剩余部分，进入下次迭代
+return;     // 结束函数并返回值
+goto label; // 跳转到标签（破坏结构化，强烈不推荐）
+```
+
+**最佳实践**：能用 `break/continue` 就不用 `goto`；多层循环跳出可用标志变量。
 
 ## 函数
 
+函数是可重用的代码块，封装特定功能。良好的函数设计可提高代码复用性和可维护性。
+
 ### 函数定义
+
+函数由返回类型、名称、参数列表和函数体组成。
+
 ```cpp
-// 函数声明
+// 声明（告诉编译器函数存在）
 int add(int a, int b);
 
-// 函数定义
+// 定义（实现函数功能）
 int add(int a, int b) {
     return a + b;
 }
 
-// 默认参数
-void print(int value, int base = 10);
-
-// 函数重载
-int multiply(int a, int b);
-double multiply(double a, double b);
-```
-
-### 函数参数传递
-- **值传递**：复制参数值
-- **引用传递**：传递引用
-- **指针传递**：传递地址
-- **const引用**：只读引用
-
-### 内联函数
-```cpp
+// 内联函数：建议编译器在调用处展开，减少函数调用开销
 inline int square(int x) {
-    return x * x;
+    return x * x;  // 适合短小、频繁调用的函数
 }
+
+// 默认参数：调用时可省略
+void print(int value, int base = 10);  // 默认十进制
+print(100);      // 使用默认参数
+print(100, 16);  // 使用十六进制
+
+// 函数重载：同名函数，不同参数
+int max(int a, int b);
+double max(double a, double b);  // 根据参数类型选择
 ```
 
-## 数组和字符串
+**注意**：默认参数只能在声明中指定，且从右往左连续。
 
-### 数组
+### 参数传递
+
+不同传递方式影响性能和语义。
+
 ```cpp
-int arr[5] = {1, 2, 3, 4, 5};    // 静态数组
-int arr2[] = {1, 2, 3};          // 自动大小
-int arr3[5] = {};                // 初始化为0
+// 值传递：复制参数，函数内修改不影响原变量
+void func1(int x);  // 小对象适用
+
+// 引用传递：直接操作原变量，无拷贝开销
+void func2(int& x);  // x的修改会影响实参
+
+// 指针传递：传递地址，可传NULL表示可选
+void func3(int* x);  // 需判空：if (x) {...}
+
+// const引用：只读访问，避免拷贝（推荐）
+void func4(const int& x);  // 大对象传参的最佳选择
 ```
 
-### 字符串
+**选择建议**：小对象（如int）值传递，大对象（如string）const引用，需修改用非const引用。
+
+### Lambda表达式（C++11）
+
+匿名函数，常用于算法和回调。语法：`[捕获] (参数) { 函数体 }`
+
 ```cpp
-char str1[] = "Hello";           // C风格字符串
-char str2[10] = "World";
-std::string str3 = "C++";        // C++字符串
+// 基本Lambda
+auto add = [](int a, int b) { return a + b; };
+int result = add(3, 4);  // 7
+
+// 捕获外部变量
+int x = 10;
+auto lambda1 = [x](int y) { return x + y; };     // 值捕获（只读）
+auto lambda2 = [&x](int y) { x += y; };          // 引用捕获（可修改）
+auto lambda3 = [=](int y) { return x + y; };     // 捕获所有（值）
+auto lambda4 = [&](int y) { x += y; };           // 捕获所有（引用）
 ```
 
-### 多维数组
+**应用**：`std::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });`
+
+## 数组
+
+数组是固定大小的连续内存块，存储相同类型的元素。索引从0开始。
+
+### 静态数组
+
+编译期确定大小，分配在栈上，访问快但大小固定。
+
 ```cpp
-int matrix[3][4];                // 3行4列
+int arr[5] = {1, 2, 3, 4, 5};   // 完整初始化
+int arr2[] = {1, 2, 3};          // 自动推导大小为3
+int arr3[5] = {};                // 全部初始化为0
+int arr4[5] = {1, 2};            // {1, 2, 0, 0, 0}，未指定的元素为0
+
+// 多维数组：本质是数组的数组
+int matrix[3][4];                // 3行4列，matrix[i][j]访问
 int cube[2][3][4];               // 三维数组
 ```
 
+**注意**：C++不检查数组越界，`arr[100]` 可能导致段错误或未定义行为。
+
+### 数组操作
+
+```cpp
+arr[0] = 10;                     // 访问/修改第0个元素
+int size = sizeof(arr) / sizeof(arr[0]); // 计算元素个数
+
+// 遍历数组
+for (int i = 0; i < size; ++i) {
+    cout << arr[i] << " ";
+}
+
+// C++11范围for（更简洁）
+for (int val : arr) {
+    cout << val << " ";
+}
+```
+
+**限制**：数组传参会退化为指针，丢失大小信息。推荐使用 `std::array`（C++11）或 `std::vector`。
+
+## 字符串
+
+C++提供两种字符串：C风格（字符数组）和C++风格（string类），推荐使用后者。
+
+### C风格字符串
+
+以空字符 `'\0'` 结尾的字符数组，操作需小心缓冲区溢出。
+
+```cpp
+char str[] = "Hello";            // 自动添加'\0'，实际占6字节
+char* ptr = "World";             // 字符串字面量，不可修改
+
+// 常用函数（#include <cstring>）
+strlen(str);                     // 长度（不含'\0'）
+strcpy(dest, src);               // 复制（需确保dest足够大）
+strcat(dest, src);               // 连接（需确保dest足够大）
+strcmp(str1, str2);              // 比较（0相等，<0小于，>0大于）
+```
+
+**风险**：不检查长度，易溢出。现代C++避免使用。
+
+### C++字符串（推荐）
+
+`std::string` 类自动管理内存，提供丰富操作，安全便捷。
+
+```cpp
+#include <string>
+
+string s1 = "Hello";
+string s2 = s1 + " World";       // 连接（运算符重载）
+s1.length();                     // 长度（size()等价）
+s1.empty();                      // 是否为空
+s1.substr(0, 5);                 // 提取子串[0,5)
+s1.find("llo");                  // 查找位置（未找到返回string::npos）
+s1.replace(0, 2, "He");          // 替换[0,2)为"He"
+s1[0] = 'h';                     // 索引访问
+s1.c_str();                      // 转C风格字符串
+```
+
+**优势**：自动扩容、安全、支持运算符、STL兼容。
+
 ## 指针和引用
 
-### 指针基础
+指针和引用是C++中操作内存地址的机制，是C++强大但也易出错的特性。
+
+### 指针
+
+指针存储变量的内存地址，通过地址间接访问变量。
+
 ```cpp
 int value = 42;
-int* ptr = &value;               // 指针指向value
-int deref = *ptr;                // 解引用
+int* ptr = &value;               // &取地址运算符
+int deref = *ptr;                // *解引用运算符，获取指针指向的值
+
+// 空指针：不指向任何对象
+int* p = nullptr;                // C++11推荐，类型安全
+int* p2 = NULL;                  // 传统方式，实际是0
+int* p3 = 0;                     // 更古老的方式
+
+// 指针运算：适用于数组
+int arr[5];
+int* p = arr;                    // 数组名自动转换为指向首元素的指针
+p++;                             // 移动到下一个元素（+sizeof(int)字节）
+p += 2;                          // 跳过2个元素
+int diff = p - arr;              // 指针差=元素个数
 ```
 
-### 指针运算
-```cpp
-int arr[5] = {1, 2, 3, 4, 5};
-int* ptr = arr;                  // 指向第一个元素
-ptr++;                           // 指向下一个元素
-int diff = ptr - arr;            // 指针差值
-```
+**危险**：野指针（未初始化）、悬空指针（对象已销毁）、内存泄漏（忘记释放）。
 
 ### 引用
+
+引用是变量的别名，必须初始化且不可重新绑定，比指针安全。
+
 ```cpp
 int value = 42;
-int& ref = value;                // 引用
-ref = 100;                       // 修改原值
+int& ref = value;                // 引用必须初始化，之后ref就是value的别名
+ref = 100;                       // 修改ref等同于修改value
+
+// const引用：只读引用，常用于函数参数
+const int& cref = value;         // 不能通过cref修改value
+cref = 200;                      // 错误！const引用不可修改
 ```
+
+**区别**：指针可空可重新赋值，引用非空不可重新绑定；引用更安全，指针更灵活。
 
 ### 动态内存
-```cpp
-int* ptr = new int(42);          // 动态分配
-delete ptr;                      // 释放内存
 
-int* arr = new int[10];          // 动态数组
-delete[] arr;                    // 释放数组
+运行时分配内存，用于不确定大小或需要长生命周期的数据。
+
+```cpp
+// 分配
+int* p = new int(42);            // 分配单个int并初始化为42
+int* arr = new int[10];          // 分配10个int的数组
+
+// 释放（必须与分配配对）
+delete p;                        // 释放单个对象
+delete[] arr;                    // 释放数组（必须用delete[]）
+
+// 智能指针（C++11，强烈推荐）：自动管理内存，避免泄漏
+#include <memory>
+unique_ptr<int> up(new int(42));     // 独占所有权
+shared_ptr<int> sp = make_shared<int>(42);  // 共享所有权（引用计数）
+weak_ptr<int> wp = sp;               // 弱引用，不增加引用计数
 ```
+
+**原则**：优先使用智能指针，避免手动 `new/delete`；RAII（资源获取即初始化）模式。
+
+## 结构体和联合体
+
+### 结构体
+
+结构体将不同类型的数据组合成一个自定义类型，是面向对象的基础。
+
+```cpp
+struct Point {
+    int x;      // 成员变量
+    int y;
+};
+
+Point p = {10, 20};  // 初始化
+p.x = 30;            // 访问成员
+Point p2 = p;        // 结构体可直接赋值（浅拷贝）
+```
+
+**用途**：表示复合数据，如坐标、日期、学生信息等。C++中 `struct` 和 `class` 几乎相同，仅默认访问权限不同。
+
+### 联合体
+
+联合体的所有成员共享同一块内存，同一时刻只能使用一个成员，节省空间。
+
+```cpp
+union Data {
+    int i;      // 所有成员共享内存
+    float f;    // 修改一个会影响其他
+    char c;
+};
+
+Data d;
+d.i = 10;       // 使用int成员
+d.f = 3.14;     // 现在int成员的值无效
+```
+
+**注意**：联合体大小等于最大成员的大小。常用于类型转换或节省内存。
+
+### 枚举
+
+枚举定义一组命名的整数常量，提高代码可读性。
+
+```cpp
+enum Color { RED, GREEN, BLUE };  // 默认值：0, 1, 2
+Color c = RED;
+int val = c;                      // 可隐式转换为int
+
+// 强类型枚举（C++11，推荐）：类型安全，不可隐式转换
+enum class Status { OK, ERROR, PENDING };
+Status s = Status::OK;            // 必须加作用域
+// int x = s;                     // 错误！不可隐式转换
+int x = static_cast<int>(s);     // 必须显式转换
+```
+
+**优势**：增强可读性，避免魔法数字；强类型枚举防止命名冲突和隐式转换。
+
+## 类型转换
+
+类型转换将一种类型的值转换为另一种类型。C++提供隐式和显式两种方式。
+
+### 隐式转换
+
+编译器自动执行的转换，通常是安全的（小转大、整数转浮点）。
+
+```cpp
+int i = 10;
+double d = i;                    // int自动转double，无精度损失
+char c = 'A';
+int x = c;                       // char转int，值为ASCII码
+```
+
+**风险**：大转小（如 `int` 转 `char`）可能丢失数据，编译器可能警告。
+
+### 显式转换
+
+程序员明确指定的转换，用于不安全或非标准的转换。
+
+```cpp
+// C风格（不推荐，无类型检查）
+int i = (int)3.14;               // 截断为3
+char* p = (char*)&i;             // 危险的类型双关
+
+// C++风格（推荐，明确意图，编译器检查）
+static_cast<int>(3.14);          // 标准类型转换，编译期检查
+const_cast<int&>(constVar);      // 移除const属性（谨慎使用）
+dynamic_cast<Derived*>(basePtr); // 运行时多态类型转换（需RTTI）
+reinterpret_cast<int*>(&f);      // 重新解释位模式（底层操作）
+```
+
+**选择**：优先 `static_cast`，需要运行时检查用 `dynamic_cast`，避免 `reinterpret_cast`。
 
 ## 预处理器
 
+预处理器在编译前处理源代码，进行文本替换和条件编译。
+
 ### 宏定义
+
+宏是文本替换，不进行类型检查，现代C++推荐用 `const` 和 `inline` 函数代替。
+
 ```cpp
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define PI 3.14159
+#define PI 3.14159               // 常量宏（推荐用const）
+#define MAX(a, b) ((a) > (b) ? (a) : (b))  // 函数宏（推荐用inline或模板）
+#define SQUARE(x) ((x) * (x))    // 注意加括号，防止优先级问题
 ```
 
+**陷阱**：`SQUARE(x+1)` 展开为 `((x+1) * (x+1))`，可能导致副作用重复计算。
+
 ### 条件编译
+
+根据条件选择性地编译代码，常用于平台差异、调试代码、头文件保护。
+
 ```cpp
+// 调试代码
 #ifdef DEBUG
-    // 调试代码
+    cout << "Debug info" << endl;
 #endif
 
+// 头文件保护（防止重复包含）
 #ifndef HEADER_H
 #define HEADER_H
     // 头文件内容
 #endif
+
+// 平台相关代码
+#if defined(WIN32)
+    // Windows特定代码
+#elif defined(__linux__)
+    // Linux特定代码
+#else
+    // 其他平台
+#endif
 ```
 
-### 文件包含
+### 预定义宏
+
+编译器提供的内置宏，用于调试和诊断。
+
 ```cpp
-#include <iostream>              // 系统头文件
-#include "myheader.h"            // 用户头文件
+__FILE__    // 当前文件名（字符串）
+__LINE__    // 当前行号（整数）
+__DATE__    // 编译日期（字符串："Mmm dd yyyy"）
+__TIME__    // 编译时间（字符串："hh:mm:ss"）
+__func__    // 当前函数名（C++11，字符串）
 ```
+
+**示例**：`cerr << "Error at " << __FILE__ << ":" << __LINE__ << endl;`
+
+## 命名空间
+
+命名空间解决命名冲突问题，将代码逻辑分组。标准库在 `std` 命名空间中。
+
+```cpp
+// 定义命名空间
+namespace MySpace {
+    int value = 10;
+    void func() { /* ... */ }
+}
+
+// 使用（需要完全限定名）
+MySpace::value;
+MySpace::func();
+
+// using声明：引入特定名称
+using MySpace::value;
+value = 20;  // 现在可直接使用
+
+// using指令：引入整个命名空间（不推荐，污染全局）
+using namespace MySpace;
+value = 30;
+func();
+
+// 嵌套命名空间（C++17简化语法）
+namespace A::B::C {  // 等价于 namespace A { namespace B { namespace C { }}}
+    int x;
+}
+```
+
+**建议**：头文件避免 `using namespace`；实现文件可局部使用；明确指定 `std::` 提高可读性。
+
+## 输入输出
+
+C++提供流式输入输出，类型安全且可扩展。
+
+### 标准输入输出
+
+`cin`/`cout` 分别用于输入输出，位于 `<iostream>` 头文件。
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// 输出
+cout << "Hello" << endl;         // endl刷新缓冲区并换行
+cout << "Value: " << x << '\n';  // '\n'仅换行，更高效
+cout << x << " " << y << '\n';   // 链式输出
+
+// 输入
+int n;
+cin >> n;                        // 跳过空白字符读取
+cin >> x >> y >> z;              // 链式输入
+
+// 格式化输出
+#include <iomanip>
+cout << fixed << setprecision(2) << 3.14159;  // 3.14（保留两位小数）
+cout << setw(10) << x;           // 设置宽度为10
+cout << hex << 255;              // 十六进制：ff
+```
+
+**技巧**：输入失败时 `cin` 进入错误状态，用 `cin.clear()` 恢复。
+
+### 文件输入输出
+
+文件流继承标准流，用法类似。位于 `<fstream>` 头文件。
+
+```cpp
+#include <fstream>
+
+// 写文件
+ofstream out("file.txt");        // 打开文件写入
+if (out.is_open()) {             // 检查是否成功
+    out << "Hello\n";
+    out.close();                 // 关闭文件（可省略，析构自动关闭）
+}
+
+// 读文件
+ifstream in("file.txt");
+if (in.is_open()) {
+    string line;
+    while (getline(in, line)) {  // 按行读取
+        cout << line << '\n';
+    }
+    in.close();
+}
+
+// 追加写入
+ofstream out("file.txt", ios::app);
+
+// 二进制读写
+ofstream binOut("data.bin", ios::binary);
+```
+
+**注意**：文件流对象作用域结束时自动关闭；检查 `is_open()` 确保操作成功。
+
+## 常见陷阱
+
+初学者和经验丰富的程序员都可能遇到的典型错误。
+
+```cpp
+// 1. 整数除法截断
+int a = 5 / 2;      // 结果是2（不是2.5），小数部分被截断
+double b = 5 / 2;   // 仍是2.0（先算5/2=2，再转double）
+double c = 5.0 / 2; // 正确：2.5（至少一个操作数是浮点）
+
+// 2. 数组越界
+int arr[5];
+arr[5] = 10;        // 未定义行为！合法索引是0-4
+arr[-1] = 10;       // 未定义行为！负索引
+
+// 3. 悬空指针（野指针）
+int* p = new int(10);
+delete p;           // 释放内存
+*p = 20;            // 未定义行为！访问已释放内存
+p = nullptr;        // 良好习惯：释放后置空
+
+// 4. 内存泄漏
+void leak() {
+    int* p = new int(10);
+    return;         // 忘记delete，内存泄漏！
+}
+
+// 5. 未初始化变量
+int x;              // 包含垃圾值（未定义）
+cout << x;          // 输出不可预测
+int y = 0;          // 正确：初始化为0
+
+// 6. switch缺少break
+switch (x) {
+    case 1:
+        cout << "One";
+        // 没有break，会"穿透"到case 2！
+    case 2:
+        cout << "Two";
+        break;
+}
+
+// 7. 赋值与比较混淆
+if (x = 5) {        // 赋值！x变为5，条件永远为真
+    // ...
+}
+if (x == 5) {       // 正确：比较
+```
+
+**防范**：开启编译器警告（`-Wall -Wextra`），使用静态分析工具，养成良好习惯。
+
+## 编码规范
+
+一致的编码风格提高代码可读性和可维护性。
+
+### 命名规范
+
+清晰的命名是自文档化的第一步。
+
+```cpp
+// 变量/函数：小驼峰（camelCase）
+int studentAge;
+string firstName;
+void calculateSum();
+
+// 常量：全大写+下划线
+const int MAX_SIZE = 100;
+const double PI = 3.14159;
+
+// 类/结构体：大驼峰（PascalCase）
+class StudentInfo;
+struct Point2D;
+
+// 宏：全大写+下划线
+#define MAX_BUFFER_SIZE 1024
+
+// 私有成员：前缀下划线（可选）
+class MyClass {
+    int _privateVar;
+};
+```
+
+### 代码风格
+
+```cpp
+// 缩进：4空格（或2空格/Tab，团队统一即可）
+if (condition) {
+    statement;
+}
+
+// 括号风格：K&R（开括号同行）或Allman（开括号另起一行）
+// K&R（推荐，节省行数）
+if (condition) {
+    // ...
+}
+
+// Allman
+if (condition)
+{
+    // ...
+}
+
+// 一行一条语句
+int a = 1;
+int b = 2;
+
+// 避免魔法数字（用命名常量）
+const int MAX_STUDENTS = 100;
+if (count > MAX_STUDENTS) {  // 清晰明了
+    // ...
+}
+
+// 适当的空行分隔逻辑块
+void func() {
+    // 初始化
+    int x = 0;
+    
+    // 处理逻辑
+    for (...) {
+        // ...
+    }
+    
+    // 清理
+    cleanup();
+}
+```
+
+## 最佳实践
+
+编写高质量C++代码的核心原则。
+
+1. **优先使用 const**：不变的值用 `const` 或 `constexpr`，防止意外修改
+2. **优先使用引用传参**：大对象用 `const&`，避免拷贝；小对象可值传递
+3. **避免全局变量**：减少耦合和副作用，改用参数传递或单例模式
+4. **RAII原则**：资源获取即初始化，利用析构函数自动释放资源
+5. **避免裸指针**：用智能指针（`unique_ptr`/`shared_ptr`）管理动态内存
+6. **初始化所有变量**：声明时立即初始化，优先用列表初始化 `{}`
+7. **使用范围for**：遍历容器用 `for (auto& item : container)`，简洁安全
+8. **善用auto**：复杂类型用 `auto`，但不滥用（简单类型明确写出）
+9. **异常安全**：使用RAII和智能指针，确保异常时资源不泄漏
+10. **代码可读性优先**：清晰的代码胜过聪明的技巧，他人能快速理解最重要
+
+**核心思想**：写安全、清晰、高效的代码，按这个优先级排序。
