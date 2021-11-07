@@ -792,5 +792,369 @@ trait Container {
 }
 ```
 
-**核心：** 错误处理显式、泛型零成本、Trait灵活强大，是Rust类型系统的核心。
+## 错误处理高级技巧
+
+### 错误上下文
+
+```rust
+use anyhow::{Context, Result};
+
+fn read_config() -> Result<String> {
+    std::fs::read_to_string("config.toml")
+        .context("读取配置文件失败")?;
+    
+    // 多层上下文
+    let content = std::fs::read_to_string("data.json")
+        .context("读取数据文件失败")
+        .context("初始化应用失败")?;
+    
+    Ok(content)
+}
+
+// 错误链
+// Error: 初始化应用失败
+// Caused by:
+//     0: 读取数据文件失败
+//     1: No such file or directory
+```
+
+### 自定义Result类型
+
+```rust
+// 定义别名
+type Result<T> = std::result::Result<T, MyError>;
+
+// 函数简化
+fn process() -> Result<String> {  // 不需要写MyError
+    Ok(String::from("done"))
+}
+
+// 标准库示例：std::io::Result<T> = Result<T, std::io::Error>
+```
+
+### Option和Result转换
+
+```rust
+// Option转Result
+let opt: Option<i32> = Some(5);
+let res: Result<i32, &str> = opt.ok_or("没有值");
+
+// Result转Option
+let res: Result<i32, _> = Ok(5);
+let opt = res.ok();  // Some(5)
+
+// 链式转换
+let value = std::env::var("PORT")  // Result<String, VarError>
+    .ok()  // Option<String>
+    .and_then(|s| s.parse().ok())  // Option<u16>
+    .unwrap_or(8080);
+```
+
+### 提前返回模式
+
+```rust
+fn validate_user(user: &User) -> Result<()> {
+    // 提前返回错误
+    if user.name.is_empty() {
+        return Err(Error::EmptyName);
+    }
+    
+    if user.age < 18 {
+        return Err(Error::TooYoung);
+    }
+    
+    if !user.email.contains('@') {
+        return Err(Error::InvalidEmail);
+    }
+    
+    Ok(())  // 所有检查通过
+}
+
+// 使用?简化
+fn validate_user(user: &User) -> Result<()> {
+    ensure!(!user.name.is_empty(), "名字不能为空");
+    ensure!(user.age >= 18, "年龄必须>=18");
+    ensure!(user.email.contains('@'), "邮箱格式错误");
+    Ok(())
+}
+```
+
+## Trait高级应用
+
+### Trait Object动态分发
+
+```rust
+trait Draw {
+    fn draw(&self);
+}
+
+struct Circle;
+struct Rectangle;
+
+impl Draw for Circle {
+    fn draw(&self) { println!("Circle"); }
+}
+
+impl Draw for Rectangle {
+    fn draw(&self) { println!("Rectangle"); }
+}
+
+// 静态分发（编译期确定）
+fn draw_static<T: Draw>(shape: &T) {
+    shape.draw();
+}
+
+// 动态分发（运行时确定）
+fn draw_dynamic(shape: &dyn Draw) {
+    shape.draw();
+}
+
+// Trait Object集合
+let shapes: Vec<Box<dyn Draw>> = vec![
+    Box::new(Circle),
+    Box::new(Rectangle),
+];
+
+for shape in shapes {
+    shape.draw();  // 运行时多态
+}
+```
+
+### 孤儿规则和newtype模式
+
+```rust
+// ❌ 错误：不能为外部类型实现外部trait
+// impl ToString for Vec<i32> { }  // 编译错误
+
+// ✅ newtype模式绕过孤儿规则
+struct Wrapper(Vec<i32>);
+
+impl ToString for Wrapper {
+    fn to_string(&self) -> String {
+        format!("{:?}", self.0)
+    }
+}
+
+// Deref自动解引用
+use std::ops::Deref;
+
+impl Deref for Wrapper {
+    type Target = Vec<i32>;
+    
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+let w = Wrapper(vec![1, 2, 3]);
+println!("{}", w.len());  // 自动解引用到Vec
+```
+
+### Trait边界技巧
+
+```rust
+// where子句分离
+fn complex_function<T, U>(t: T, u: U)
+where
+    T: Clone + Debug + PartialEq,
+    U: Clone + Debug,
+{
+    // ...
+}
+
+// impl Trait（参数）
+fn notify(item: &impl Summary) {
+    // 等价于：fn notify<T: Summary>(item: &T)
+}
+
+// impl Trait（返回值）
+fn returns_closure() -> impl Fn(i32) -> i32 {
+    |x| x + 1
+}
+
+// 条件编译和Trait
+#[cfg(feature = "serde")]
+use serde::{Serialize, Deserialize};
+
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+struct MyStruct {
+    field: String,
+}
+```
+
+### 关联类型 vs 泛型
+
+```rust
+// 关联类型：每个类型只有一个实现
+trait Container {
+    type Item;
+    fn get(&self) -> Option<&Self::Item>;
+}
+
+impl Container for Vec<i32> {
+    type Item = i32;  // 只能实现一次
+    fn get(&self) -> Option<&i32> {
+        self.first()
+    }
+}
+
+// 泛型：可以有多个实现
+trait Add<RHS = Self> {
+    type Output;
+    fn add(self, rhs: RHS) -> Self::Output;
+}
+
+impl Add<i32> for i32 {
+    type Output = i32;
+    fn add(self, rhs: i32) -> i32 {
+        self + rhs
+    }
+}
+
+impl Add<f32> for i32 {
+    type Output = f32;
+    fn add(self, rhs: f32) -> f32 {
+        self as f32 + rhs
+    }
+}
+```
+
+### Trait继承
+
+```rust
+trait Animal {
+    fn name(&self) -> &str;
+}
+
+trait Dog: Animal {  // Dog继承Animal
+    fn bark(&self);
+}
+
+struct GoldenRetriever {
+    name: String,
+}
+
+impl Animal for GoldenRetriever {
+    fn name(&self) -> &str {
+        &self.name
+    }
+}
+
+impl Dog for GoldenRetriever {
+    fn bark(&self) {
+        println!("{} says woof!", self.name());
+    }
+}
+
+// 使用
+fn pet_dog(dog: &impl Dog) {
+    println!("Petting {}", dog.name());  // 可以调用Animal的方法
+    dog.bark();
+}
+```
+
+### Trait别名（nightly）
+
+```rust
+#![feature(trait_alias)]
+
+// 定义trait别名
+trait MyTrait = Clone + Debug + Send;
+
+fn process<T: MyTrait>(value: T) {
+    // T必须实现Clone、Debug、Send
+}
+```
+
+### 完全限定语法
+
+```rust
+trait Pilot {
+    fn fly(&self);
+}
+
+trait Wizard {
+    fn fly(&self);
+}
+
+struct Human;
+
+impl Pilot for Human {
+    fn fly(&self) {
+        println!("This is your captain speaking.");
+    }
+}
+
+impl Wizard for Human {
+    fn fly(&self) {
+        println!("Up!");
+    }
+}
+
+impl Human {
+    fn fly(&self) {
+        println!("*waving arms furiously*");
+    }
+}
+
+let person = Human;
+person.fly();  // 调用Human::fly
+
+Pilot::fly(&person);  // 调用Pilot::fly
+Wizard::fly(&person);  // 调用Wizard::fly
+
+// 关联函数（无self）
+<Human as Pilot>::fly(&person);  // 完全限定语法
+```
+
+## 泛型性能分析
+
+### 单态化示例
+
+```rust
+// 泛型代码
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+// 编译后生成两个具体版本
+fn largest_i32(list: &[i32]) -> &i32 {
+    // ...
+}
+
+fn largest_char(list: &[char]) -> &char {
+    // ...
+}
+
+// 调用
+let numbers = vec![34, 50, 25];
+let result = largest(&numbers);  // 调用largest_i32
+
+let chars = vec!['y', 'm', 'a'];
+let result = largest(&chars);  // 调用largest_char
+```
+
+### 代码膨胀问题
+
+```rust
+// ❌ 过度泛型导致代码膨胀
+fn process<T: Clone>(a: T, b: T, c: T, d: T) {
+    // 每个类型都生成一份代码
+}
+
+// ✅ 使用trait object减少膨胀
+fn process(items: &[&dyn Clone]) {
+    // 只有一份代码，运行时分发
+}
+
+// 平衡：常用类型静态分发，少用类型动态分发
+```
+
+**核心：** 错误处理显式、泛型零成本抽象、Trait提供代码复用和多态，是Rust类型系统的核心特性。
 
