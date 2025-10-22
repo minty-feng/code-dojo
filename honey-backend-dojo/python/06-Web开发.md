@@ -783,6 +783,7 @@ gunicorn app:app -w 4 -b 0.0.0.0:8000
 # 安装
 pip install uvicorn
 
+
 # 运行FastAPI应用
 uvicorn app:app --host 0.0.0.0 --port 8000 --workers 4
 
