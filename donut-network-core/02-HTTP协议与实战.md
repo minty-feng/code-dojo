@@ -110,7 +110,7 @@ HTTP/1.1 200 OK
 
 ### 2.3 RESTful API设计
 
-```http
+```text
 # 获取所有用户
 GET /api/users
 
@@ -202,7 +202,7 @@ HTTP/1.1 500 Internal Server Error
 
 ### 4.1 请求头
 
-```http
+```text
 # 缓存控制
 Cache-Control: no-cache, no-store, must-revalidate
 If-None-Match: "abc123"  # ETag
@@ -231,7 +231,7 @@ X-Real-IP: 203.0.113.5
 
 ### 4.2 响应头
 
-```http
+```text
 # 缓存控制
 Cache-Control: public, max-age=31536000
 ETag: "abc123"

@@ -374,8 +374,10 @@ export function useCounter(initialValue = 0) {
         reset
     };
 }
+```
 
-// 使用
+```vue
+<!-- 使用 -->
 <script setup>
 import {useCounter} from './useCounter';
 

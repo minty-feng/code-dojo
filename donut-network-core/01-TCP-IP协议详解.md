@@ -212,7 +212,7 @@ seq=200 ───→ ✓ 快速重传！
 
 **原理**：接收方告诉发送方自己的缓冲区大小
 
-```c
+```text
 接收方:
 recv_window = BUFFER_SIZE - (next_seq - acked_seq)
 在TCP头部的window字段通知发送方
