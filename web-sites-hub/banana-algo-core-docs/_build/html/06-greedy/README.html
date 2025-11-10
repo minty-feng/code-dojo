@@ -1,0 +1,657 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>06-贪心算法 &mdash; Algorithms Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="动态规划基础" href="../07-dynamic-programming-basic/index.html" />
+    <link rel="prev" title="贪心算法" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Algorithms Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Algorithms Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-sorting-algorithms/index.html">排序算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-search-algorithms/index.html">搜索算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-two-pointers/index.html">双指针技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-recursion-backtracking/index.html">递归与回溯</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-divide-conquer/index.html">分治算法</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">贪心算法</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">贪心算法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">💡 核心结论</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">贪心本质</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vs">贪心 vs 动态规划</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">贪心策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">经典问题</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">🎯 经典贪心问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">1. 区间调度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">2. 跳跃游戏</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">3. 分配饼干</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#leetcode">📚 LeetCode练习</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">💻 完整代码实现</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python">Python 实现</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c">C++ 实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../07-dynamic-programming-basic/index.html">动态规划基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-knapsack/index.html">背包问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-dynamic-programming-advanced/index.html">DP进阶</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Algorithms Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">贪心算法</a></li>
+      <li class="breadcrumb-item active">06-贪心算法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/06-greedy/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>06-贪心算法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>贪心本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>定义</strong>：每步选择当前最优，期望全局最优</p></li>
+<li><p><strong>关键</strong>：局部最优 → 全局最优（需要证明）</p></li>
+<li><p><strong>vs DP</strong>：贪心不回头，DP考虑所有可能</p></li>
+<li><p><strong>难点</strong>：如何证明贪心策略正确</p></li>
+<li><p><strong>应用</strong>：区间调度、哈夫曼编码、最小生成树</p></li>
+</ul>
+</section>
+<section id="vs">
+<h3>贪心 vs 动态规划<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>特性</p></th>
+<th class="head"><p>贪心</p></th>
+<th class="head"><p>动态规划</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>决策</p></td>
+<td><p>当前最优</p></td>
+<td><p>全局最优</p></td>
+</tr>
+<tr class="row-odd"><td><p>回溯</p></td>
+<td><p>不回溯</p></td>
+<td><p>可回溯</p></td>
+</tr>
+<tr class="row-even"><td><p>子问题</p></td>
+<td><p>无重叠</p></td>
+<td><p>有重叠</p></td>
+</tr>
+<tr class="row-odd"><td><p>时间</p></td>
+<td><p>通常O(n log n)</p></td>
+<td><p>O(n²)或更高</p></td>
+</tr>
+<tr class="row-even"><td><p>正确性</p></td>
+<td><p>需要证明</p></td>
+<td><p>一定正确</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id4">
+<h3>贪心策略<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>排序</strong>：按某种规则排序后贪心选择</p></li>
+<li><p><strong>优先队列</strong>：每次选择最优元素</p></li>
+<li><p><strong>局部最优</strong>：证明局部最优能导致全局最优</p></li>
+</ol>
+</section>
+<section id="id5">
+<h3>经典问题<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>区间调度</strong>：按结束时间排序</p></li>
+<li><p><strong>跳跃游戏</strong>：维护最远距离</p></li>
+<li><p><strong>加油站</strong>：从能到达最远的开始</p></li>
+<li><p><strong>分配问题</strong>：排序后贪心分配</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>🎯 经典贪心问题<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>1. 区间调度<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">interval_scheduling</span><span class="p">(</span><span class="n">intervals</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;最多不重叠区间数&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">intervals</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    
+    <span class="c1"># 按结束时间排序</span>
+    <span class="n">intervals</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">count</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>2. 跳跃游戏<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">can_jump</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;能否跳到最后&quot;&quot;&quot;</span>
+    <span class="n">max_reach</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">max_reach</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">max_reach</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_reach</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">jump</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;最少跳跃次数&quot;&quot;&quot;</span>
+    <span class="n">jumps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">curr_end</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_reach</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">max_reach</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_reach</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">curr_end</span><span class="p">:</span>
+            <span class="n">jumps</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">curr_end</span> <span class="o">=</span> <span class="n">max_reach</span>
+    
+    <span class="k">return</span> <span class="n">jumps</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>3. 分配饼干<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">find_content_children</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;g:孩子胃口 s:饼干大小&quot;&quot;&quot;</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    
+    <span class="n">child</span> <span class="o">=</span> <span class="n">cookie</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">child</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cookie</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">cookie</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">g</span><span class="p">[</span><span class="n">child</span><span class="p">]:</span>
+            <span class="n">child</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">cookie</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="k">return</span> <span class="n">child</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="leetcode">
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://leetcode.com/problems/non-overlapping-intervals/">435. Non-overlapping Intervals</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/jump-game/">55. Jump Game</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/jump-game-ii/">45. Jump Game II</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/assign-cookies/">455. Assign Cookies</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">122. Best Time to Buy and Sell Stock II</a></p></li>
+</ul>
+</section>
+<section id="id10">
+<h2>💻 完整代码实现<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="python">
+<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">贪心算法实现</span>
+<span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="kn">import</span><span class="w"> </span><span class="nn">heapq</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="c1"># ========== 区间调度 ==========</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="k">def</span><span class="w"> </span><span class="nf">interval_scheduling</span><span class="p">(</span><span class="n">intervals</span><span class="p">):</span>
+<span class="linenos"> 10</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;最多不重叠区间数&quot;&quot;&quot;</span>
+<span class="linenos"> 11</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">intervals</span><span class="p">:</span>
+<span class="linenos"> 12</span>        <span class="k">return</span> <span class="mi">0</span>
+<span class="linenos"> 13</span>    
+<span class="linenos"> 14</span>    <span class="n">intervals</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># 按结束时间排序</span>
+<span class="linenos"> 15</span>    
+<span class="linenos"> 16</span>    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 17</span>    <span class="n">end</span> <span class="o">=</span> <span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos"> 18</span>    
+<span class="linenos"> 19</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)):</span>
+<span class="linenos"> 20</span>        <span class="k">if</span> <span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
+<span class="linenos"> 21</span>            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 22</span>            <span class="n">end</span> <span class="o">=</span> <span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos"> 23</span>    
+<span class="linenos"> 24</span>    <span class="k">return</span> <span class="n">count</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="c1"># ========== 跳跃游戏 ==========</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="k">def</span><span class="w"> </span><span class="nf">can_jump</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+<span class="linenos"> 30</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;能否跳到最后&quot;&quot;&quot;</span>
+<span class="linenos"> 31</span>    <span class="n">max_reach</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 32</span>    
+<span class="linenos"> 33</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+<span class="linenos"> 34</span>        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">max_reach</span><span class="p">:</span>
+<span class="linenos"> 35</span>            <span class="k">return</span> <span class="kc">False</span>
+<span class="linenos"> 36</span>        <span class="n">max_reach</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_reach</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 37</span>    
+<span class="linenos"> 38</span>    <span class="k">return</span> <span class="kc">True</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="k">def</span><span class="w"> </span><span class="nf">jump</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;最少跳跃次数&quot;&quot;&quot;</span>
+<span class="linenos"> 43</span>    <span class="n">jumps</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 44</span>    <span class="n">curr_end</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 45</span>    <span class="n">max_reach</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 46</span>    
+<span class="linenos"> 47</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 48</span>        <span class="n">max_reach</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_reach</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 49</span>        
+<span class="linenos"> 50</span>        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">curr_end</span><span class="p">:</span>
+<span class="linenos"> 51</span>            <span class="n">jumps</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 52</span>            <span class="n">curr_end</span> <span class="o">=</span> <span class="n">max_reach</span>
+<span class="linenos"> 53</span>    
+<span class="linenos"> 54</span>    <span class="k">return</span> <span class="n">jumps</span>
+<span class="linenos"> 55</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="c1"># ========== 分配饼干 ==========</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="k">def</span><span class="w"> </span><span class="nf">find_content_children</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;g:孩子胃口 s:饼干大小&quot;&quot;&quot;</span>
+<span class="linenos"> 61</span>    <span class="n">g</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="linenos"> 62</span>    <span class="n">s</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="linenos"> 63</span>    
+<span class="linenos"> 64</span>    <span class="n">child</span> <span class="o">=</span> <span class="n">cookie</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 65</span>    
+<span class="linenos"> 66</span>    <span class="k">while</span> <span class="n">child</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cookie</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="linenos"> 67</span>        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">cookie</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">g</span><span class="p">[</span><span class="n">child</span><span class="p">]:</span>
+<span class="linenos"> 68</span>            <span class="n">child</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 69</span>        <span class="n">cookie</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 70</span>    
+<span class="linenos"> 71</span>    <span class="k">return</span> <span class="n">child</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="c1"># ========== 买卖股票II ==========</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span><span class="k">def</span><span class="w"> </span><span class="nf">max_profit</span><span class="p">(</span><span class="n">prices</span><span class="p">):</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;可多次买卖&quot;&quot;&quot;</span>
+<span class="linenos"> 78</span>    <span class="n">profit</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 79</span>    
+<span class="linenos"> 80</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prices</span><span class="p">)):</span>
+<span class="linenos"> 81</span>        <span class="k">if</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+<span class="linenos"> 82</span>            <span class="n">profit</span> <span class="o">+=</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos"> 83</span>    
+<span class="linenos"> 84</span>    <span class="k">return</span> <span class="n">profit</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span><span class="c1"># ========== 加油站 ==========</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span><span class="k">def</span><span class="w"> </span><span class="nf">can_complete_circuit</span><span class="p">(</span><span class="n">gas</span><span class="p">,</span> <span class="n">cost</span><span class="p">):</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;能否环绕一圈&quot;&quot;&quot;</span>
+<span class="linenos"> 91</span>    <span class="n">total_tank</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 92</span>    <span class="n">curr_tank</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 93</span>    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 94</span>    
+<span class="linenos"> 95</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gas</span><span class="p">)):</span>
+<span class="linenos"> 96</span>        <span class="n">total_tank</span> <span class="o">+=</span> <span class="n">gas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos"> 97</span>        <span class="n">curr_tank</span> <span class="o">+=</span> <span class="n">gas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos"> 98</span>        
+<span class="linenos"> 99</span>        <span class="k">if</span> <span class="n">curr_tank</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="linenos">100</span>            <span class="n">start</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos">101</span>            <span class="n">curr_tank</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">102</span>    
+<span class="linenos">103</span>    <span class="k">return</span> <span class="n">start</span> <span class="k">if</span> <span class="n">total_tank</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+<span class="linenos">104</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span><span class="c1"># ========== 分发糖果 ==========</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span><span class="k">def</span><span class="w"> </span><span class="nf">candy</span><span class="p">(</span><span class="n">ratings</span><span class="p">):</span>
+<span class="linenos">109</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;每个孩子至少一个糖，评分高的比邻居多&quot;&quot;&quot;</span>
+<span class="linenos">110</span>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ratings</span><span class="p">)</span>
+<span class="linenos">111</span>    <span class="n">candies</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+<span class="linenos">112</span>    
+<span class="linenos">113</span>    <span class="c1"># 从左到右</span>
+<span class="linenos">114</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="linenos">115</span>        <span class="k">if</span> <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+<span class="linenos">116</span>            <span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos">117</span>    
+<span class="linenos">118</span>    <span class="c1"># 从右到左</span>
+<span class="linenos">119</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="linenos">120</span>        <span class="k">if</span> <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+<span class="linenos">121</span>            <span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">122</span>    
+<span class="linenos">123</span>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">candies</span><span class="p">)</span>
+<span class="linenos">124</span>
+<span class="linenos">125</span>
+<span class="linenos">126</span><span class="c1"># ========== 任务调度器 ==========</span>
+<span class="linenos">127</span>
+<span class="linenos">128</span><span class="k">def</span><span class="w"> </span><span class="nf">least_interval</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="linenos">129</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;任务调度最短时间&quot;&quot;&quot;</span>
+<span class="linenos">130</span>    <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="linenos">131</span>    
+<span class="linenos">132</span>    <span class="n">task_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+<span class="linenos">133</span>    <span class="n">max_count</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">task_counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="linenos">134</span>    <span class="n">max_count_tasks</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">task_counts</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">max_count</span><span class="p">)</span>
+<span class="linenos">135</span>    
+<span class="linenos">136</span>    <span class="c1"># 计算最短时间</span>
+<span class="linenos">137</span>    <span class="n">intervals</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">max_count_tasks</span>
+<span class="linenos">138</span>    
+<span class="linenos">139</span>    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">intervals</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tasks</span><span class="p">))</span>
+<span class="linenos">140</span>
+<span class="linenos">141</span>
+<span class="linenos">142</span><span class="k">def</span><span class="w"> </span><span class="nf">demo</span><span class="p">():</span>
+<span class="linenos">143</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;演示贪心算法&quot;&quot;&quot;</span>
+<span class="linenos">144</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== 贪心算法演示 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">145</span>    
+<span class="linenos">146</span>    <span class="c1"># 区间调度</span>
+<span class="linenos">147</span>    <span class="n">intervals</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="linenos">148</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;区间调度 </span><span class="si">{</span><span class="n">intervals</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">149</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最多不重叠区间: </span><span class="si">{</span><span class="n">interval_scheduling</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">150</span>    
+<span class="linenos">151</span>    <span class="c1"># 跳跃游戏</span>
+<span class="linenos">152</span>    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="linenos">153</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;跳跃游戏 </span><span class="si">{</span><span class="n">nums</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">154</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  能否跳到最后: </span><span class="si">{</span><span class="n">can_jump</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">155</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最少跳跃次数: </span><span class="si">{</span><span class="n">jump</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">156</span>    
+<span class="linenos">157</span>    <span class="c1"># 分配饼干</span>
+<span class="linenos">158</span>    <span class="n">g</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos">159</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;分配饼干 g=</span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">, s=</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">160</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  满足孩子数: </span><span class="si">{</span><span class="n">find_content_children</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">161</span>    
+<span class="linenos">162</span>    <span class="c1"># 买卖股票</span>
+<span class="linenos">163</span>    <span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="linenos">164</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;买卖股票II </span><span class="si">{</span><span class="n">prices</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">165</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最大利润: </span><span class="si">{</span><span class="n">max_profit</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">166</span>    
+<span class="linenos">167</span>    <span class="c1"># 加油站</span>
+<span class="linenos">168</span>    <span class="n">gas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="linenos">169</span>    <span class="n">cost</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="linenos">170</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;加油站 gas=</span><span class="si">{</span><span class="n">gas</span><span class="si">}</span><span class="s2">, cost=</span><span class="si">{</span><span class="n">cost</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">171</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  起始站: </span><span class="si">{</span><span class="n">can_complete_circuit</span><span class="p">(</span><span class="n">gas</span><span class="p">,</span><span class="w"> </span><span class="n">cost</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">172</span>    
+<span class="linenos">173</span>    <span class="c1"># 分发糖果</span>
+<span class="linenos">174</span>    <span class="n">ratings</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="linenos">175</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;分发糖果 </span><span class="si">{</span><span class="n">ratings</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">176</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最少糖果数: </span><span class="si">{</span><span class="n">candy</span><span class="p">(</span><span class="n">ratings</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">177</span>
+<span class="linenos">178</span>
+<span class="linenos">179</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">180</span>    <span class="n">demo</span><span class="p">()</span>
+<span class="linenos">181</span>
+</pre></div>
+</div>
+</section>
+<section id="c">
+<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
+<span class="linenos">  2</span><span class="cm"> * 贪心算法实现</span>
+<span class="linenos">  3</span><span class="cm"> */</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="linenos">  6</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="c1">// 区间调度</span>
+<span class="linenos"> 12</span><span class="kt">int</span><span class="w"> </span><span class="nf">intervalScheduling</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span><span class="w"> </span><span class="n">intervals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 13</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">intervals</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 14</span><span class="w">    </span>
+<span class="linenos"> 15</span><span class="w">    </span><span class="c1">// 按结束时间排序</span>
+<span class="linenos"> 16</span><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">intervals</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">intervals</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span>
+<span class="linenos"> 17</span><span class="w">         </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 18</span><span class="w">             </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="linenos"> 19</span><span class="w">         </span><span class="p">});</span>
+<span class="linenos"> 20</span><span class="w">    </span>
+<span class="linenos"> 21</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 22</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="linenos"> 23</span><span class="w">    </span>
+<span class="linenos"> 24</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">intervals</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 25</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 26</span><span class="w">            </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="linenos"> 27</span><span class="w">            </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+<span class="linenos"> 28</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 29</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 30</span><span class="w">    </span>
+<span class="linenos"> 31</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="linenos"> 32</span><span class="p">}</span>
+<span class="linenos"> 33</span>
+<span class="linenos"> 34</span><span class="c1">// 跳跃游戏</span>
+<span class="linenos"> 35</span><span class="kt">bool</span><span class="w"> </span><span class="nf">canJump</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 36</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">maxReach</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 37</span><span class="w">    </span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 39</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxReach</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 40</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos"> 41</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 42</span><span class="w">        </span><span class="n">maxReach</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">maxReach</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 44</span><span class="w">    </span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos"> 46</span><span class="p">}</span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span><span class="kt">int</span><span class="w"> </span><span class="nf">jump</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">jumps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">currEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 51</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">maxReach</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 52</span><span class="w">    </span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 54</span><span class="w">        </span><span class="n">maxReach</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">maxReach</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="linenos"> 55</span><span class="w">        </span>
+<span class="linenos"> 56</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">currEnd</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 57</span><span class="w">            </span><span class="n">jumps</span><span class="o">++</span><span class="p">;</span>
+<span class="linenos"> 58</span><span class="w">            </span><span class="n">currEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maxReach</span><span class="p">;</span>
+<span class="linenos"> 59</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 61</span><span class="w">    </span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">jumps</span><span class="p">;</span>
+<span class="linenos"> 63</span><span class="p">}</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span><span class="c1">// 分配饼干</span>
+<span class="linenos"> 66</span><span class="kt">int</span><span class="w"> </span><span class="nf">findContentChildren</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="linenos"> 68</span><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="linenos"> 69</span><span class="w">    </span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">cookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 71</span><span class="w">    </span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">child</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">g</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">cookie</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 73</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">cookie</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">g</span><span class="p">[</span><span class="n">child</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 74</span><span class="w">            </span><span class="n">child</span><span class="o">++</span><span class="p">;</span>
+<span class="linenos"> 75</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 76</span><span class="w">        </span><span class="n">cookie</span><span class="o">++</span><span class="p">;</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 78</span><span class="w">    </span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">child</span><span class="p">;</span>
+<span class="linenos"> 80</span><span class="p">}</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span><span class="c1">// 买卖股票II</span>
+<span class="linenos"> 83</span><span class="kt">int</span><span class="w"> </span><span class="nf">maxProfit</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">prices</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 84</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">profit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 85</span><span class="w">    </span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 87</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 88</span><span class="w">            </span><span class="n">profit</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">];</span>
+<span class="linenos"> 89</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 91</span><span class="w">    </span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">profit</span><span class="p">;</span>
+<span class="linenos"> 93</span><span class="p">}</span>
+<span class="linenos"> 94</span>
+<span class="linenos"> 95</span><span class="c1">// 加油站</span>
+<span class="linenos"> 96</span><span class="kt">int</span><span class="w"> </span><span class="nf">canCompleteCircuit</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">gas</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">cost</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">totalTank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">currTank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">100</span><span class="w">    </span>
+<span class="linenos">101</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">gas</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">102</span><span class="w">        </span><span class="n">totalTank</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">gas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos">103</span><span class="w">        </span><span class="n">currTank</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">gas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos">104</span><span class="w">        </span>
+<span class="linenos">105</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currTank</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">106</span><span class="w">            </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">107</span><span class="w">            </span><span class="n">currTank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">108</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">109</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">110</span><span class="w">    </span>
+<span class="linenos">111</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">totalTank</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="linenos">112</span><span class="p">}</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span><span class="c1">// 分发糖果</span>
+<span class="linenos">115</span><span class="kt">int</span><span class="w"> </span><span class="nf">candy</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">ratings</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">116</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ratings</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="linenos">117</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candies</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos">118</span><span class="w">    </span>
+<span class="linenos">119</span><span class="w">    </span><span class="c1">// 从左到右</span>
+<span class="linenos">120</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">121</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">122</span><span class="w">            </span><span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos">123</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">124</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">125</span><span class="w">    </span>
+<span class="linenos">126</span><span class="w">    </span><span class="c1">// 从右到左</span>
+<span class="linenos">127</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">128</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">129</span><span class="w">            </span><span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">candies</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos">130</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">131</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">132</span><span class="w">    </span>
+<span class="linenos">133</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">134</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">candies</span><span class="p">)</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="linenos">135</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">;</span>
+<span class="linenos">136</span><span class="p">}</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">139</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;=== 贪心算法演示 ===&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">140</span><span class="w">    </span>
+<span class="linenos">141</span><span class="w">    </span><span class="c1">// 区间调度</span>
+<span class="linenos">142</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">intervals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">}};</span>
+<span class="linenos">143</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;区间调度 [[1,3],[2,4],[3,5],[1,2]]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">144</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最多不重叠区间: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">intervalScheduling</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">145</span><span class="w">    </span>
+<span class="linenos">146</span><span class="w">    </span><span class="c1">// 跳跃游戏</span>
+<span class="linenos">147</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
+<span class="linenos">148</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;跳跃游戏 [2,3,1,1,4]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">149</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  能否跳到最后: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">canJump</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;是&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;否&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">150</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最少跳跃次数: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">jump</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">151</span><span class="w">    </span>
+<span class="linenos">152</span><span class="w">    </span><span class="c1">// 分配饼干</span>
+<span class="linenos">153</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="linenos">154</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="linenos">155</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;分配饼干 g=[1,2,3], s=[1,1]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">156</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  满足孩子数: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">findContentChildren</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">157</span><span class="w">    </span>
+<span class="linenos">158</span><span class="w">    </span><span class="c1">// 买卖股票</span>
+<span class="linenos">159</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">prices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
+<span class="linenos">160</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;买卖股票II [7,1,5,3,6,4]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">161</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最大利润: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">maxProfit</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">162</span><span class="w">    </span>
+<span class="linenos">163</span><span class="w">    </span><span class="c1">// 加油站</span>
+<span class="linenos">164</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+<span class="linenos">165</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+<span class="linenos">166</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;加油站 gas=[1,2,3,4,5], cost=[3,4,5,1,2]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">167</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  起始站: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">canCompleteCircuit</span><span class="p">(</span><span class="n">gas</span><span class="p">,</span><span class="w"> </span><span class="n">cost</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">168</span><span class="w">    </span>
+<span class="linenos">169</span><span class="w">    </span><span class="c1">// 分发糖果</span>
+<span class="linenos">170</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ratings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+<span class="linenos">171</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;分发糖果 [1,0,2]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">172</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最少糖果数: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">candy</span><span class="p">(</span><span class="n">ratings</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">173</span><span class="w">    </span>
+<span class="linenos">174</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">175</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="贪心算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../07-dynamic-programming-basic/index.html" class="btn btn-neutral float-right" title="动态规划基础" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

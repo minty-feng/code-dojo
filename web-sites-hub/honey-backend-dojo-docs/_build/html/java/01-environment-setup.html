@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>01-Java环境搭建 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="02-Java基础语法" href="02-basic-syntax.html" />
+    <link rel="prev" title="☕ Java 后端开发" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Java 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Java 后端开发</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">01-环境搭建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jdk">JDK安装</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">JDK版本选择</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#java-17">Java 17核心特性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">安装JDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">环境变量配置</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">开发工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#intellij-idea">IntelliJ IDEA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eclipse">Eclipse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vs-code">VS Code</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">构建工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#maven">Maven</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gradle">Gradle</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello World</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">基本程序结构</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">编译和运行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">带包的程序</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">调试工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jdb">jdb（命令行调试器）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">IntelliJ IDEA调试</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">常用工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jshell-java-9">jshell（Java 9+）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jconsole-jvisualvm">jconsole/jvisualvm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">编码规范</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">命名约定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">代码风格</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">项目结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Maven标准结构</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">Gradle标准结构</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Java 17完整特性列表</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">语言特性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api">API增强</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jvm">JVM改进</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#java-1117">从Java 11到17的演进</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-oop.html">03-面向对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-collections.html">04-集合框架</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-multithreading.html">05-多线程编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-io.html">06-IO流</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Java 教程</a></li>
+      <li class="breadcrumb-item active">01-Java环境搭建</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/java/01-environment-setup.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="java">
+<h1>01-Java环境搭建<a class="headerlink" href="#java" title="Link to this heading"></a></h1>
+<section id="jdk">
+<h2>JDK安装<a class="headerlink" href="#jdk" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3>JDK版本选择<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>LTS（长期支持）版本：</p>
+<ul class="simple">
+<li><p><strong>Java 8（LTS）</strong>：2014年发布，企业广泛使用</p></li>
+<li><p><strong>Java 11（LTS）</strong>：2018年发布，模块化系统</p></li>
+<li><p><strong>Java 17（LTS）</strong>：2021年发布，密封类、记录类</p></li>
+</ul>
+<p>学习环境：Java 17，生产环境：Java 11或Java 17。</p>
+</section>
+<section id="java-17">
+<h3>Java 17核心特性<a class="headerlink" href="#java-17" title="Link to this heading"></a></h3>
+<p><strong>密封类（Sealed Classes）：</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 限制继承范围</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Shape</span><span class="w"> </span><span class="n">permits</span><span class="w"> </span><span class="n">Circle</span><span class="p">,</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Circle</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="p">{}</span>
+</pre></div>
+</div>
+<p><strong>记录类（Records）：</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 不可变数据类</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">Point</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>安装JDK<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p><strong>Linux（Ubuntu/Debian）：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装OpenJDK 17</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openjdk-17-jdk
+
+<span class="c1"># 验证安装</span>
+java<span class="w"> </span>-version
+javac<span class="w"> </span>-version
+</pre></div>
+</div>
+<p><strong>macOS：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用Homebrew</span>
+brew<span class="w"> </span>install<span class="w"> </span>openjdk@17
+
+<span class="c1"># 配置环境变量</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;/opt/homebrew/opt/openjdk@17/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
+<span class="nb">source</span><span class="w"> </span>~/.zshrc
+</pre></div>
+</div>
+<p><strong>Windows：</strong></p>
+<ol class="arabic simple">
+<li><p>下载Oracle JDK或OpenJDK</p></li>
+<li><p>安装并配置JAVA_HOME环境变量</p></li>
+<li><p>添加%JAVA_HOME%\bin到PATH</p></li>
+</ol>
+</section>
+<section id="id3">
+<h3>环境变量配置<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/macOS (~/.bashrc 或 ~/.zshrc)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-17-openjdk-amd64
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib
+
+<span class="c1"># 验证</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$JAVA_HOME</span>
+java<span class="w"> </span>-version
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>开发工具<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="intellij-idea">
+<h3>IntelliJ IDEA<a class="headerlink" href="#intellij-idea" title="Link to this heading"></a></h3>
+<p>JetBrains出品，社区版免费。</p>
+<p><strong>特性：</strong></p>
+<ul class="simple">
+<li><p>智能代码补全</p></li>
+<li><p>重构功能</p></li>
+<li><p>内置调试器和性能分析</p></li>
+<li><p>集成Maven/Gradle</p></li>
+<li><p>Git版本控制</p></li>
+</ul>
+<p><strong>快捷键（macOS/Windows）：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">N</span></code>：快速查找类</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">N</span></code>：快速查找文件</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">L</span></code>：格式化代码</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">/</span></code>：注释/取消注释</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">F10/F9</span></code>：运行/调试</p></li>
+</ul>
+</section>
+<section id="eclipse">
+<h3>Eclipse<a class="headerlink" href="#eclipse" title="Link to this heading"></a></h3>
+<p>开源Java IDE，功能完整。</p>
+<p><strong>特性：</strong></p>
+<ul class="simple">
+<li><p>免费开源</p></li>
+<li><p>插件生态丰富</p></li>
+<li><p>资源占用较小</p></li>
+</ul>
+</section>
+<section id="vs-code">
+<h3>VS Code<a class="headerlink" href="#vs-code" title="Link to this heading"></a></h3>
+<p>轻量级编辑器，通过插件支持Java。</p>
+<p><strong>必装插件：</strong></p>
+<ul class="simple">
+<li><p>Extension Pack for Java</p></li>
+<li><p>Debugger for Java</p></li>
+<li><p>Maven for Java</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>构建工具<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="maven">
+<h3>Maven<a class="headerlink" href="#maven" title="Link to this heading"></a></h3>
+<p>基于XML的项目管理工具，依赖管理自动化。</p>
+<p><strong>pom.xml示例：</strong></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
+<span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="w">         </span><span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0</span>
+<span class="s">         http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>my-app<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">        </span><span class="nt">&lt;maven.compiler.source&gt;</span>17<span class="nt">&lt;/maven.compiler.source&gt;</span>
+<span class="w">        </span><span class="nt">&lt;maven.compiler.target&gt;</span>17<span class="nt">&lt;/maven.compiler.target&gt;</span>
+<span class="w">        </span><span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- JUnit 5 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.junit.jupiter<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>junit-jupiter<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>5.9.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">            </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+<p><strong>常用命令：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mvn<span class="w"> </span>clean<span class="w">           </span><span class="c1"># 清理</span>
+mvn<span class="w"> </span>compile<span class="w">         </span><span class="c1"># 编译</span>
+mvn<span class="w"> </span><span class="nb">test</span><span class="w">            </span><span class="c1"># 测试</span>
+mvn<span class="w"> </span>package<span class="w">         </span><span class="c1"># 打包</span>
+mvn<span class="w"> </span>install<span class="w">         </span><span class="c1"># 安装到本地仓库</span>
+mvn<span class="w"> </span>clean<span class="w"> </span>package<span class="w">   </span><span class="c1"># 组合命令</span>
+</pre></div>
+</div>
+</section>
+<section id="gradle">
+<h3>Gradle<a class="headerlink" href="#gradle" title="Link to this heading"></a></h3>
+<p>基于Groovy/Kotlin的现代构建工具，配置更简洁。</p>
+<p><strong>build.gradle示例：</strong></p>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;java&#39;</span>
+<span class="o">}</span>
+
+<span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;com.example&#39;</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1.0-SNAPSHOT&#39;</span>
+
+<span class="n">repositories</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">testImplementation</span><span class="w"> </span><span class="s1">&#39;org.junit.jupiter:junit-jupiter:5.9.0&#39;</span>
+<span class="o">}</span>
+
+<span class="n">java</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">toolchain</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="n">languageVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaLanguageVersion</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">17</span><span class="o">)</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p><strong>常用命令：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gradle<span class="w"> </span>clean<span class="w">        </span><span class="c1"># 清理</span>
+gradle<span class="w"> </span>build<span class="w">        </span><span class="c1"># 构建</span>
+gradle<span class="w"> </span><span class="nb">test</span><span class="w">         </span><span class="c1"># 测试</span>
+gradle<span class="w"> </span>run<span class="w">          </span><span class="c1"># 运行</span>
+./gradlew<span class="w"> </span>build<span class="w">     </span><span class="c1"># 使用wrapper</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="hello-world">
+<h2>Hello World<a class="headerlink" href="#hello-world" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3>基本程序结构<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// HelloWorld.java</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HelloWorld</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>编译和运行<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 编译</span>
+javac<span class="w"> </span>HelloWorld.java
+
+<span class="c1"># 运行</span>
+java<span class="w"> </span>HelloWorld
+
+<span class="c1"># 输出</span>
+Hello,<span class="w"> </span>World!
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>带包的程序<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// src/main/java/com/example/App.java</span>
+<span class="kn">package</span><span class="w"> </span><span class="nn">com.example</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">App</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello from package!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 编译（在项目根目录）</span>
+javac<span class="w"> </span>-d<span class="w"> </span>out<span class="w"> </span>src/main/java/com/example/App.java
+
+<span class="c1"># 运行</span>
+java<span class="w"> </span>-cp<span class="w"> </span>out<span class="w"> </span>com.example.App
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>调试工具<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="jdb">
+<h3>jdb（命令行调试器）<a class="headerlink" href="#jdb" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 编译时加调试信息</span>
+javac<span class="w"> </span>-g<span class="w"> </span>HelloWorld.java
+
+<span class="c1"># 启动调试</span>
+jdb<span class="w"> </span>HelloWorld
+
+<span class="c1"># 常用命令</span>
+stop<span class="w"> </span><span class="k">in</span><span class="w"> </span>HelloWorld.main<span class="w">  </span><span class="c1"># 设置断点</span>
+run<span class="w">                      </span><span class="c1"># 运行</span>
+print<span class="w"> </span>variable<span class="w">           </span><span class="c1"># 打印变量</span>
+step<span class="w">                     </span><span class="c1"># 单步执行</span>
+next<span class="w">                     </span><span class="c1"># 下一行</span>
+cont<span class="w">                     </span><span class="c1"># 继续执行</span>
+quit<span class="w">                     </span><span class="c1"># 退出</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>IntelliJ IDEA调试<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>F8：单步跳过</p></li>
+<li><p>F7：单步进入</p></li>
+<li><p>Shift + F8：单步跳出</p></li>
+<li><p>F9：继续执行</p></li>
+<li><p>Cmd/Ctrl + F8：切换断点</p></li>
+<li><p>Alt + F9：运行到光标</p></li>
+</ul>
+</section>
+</section>
+<section id="id11">
+<h2>常用工具<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="jshell-java-9">
+<h3>jshell（Java 9+）<a class="headerlink" href="#jshell-java-9" title="Link to this heading"></a></h3>
+<p>交互式Java REPL，快速验证代码。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 启动</span>
+jshell
+
+<span class="c1"># 使用</span>
+jshell&gt;<span class="w"> </span>int<span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">;</span>
+jshell&gt;<span class="w"> </span>System.out.println<span class="o">(</span>x<span class="w"> </span>*<span class="w"> </span><span class="m">2</span><span class="o">)</span><span class="p">;</span>
+<span class="m">20</span>
+jshell&gt;<span class="w"> </span>/exit
+</pre></div>
+</div>
+</section>
+<section id="jconsole-jvisualvm">
+<h3>jconsole/jvisualvm<a class="headerlink" href="#jconsole-jvisualvm" title="Link to this heading"></a></h3>
+<p>JVM监控和性能分析工具。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 启动jconsole</span>
+jconsole
+
+<span class="c1"># 启动jvisualvm</span>
+jvisualvm
+</pre></div>
+</div>
+<p><strong>监控内容：</strong></p>
+<ul class="simple">
+<li><p>堆内存使用</p></li>
+<li><p>线程状态</p></li>
+<li><p>CPU占用</p></li>
+<li><p>GC活动</p></li>
+</ul>
+</section>
+</section>
+<section id="id12">
+<h2>编码规范<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="id13">
+<h3>命名约定<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 类名：大驼峰</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentInfo</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="c1">// 方法/变量：小驼峰</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">calculateSum</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">studentAge</span><span class="p">;</span>
+
+<span class="c1">// 常量：全大写+下划线</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">MAX_SIZE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+
+<span class="c1">// 包名：全小写</span>
+<span class="kn">package</span><span class="w"> </span><span class="nn">com.example.myapp</span><span class="p">;</span>
+
+<span class="c1">// 接口：大驼峰（可选I前缀）</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Runnable</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">IService</span><span class="w"> </span><span class="p">{}</span>
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>代码风格<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 缩进：4空格</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">statement</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 大括号：K&amp;R风格</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">method</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// 一行一条语句</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>项目结构<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>Maven标准结构<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>my-app/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/           # Java源代码
+│   │   │   └── com/example/
+│   │   └── resources/      # 资源文件
+│   └── test/
+│       ├── java/           # 测试代码
+│       └── resources/      # 测试资源
+└── target/                 # 编译输出
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>Gradle标准结构<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>my-app/
+├── build.gradle
+├── settings.gradle
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   └── resources/
+│   └── test/
+│       ├── java/
+│       └── resources/
+└── build/                  # 编译输出
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>Java 17完整特性列表<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>语言特性<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<p><strong>1. 密封类（Sealed Classes - JEP 409）</strong></p>
+<ul class="simple">
+<li><p>限制类的继承层次</p></li>
+<li><p>编译期完整性检查</p></li>
+<li><p>switch穷尽性分析</p></li>
+</ul>
+<p><strong>2. 记录类（Records - JEP 395）</strong></p>
+<ul class="simple">
+<li><p>不可变数据载体</p></li>
+<li><p>自动生成样板代码</p></li>
+<li><p>模式匹配支持</p></li>
+</ul>
+<p><strong>3. 模式匹配（Pattern Matching - JEP 406）</strong></p>
+<ul class="simple">
+<li><p>instanceof自动转型</p></li>
+<li><p>switch表达式扩展</p></li>
+<li><p>减少类型转换代码</p></li>
+</ul>
+<p><strong>4. 文本块（Text Blocks - JEP 378）</strong></p>
+<ul class="simple">
+<li><p>多行字符串字面量</p></li>
+<li><p>保留格式和缩进</p></li>
+<li><p>简化JSON/SQL/HTML编写</p></li>
+</ul>
+</section>
+<section id="api">
+<h3>API增强<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
+<p><strong>Stream增强：</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// toList()快捷方法</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="na">toList</span><span class="p">();</span>
+
+<span class="c1">// mapMulti替代flatMap（性能更好）</span>
+<span class="n">stream</span><span class="p">.</span><span class="na">mapMulti</span><span class="p">((</span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="n">consumer</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">consumer</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="w">    </span><span class="n">consumer</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="n">item</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>RandomGenerator统一API：</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.random.*</span><span class="p">;</span>
+
+<span class="n">RandomGenerator</span><span class="w"> </span><span class="n">rng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RandomGenerator</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;L128X256MixRandom&quot;</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rng</span><span class="p">.</span><span class="na">nextInt</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Foreign Function &amp; Memory API（孵化）：</strong></p>
+<ul class="simple">
+<li><p>替代JNI调用本地代码</p></li>
+<li><p>直接内存访问</p></li>
+<li><p>更安全的本地互操作</p></li>
+</ul>
+</section>
+<section id="jvm">
+<h3>JVM改进<a class="headerlink" href="#jvm" title="Link to this heading"></a></h3>
+<p><strong>ZGC和Shenandoah GC正式版：</strong></p>
+<ul class="simple">
+<li><p>低延迟垃圾收集器</p></li>
+<li><p>适合大堆内存场景</p></li>
+</ul>
+<p><strong>强封装JDK内部：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 访问内部API需要显式声明</span>
+java<span class="w"> </span>--add-opens<span class="w"> </span>java.base/java.lang<span class="o">=</span>ALL-UNNAMED<span class="w"> </span>App
+</pre></div>
+</div>
+<p><strong>性能优化：</strong></p>
+<ul class="simple">
+<li><p>向量API（孵化）：SIMD支持</p></li>
+<li><p>增强伪随机数生成器</p></li>
+<li><p>macOS ARM64支持</p></li>
+</ul>
+</section>
+<section id="java-1117">
+<h3>从Java 11到17的演进<a class="headerlink" href="#java-1117" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>版本</p></th>
+<th class="head"><p>关键特性</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Java 12</p></td>
+<td><p>switch表达式（Preview）</p></td>
+</tr>
+<tr class="row-odd"><td><p>Java 13</p></td>
+<td><p>文本块（Preview）</p></td>
+</tr>
+<tr class="row-even"><td><p>Java 14</p></td>
+<td><p>instanceof模式（Preview）、Records（Preview）、NPE增强</p></td>
+</tr>
+<tr class="row-odd"><td><p>Java 15</p></td>
+<td><p>密封类（Preview）、文本块（正式）</p></td>
+</tr>
+<tr class="row-even"><td><p>Java 16</p></td>
+<td><p>instanceof模式（正式）、Records（正式）、Stream.toList()</p></td>
+</tr>
+<tr class="row-odd"><td><p>Java 17</p></td>
+<td><p>密封类（正式）、模式匹配增强、LTS版本</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>升级建议：</strong></p>
+<ul class="simple">
+<li><p>从Java 8升级：需要处理模块化、弃用API</p></li>
+<li><p>从Java 11升级：主要是新特性，兼容性好</p></li>
+<li><p>新项目直接用Java 17</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="README.html" class="btn btn-neutral float-left" title="☕ Java 后端开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Java基础语法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

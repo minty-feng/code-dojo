@@ -1,0 +1,888 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>文件系统 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="并发与同步" href="../05-concurrency-sync/index.html" />
+    <link rel="prev" title="文件系统" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OS & Network Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-process-thread/index.html">进程与线程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-process-scheduling/index.html">进程调度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-memory-management/index.html">内存管理</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">文件系统</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">文件系统</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">💡 核心结论</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1. 文件系统结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">1.1 磁盘布局</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#super-block">1.2 超级块（Super Block）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#inode">2. inode结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">2.1 inode定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">2.2 数据块索引</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">3. 目录结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">3.1 目录项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">3.2 路径解析</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vs">4. 硬链接 vs 软链接</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">4.1 硬链接</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">4.2 软链接（符号链接）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">4.3 对比</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">5. 文件操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">5.1 文件创建</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">5.2 文件读取</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">5.3 文件写入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">5.4 文件删除</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">6. 缓存机制</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#page-cache">6.1 页缓存（Page Cache）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read-ahead">6.2 预读（Read-ahead）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">6.3 脏页回写</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">7. 日志文件系统</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id21">7.1 一致性问题</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">7.2 日志机制</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">8. 磁盘调度</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fcfs">8.1 FCFS（先来先服务）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sstf">8.2 SSTF（最短寻道时间优先）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scan">8.3 SCAN（电梯算法）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">9. 常见问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#q1-inode">Q1: 为什么需要inode？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q2">Q2: 目录可以有硬链接吗？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q3">Q3: 如何提高文件系统性能？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q4-ext4ext3">Q4: ext4比ext3好在哪里？</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">参考资源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../05-concurrency-sync/index.html">并发与同步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-deadlock/index.html">死锁处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-tcp-ip/index.html">TCP-IP协议详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-http/index.html">HTTP协议与实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-socket/index.html">Socket编程实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-network-tools/index.html">网络工具大全</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-network-security/index.html">网络安全基础</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OS & Network Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">文件系统</a></li>
+      <li class="breadcrumb-item active">文件系统</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/04-file-system/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>文件系统<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>inode存储文件元数据，数据块存储文件内容</strong></p></li>
+<li><p><strong>目录是特殊的文件，存储文件名到inode的映射</strong></p></li>
+<li><p><strong>硬链接共享inode，软链接是独立文件存储路径</strong></p></li>
+<li><p><strong>日志文件系统通过预写日志保证一致性</strong></p></li>
+<li><p><strong>缓存和预读是文件系统性能的关键</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>1. 文件系统结构<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>1.1 磁盘布局<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>典型文件系统布局（如ext2/3/4）:
+
+┌──────────────┬──────────┬──────────┬──────────┬──────────┐
+│  Boot Block  │  Super   │  inode   │  Data    │  Data    │
+│   (1 block)  │  Block   │  Bitmap  │  Bitmap  │  Blocks  │
+└──────────────┴──────────┴──────────┴──────────┴──────────┘
+
+Boot Block:  启动信息
+Super Block: 文件系统元信息
+inode Bitmap: inode使用情况
+Data Bitmap:  数据块使用情况
+Data Blocks:  实际数据
+</pre></div>
+</div>
+</section>
+<section id="super-block">
+<h3>1.2 超级块（Super Block）<a class="headerlink" href="#super-block" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ext2_super_block</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_inodes_count</span><span class="p">;</span><span class="w">      </span><span class="c1">// inode总数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_blocks_count</span><span class="p">;</span><span class="w">      </span><span class="c1">// 块总数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_free_blocks_count</span><span class="p">;</span><span class="w"> </span><span class="c1">// 空闲块数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_free_inodes_count</span><span class="p">;</span><span class="w"> </span><span class="c1">// 空闲inode数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_first_data_block</span><span class="p">;</span><span class="w">  </span><span class="c1">// 第一个数据块</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_log_block_size</span><span class="p">;</span><span class="w">    </span><span class="c1">// 块大小（1024 &lt;&lt; s_log_block_size）</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_blocks_per_group</span><span class="p">;</span><span class="w">  </span><span class="c1">// 每组块数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_inodes_per_group</span><span class="p">;</span><span class="w">  </span><span class="c1">// 每组inode数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_mtime</span><span class="p">;</span><span class="w">             </span><span class="c1">// 挂载时间</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">s_wtime</span><span class="p">;</span><span class="w">             </span><span class="c1">// 写入时间</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">s_magic</span><span class="p">;</span><span class="w">             </span><span class="c1">// 魔数（0xEF53）</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">s_state</span><span class="p">;</span><span class="w">             </span><span class="c1">// 文件系统状态</span>
+<span class="w">    </span><span class="c1">// ... 更多字段</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="inode">
+<h2>2. inode结构<a class="headerlink" href="#inode" title="Link to this heading"></a></h2>
+<section id="id5">
+<h3>2.1 inode定义<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p><strong>inode（索引节点）</strong>：存储文件元数据</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ext2_inode</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">i_mode</span><span class="p">;</span><span class="w">        </span><span class="c1">// 文件类型和权限</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">i_uid</span><span class="p">;</span><span class="w">         </span><span class="c1">// 所有者用户ID</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_size</span><span class="p">;</span><span class="w">        </span><span class="c1">// 文件大小（字节）</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_atime</span><span class="p">;</span><span class="w">       </span><span class="c1">// 访问时间</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_ctime</span><span class="p">;</span><span class="w">       </span><span class="c1">// 创建时间</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_mtime</span><span class="p">;</span><span class="w">       </span><span class="c1">// 修改时间</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_dtime</span><span class="p">;</span><span class="w">       </span><span class="c1">// 删除时间</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">i_gid</span><span class="p">;</span><span class="w">         </span><span class="c1">// 组ID</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">i_links_count</span><span class="p">;</span><span class="w"> </span><span class="c1">// 硬链接计数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_blocks</span><span class="p">;</span><span class="w">      </span><span class="c1">// 块数</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_flags</span><span class="p">;</span><span class="w">       </span><span class="c1">// 标志</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 数据块指针（关键！）</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">i_block</span><span class="p">[</span><span class="mi">15</span><span class="p">];</span><span class="w">   </span><span class="c1">// 块指针数组</span>
+<span class="w">    </span><span class="c1">// [0-11]: 直接指针</span>
+<span class="w">    </span><span class="c1">// [12]:   一级间接指针</span>
+<span class="w">    </span><span class="c1">// [13]:   二级间接指针</span>
+<span class="w">    </span><span class="c1">// [14]:   三级间接指针</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>2.2 数据块索引<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>i_block[15]数组：
+
+[0-11]: 直接指针 → 数据块
+        12个块 × 4KB = 48KB
+
+[12]: 一级间接指针 → 指针块 → 数据块
+      1024个指针 × 4KB = 4MB
+
+[13]: 二级间接指针 → 指针块 → 指针块 → 数据块
+      1024 × 1024 × 4KB = 4GB
+
+[14]: 三级间接指针
+      1024 × 1024 × 1024 × 4KB = 4TB
+
+最大文件大小 ≈ 4TB
+</pre></div>
+</div>
+<p><strong>查找数据块示例</strong>：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 读取文件偏移offset处的数据</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">get_block_num</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">block_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4096</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">block_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">block_size</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="c1">// 每块1024个指针</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">block_index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 直接块</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_block</span><span class="p">[</span><span class="n">block_index</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">block_index</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">block_index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 一级间接块</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">indirect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_block</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_block</span><span class="p">[</span><span class="mi">12</span><span class="p">]);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">indirect</span><span class="p">[</span><span class="n">block_index</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">block_index</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">block_index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 二级间接块</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">level1_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_index</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">level2_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_index</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">ptrs_per_block</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">indirect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_block</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_block</span><span class="p">[</span><span class="mi">13</span><span class="p">]);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">indirect2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_block</span><span class="p">(</span><span class="n">indirect1</span><span class="p">[</span><span class="n">level1_index</span><span class="p">]);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">indirect2</span><span class="p">[</span><span class="n">level2_index</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 三级间接块...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2>3. 目录结构<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>3.1 目录项<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p><strong>目录也是文件</strong>，内容是目录项列表</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ext2_dir_entry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">__u32</span><span class="w"> </span><span class="n">inode</span><span class="p">;</span><span class="w">          </span><span class="c1">// inode号</span>
+<span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">rec_len</span><span class="p">;</span><span class="w">        </span><span class="c1">// 记录长度</span>
+<span class="w">    </span><span class="n">__u8</span><span class="w">  </span><span class="n">name_len</span><span class="p">;</span><span class="w">       </span><span class="c1">// 文件名长度</span>
+<span class="w">    </span><span class="n">__u8</span><span class="w">  </span><span class="n">file_type</span><span class="p">;</span><span class="w">      </span><span class="c1">// 文件类型</span>
+<span class="w">    </span><span class="kt">char</span><span class="w">  </span><span class="n">name</span><span class="p">[</span><span class="mi">255</span><span class="p">];</span><span class="w">      </span><span class="c1">// 文件名</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>目录示例</strong>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">目录inode</span><span class="p">:</span> <span class="mi">10</span>
+<span class="n">数据块内容</span><span class="p">:</span>
+  <span class="p">[</span><span class="n">inode</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;file1.txt&quot;</span><span class="p">]</span>
+  <span class="p">[</span><span class="n">inode</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;file2.txt&quot;</span><span class="p">]</span>
+  <span class="p">[</span><span class="n">inode</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;subdir&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>3.2 路径解析<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">path_lookup</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">current_inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">root_inode</span><span class="p">;</span><span class="w">  </span><span class="c1">// 从根目录开始</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strtok</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">token</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. 读取当前目录的数据块</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">ext2_inode</span><span class="w"> </span><span class="o">*</span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_inode</span><span class="p">(</span><span class="n">current_inode</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dir_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_block</span><span class="p">(</span><span class="n">dir</span><span class="o">-&gt;</span><span class="n">i_block</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 2. 查找目录项</span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">ext2_dir_entry</span><span class="w"> </span><span class="o">*</span><span class="n">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_entry</span><span class="p">(</span><span class="n">dir_data</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">entry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENOENT</span><span class="p">;</span><span class="w">  </span><span class="c1">// 文件不存在</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 3. 进入下一级</span>
+<span class="w">        </span><span class="n">current_inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entry</span><span class="o">-&gt;</span><span class="n">inode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strtok</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">current_inode</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>路径查找示例</strong>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>查找路径: /home/user/file.txt
+
+1. 从根inode (2) 开始
+2. 读取根目录，查找&quot;home&quot; → inode 100
+3. 读取inode 100，查找&quot;user&quot; → inode 200
+4. 读取inode 200，查找&quot;file.txt&quot; → inode 300
+5. 返回inode 300
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="vs">
+<h2>4. 硬链接 vs 软链接<a class="headerlink" href="#vs" title="Link to this heading"></a></h2>
+<section id="id10">
+<h3>4.1 硬链接<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：多个目录项指向同一个inode</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建硬链接</span>
+$<span class="w"> </span>ln<span class="w"> </span>file.txt<span class="w"> </span>hardlink.txt
+
+<span class="c1"># inode相同</span>
+$<span class="w"> </span>ls<span class="w"> </span>-i
+<span class="m">12345</span><span class="w"> </span>file.txt
+<span class="m">12345</span><span class="w"> </span>hardlink.txt
+</pre></div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">create_hard_link</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">oldpath</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">newpath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 获取原文件inode</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">inode_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path_lookup</span><span class="p">(</span><span class="n">oldpath</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 在新目录中创建目录项</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dir_inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path_lookup</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">newpath</span><span class="p">));</span>
+<span class="w">    </span><span class="n">add_dir_entry</span><span class="p">(</span><span class="n">dir_inode</span><span class="p">,</span><span class="w"> </span><span class="n">basename</span><span class="p">(</span><span class="n">newpath</span><span class="p">),</span><span class="w"> </span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 增加硬链接计数</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_inode</span><span class="p">(</span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_links_count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="n">write_inode</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>共享inode和数据</p></li>
+<li><p>删除一个链接，文件仍存在</p></li>
+<li><p>不能跨文件系统</p></li>
+<li><p>不能链接目录</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>4.2 软链接（符号链接）<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：独立的文件，内容是目标路径</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建软链接</span>
+$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>file.txt<span class="w"> </span>symlink.txt
+
+<span class="c1"># inode不同</span>
+$<span class="w"> </span>ls<span class="w"> </span>-i
+<span class="m">12345</span><span class="w"> </span>file.txt
+<span class="m">67890</span><span class="w"> </span>symlink.txt
+</pre></div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">create_symlink</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">linkpath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 创建新inode</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">inode_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_inode</span><span class="p">();</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_inode</span><span class="p">(</span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 设置类型为符号链接</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">S_IFLNK</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mo">0777</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 存储目标路径</span>
+<span class="w">    </span><span class="n">strcpy</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_block</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">);</span><span class="w">  </span><span class="c1">// 路径存在i_block中</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 4. 在目录中添加目录项</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dir_inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path_lookup</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">linkpath</span><span class="p">));</span>
+<span class="w">    </span><span class="n">add_dir_entry</span><span class="p">(</span><span class="n">dir_inode</span><span class="p">,</span><span class="w"> </span><span class="n">basename</span><span class="p">(</span><span class="n">linkpath</span><span class="p">),</span><span class="w"> </span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>独立文件</p></li>
+<li><p>可以跨文件系统</p></li>
+<li><p>可以链接目录</p></li>
+<li><p>目标删除后变成悬空链接</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>4.3 对比<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>特性</p></th>
+<th class="head"><p>硬链接</p></th>
+<th class="head"><p>软链接</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>inode</p></td>
+<td><p>相同</p></td>
+<td><p>不同</p></td>
+</tr>
+<tr class="row-odd"><td><p>跨文件系统</p></td>
+<td><p>否</p></td>
+<td><p>是</p></td>
+</tr>
+<tr class="row-even"><td><p>链接目录</p></td>
+<td><p>否</p></td>
+<td><p>是</p></td>
+</tr>
+<tr class="row-odd"><td><p>原文件删除</p></td>
+<td><p>仍可访问</p></td>
+<td><p>悬空</p></td>
+</tr>
+<tr class="row-even"><td><p>磁盘空间</p></td>
+<td><p>共享</p></td>
+<td><p>独立（路径）</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id13">
+<h2>5. 文件操作<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>5.1 文件创建<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">create_file</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 分配inode</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">inode_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_inode</span><span class="p">();</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_inode</span><span class="p">(</span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 初始化inode</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mode</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_uid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_uid</span><span class="p">();</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_gid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_gid</span><span class="p">();</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_atime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_ctime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_links_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 在父目录添加目录项</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dir_inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path_lookup</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+<span class="w">    </span><span class="n">add_dir_entry</span><span class="p">(</span><span class="n">dir_inode</span><span class="p">,</span><span class="w"> </span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">),</span><span class="w"> </span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">inode_num</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>5.2 文件读取<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">file_read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_file</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_inode</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 1. 计算读取范围</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// EOF</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">to_read</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">bytes_read</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 逐块读取</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">bytes_read</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">to_read</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">block_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block_num</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_read</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">block_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_block</span><span class="p">(</span><span class="n">block_num</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">block_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_read</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">BLOCK_SIZE</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">copy_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">BLOCK_SIZE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">block_offset</span><span class="p">,</span><span class="w"> </span><span class="n">to_read</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bytes_read</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">memcpy</span><span class="p">(</span><span class="n">buf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_read</span><span class="p">,</span><span class="w"> </span><span class="n">block_data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">block_offset</span><span class="p">,</span><span class="w"> </span><span class="n">copy_len</span><span class="p">);</span>
+<span class="w">        </span><span class="n">bytes_read</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">copy_len</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 更新访问时间</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_atime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bytes_read</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>5.3 文件写入<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">file_write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_file</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_inode</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">bytes_written</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">bytes_written</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. 获取或分配数据块</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">block_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block_num</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">block_num</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">block_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_block</span><span class="p">();</span>
+<span class="w">            </span><span class="n">set_block_num</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">,</span><span class="w"> </span><span class="n">block_num</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 2. 写入数据</span>
+<span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">block_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_block</span><span class="p">(</span><span class="n">block_num</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">block_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">BLOCK_SIZE</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">copy_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">BLOCK_SIZE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">block_offset</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">memcpy</span><span class="p">(</span><span class="n">block_data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">block_offset</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">,</span><span class="w"> </span><span class="n">copy_len</span><span class="p">);</span>
+<span class="w">        </span><span class="n">write_block</span><span class="p">(</span><span class="n">block_num</span><span class="p">,</span><span class="w"> </span><span class="n">block_data</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">bytes_written</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">copy_len</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 更新inode</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_written</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_ctime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bytes_written</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>5.4 文件删除<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">delete_file</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 获取inode</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">inode_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path_lookup</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_inode</span><span class="p">(</span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 从父目录删除目录项</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dir_inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path_lookup</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+<span class="w">    </span><span class="n">remove_dir_entry</span><span class="p">(</span><span class="n">dir_inode</span><span class="p">,</span><span class="w"> </span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 减少硬链接计数</span>
+<span class="w">    </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_links_count</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 4. 如果没有链接了，释放资源</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_links_count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 释放数据块</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_blocks</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">block_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block_num</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BLOCK_SIZE</span><span class="p">);</span>
+<span class="w">            </span><span class="n">free_block</span><span class="p">(</span><span class="n">block_num</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 释放inode</span>
+<span class="w">        </span><span class="n">free_inode</span><span class="p">(</span><span class="n">inode_num</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id18">
+<h2>6. 缓存机制<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="page-cache">
+<h3>6.1 页缓存（Page Cache）<a class="headerlink" href="#page-cache" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：将磁盘数据缓存在内存中</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">page_cache</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rb_root</span><span class="w"> </span><span class="n">pages</span><span class="p">;</span><span class="w">      </span><span class="c1">// 红黑树索引</span>
+<span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">cached_page</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">index</span><span class="p">;</span><span class="w">       </span><span class="c1">// 页索引</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">page</span><span class="p">;</span><span class="w">         </span><span class="c1">// 物理页</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dirty</span><span class="p">;</span><span class="w">                 </span><span class="c1">// 是否修改</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rb_node</span><span class="w"> </span><span class="n">rb_node</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">read_with_cache</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">page_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">PAGE_SIZE</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 1. 查找缓存</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cached_page</span><span class="w"> </span><span class="o">*</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_cached_page</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">page_index</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 缓存命中</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">cp</span><span class="o">-&gt;</span><span class="n">page</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">PAGE_SIZE</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 缓存未命中，从磁盘读取</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_page</span><span class="p">();</span>
+<span class="w">    </span><span class="n">read_from_disk</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">page_index</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 加入缓存</span>
+<span class="w">    </span><span class="n">add_to_cache</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">page_index</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">page</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">PAGE_SIZE</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="read-ahead">
+<h3>6.2 预读（Read-ahead）<a class="headerlink" href="#read-ahead" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">readahead</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 预读后续N个页面</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ra_pages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w">  </span><span class="c1">// 预读16个页面</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">ra_pages</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">off_t</span><span class="w"> </span><span class="n">ra_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">PAGE_SIZE</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ra_offset</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_inode</span><span class="o">-&gt;</span><span class="n">i_size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 异步读取到缓存</span>
+<span class="w">        </span><span class="n">async_read_to_cache</span><span class="p">(</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_inode</span><span class="p">,</span><span class="w"> </span><span class="n">ra_offset</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id19">
+<h3>6.3 脏页回写<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">flush_dirty_pages</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="o">*</span><span class="n">dirty_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_dirty_pages</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">list_for_each_entry</span><span class="p">(</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="n">dirty_list</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 写回磁盘</span>
+<span class="w">        </span><span class="n">write_to_disk</span><span class="p">(</span><span class="n">page</span><span class="o">-&gt;</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 标记为干净</span>
+<span class="w">        </span><span class="n">page</span><span class="o">-&gt;</span><span class="n">dirty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 定期刷新（每30秒）</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">pdflush_thread</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+<span class="w">        </span><span class="n">flush_dirty_pages</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id20">
+<h2>7. 日志文件系统<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="id21">
+<h3>7.1 一致性问题<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<p><strong>问题</strong>：系统崩溃可能导致文件系统不一致</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>场景：创建文件
+1. 在目录中添加目录项
+2. 分配inode
+3. 写入数据
+
+如果在步骤2后崩溃：
+- 目录项存在，但inode未分配
+- 文件系统不一致！
+</pre></div>
+</div>
+</section>
+<section id="id22">
+<h3>7.2 日志机制<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：先写日志，再写数据</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">journal_entry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">transaction_id</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">  </span><span class="c1">// BEGIN, COMMIT, ABORT</span>
+<span class="w">    </span><span class="c1">// 操作内容</span>
+<span class="p">};</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">journaled_create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">tid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">begin_transaction</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 1. 写日志</span>
+<span class="w">    </span><span class="n">write_journal</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="n">BEGIN</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write_journal</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;allocate inode&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write_journal</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add dir entry&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write_journal</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;write data&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write_journal</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="n">COMMIT</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 执行实际操作</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_inode</span><span class="p">();</span>
+<span class="w">    </span><span class="n">add_dir_entry</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">inode</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write_data</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 标记日志完成</span>
+<span class="w">    </span><span class="n">write_journal</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="n">DONE</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>恢复过程</strong>：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">recover</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">transaction</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">journal</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">transaction</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">COMMIT</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">            </span><span class="n">transaction</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">DONE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// 重做未完成的事务</span>
+<span class="w">            </span><span class="n">redo_transaction</span><span class="p">(</span><span class="n">transaction</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">transaction</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">BEGIN</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">                   </span><span class="n">transaction</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">COMMIT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// 回滚未提交的事务</span>
+<span class="w">            </span><span class="n">undo_transaction</span><span class="p">(</span><span class="n">transaction</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id23">
+<h2>8. 磁盘调度<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="fcfs">
+<h3>8.1 FCFS（先来先服务）<a class="headerlink" href="#fcfs" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">fcfs_schedule</span><span class="p">(</span><span class="n">request_queue</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">queue_empty</span><span class="p">(</span><span class="n">queue</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">request</span><span class="w"> </span><span class="o">*</span><span class="n">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dequeue</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
+<span class="w">        </span><span class="n">seek_to</span><span class="p">(</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">);</span>
+<span class="w">        </span><span class="n">read_or_write</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="sstf">
+<h3>8.2 SSTF（最短寻道时间优先）<a class="headerlink" href="#sstf" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">sstf_schedule</span><span class="p">(</span><span class="n">request_queue</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">current_pos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">queue_empty</span><span class="p">(</span><span class="n">queue</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 选择距离当前位置最近的请求</span>
+<span class="w">        </span><span class="n">request</span><span class="w"> </span><span class="o">*</span><span class="n">closest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_closest</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="n">current_pos</span><span class="p">);</span>
+<span class="w">        </span><span class="n">seek_to</span><span class="p">(</span><span class="n">closest</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">);</span>
+<span class="w">        </span><span class="n">read_or_write</span><span class="p">(</span><span class="n">closest</span><span class="p">);</span>
+<span class="w">        </span><span class="n">current_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">closest</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="scan">
+<h3>8.3 SCAN（电梯算法）<a class="headerlink" href="#scan" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">scan_schedule</span><span class="p">(</span><span class="n">request_queue</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UP</span><span class="p">;</span><span class="w">  </span><span class="c1">// 向上扫描</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">queue_empty</span><span class="p">(</span><span class="n">queue</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UP</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">request</span><span class="w"> </span><span class="o">*</span><span class="n">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_next_higher</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">seek_to</span><span class="p">(</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">);</span>
+<span class="w">                </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DOWN</span><span class="p">;</span><span class="w">  </span><span class="c1">// 到达顶端，反向</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">request</span><span class="w"> </span><span class="o">*</span><span class="n">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_next_lower</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">seek_to</span><span class="p">(</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">);</span>
+<span class="w">                </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sector</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UP</span><span class="p">;</span><span class="w">  </span><span class="c1">// 到达底端，反向</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id24">
+<h2>9. 常见问题<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<section id="q1-inode">
+<h3>Q1: 为什么需要inode？<a class="headerlink" href="#q1-inode" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p>分离文件名和元数据</p></li>
+<li><p>支持硬链接</p></li>
+<li><p>快速查找文件属性</p></li>
+<li><p>灵活的权限管理</p></li>
+</ul>
+</section>
+<section id="q2">
+<h3>Q2: 目录可以有硬链接吗？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p>不可以（会导致循环）</p></li>
+<li><p>只有<code class="docutils literal notranslate"><span class="pre">.</span></code>和<code class="docutils literal notranslate"><span class="pre">..</span></code>是特殊的硬链接</p></li>
+<li><p>可以创建目录的软链接</p></li>
+</ul>
+</section>
+<section id="q3">
+<h3>Q3: 如何提高文件系统性能？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ol class="arabic simple">
+<li><p>页缓存</p></li>
+<li><p>预读</p></li>
+<li><p>延迟写入</p></li>
+<li><p>inode缓存</p></li>
+<li><p>目录缓存</p></li>
+</ol>
+</section>
+<section id="q4-ext4ext3">
+<h3>Q4: ext4比ext3好在哪里？<a class="headerlink" href="#q4-ext4ext3" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p>更大文件和文件系统支持</p></li>
+<li><p>Extent代替间接块（连续分配）</p></li>
+<li><p>延迟分配</p></li>
+<li><p>日志校验和</p></li>
+<li><p>在线碎片整理</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id25">
+<h2>参考资源<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>《Operating Systems: Three Easy Pieces》- File Systems章节</p></li>
+<li><p>Linux源码：<code class="docutils literal notranslate"><span class="pre">fs/ext4/</span></code>, <code class="docutils literal notranslate"><span class="pre">fs/inode.c</span></code></p></li>
+<li><p>ext4文档：Documentation/filesystems/ext4.txt</p></li>
+<li><p>《Unix文件系统剖析》</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="文件系统" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../05-concurrency-sync/index.html" class="btn btn-neutral float-right" title="并发与同步" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

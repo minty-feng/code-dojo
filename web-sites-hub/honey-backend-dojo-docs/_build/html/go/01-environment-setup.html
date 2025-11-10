@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>01-Go环境搭建 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="02-Go基础语法" href="02-basic-syntax.html" />
+    <link rel="prev" title="🚀 Golang 开发" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Golang 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Golang 开发</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">01-Go环境搭建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Go语言简介</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">设计目标</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">应用场景</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">语言特点</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">安装Go</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">环境配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gopath-go-1-11">GOPATH结构（Go 1.11之前）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#go-modules-go-1-11">Go Modules（Go 1.11+，推荐）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello World</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">基本程序</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">包和导入</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">开发工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vs-code">VS Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#goland">GoLand</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vim-neovim">Vim/Neovim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Go工具链</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">go命令</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">第三方工具</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">项目结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">标准布局</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">编译和交叉编译</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">编译选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">交叉编译</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">代码规范</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">命名约定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">代码风格</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">性能分析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pprof">pprof</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#benchmark">Benchmark</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">常用命令速查</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-Go基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-concurrency.html">03-Go并发编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-web-development.html">04-Go Web开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-microservices.html">05-Go微服务实践</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-performance.html">06-Go性能优化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Golang 教程</a></li>
+      <li class="breadcrumb-item active">01-Go环境搭建</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/go/01-environment-setup.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="go">
+<h1>01-Go环境搭建<a class="headerlink" href="#go" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>Go语言简介<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Go由Google于2009年发布，Robert Griesemer、Rob Pike、Ken Thompson设计。静态类型、编译型语言，天生支持并发。</p>
+<section id="id2">
+<h3>设计目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>编译速度快</strong>：大型项目秒级编译</p></li>
+<li><p><strong>并发原生支持</strong>：goroutine和channel</p></li>
+<li><p><strong>内存安全</strong>：自动垃圾回收，无指针运算</p></li>
+<li><p><strong>简洁语法</strong>：25个关键字，学习曲线平缓</p></li>
+<li><p><strong>高效执行</strong>：接近C的性能</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>应用场景<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p><strong>云原生基础设施：</strong></p>
+<ul class="simple">
+<li><p>Docker、Kubernetes容器编排</p></li>
+<li><p>etcd、Consul服务发现</p></li>
+<li><p>Prometheus监控系统</p></li>
+</ul>
+<p><strong>Web后端：</strong></p>
+<ul class="simple">
+<li><p>微服务API</p></li>
+<li><p>高并发Web服务器</p></li>
+<li><p>RESTful/gRPC服务</p></li>
+</ul>
+<p><strong>DevOps工具：</strong></p>
+<ul class="simple">
+<li><p>命令行工具（Cobra、urfave/cli）</p></li>
+<li><p>部署脚本</p></li>
+<li><p>监控代理</p></li>
+</ul>
+<p><strong>网络编程：</strong></p>
+<ul class="simple">
+<li><p>代理服务器</p></li>
+<li><p>负载均衡器</p></li>
+<li><p>VPN、隧道工具</p></li>
+</ul>
+<p><strong>区块链：</strong></p>
+<ul class="simple">
+<li><p>Ethereum Go客户端（Geth）</p></li>
+<li><p>Hyperledger Fabric</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>语言特点<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p><strong>优势：</strong></p>
+<ul class="simple">
+<li><p>编译快，执行快（静态链接，单一可执行文件）</p></li>
+<li><p>并发简单（goroutine比线程轻量1000倍）</p></li>
+<li><p>内存安全（GC，无手动管理）</p></li>
+<li><p>部署简单（单一二进制文件，无依赖）</p></li>
+<li><p>标准库强大（HTTP、JSON、加密等）</p></li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul class="simple">
+<li><p>泛型支持晚（Go 1.18才引入）</p></li>
+<li><p>错误处理冗余（if err != nil到处可见）</p></li>
+<li><p>包管理演进（GOPATH → vendor → Go Modules）</p></li>
+<li><p>缺少传统OOP（无继承、类）</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>安装Go<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 下载</span>
+wget<span class="w"> </span>https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+
+<span class="c1"># 解压到/usr/local</span>
+sudo<span class="w"> </span>tar<span class="w"> </span>-C<span class="w"> </span>/usr/local<span class="w"> </span>-xzf<span class="w"> </span>go1.21.0.linux-amd64.tar.gz
+
+<span class="c1"># 配置环境变量（~/.bashrc或~/.zshrc）</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/go/bin
+<span class="nb">export</span><span class="w"> </span><span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$HOME</span>/go
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$GOPATH</span>/bin
+
+<span class="c1"># 验证</span>
+go<span class="w"> </span>version
+</pre></div>
+</div>
+</section>
+<section id="macos">
+<h3>macOS<a class="headerlink" href="#macos" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Homebrew</span>
+brew<span class="w"> </span>install<span class="w"> </span>go
+
+<span class="c1"># 验证</span>
+go<span class="w"> </span>version
+
+<span class="c1"># 环境变量（~/.zshrc）</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$HOME</span>/go
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$GOPATH</span>/bin
+</pre></div>
+</div>
+</section>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>下载MSI安装包：go.dev</p></li>
+<li><p>安装（自动配置PATH）</p></li>
+<li><p>验证：<code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">version</span></code></p></li>
+</ol>
+</section>
+</section>
+<section id="id6">
+<h2>环境配置<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="gopath-go-1-11">
+<h3>GOPATH结构（Go 1.11之前）<a class="headerlink" href="#gopath-go-1-11" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$GOPATH/
+├── bin/        # 可执行文件
+├── pkg/        # 编译包缓存
+└── src/        # 源代码
+    └── github.com/
+        └── username/
+            └── project/
+</pre></div>
+</div>
+</section>
+<section id="go-modules-go-1-11">
+<h3>Go Modules（Go 1.11+，推荐）<a class="headerlink" href="#go-modules-go-1-11" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 初始化模块</span>
+go<span class="w"> </span>mod<span class="w"> </span>init<span class="w"> </span>github.com/username/project
+
+<span class="c1"># 生成go.mod</span>
+module<span class="w"> </span>github.com/username/project
+
+go<span class="w"> </span><span class="m">1</span>.21
+
+require<span class="w"> </span><span class="o">(</span>
+<span class="w">    </span>github.com/gin-gonic/gin<span class="w"> </span>v1.9.0
+<span class="o">)</span>
+
+<span class="c1"># 添加依赖</span>
+go<span class="w"> </span>get<span class="w"> </span>github.com/gin-gonic/gin
+
+<span class="c1"># 整理依赖</span>
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+
+<span class="c1"># 下载依赖</span>
+go<span class="w"> </span>mod<span class="w"> </span>download
+
+<span class="c1"># 查看依赖图</span>
+go<span class="w"> </span>mod<span class="w"> </span>graph
+
+<span class="c1"># vendor目录（可选）</span>
+go<span class="w"> </span>mod<span class="w"> </span>vendor
+</pre></div>
+</div>
+</section>
+</section>
+<section id="hello-world">
+<h2>Hello World<a class="headerlink" href="#hello-world" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>基本程序<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// main.go</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行</span>
+go<span class="w"> </span>run<span class="w"> </span>main.go
+
+<span class="c1"># 编译</span>
+go<span class="w"> </span>build<span class="w"> </span>main.go
+./main
+
+<span class="c1"># 编译并安装到$GOPATH/bin</span>
+go<span class="w"> </span>install<span class="w"> </span>main.go
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>包和导入<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// math/add.go</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">math</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">Add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 大写字母开头=导出（public）</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">subtract</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 小写=未导出（private）</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="c1">// main.go</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;myproject/math&quot;</span><span class="w">  </span><span class="c1">// 导入本地包</span>
+<span class="w">    </span><span class="s">&quot;github.com/gin-gonic/gin&quot;</span><span class="w">  </span><span class="c1">// 导入第三方包</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">math</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>开发工具<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="vs-code">
+<h3>VS Code<a class="headerlink" href="#vs-code" title="Link to this heading"></a></h3>
+<p>轻量级，Go支持优秀。</p>
+<p><strong>必装插件：</strong></p>
+<ul class="simple">
+<li><p>Go（官方插件）</p></li>
+</ul>
+<p><strong>配置（settings.json）：</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;go.useLanguageServer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.lintTool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;golangci-lint&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.lintOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;workspace&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.formatTool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;goimports&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;editor.formatOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.testFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;-v&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;go.coverOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="goland">
+<h3>GoLand<a class="headerlink" href="#goland" title="Link to this heading"></a></h3>
+<p>JetBrains专业Go IDE。</p>
+<p><strong>特性：</strong></p>
+<ul class="simple">
+<li><p>智能补全</p></li>
+<li><p>重构工具</p></li>
+<li><p>调试器</p></li>
+<li><p>测试集成</p></li>
+<li><p>数据库工具</p></li>
+</ul>
+</section>
+<section id="vim-neovim">
+<h3>Vim/Neovim<a class="headerlink" href="#vim-neovim" title="Link to this heading"></a></h3>
+<p>轻量高效，vim-go插件强大。</p>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="c">&quot; 安装vim-go</span>
+Plug <span class="s1">&#39;fatih/vim-go&#39;</span>
+
+<span class="c">&quot; 常用命令</span>
+<span class="p">:</span>GoRun          <span class="c">&quot; 运行</span>
+<span class="p">:</span>GoBuild        <span class="c">&quot; 编译</span>
+<span class="p">:</span>GoTest         <span class="c">&quot; 测试</span>
+<span class="p">:</span>GoCoverage     <span class="c">&quot; 覆盖率</span>
+<span class="p">:</span>GoDoc          <span class="c">&quot; 文档</span>
+<span class="p">:</span>GoFmt          <span class="c">&quot; 格式化</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>Go工具链<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>go命令<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行</span>
+go<span class="w"> </span>run<span class="w"> </span>main.go
+
+<span class="c1"># 编译</span>
+go<span class="w"> </span>build<span class="w">                    </span><span class="c1"># 当前目录</span>
+go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>myapp<span class="w">          </span><span class="c1"># 指定输出名</span>
+go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">&quot;-s -w&quot;</span><span class="w">  </span><span class="c1"># 减小二进制大小</span>
+
+<span class="c1"># 安装</span>
+go<span class="w"> </span>install<span class="w"> </span>github.com/user/tool@latest
+
+<span class="c1"># 获取依赖</span>
+go<span class="w"> </span>get<span class="w"> </span>github.com/gin-gonic/gin
+go<span class="w"> </span>get<span class="w"> </span>-u<span class="w">                  </span><span class="c1"># 更新依赖</span>
+
+<span class="c1"># 测试</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w">                    </span><span class="c1"># 当前包</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>./...<span class="w">              </span><span class="c1"># 所有包</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w">                 </span><span class="c1"># 详细输出</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-cover<span class="w">             </span><span class="c1"># 覆盖率</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-bench<span class="o">=</span>.<span class="w">           </span><span class="c1"># 基准测试</span>
+
+<span class="c1"># 格式化</span>
+go<span class="w"> </span>fmt<span class="w"> </span>./...<span class="w">               </span><span class="c1"># 格式化所有文件</span>
+gofmt<span class="w"> </span>-w<span class="w"> </span>main.go<span class="w">          </span><span class="c1"># 写入文件</span>
+
+<span class="c1"># 代码检查</span>
+go<span class="w"> </span>vet<span class="w"> </span>./...<span class="w">              </span><span class="c1"># 静态分析</span>
+
+<span class="c1"># 文档</span>
+go<span class="w"> </span>doc<span class="w"> </span>fmt.Println
+go<span class="w"> </span>doc<span class="w"> </span>-all<span class="w"> </span>fmt
+
+<span class="c1"># 清理</span>
+go<span class="w"> </span>clean
+go<span class="w"> </span>clean<span class="w"> </span>-modcache<span class="w">         </span><span class="c1"># 清理模块缓存</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>第三方工具<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># goimports：自动管理导入</span>
+go<span class="w"> </span>install<span class="w"> </span>golang.org/x/tools/cmd/goimports@latest
+goimports<span class="w"> </span>-w<span class="w"> </span>main.go
+
+<span class="c1"># golangci-lint：综合代码检查</span>
+go<span class="w"> </span>install<span class="w"> </span>github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+golangci-lint<span class="w"> </span>run
+
+<span class="c1"># delve：调试器</span>
+go<span class="w"> </span>install<span class="w"> </span>github.com/go-delve/delve/cmd/dlv@latest
+dlv<span class="w"> </span>debug<span class="w"> </span>main.go
+
+<span class="c1"># air：热重载</span>
+go<span class="w"> </span>install<span class="w"> </span>github.com/cosmtrek/air@latest
+air
+
+<span class="c1"># godoc：本地文档服务器</span>
+go<span class="w"> </span>install<span class="w"> </span>golang.org/x/tools/cmd/godoc@latest
+godoc<span class="w"> </span>-http<span class="o">=</span>:6060
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>项目结构<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>标准布局<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>myproject/
+├── go.mod              # 模块定义
+├── go.sum              # 依赖校验
+├── main.go             # 程序入口
+├── cmd/                # 可执行文件
+│   └── server/
+│       └── main.go
+├── internal/           # 私有代码（不可导入）
+│   ├── config/
+│   └── service/
+├── pkg/                # 可导入的库代码
+│   └── utils/
+├── api/                # API定义
+│   └── proto/
+├── web/                # Web资源
+│   ├── static/
+│   └── templates/
+├── configs/            # 配置文件
+├── scripts/            # 脚本
+├── docs/               # 文档
+├── test/               # 额外测试
+└── vendor/             # 依赖（可选）
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>编译和交叉编译<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>编译选项<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本编译</span>
+go<span class="w"> </span>build<span class="w"> </span>main.go
+
+<span class="c1"># 优化二进制大小</span>
+go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">&quot;-s -w&quot;</span><span class="w"> </span>main.go
+<span class="c1"># -s：去除符号表</span>
+<span class="c1"># -w：去除调试信息</span>
+
+<span class="c1"># 静态链接（不依赖动态库）</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-a<span class="w"> </span>-installsuffix<span class="w"> </span>cgo<span class="w"> </span>main.go
+
+<span class="c1"># 设置版本信息</span>
+go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">&quot;-X main.version=1.0.0&quot;</span><span class="w"> </span>main.go
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>交叉编译<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux</span>
+<span class="nv">GOOS</span><span class="o">=</span>linux<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>main.go
+
+<span class="c1"># Windows</span>
+<span class="nv">GOOS</span><span class="o">=</span>windows<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>app.exe<span class="w"> </span>main.go
+
+<span class="c1"># macOS</span>
+<span class="nv">GOOS</span><span class="o">=</span>darwin<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>main.go
+
+<span class="c1"># ARM</span>
+<span class="nv">GOOS</span><span class="o">=</span>linux<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>arm64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>main.go
+
+<span class="c1"># 查看支持的平台</span>
+go<span class="w"> </span>tool<span class="w"> </span>dist<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>代码规范<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>命名约定<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 包名：小写，单个单词</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">server</span>
+
+<span class="c1">// 导出标识符：大写开头</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewUser</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">User</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">MaxSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="c1">// 未导出：小写开头</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">processData</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="kt">int</span>
+
+<span class="c1">// 缩写：保持一致</span>
+<span class="c1">// URL, HTTP（全大写）或url, http（全小写）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">GetHTTPClient</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w">  </span><span class="c1">// ✓</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">GetHttpClient</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w">  </span><span class="c1">// ✗</span>
+
+<span class="c1">// 接口：通常以er结尾</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Reader</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Writer</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="c1">// 变量：驼峰命名</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">userName</span><span class="w"> </span><span class="kt">string</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">maxRetryCount</span><span class="w"> </span><span class="kt">int</span>
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h3>代码风格<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// gofmt自动格式化，无争议</span>
+
+<span class="c1">// 缩进：tab</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">condition</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">statement</span>
+<span class="p">}</span>
+
+<span class="c1">// 大括号：K&amp;R风格（强制）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">example</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// ✓</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">example</span><span class="p">()</span><span class="w">    </span><span class="c1">// ✗ 编译错误</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// 注释：包、导出类型、导出函数必须有文档注释</span>
+<span class="c1">// Package math provides mathematical functions.</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">math</span>
+
+<span class="c1">// Add returns the sum of a and b.</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">Add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id21">
+<h2>性能分析<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<section id="pprof">
+<h3>pprof<a class="headerlink" href="#pprof" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;net/http/pprof&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;localhost:6060&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 程序逻辑</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPU profile</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/profile?seconds<span class="o">=</span><span class="m">30</span>
+
+<span class="c1"># 内存profile</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/heap
+
+<span class="c1"># goroutine</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/goroutine
+
+<span class="c1"># 分析二进制</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-cpuprofile<span class="o">=</span>cpu.prof<span class="w"> </span>-bench<span class="o">=</span>.
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>cpu.prof
+</pre></div>
+</div>
+</section>
+<section id="benchmark">
+<h3>Benchmark<a class="headerlink" href="#benchmark" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// benchmark测试</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkAdd</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 运行</span>
+<span class="c1">// go test -bench=. -benchmem</span>
+<span class="c1">// 输出：ns/op（纳秒/操作）、B/op（字节/操作）、allocs/op（分配次数/操作）</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>常用命令速查<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go<span class="w"> </span>version<span class="w">     </span><span class="c1"># Go版本</span>
+go<span class="w"> </span>env<span class="w">         </span><span class="c1"># 环境变量</span>
+
+go<span class="w"> </span>run<span class="w">         </span><span class="c1"># 运行</span>
+go<span class="w"> </span>build<span class="w">       </span><span class="c1"># 编译</span>
+go<span class="w"> </span>install<span class="w">     </span><span class="c1"># 编译+安装</span>
+go<span class="w"> </span>get<span class="w">         </span><span class="c1"># 下载依赖</span>
+
+go<span class="w"> </span><span class="nb">test</span><span class="w">        </span><span class="c1"># 测试</span>
+go<span class="w"> </span>fmt<span class="w">         </span><span class="c1"># 格式化</span>
+go<span class="w"> </span>vet<span class="w">         </span><span class="c1"># 静态检查</span>
+go<span class="w"> </span>doc<span class="w">         </span><span class="c1"># 文档</span>
+
+go<span class="w"> </span>mod<span class="w"> </span>init<span class="w">    </span><span class="c1"># 初始化模块</span>
+go<span class="w"> </span>mod<span class="w"> </span>tidy<span class="w">    </span><span class="c1"># 整理依赖</span>
+go<span class="w"> </span>mod<span class="w"> </span>download<span class="w"> </span><span class="c1"># 下载依赖</span>
+go<span class="w"> </span>mod<span class="w"> </span>vendor<span class="w">  </span><span class="c1"># 创建vendor</span>
+
+go<span class="w"> </span>clean<span class="w">       </span><span class="c1"># 清理</span>
+go<span class="w"> </span>generate<span class="w">    </span><span class="c1"># 代码生成</span>
+go<span class="w"> </span>list<span class="w">        </span><span class="c1"># 列出包</span>
+</pre></div>
+</div>
+<p><strong>核心：</strong> Go工具链完整，单一命令完成大部分任务。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="README.html" class="btn btn-neutral float-left" title="🚀 Golang 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Go基础语法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

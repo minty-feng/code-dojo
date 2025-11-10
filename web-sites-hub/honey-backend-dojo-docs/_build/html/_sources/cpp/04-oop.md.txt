@@ -1,0 +1,451 @@
+# 04-面向对象编程基础
+
+面向对象编程（OOP）是C++的核心特性，通过封装、继承、多态三大特性构建复杂系统。
+
+## 类和对象
+
+类是对象的模板，对象是类的实例。类定义了数据（成员变量）和操作（成员函数）。
+
+### 类定义
+
+类使用 `class` 关键字定义，默认成员为私有。良好的类设计遵循封装原则。
+```cpp
+class Person {
+private:
+    string name;
+    int age;
+    
+public:
+    // 构造函数
+    Person(string n, int a) : name(n), age(a) {}
+    
+    // 成员函数
+    void display() {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+    
+    // 访问器
+    string getName() const { return name; }
+    int getAge() const { return age; }
+    
+    // 修改器
+    void setName(const string& n) { name = n; }
+    void setAge(int a) { age = a; }
+};
+```
+
+### 对象创建和使用
+```cpp
+Person p1("Alice", 25);          // 栈上创建
+Person* p2 = new Person("Bob", 30); // 堆上创建
+p1.display();                    // 调用成员函数
+delete p2;                       // 释放堆内存
+```
+
+### 访问控制
+- **public**：公开访问
+- **private**：私有访问（默认）
+- **protected**：受保护访问
+
+## 构造函数和析构函数
+
+构造函数负责对象初始化，析构函数负责资源清理。它们是RAII模式的基础。
+
+### 构造函数
+
+构造函数与类同名，无返回值。支持重载、默认参数、初始化列表等特性。
+```cpp
+class Rectangle {
+private:
+    int width, height;
+    
+public:
+    // 默认构造函数
+    Rectangle() : width(0), height(0) {}
+    
+    // 参数化构造函数
+    Rectangle(int w, int h) : width(w), height(h) {}
+    
+    // 拷贝构造函数
+    Rectangle(const Rectangle& other) 
+        : width(other.width), height(other.height) {}
+    
+    // 移动构造函数（C++11）
+    Rectangle(Rectangle&& other) noexcept
+        : width(other.width), height(other.height) {
+        other.width = other.height = 0;
+    }
+};
+```
+
+### 析构函数
+```cpp
+class Resource {
+private:
+    int* data;
+    
+public:
+    Resource(int size) : data(new int[size]) {}
+    
+    // 析构函数
+    ~Resource() {
+        delete[] data;
+    }
+};
+```
+
+### 初始化列表
+```cpp
+class Student {
+private:
+    string name;
+    int id;
+    const int grade;
+    
+public:
+    // 初始化列表
+    Student(string n, int i, int g) 
+        : name(n), id(i), grade(g) {}
+};
+```
+
+## 继承
+
+继承实现代码复用和类层次结构。派生类继承基类的属性和方法，可扩展或重写功能。
+
+### 单继承
+
+单继承指一个类只继承一个基类。使用 `public`、`protected` 或 `private` 指定继承方式。
+```cpp
+// 基类
+class Animal {
+protected:
+    string species;
+    
+public:
+    Animal(string s) : species(s) {}
+    virtual void makeSound() {
+        cout << "Animal sound" << endl;
+    }
+    virtual ~Animal() = default;
+};
+
+// 派生类
+class Dog : public Animal {
+public:
+    Dog() : Animal("Canine") {}
+    
+    void makeSound() override {
+        cout << "Woof!" << endl;
+    }
+};
+```
+
+### 访问修饰符
+- **public继承**：保持原有访问级别
+- **protected继承**：public变为protected
+- **private继承**：所有成员变为private
+
+### 多重继承
+```cpp
+class Flyable {
+public:
+    virtual void fly() = 0;
+};
+
+class Swimmable {
+public:
+    virtual void swim() = 0;
+};
+
+class Duck : public Animal, public Flyable, public Swimmable {
+public:
+    void fly() override {
+        cout << "Duck flying" << endl;
+    }
+    
+    void swim() override {
+        cout << "Duck swimming" << endl;
+    }
+};
+```
+
+## 多态
+
+多态允许通过基类指针调用派生类方法，实现运行时决策。是面向对象三大特性之一。
+
+### 虚函数
+
+虚函数通过 `virtual` 关键字声明，支持运行时动态绑定。派生类用 `override` 明确重写意图。
+```cpp
+class Shape {
+public:
+    virtual double area() const = 0;  // 纯虚函数
+    virtual void draw() const {
+        cout << "Drawing shape" << endl;
+    }
+    virtual ~Shape() = default;
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+    
+public:
+    Circle(double r) : radius(r) {}
+    
+    double area() const override {
+        return 3.14159 * radius * radius;
+    }
+    
+    void draw() const override {
+        cout << "Drawing circle" << endl;
+    }
+};
+```
+
+### 虚函数表
+- **vtable**：存储虚函数地址的表
+- **vptr**：指向虚函数表的指针
+- **动态绑定**：运行时确定调用哪个函数
+
+### 抽象类
+```cpp
+class AbstractShape {
+public:
+    virtual double area() const = 0;  // 纯虚函数
+    virtual double perimeter() const = 0;  // 纯虚函数
+    
+    // 可以有非虚函数
+    void printInfo() {
+        cout << "Area: " << area() << endl;
+        cout << "Perimeter: " << perimeter() << endl;
+    }
+};
+```
+
+## 封装
+
+### 数据封装
+```cpp
+class BankAccount {
+private:
+    double balance;
+    string accountNumber;
+    
+public:
+    BankAccount(string accNum, double initialBalance) 
+        : accountNumber(accNum), balance(initialBalance) {}
+    
+    // 公共接口
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+    
+    bool withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false;
+    }
+    
+    double getBalance() const {
+        return balance;
+    }
+};
+```
+
+### 友元函数和友元类
+```cpp
+class Rectangle {
+private:
+    int width, height;
+    
+public:
+    Rectangle(int w, int h) : width(w), height(h) {}
+    
+    // 友元函数
+    friend void printDimensions(const Rectangle& r);
+    
+    // 友元类
+    friend class RectangleHelper;
+};
+
+void printDimensions(const Rectangle& r) {
+    cout << "Width: " << r.width << ", Height: " << r.height << endl;
+}
+```
+
+## 运算符重载
+
+### 基本运算符重载
+```cpp
+class Vector {
+private:
+    double x, y;
+    
+public:
+    Vector(double x = 0, double y = 0) : x(x), y(y) {}
+    
+    // 加法运算符
+    Vector operator+(const Vector& other) const {
+        return Vector(x + other.x, y + other.y);
+    }
+    
+    // 赋值运算符
+    Vector& operator=(const Vector& other) {
+        if (this != &other) {
+            x = other.x;
+            y = other.y;
+        }
+        return *this;
+    }
+    
+    // 输出运算符（友元函数）
+    friend ostream& operator<<(ostream& os, const Vector& v) {
+        os << "(" << v.x << ", " << v.y << ")";
+        return os;
+    }
+};
+```
+
+### 特殊运算符
+```cpp
+class Array {
+private:
+    int* data;
+    int size;
+    
+public:
+    // 下标运算符
+    int& operator[](int index) {
+        return data[index];
+    }
+    
+    const int& operator[](int index) const {
+        return data[index];
+    }
+    
+    // 函数调用运算符
+    int operator()(int index) const {
+        return data[index];
+    }
+};
+```
+
+## 静态成员
+
+### 静态数据成员
+```cpp
+class Counter {
+private:
+    static int count;  // 静态数据成员
+    
+public:
+    Counter() { count++; }
+    ~Counter() { count--; }
+    
+    static int getCount() {  // 静态成员函数
+        return count;
+    }
+};
+
+int Counter::count = 0;  // 静态成员定义
+```
+
+### 静态成员函数
+- 属于类而不是对象
+- 不能访问非静态成员
+- 可以通过类名直接调用
+- 没有this指针
+
+## 三法则/五法则/零法则
+
+### 三法则（Rule of Three）
+
+如果类需要自定义析构函数、拷贝构造或拷贝赋值中的任何一个，通常需要同时定义全部三个。
+
+```cpp
+class Resource {
+private:
+    int* data;
+    
+public:
+    Resource(int val) : data(new int(val)) {}
+    
+    // 1. 析构函数
+    ~Resource() { delete data; }
+    
+    // 2. 拷贝构造函数
+    Resource(const Resource& other) : data(new int(*other.data)) {}
+    
+    // 3. 拷贝赋值运算符
+    Resource& operator=(const Resource& other) {
+        if (this != &other) {
+            delete data;
+            data = new int(*other.data);
+        }
+        return *this;
+    }
+};
+```
+
+### 五法则（Rule of Five）- C++11
+
+C++11引入移动语义，需额外定义移动构造和移动赋值。
+
+```cpp
+class Resource {
+private:
+    int* data;
+    
+public:
+    Resource(int val) : data(new int(val)) {}
+    ~Resource() { delete data; }
+    
+    // 拷贝操作
+    Resource(const Resource& other) : data(new int(*other.data)) {}
+    Resource& operator=(const Resource& other) {
+        if (this != &other) {
+            delete data;
+            data = new int(*other.data);
+        }
+        return *this;
+    }
+    
+    // 4. 移动构造函数
+    Resource(Resource&& other) noexcept : data(other.data) {
+        other.data = nullptr;
+    }
+    
+    // 5. 移动赋值运算符
+    Resource& operator=(Resource&& other) noexcept {
+        if (this != &other) {
+            delete data;
+            data = other.data;
+            other.data = nullptr;
+        }
+        return *this;
+    }
+};
+```
+
+### 零法则（Rule of Zero）- 推荐
+
+使用智能指针和RAII类，让编译器自动生成所有特殊成员函数。
+
+```cpp
+// ✅ 推荐：零法则
+class GoodResource {
+    std::unique_ptr<int> data;  // 自动管理内存
+public:
+    GoodResource(int val) : data(std::make_unique<int>(val)) {}
+    // 编译器自动生成析构、移动操作
+    // 拷贝操作被隐式删除（unique_ptr不可拷贝）
+};
+```
+
+**最佳实践：优先零法则 > 五法则 > 三法则**

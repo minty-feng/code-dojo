@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="技术学习站点导航 - 个人博客与全球优秀学习资源">
+    <title>学习站点导航 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/learning.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <div class="snowflakes" id="snowflakes"></div>
+        <div class="fireflies" id="fireflies"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <a href="https://joketop.com" class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">学习站点导航</p>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main learning-main">
+            <!-- Daily Must-Read Section -->
+            <section class="daily-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number"></span>
+                        <span class="section-title-text">每日必看</span>
+                    </h2>
+                </div>
+                <div class="daily-grid">
+                    <a href="https://leetcode.com" class="daily-card" target="_blank" rel="noopener noreferrer">
+                        <div class="daily-icon">🔥</div>
+                        <div class="daily-content">
+                            <h3>LeetCode</h3>
+                            <p>每日一题，保持手感</p>
+                        </div>
+                    </a>
+                    <a href="https://github.com/trending" class="daily-card" target="_blank" rel="noopener noreferrer">
+                        <div class="daily-icon">⭐</div>
+                        <div class="daily-content">
+                            <h3>GitHub Trending</h3>
+                            <p>发现优质开源项目</p>
+                        </div>
+                    </a>
+                    <a href="https://news.ycombinator.com" class="daily-card" target="_blank" rel="noopener noreferrer">
+                        <div class="daily-icon">📰</div>
+                        <div class="daily-content">
+                            <h3>Hacker News</h3>
+                            <p>科技前沿资讯</p>
+                        </div>
+                    </a>
+                    <a href="https://www.producthunt.com" class="daily-card" target="_blank" rel="noopener noreferrer">
+                        <div class="daily-icon">🚀</div>
+                        <div class="daily-content">
+                            <h3>Product Hunt</h3>
+                            <p>最新产品与工具</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- My Sites Section -->
+            <section class="my-sites-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">01</span>
+                        <span class="section-title-text">我的技术博客</span>
+                    </h2>
+                    <p class="section-subtitle">分门别类的技术学习站点</p>
+                </div>
+                <div class="sites-grid">
+                    <a href="https://blog.joketop.com/backend" class="learning-site-card backend" target="_blank" rel="noopener noreferrer">
+                        <div class="site-card-icon backend">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                                <circle cx="7" cy="10" r="1"></circle>
+                                <circle cx="12" cy="10" r="1"></circle>
+                                <circle cx="17" cy="10" r="1"></circle>
+                            </svg>
+                        </div>
+                        <div class="site-card-content">
+                            <h3>Backend Tutorial</h3>
+                            <p>后端开发教程</p>
+                        </div>
+                        <div class="site-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="https://blog.joketop.com/frontend" class="learning-site-card frontend" target="_blank" rel="noopener noreferrer">
+                        <div class="site-card-icon frontend">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="site-card-content">
+                            <h3>Frontend Tutorial</h3>
+                            <p>前端开发教程</p>
+                        </div>
+                        <div class="site-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="https://blog.joketop.com/ds" class="learning-site-card ds" target="_blank" rel="noopener noreferrer">
+                        <div class="site-card-icon ds">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                        </div>
+                        <div class="site-card-content">
+                            <h3>Data Structures Tutorial</h3>
+                            <p>数据结构教程</p>
+                        </div>
+                        <div class="site-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="https://blog.joketop.com/algo" class="learning-site-card algo" target="_blank" rel="noopener noreferrer">
+                        <div class="site-card-icon algo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                <path d="M12 2v20"></path>
+                            </svg>
+                        </div>
+                        <div class="site-card-content">
+                            <h3>Algorithms Tutorial</h3>
+                            <p>算法教程</p>
+                        </div>
+                        <div class="site-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="https://blog.joketop.com/os" class="learning-site-card os" target="_blank" rel="noopener noreferrer">
+                        <div class="site-card-icon os">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                <path d="M2 12h20M12 2v20"></path>
+                            </svg>
+                        </div>
+                        <div class="site-card-content">
+                            <h3>OS & Network Tutorial</h3>
+                            <p>操作系统与网络教程</p>
+                        </div>
+                        <div class="site-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Global Learning Sites Section -->
+            <section class="global-sites-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">02</span>
+                        <span class="section-title-text">全球优秀学习站点</span>
+                    </h2>
+                    <p class="section-subtitle">精选世界顶级技术学习资源</p>
+                </div>
+                <div class="categories-grid">
+                    <!-- Programming -->
+                    <div class="category-section">
+                        <h3 class="category-title">
+                            <span class="category-icon">💻</span>
+                            编程语言
+                        </h3>
+                        <div class="sites-list">
+                            <a href="https://www.freecodecamp.org" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>freeCodeCamp</h4>
+                                    <p>免费编程课程，涵盖前端、后端、数据科学等</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.codecademy.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Codecademy</h4>
+                                    <p>交互式编程学习平台</p>
+                                </div>
+                                <div class="site-badge">部分免费</div>
+                            </a>
+                            <a href="https://www.coursera.org" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Coursera</h4>
+                                    <p>世界顶级大学在线课程</p>
+                                </div>
+                                <div class="site-badge">部分免费</div>
+                            </a>
+                            <a href="https://www.edx.org" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>edX</h4>
+                                    <p>MIT、哈佛等名校课程</p>
+                                </div>
+                                <div class="site-badge">部分免费</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Algorithms & Data Structures -->
+                    <div class="category-section">
+                        <h3 class="category-title">
+                            <span class="category-icon">🧮</span>
+                            算法与数据结构
+                        </h3>
+                        <div class="sites-list">
+                            <a href="https://leetcode.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>LeetCode</h4>
+                                    <p>算法题库，大厂面试必备</p>
+                                </div>
+                                <div class="site-badge">部分免费</div>
+                            </a>
+                            <a href="https://www.hackerrank.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>HackerRank</h4>
+                                    <p>编程挑战与技能认证</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.geeksforgeeks.org" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>GeeksforGeeks</h4>
+                                    <p>计算机科学学习资源</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://visualgo.net" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>VisuAlgo</h4>
+                                    <p>算法可视化学习工具</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Web Development -->
+                    <div class="category-section">
+                        <h3 class="category-title">
+                            <span class="category-icon">🌐</span>
+                            Web 开发
+                        </h3>
+                        <div class="sites-list">
+                            <a href="https://developer.mozilla.org" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>MDN Web Docs</h4>
+                                    <p>Web 技术权威文档</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.w3schools.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>W3Schools</h4>
+                                    <p>Web 开发教程与参考</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.udemy.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Udemy</h4>
+                                    <p>在线课程平台，涵盖各种技术栈</p>
+                                </div>
+                                <div class="site-badge">付费</div>
+                            </a>
+                            <a href="https://www.pluralsight.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Pluralsight</h4>
+                                    <p>技术技能培训平台</p>
+                                </div>
+                                <div class="site-badge">付费</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- System & Network -->
+                    <div class="category-section">
+                        <h3 class="category-title">
+                            <span class="category-icon">⚙️</span>
+                            系统与网络
+                        </h3>
+                        <div class="sites-list">
+                            <a href="https://www.linux.org" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Linux.org</h4>
+                                    <p>Linux 系统学习资源</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.networkworld.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Network World</h4>
+                                    <p>网络技术新闻与教程</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- AI & Machine Learning -->
+                    <div class="category-section">
+                        <h3 class="category-title">
+                            <span class="category-icon">🤖</span>
+                            人工智能与机器学习
+                        </h3>
+                        <div class="sites-list">
+                            <a href="https://www.kaggle.com" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>Kaggle</h4>
+                                    <p>数据科学与机器学习竞赛平台</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.fast.ai" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>fast.ai</h4>
+                                    <p>实用深度学习课程</p>
+                                </div>
+                                <div class="site-badge">免费</div>
+                            </a>
+                            <a href="https://www.deeplearning.ai" class="global-site-card" target="_blank" rel="noopener noreferrer">
+                                <div class="site-info">
+                                    <h4>DeepLearning.AI</h4>
+                                    <p>深度学习专业课程</p>
+                                </div>
+                                <div class="site-badge">部分免费</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 minty-feng</p>
+                <p class="footer-accent">Built with ❤️ and passion</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

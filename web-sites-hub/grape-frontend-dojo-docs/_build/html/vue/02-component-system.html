@@ -1,0 +1,992 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>02-Vue 组件系统与通信 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="03-Vue 路由与状态管理" href="03-routing-state.html" />
+    <link rel="prev" title="01-Vue Composition API" href="01-composition-api-core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html/index.html">HTML 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javascript/index.html">JavaScript 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../react/index.html">React 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Vue 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Vue 核心技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-composition-api-core.html">01-Composition核心</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">02-组件系统与通信</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">📋 学习目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">🧩 组件注册</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">全局注册</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">局部注册</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">自动导入组件</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#props">📤 Props 传递数据</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">基本用法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#typescript">TypeScript类型定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Props验证</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#emit">📥 Emit 事件通信</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">基本用法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">TypeScript类型定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#v-model">v-model双向绑定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">多个v-model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#slots">🎰 插槽 Slots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">默认插槽</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">作用域插槽</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">具名作用域插槽</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#provide-inject">🔄 Provide/Inject 跨层级通信</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">基本用法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">TypeScript类型定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#provide">响应式Provide</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">🔀 动态组件</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#component">component动态组件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#keep-alive">keep-alive缓存组件</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">⚡ 异步组件</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#defineasynccomponent">defineAsyncComponent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">路由懒加载</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">🎯 组件通信总结</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id20">通信方式对比</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">最佳实践</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">📝 实战示例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id23">表单组件封装</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">列表组件封装</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-routing-state.html">03-路由与状态管理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Vue 教程</a></li>
+      <li class="breadcrumb-item active">02-Vue 组件系统与通信</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/vue/02-component-system.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="vue">
+<h1>02-Vue 组件系统与通信<a class="headerlink" href="#vue" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>掌握Vue组件注册和使用</p></li>
+<li><p>理解Props和Emit组件通信</p></li>
+<li><p>学习插槽Slots的使用</p></li>
+<li><p>掌握Provide/Inject跨层级通信</p></li>
+<li><p>了解动态组件和异步组件</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>🧩 组件注册<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>全局注册<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// main.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createApp</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">MyComponent</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./MyComponent.vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createApp</span><span class="p">({});</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;MyComponent&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">mount</span><span class="p">(</span><span class="s1">&#39;#app&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>局部注册<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">MyComponent</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./MyComponent.vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">AnotherComponent</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./AnotherComponent.vue&#39;</span><span class="p">;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">MyComponent</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">AnotherComponent</span> <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>自动导入组件<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// vite.config.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">defineConfig</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vite&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">vue</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@vitejs/plugin-vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Components</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;unplugin-vue-components/vite&#39;</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">defineConfig</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">plugins</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="nx">vue</span><span class="p">(),</span>
+<span class="w">    </span><span class="nx">Components</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">dirs</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;src/components&#39;</span><span class="p">],</span>
+<span class="w">      </span><span class="nx">extensions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;vue&#39;</span><span class="p">],</span>
+<span class="w">      </span><span class="nx">deep</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="props">
+<h2>📤 Props 传递数据<a class="headerlink" href="#props" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3>基本用法<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Parent.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ChildComponent</span> 
+    <span class="p">:</span><span class="na">title</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">title</span><span class="s">&quot;</span> 
+    <span class="p">:</span><span class="na">count</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">count</span><span class="s">&quot;</span>
+    <span class="p">:</span><span class="na">user</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">user</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">reactive</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">ChildComponent</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./ChildComponent.vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="s1">&#39;Hello Vue&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">reactive</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- ChildComponent.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Count: <span class="cp">{{</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>User: <span class="cp">{{</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="cp">}}</span>, <span class="cp">{{</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">age</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="c1">// 定义Props</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Default Title&#39;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">Number</span><span class="p">,</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">Object</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="typescript">
+<h3>TypeScript类型定义<a class="headerlink" href="#typescript" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;ts&quot;</span><span class="p">&gt;</span>
+<span class="kr">interface</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span><span class="w"> </span><span class="nx">Props</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">count</span><span class="o">?:</span><span class="w"> </span><span class="nx">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="nx">User</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">withDefaults</span><span class="p">(</span><span class="nx">defineProps</span><span class="o">&lt;</span><span class="nx">Props</span><span class="o">&gt;</span><span class="p">(),</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>Props验证<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="c1">// 基础类型检查</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 多种类型</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="nb">Number</span><span class="p">],</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 必填</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 默认值</span>
+<span class="w">  </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">Number</span><span class="p">,</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 对象/数组默认值</span>
+<span class="w">  </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">Object</span><span class="p">,</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Guest&#39;</span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 自定义验证</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">Number</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">validator</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">150</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="emit">
+<h2>📥 Emit 事件通信<a class="headerlink" href="#emit" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>基本用法<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- ChildComponent.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">button</span> <span class="p">@</span><span class="na">click</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">handleClick</span><span class="s">&quot;</span><span class="p">&gt;</span>Click Me<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> 
+    <span class="na">v-model</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">inputValue</span><span class="s">&quot;</span> 
+    <span class="p">@</span><span class="na">input</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">handleInput</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">emit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineEmits</span><span class="p">([</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;custom-event&#39;</span><span class="p">]);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">inputValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;button clicked&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleInput</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">inputValue</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;custom-event&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;input&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">inputValue</span><span class="p">.</span><span class="nx">value</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Parent.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ChildComponent</span> 
+    <span class="p">@</span><span class="na">click</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">handleChildClick</span><span class="s">&quot;</span>
+    <span class="p">@</span><span class="na">update</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">handleUpdate</span><span class="s">&quot;</span>
+    <span class="p">@</span><span class="na">custom-event</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">handleCustom</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleChildClick</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleUpdate</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Updated:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleCustom</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Custom event:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>TypeScript类型定义<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;ts&quot;</span><span class="p">&gt;</span>
+<span class="kr">interface</span><span class="w"> </span><span class="nx">Emits</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">e</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">e</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">e</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;custom-event&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">;</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">})</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">emit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineEmits</span><span class="o">&lt;</span><span class="nx">Emits</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="v-model">
+<h3>v-model双向绑定<a class="headerlink" href="#v-model" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- CustomInput.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> 
+    <span class="p">:</span><span class="na">value</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">modelValue</span><span class="s">&quot;</span>
+    <span class="p">@</span><span class="na">input</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;update:modelValue&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">$event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">modelValue</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span>
+<span class="p">});</span>
+
+<span class="nx">defineEmits</span><span class="p">([</span><span class="s1">&#39;update:modelValue&#39;</span><span class="p">]);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">CustomInput</span> <span class="na">v-model</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">text</span><span class="s">&quot;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>多个v-model<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- CustomForm.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> 
+    <span class="p">:</span><span class="na">value</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">firstName</span><span class="s">&quot;</span>
+    <span class="p">@</span><span class="na">input</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;update:firstName&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">$event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> 
+    <span class="p">:</span><span class="na">value</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">lastName</span><span class="s">&quot;</span>
+    <span class="p">@</span><span class="na">input</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;update:lastName&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">$event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">firstName</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">lastName</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span>
+<span class="p">});</span>
+
+<span class="nx">defineEmits</span><span class="p">([</span><span class="s1">&#39;update:firstName&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;update:lastName&#39;</span><span class="p">]);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">CustomForm</span> 
+    <span class="na">v-model</span><span class="p">:</span><span class="na">firstName</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">firstName</span><span class="s">&quot;</span>
+    <span class="na">v-model</span><span class="p">:</span><span class="na">lastName</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">lastName</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="slots">
+<h2>🎰 插槽 Slots<a class="headerlink" href="#slots" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>默认插槽<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Card.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-header&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">slot</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;header&quot;</span><span class="p">&gt;</span>Default Header<span class="p">&lt;/</span><span class="nt">slot</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-body&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">slot</span><span class="p">&gt;</span>Default Content<span class="p">&lt;/</span><span class="nt">slot</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-footer&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">slot</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;footer&quot;</span><span class="p">&gt;</span>Default Footer<span class="p">&lt;/</span><span class="nt">slot</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">Card</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot:header</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Custom Header<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>This is the main content<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot:footer</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Action<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">Card</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>作用域插槽<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- List.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">items</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">key</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="s">&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">slot</span> <span class="p">:</span><span class="na">item</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">index</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">index</span><span class="s">&quot;</span><span class="p">&gt;</span>
+        <span class="cp">{{</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="cp">}}</span>
+      <span class="p">&lt;/</span><span class="nt">slot</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="nb">Array</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">List</span> <span class="p">:</span><span class="na">items</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">users</span><span class="s">&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot</span><span class="p">:</span><span class="na">default</span><span class="o">=</span><span class="s">&quot;</span><span class="p">{</span><span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">}</span><span class="s">&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="cp">}}</span>. <span class="cp">{{</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">email</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">List</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>具名作用域插槽<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Table.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">th</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">col</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">columns</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">key</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">col</span><span class="p">.</span><span class="nx">key</span><span class="s">&quot;</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">slot</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;header&quot;</span> <span class="p">:</span><span class="na">column</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">col</span><span class="s">&quot;</span><span class="p">&gt;</span>
+            <span class="cp">{{</span><span class="w"> </span><span class="nx">col</span><span class="p">.</span><span class="nx">label</span><span class="w"> </span><span class="cp">}}</span>
+          <span class="p">&lt;/</span><span class="nt">slot</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">tr</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">row</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">data</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">key</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">row</span><span class="p">.</span><span class="nx">id</span><span class="s">&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">col</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">columns</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">key</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">col</span><span class="p">.</span><span class="nx">key</span><span class="s">&quot;</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">slot</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;cell&quot;</span> <span class="p">:</span><span class="na">row</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">row</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">column</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">col</span><span class="s">&quot;</span><span class="p">&gt;</span>
+            <span class="cp">{{</span><span class="w"> </span><span class="nx">row</span><span class="p">[</span><span class="nx">col</span><span class="p">.</span><span class="nx">key</span><span class="p">]</span><span class="w"> </span><span class="cp">}}</span>
+          <span class="p">&lt;/</span><span class="nt">slot</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">Table</span> <span class="p">:</span><span class="na">columns</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">columns</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">data</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">users</span><span class="s">&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot</span><span class="p">:</span><span class="na">header</span><span class="o">=</span><span class="s">&quot;</span><span class="p">{</span><span class="nx">column</span><span class="p">}</span><span class="s">&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;custom-header&quot;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">column</span><span class="p">.</span><span class="nx">label</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot</span><span class="p">:</span><span class="na">cell</span><span class="o">=</span><span class="s">&quot;</span><span class="p">{</span><span class="nx">row</span><span class="p">,</span><span class="w"> </span><span class="nx">column</span><span class="p">}</span><span class="s">&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-if</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">column</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;status&#39;</span><span class="s">&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">Badge</span> <span class="p">:</span><span class="na">type</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">row</span><span class="p">.</span><span class="nx">status</span><span class="s">&quot;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">row</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">Badge</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-else</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">row</span><span class="p">[</span><span class="nx">column</span><span class="p">.</span><span class="nx">key</span><span class="p">]</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">Table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="provide-inject">
+<h2>🔄 Provide/Inject 跨层级通信<a class="headerlink" href="#provide-inject" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>基本用法<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- App.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ParentComponent</span> <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">provide</span><span class="p">,</span><span class="w"> </span><span class="nx">ref</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">ParentComponent</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./ParentComponent.vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="s1">&#39;dark&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">role</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span>
+<span class="p">});</span>
+
+<span class="c1">// 提供数据</span>
+<span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;theme&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">theme</span><span class="p">);</span>
+<span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">);</span>
+<span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;updateTheme&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">newTheme</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">theme</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">newTheme</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- DeepChild.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="p">:</span><span class="na">class</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">theme</span><span class="s">&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>User: <span class="cp">{{</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="p">@</span><span class="na">click</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">updateTheme</span><span class="p">(</span><span class="s1">&#39;light&#39;</span><span class="p">)</span><span class="s">&quot;</span><span class="p">&gt;</span>Change Theme<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">inject</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+
+<span class="c1">// 注入数据</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;theme&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;light&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 默认值</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">updateTheme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;updateTheme&#39;</span><span class="p">);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>TypeScript类型定义<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;ts&quot;</span><span class="p">&gt;</span>
+<span class="kr">interface</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">role</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 提供</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="o">&lt;</span><span class="nx">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;dark&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">role</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span>
+<span class="p">});</span>
+
+<span class="nx">provide</span><span class="o">&lt;</span><span class="nx">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;theme&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">theme</span><span class="p">);</span>
+<span class="nx">provide</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;ts&quot;</span><span class="p">&gt;</span>
+<span class="c1">// 注入</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">inject</span><span class="o">&lt;</span><span class="nx">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;theme&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;light&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">inject</span><span class="o">&lt;</span><span class="nx">User</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="provide">
+<h3>响应式Provide<a class="headerlink" href="#provide" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">provide</span><span class="p">,</span><span class="w"> </span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">computed</span><span class="p">,</span><span class="w"> </span><span class="nx">readonly</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">doubleCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">computed</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">count</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">2</span><span class="p">);</span>
+
+<span class="c1">// 只读，防止子组件修改</span>
+<span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">readonly</span><span class="p">(</span><span class="nx">count</span><span class="p">));</span>
+<span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;doubleCount&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">doubleCount</span><span class="p">);</span>
+<span class="nx">provide</span><span class="p">(</span><span class="s1">&#39;increment&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">count</span><span class="p">.</span><span class="nx">value</span><span class="o">++</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>🔀 动态组件<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="component">
+<h3>component动态组件<a class="headerlink" href="#component" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> 
+      <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">tab</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">tabs</span><span class="s">&quot;</span> 
+      <span class="p">:</span><span class="na">key</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">tab</span><span class="s">&quot;</span>
+      <span class="p">@</span><span class="na">click</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">currentTab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">tab</span><span class="s">&quot;</span>
+    <span class="p">&gt;</span>
+      <span class="cp">{{</span><span class="w"> </span><span class="nx">tab</span><span class="w"> </span><span class="cp">}}</span>
+    <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">component</span> <span class="p">:</span><span class="na">is</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">currentTab</span><span class="s">&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">shallowRef</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Home</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./Home.vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">About</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./About.vue&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Contact</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./Contact.vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">tabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;About&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Contact&#39;</span><span class="p">];</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">currentTab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="s1">&#39;Home&#39;</span><span class="p">);</span>
+
+<span class="c1">// 使用shallowRef优化性能</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">components</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">shallowRef</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">Home</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">About</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Contact</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="keep-alive">
+<h3>keep-alive缓存组件<a class="headerlink" href="#keep-alive" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">keep-alive</span> <span class="p">:</span><span class="na">include</span><span class="o">=</span><span class="s">&quot;</span><span class="p">[</span><span class="s1">&#39;Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;About&#39;</span><span class="p">]</span><span class="s">&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">component</span> <span class="p">:</span><span class="na">is</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">currentTab</span><span class="s">&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">keep-alive</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">onActivated</span><span class="p">,</span><span class="w"> </span><span class="nx">onDeactivated</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+
+<span class="c1">// 组件激活时调用</span>
+<span class="nx">onActivated</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Component activated&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// 恢复数据、重新请求等</span>
+<span class="p">});</span>
+
+<span class="c1">// 组件失活时调用</span>
+<span class="nx">onDeactivated</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Component deactivated&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// 保存数据、清理定时器等</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>⚡ 异步组件<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="defineasynccomponent">
+<h3>defineAsyncComponent<a class="headerlink" href="#defineasynccomponent" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">defineAsyncComponent</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+
+<span class="c1">// 基础用法</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">AsyncComponent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineAsyncComponent</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./HeavyComponent.vue&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">// 带加载状态</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">AsyncComponentWithLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineAsyncComponent</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">loader</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./HeavyComponent.vue&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">loadingComponent</span><span class="o">:</span><span class="w"> </span><span class="nx">LoadingSpinner</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">errorComponent</span><span class="o">:</span><span class="w"> </span><span class="nx">ErrorComponent</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">delay</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="p">,</span><span class="w"> </span><span class="c1">// 延迟显示加载组件</span>
+<span class="w">  </span><span class="nx">timeout</span><span class="o">:</span><span class="w"> </span><span class="mf">3000</span><span class="w"> </span><span class="c1">// 超时时间</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">Suspense</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot:default</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">AsyncComponent</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-slot:fallback</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>Loading...<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">Suspense</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>路由懒加载<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// router/index.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">createWebHistory</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue-router&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/home&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">component</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;../views/Home.vue&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/about&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">component</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;../views/About.vue&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">];</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRouter</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">history</span><span class="o">:</span><span class="w"> </span><span class="nx">createWebHistory</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">routes</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>🎯 组件通信总结<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="id20">
+<h3>通信方式对比<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>方式</p></th>
+<th class="head"><p>适用场景</p></th>
+<th class="head"><p>优点</p></th>
+<th class="head"><p>缺点</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Props</p></td>
+<td><p>父子组件</p></td>
+<td><p>简单直接、类型安全</p></td>
+<td><p>只能向下传递</p></td>
+</tr>
+<tr class="row-odd"><td><p>Emit</p></td>
+<td><p>父子组件</p></td>
+<td><p>事件驱动、解耦</p></td>
+<td><p>只能向上传递</p></td>
+</tr>
+<tr class="row-even"><td><p>Provide/Inject</p></td>
+<td><p>跨层级</p></td>
+<td><p>避免逐层传递</p></td>
+<td><p>难以追踪数据流</p></td>
+</tr>
+<tr class="row-odd"><td><p>EventBus</p></td>
+<td><p>任意组件</p></td>
+<td><p>灵活</p></td>
+<td><p>难以维护、不推荐</p></td>
+</tr>
+<tr class="row-even"><td><p>Vuex/Pinia</p></td>
+<td><p>全局状态</p></td>
+<td><p>集中管理、可追踪</p></td>
+<td><p>增加复杂度</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id21">
+<h3>最佳实践<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>优先使用Props和Emit</strong>：简单场景使用父子组件通信</p></li>
+<li><p><strong>跨层级使用Provide/Inject</strong>：避免Props逐层传递</p></li>
+<li><p><strong>全局状态使用Pinia</strong>：复杂应用使用状态管理</p></li>
+<li><p><strong>组件解耦</strong>：使用事件和插槽提高组件复用性</p></li>
+<li><p><strong>类型安全</strong>：使用TypeScript定义Props和Emit类型</p></li>
+</ol>
+</section>
+</section>
+<section id="id22">
+<h2>📝 实战示例<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<section id="id23">
+<h3>表单组件封装<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- FormField.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;form-field&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">v-if</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">label</span><span class="s">&quot;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">label</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> 
+      <span class="p">:</span><span class="na">value</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">modelValue</span><span class="s">&quot;</span>
+      <span class="p">:</span><span class="na">type</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">type</span><span class="s">&quot;</span>
+      <span class="p">:</span><span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">placeholder</span><span class="s">&quot;</span>
+      <span class="p">@</span><span class="na">input</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;update:modelValue&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">$event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="s">&quot;</span>
+      <span class="p">@</span><span class="na">blur</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;blur&#39;</span><span class="p">)</span><span class="s">&quot;</span>
+    <span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-if</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">error</span><span class="s">&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;text&#39;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">placeholder</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">modelValue</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span>
+<span class="p">});</span>
+
+<span class="nx">defineEmits</span><span class="p">([</span><span class="s1">&#39;update:modelValue&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;blur&#39;</span><span class="p">]);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">FormField</span>
+    <span class="na">v-model</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">username</span><span class="s">&quot;</span>
+    <span class="na">label</span><span class="o">=</span><span class="s">&quot;用户名&quot;</span>
+    <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;请输入用户名&quot;</span>
+    <span class="p">:</span><span class="na">error</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">errors</span><span class="p">.</span><span class="nx">username</span><span class="s">&quot;</span>
+    <span class="p">@</span><span class="na">blur</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">validateUsername</span><span class="s">&quot;</span>
+  <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id24">
+<h3>列表组件封装<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- VirtualList.vue --&gt;</span>
+<span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;virtual-list&quot;</span> <span class="na">ref</span><span class="o">=</span><span class="s">&quot;containerRef&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="p">:</span><span class="na">style</span><span class="o">=</span><span class="s">&quot;</span><span class="p">{</span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">totalHeight</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;px&#39;</span><span class="p">}</span><span class="s">&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> 
+        <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">visibleItems</span><span class="s">&quot;</span> 
+        <span class="p">:</span><span class="na">key</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="s">&quot;</span>
+        <span class="p">:</span><span class="na">style</span><span class="o">=</span><span class="s">&quot;</span><span class="p">{</span><span class="nx">transform</span><span class="o">:</span><span class="w"> </span><span class="sb">`translateY(</span><span class="si">${</span><span class="nx">item</span><span class="p">.</span><span class="nx">top</span><span class="si">}</span><span class="sb">px)`</span><span class="p">}</span><span class="s">&quot;</span>
+      <span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">slot</span> <span class="p">:</span><span class="na">item</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="p">.</span><span class="nx">data</span><span class="s">&quot;</span> <span class="p">:</span><span class="na">index</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">item</span><span class="p">.</span><span class="nx">index</span><span class="s">&quot;</span> <span class="p">/&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">computed</span><span class="p">,</span><span class="w"> </span><span class="nx">onMounted</span><span class="p">,</span><span class="w"> </span><span class="nx">onUnmounted</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineProps</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="nb">Array</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">itemHeight</span><span class="o">:</span><span class="w"> </span><span class="nb">Number</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">containerRef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">scrollTop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ref</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">visibleItems</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">computed</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">scrollTop</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">itemHeight</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nx">containerRef</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">clientHeight</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">itemHeight</span><span class="p">);</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span><span class="w"> </span><span class="nx">end</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<span class="w">    </span><span class="p">...</span><span class="nx">item</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">index</span><span class="o">:</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">itemHeight</span>
+<span class="w">  </span><span class="p">}));</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">totalHeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">computed</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">itemHeight</span><span class="p">);</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleScroll</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">scrollTop</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">containerRef</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">scrollTop</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">onMounted</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">containerRef</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleScroll</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">onUnmounted</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">containerRef</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleScroll</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01-composition-api-core.html" class="btn btn-neutral float-left" title="01-Vue Composition API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="03-routing-state.html" class="btn btn-neutral float-right" title="03-Vue 路由与状态管理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

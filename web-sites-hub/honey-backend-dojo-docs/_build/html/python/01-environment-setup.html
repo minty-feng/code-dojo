@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>01-Python环境搭建 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="02-Python基础语法" href="02-basic-syntax.html" />
+    <link rel="prev" title="🐍 Python 后端开发" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Python 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Python 后端开发</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">01-Python环境搭建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Python简介</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">应用场景</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">语言特点</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Python版本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">安装Python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">虚拟环境</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#venv">venv（内置）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#virtualenv">virtualenv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conda">conda（数据科学）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">包管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pip">pip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#requirements-txt">requirements.txt</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">开发工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycharm">PyCharm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vs-code">VS Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jupyter-notebook">Jupyter Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">代码规范</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pep-8">PEP 8风格指南</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">代码质量工具</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello World</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">基本程序</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">带函数的程序</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">调试工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pdb">pdb（内置调试器）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-3-7">断点调试（Python 3.7+）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">项目结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id15">标准项目结构</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setup-py">包管理（setup.py）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyproject-toml">pyproject.toml（现代方式）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">常用工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ipython">IPython</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#poetry">Poetry（依赖管理）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">性能分析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#timeit">timeit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cprofile">cProfile</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Python特性速览</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">动态类型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">强类型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">缩进敏感</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">一切皆对象</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Python之禅</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-Python基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-data-structures.html">03-数据结构与标准库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-advanced-features.html">04-Python高级特性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-file-processing.html">05-文件与数据处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-web-development.html">06-Python Web开发</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Python 教程</a></li>
+      <li class="breadcrumb-item active">01-Python环境搭建</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/python/01-environment-setup.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="python">
+<h1>01-Python环境搭建<a class="headerlink" href="#python" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>Python简介<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Python由Guido van Rossum于1991年创建，设计哲学强调代码可读性。语法简洁清晰，学习曲线平缓，生态系统丰富。</p>
+<section id="id2">
+<h3>应用场景<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p><strong>Web开发：</strong></p>
+<ul class="simple">
+<li><p>Django、Flask、FastAPI等框架</p></li>
+<li><p>后端API、全栈应用、微服务</p></li>
+</ul>
+<p><strong>数据科学：</strong></p>
+<ul class="simple">
+<li><p>NumPy、Pandas、Matplotlib数据分析</p></li>
+<li><p>Jupyter Notebook交互式计算</p></li>
+<li><p>机器学习、深度学习</p></li>
+</ul>
+<p><strong>自动化：</strong></p>
+<ul class="simple">
+<li><p>脚本编写、任务调度</p></li>
+<li><p>运维自动化、测试自动化</p></li>
+<li><p>爬虫、数据采集</p></li>
+</ul>
+<p><strong>人工智能：</strong></p>
+<ul class="simple">
+<li><p>TensorFlow、PyTorch深度学习框架</p></li>
+<li><p>scikit-learn机器学习</p></li>
+<li><p>OpenCV计算机视觉、NLTK自然语言处理</p></li>
+</ul>
+<p><strong>其他领域：</strong></p>
+<ul class="simple">
+<li><p>科学计算（SciPy）</p></li>
+<li><p>游戏开发（Pygame）</p></li>
+<li><p>桌面应用（PyQt、Tkinter）</p></li>
+<li><p>嵌入式脚本（MicroPython）</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>语言特点<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p><strong>优势：</strong></p>
+<ul class="simple">
+<li><p>语法简洁：相比Java/C++代码量少50%-70%</p></li>
+<li><p>开发效率高：动态类型、丰富标准库</p></li>
+<li><p>跨平台：Linux/Windows/macOS无缝运行</p></li>
+<li><p>生态强大：PyPI拥有30万+第三方库</p></li>
+<li><p>多范式：面向对象、函数式、过程式</p></li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul class="simple">
+<li><p>性能较低：解释型语言，比C++慢10-100倍</p></li>
+<li><p>GIL限制：多线程无法利用多核（CPU密集型）</p></li>
+<li><p>类型检查：运行时才发现类型错误</p></li>
+<li><p>移动端弱：iOS/Android支持有限</p></li>
+</ul>
+<p><strong>适合：</strong> 快速开发、数据处理、原型验证<br />
+<strong>不适合：</strong> 性能极致、底层系统、移动应用</p>
+</section>
+</section>
+<section id="id4">
+<h2>Python版本<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>Python 2已于2020年停止支持，Python 3是唯一选择。</p>
+<ul class="simple">
+<li><p><strong>Python 3.7</strong>：2018年发布，数据类、async/await增强</p></li>
+<li><p><strong>Python 3.8</strong>：2019年发布，海象运算符、位置参数</p></li>
+<li><p><strong>Python 3.9</strong>：2020年发布，字典合并、类型提示增强</p></li>
+<li><p><strong>Python 3.10</strong>：2021年发布，模式匹配、更好的错误信息</p></li>
+<li><p><strong>Python 3.11</strong>：2022年发布，性能提升25%</p></li>
+</ul>
+<p>学习环境：Python 3.9+，生产环境：Python 3.9或3.10。</p>
+</section>
+<section id="id5">
+<h2>安装Python<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ubuntu/Debian</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv
+
+<span class="c1"># 验证</span>
+python3<span class="w"> </span>--version
+pip3<span class="w"> </span>--version
+
+<span class="c1"># 设置默认Python3</span>
+sudo<span class="w"> </span>update-alternatives<span class="w"> </span>--install<span class="w"> </span>/usr/bin/python<span class="w"> </span>python<span class="w"> </span>/usr/bin/python3<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+<section id="macos">
+<h3>macOS<a class="headerlink" href="#macos" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Homebrew</span>
+brew<span class="w"> </span>install<span class="w"> </span>python3
+
+<span class="c1"># 验证</span>
+python3<span class="w"> </span>--version
+pip3<span class="w"> </span>--version
+
+<span class="c1"># 添加到PATH（通常自动完成）</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;/opt/homebrew/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
+</pre></div>
+</div>
+</section>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>下载官方安装包：python.org</p></li>
+<li><p>安装时勾选”Add Python to PATH”</p></li>
+<li><p>验证：<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code></p></li>
+</ol>
+</section>
+</section>
+<section id="id6">
+<h2>虚拟环境<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>虚拟环境隔离项目依赖，避免版本冲突。</p>
+<section id="venv">
+<h3>venv（内置）<a class="headerlink" href="#venv" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建虚拟环境</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>myenv
+
+<span class="c1"># 激活</span>
+<span class="nb">source</span><span class="w"> </span>myenv/bin/activate<span class="w">       </span><span class="c1"># Linux/macOS</span>
+myenv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">          </span><span class="c1"># Windows</span>
+
+<span class="c1"># 安装包</span>
+pip<span class="w"> </span>install<span class="w"> </span>requests
+
+<span class="c1"># 导出依赖</span>
+pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+
+<span class="c1"># 安装依赖</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># 退出</span>
+deactivate
+</pre></div>
+</div>
+</section>
+<section id="virtualenv">
+<h3>virtualenv<a class="headerlink" href="#virtualenv" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>virtualenv
+
+<span class="c1"># 创建</span>
+virtualenv<span class="w"> </span>myenv
+
+<span class="c1"># 使用同venv</span>
+</pre></div>
+</div>
+</section>
+<section id="conda">
+<h3>conda（数据科学）<a class="headerlink" href="#conda" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建环境</span>
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+
+<span class="c1"># 激活</span>
+conda<span class="w"> </span>activate<span class="w"> </span>myenv
+
+<span class="c1"># 安装包</span>
+conda<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>pandas
+
+<span class="c1"># 退出</span>
+conda<span class="w"> </span>deactivate
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>包管理<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="pip">
+<h3>pip<a class="headerlink" href="#pip" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装包</span>
+pip<span class="w"> </span>install<span class="w"> </span>package_name
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">package</span><span class="o">==</span><span class="m">1</span>.0.0<span class="w">      </span><span class="c1"># 指定版本</span>
+pip<span class="w"> </span>install<span class="w"> </span>package&gt;<span class="o">=</span><span class="m">1</span>.0.0<span class="w">      </span><span class="c1"># 版本范围</span>
+
+<span class="c1"># 升级</span>
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>package
+
+<span class="c1"># 卸载</span>
+pip<span class="w"> </span>uninstall<span class="w"> </span>package
+
+<span class="c1"># 列出已安装</span>
+pip<span class="w"> </span>list
+pip<span class="w"> </span>show<span class="w"> </span>package<span class="w">                </span><span class="c1"># 详细信息</span>
+
+<span class="c1"># 搜索</span>
+pip<span class="w"> </span>search<span class="w"> </span>keyword
+
+<span class="c1"># 导出/导入依赖</span>
+pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+<section id="requirements-txt">
+<h3>requirements.txt<a class="headerlink" href="#requirements-txt" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 精确版本</span>
+<span class="n">requests</span><span class="o">==</span><span class="mf">2.28.0</span>
+<span class="n">numpy</span><span class="o">==</span><span class="mf">1.23.0</span>
+
+<span class="c1"># 版本范围</span>
+<span class="n">flask</span><span class="o">&gt;=</span><span class="mf">2.0.0</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">3.0.0</span>
+
+<span class="c1"># 最新版本</span>
+<span class="n">pandas</span>
+
+<span class="c1"># 从git安装</span>
+<span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">repo</span><span class="o">.</span><span class="n">git</span>
+
+<span class="c1"># 本地包</span>
+<span class="o">-</span><span class="n">e</span> <span class="o">./</span><span class="n">local_package</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>开发工具<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="pycharm">
+<h3>PyCharm<a class="headerlink" href="#pycharm" title="Link to this heading"></a></h3>
+<p>JetBrains出品，专业Python IDE。</p>
+<p><strong>特性：</strong></p>
+<ul class="simple">
+<li><p>智能代码补全</p></li>
+<li><p>调试器</p></li>
+<li><p>集成测试</p></li>
+<li><p>数据库工具</p></li>
+<li><p>虚拟环境管理</p></li>
+</ul>
+<p><strong>快捷键：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">/</span></code>：注释</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">F10</span></code>：运行</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">F9</span></code>：调试</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">B</span></code>：跳转定义</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cmd/Ctrl</span> <span class="pre">+</span> <span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">L</span></code>：格式化</p></li>
+</ul>
+</section>
+<section id="vs-code">
+<h3>VS Code<a class="headerlink" href="#vs-code" title="Link to this heading"></a></h3>
+<p>轻量级，插件丰富。</p>
+<p><strong>必装插件：</strong></p>
+<ul class="simple">
+<li><p>Python（微软官方）</p></li>
+<li><p>Pylance（类型检查）</p></li>
+<li><p>Python Docstring Generator</p></li>
+<li><p>autoDocstring</p></li>
+</ul>
+<p><strong>配置（.vscode/settings.json）：</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python.defaultInterpreterPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./venv/bin/python&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;python.linting.enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;python.linting.pylintEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;python.formatting.provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;editor.formatOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;python.testing.pytestEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="jupyter-notebook">
+<h3>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Link to this heading"></a></h3>
+<p>交互式编程环境，适合数据分析。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>jupyter
+
+<span class="c1"># 启动</span>
+jupyter<span class="w"> </span>notebook
+
+<span class="c1"># 或JupyterLab</span>
+pip<span class="w"> </span>install<span class="w"> </span>jupyterlab
+jupyter<span class="w"> </span>lab
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>代码规范<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="pep-8">
+<h3>PEP 8风格指南<a class="headerlink" href="#pep-8" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 命名规范</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>              <span class="c1"># 大驼峰</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">():</span>          <span class="c1"># 下划线</span>
+    <span class="k">pass</span>
+
+<span class="n">my_variable</span> <span class="o">=</span> <span class="mi">10</span>            <span class="c1"># 下划线</span>
+<span class="n">MY_CONSTANT</span> <span class="o">=</span> <span class="mi">100</span>           <span class="c1"># 全大写</span>
+
+<span class="n">_private_var</span> <span class="o">=</span> <span class="mi">1</span>            <span class="c1"># 单下划线：内部使用</span>
+<span class="n">__private_var</span> <span class="o">=</span> <span class="mi">2</span>           <span class="c1"># 双下划线：名称改写</span>
+
+<span class="c1"># 缩进：4空格</span>
+<span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">()</span>
+
+<span class="c1"># 空行：函数间2行，类间2行，方法间1行</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">method1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">method2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="c1"># 行长度：最多79字符</span>
+<span class="n">long_variable_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">first_part</span> <span class="o">+</span>
+                      <span class="n">second_part</span> <span class="o">+</span>
+                      <span class="n">third_part</span><span class="p">)</span>
+
+<span class="c1"># 导入顺序：标准库、第三方库、本地模块</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mypackage</span><span class="w"> </span><span class="kn">import</span> <span class="n">mymodule</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>代码质量工具<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pylint：代码检查</span>
+pip<span class="w"> </span>install<span class="w"> </span>pylint
+pylint<span class="w"> </span>myfile.py
+
+<span class="c1"># flake8：风格检查</span>
+pip<span class="w"> </span>install<span class="w"> </span>flake8
+flake8<span class="w"> </span>myfile.py
+
+<span class="c1"># black：自动格式化</span>
+pip<span class="w"> </span>install<span class="w"> </span>black
+black<span class="w"> </span>myfile.py
+
+<span class="c1"># isort：导入排序</span>
+pip<span class="w"> </span>install<span class="w"> </span>isort
+isort<span class="w"> </span>myfile.py
+
+<span class="c1"># mypy：类型检查</span>
+pip<span class="w"> </span>install<span class="w"> </span>mypy
+mypy<span class="w"> </span>myfile.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="hello-world">
+<h2>Hello World<a class="headerlink" href="#hello-world" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>基本程序<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># hello.py</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行</span>
+python<span class="w"> </span>hello.py
+
+<span class="c1"># 或直接</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;print(&#39;Hello&#39;)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>带函数的程序<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greet</span><span class="p">(</span><span class="s2">&quot;World&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>调试工具<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="pdb">
+<h3>pdb（内置调试器）<a class="headerlink" href="#pdb" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pdb</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">buggy_function</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>  <span class="c1"># 设置断点</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="c1"># 运行会在断点处暂停</span>
+<span class="c1"># 常用命令：</span>
+<span class="c1"># n：下一行</span>
+<span class="c1"># s：步入函数</span>
+<span class="c1"># c：继续执行</span>
+<span class="c1"># p variable：打印变量</span>
+<span class="c1"># q：退出</span>
+</pre></div>
+</div>
+</section>
+<section id="python-3-7">
+<h3>断点调试（Python 3.7+）<a class="headerlink" href="#python-3-7" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">function</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="nb">breakpoint</span><span class="p">()</span>  <span class="c1"># 替代pdb.set_trace()</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2>项目结构<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<section id="id15">
+<h3>标准项目结构<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>myproject/
+├── README.md
+├── requirements.txt
+├── setup.py
+├── mypackage/
+│   ├── __init__.py
+│   ├── module1.py
+│   └── module2.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_module1.py
+│   └── test_module2.py
+├── docs/
+│   └── conf.py
+└── scripts/
+    └── run.py
+</pre></div>
+</div>
+</section>
+<section id="setup-py">
+<h3>包管理（setup.py）<a class="headerlink" href="#setup-py" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mypackage&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.1.0&#39;</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(),</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;requests&gt;=2.28.0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;numpy&gt;=1.23.0&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">python_requires</span><span class="o">=</span><span class="s1">&#39;&gt;=3.9&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pyproject-toml">
+<h3>pyproject.toml（现代方式）<a class="headerlink" href="#pyproject-toml" title="Link to this heading"></a></h3>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[build-system]</span>
+<span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;setuptools&gt;=45&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;wheel&quot;</span><span class="p">]</span>
+<span class="n">build-backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;setuptools.build_meta&quot;</span>
+
+<span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mypackage&quot;</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;requests&gt;=2.28.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;numpy&gt;=1.23.0&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">requires-python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;=3.9&quot;</span>
+
+<span class="k">[project.optional-dependencies]</span>
+<span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;pytest&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;flake8&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>常用工具<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="ipython">
+<h3>IPython<a class="headerlink" href="#ipython" title="Link to this heading"></a></h3>
+<p>增强的交互式Shell。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>ipython
+
+<span class="c1"># 启动</span>
+ipython
+
+<span class="c1"># 特性：</span>
+<span class="c1"># - 自动补全</span>
+<span class="c1"># - 魔法命令：%timeit, %run, %debug</span>
+<span class="c1"># - 历史记录：_（上一结果）</span>
+<span class="c1"># - 系统命令：!ls</span>
+</pre></div>
+</div>
+</section>
+<section id="poetry">
+<h3>Poetry（依赖管理）<a class="headerlink" href="#poetry" title="Link to this heading"></a></h3>
+<p>现代Python包管理工具。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>poetry
+
+<span class="c1"># 创建项目</span>
+poetry<span class="w"> </span>new<span class="w"> </span>myproject
+
+<span class="c1"># 添加依赖</span>
+poetry<span class="w"> </span>add<span class="w"> </span>requests
+
+<span class="c1"># 安装依赖</span>
+poetry<span class="w"> </span>install
+
+<span class="c1"># 运行</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>script.py
+
+<span class="c1"># 发布</span>
+poetry<span class="w"> </span>publish
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>性能分析<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="timeit">
+<h3>timeit<a class="headerlink" href="#timeit" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+
+<span class="c1"># 测试代码执行时间</span>
+<span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s1">&#39;[i for i in range(1000)]&#39;</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1"># 魔法命令（IPython/Jupyter）</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span>
+</pre></div>
+</div>
+</section>
+<section id="cprofile">
+<h3>cProfile<a class="headerlink" href="#cprofile" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cProfile</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">slow_function</span><span class="p">():</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+<span class="c1"># 性能分析</span>
+<span class="n">cProfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;slow_function()&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 命令行分析</span>
+python<span class="w"> </span>-m<span class="w"> </span>cProfile<span class="w"> </span>script.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>Python特性速览<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>动态类型<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>          <span class="c1"># int</span>
+<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span>     <span class="c1"># str，类型可变</span>
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h3>强类型<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;3&quot;</span> <span class="o">+</span> <span class="mi">4</span>         <span class="c1"># TypeError（不会自动转换）</span>
+<span class="nb">int</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span>    <span class="c1"># 7（需显式转换）</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>缩进敏感<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span>  <span class="c1"># 缩进4空格</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>     <span class="c1"># 不缩进</span>
+</pre></div>
+</div>
+</section>
+<section id="id22">
+<h3>一切皆对象<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 函数是对象</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">func</span>        <span class="c1"># 函数赋值</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>      <span class="c1"># &lt;class &#39;function&#39;&gt;</span>
+
+<span class="c1"># 类是对象</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="nb">type</span><span class="p">(</span><span class="n">MyClass</span><span class="p">)</span>   <span class="c1"># &lt;class &#39;type&#39;&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id23">
+<h2>Python之禅<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">this</span>
+
+<span class="c1"># The Zen of Python, by Tim Peters</span>
+<span class="c1"># </span>
+<span class="c1"># Beautiful is better than ugly.</span>
+<span class="c1"># Explicit is better than implicit.</span>
+<span class="c1"># Simple is better than complex.</span>
+<span class="c1"># Complex is better than complicated.</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+<p><strong>核心理念：</strong></p>
+<ul class="simple">
+<li><p>优雅胜于丑陋</p></li>
+<li><p>明确胜于隐晦</p></li>
+<li><p>简单胜于复杂</p></li>
+<li><p>可读性很重要</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="README.html" class="btn btn-neutral float-left" title="🐍 Python 后端开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Python基础语法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

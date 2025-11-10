@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>进程与线程 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="进程调度" href="../02-process-scheduling/index.html" />
+    <link rel="prev" title="进程与线程" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OS & Network Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">进程与线程</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">进程与线程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">💡 核心结论</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1. 进程基础</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pcb">1.1 进程控制块 (PCB)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">1.2 进程状态转换</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fork">1.3 进程创建：fork()</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">2. 线程基础</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vs">2.1 进程 vs 线程</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">2.2 线程模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">2.3 线程实现</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">3. 进程/线程切换</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">3.1 上下文切换流程</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">3.2 上下文内容</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">3.3 切换开销</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ipc">4. 进程通信 (IPC)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pipe">4.1 管道（Pipe）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">4.2 消息队列</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">4.3 共享内存（最快）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#semaphore">4.4 信号量（Semaphore）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#socket">4.5 套接字（Socket）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">4.6 IPC对比</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">5. 实战案例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">5.1 生产者-消费者（共享内存+信号量）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">5.2 进程池实现</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">6. 性能优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">6.1 减少上下文切换</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cpu">6.2 CPU亲和性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#false-sharing">6.3 避免伪共享（False Sharing）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">7. 常见问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#q1-fork">Q1: fork后父子进程谁先运行？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q2">Q2: 为什么线程比进程快？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q3">Q3: 什么时候用多进程，什么时候用多线程？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#q4">Q4: 僵尸进程和孤儿进程？</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#leetcode">8. LeetCode相关题目</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">参考资源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-process-scheduling/index.html">进程调度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-memory-management/index.html">内存管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-file-system/index.html">文件系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-concurrency-sync/index.html">并发与同步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-deadlock/index.html">死锁处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-tcp-ip/index.html">TCP-IP协议详解</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-http/index.html">HTTP协议与实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-socket/index.html">Socket编程实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-network-tools/index.html">网络工具大全</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-network-security/index.html">网络安全基础</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OS & Network Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">进程与线程</a></li>
+      <li class="breadcrumb-item active">进程与线程</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/01-process-thread/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>进程与线程<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>进程是资源分配单位，线程是CPU调度单位</strong></p></li>
+<li><p><strong>进程间相互独立，线程共享进程资源</strong></p></li>
+<li><p><strong>进程切换开销大（切换页表、刷新TLB），线程切换开销小</strong></p></li>
+<li><p><strong>多进程隔离性好但通信复杂，多线程通信简单但需同步</strong></p></li>
+<li><p><strong>fork创建子进程时使用写时复制(COW)优化</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>1. 进程基础<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="pcb">
+<h3>1.1 进程控制块 (PCB)<a class="headerlink" href="#pcb" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">process_control_block</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 进程标识</span>
+<span class="w">    </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span><span class="w">              </span><span class="c1">// 进程ID</span>
+<span class="w">    </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">ppid</span><span class="p">;</span><span class="w">             </span><span class="c1">// 父进程ID</span>
+<span class="w">    </span><span class="kt">uid_t</span><span class="w"> </span><span class="n">uid</span><span class="p">;</span><span class="w">              </span><span class="c1">// 用户ID</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 处理器状态</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_context</span><span class="w"> </span><span class="n">context</span><span class="p">;</span><span class="w">  </span><span class="c1">// CPU上下文（寄存器）</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">              </span><span class="c1">// 进程状态</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span><span class="w">           </span><span class="c1">// 优先级</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 内存管理</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">;</span><span class="w">   </span><span class="c1">// 内存描述符</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">page_table</span><span class="p">;</span><span class="w">       </span><span class="c1">// 页表指针</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 文件管理</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span><span class="w">  </span><span class="c1">// 打开的文件表</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fs_struct</span><span class="w"> </span><span class="o">*</span><span class="n">fs</span><span class="p">;</span><span class="w">        </span><span class="c1">// 文件系统信息</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 进程关系</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w">    </span><span class="c1">// 父进程</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">children</span><span class="p">;</span><span class="w">     </span><span class="c1">// 子进程链表</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">sibling</span><span class="p">;</span><span class="w">      </span><span class="c1">// 兄弟进程链表</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 调度信息</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">time_slice</span><span class="p">;</span><span class="w">        </span><span class="c1">// 时间片</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">vruntime</span><span class="p">;</span><span class="w">          </span><span class="c1">// 虚拟运行时间（CFS）</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">utime</span><span class="p">,</span><span class="w"> </span><span class="n">stime</span><span class="p">;</span><span class="w">      </span><span class="c1">// 用户态、内核态时间</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>1.2 进程状态转换<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              [创建]
+                ↓
+     就绪 ←→ [运行] → 终止
+       ↑       ↓
+       └──── [阻塞]
+</pre></div>
+</div>
+<p><strong>关键状态转换</strong>：</p>
+<ul class="simple">
+<li><p><strong>就绪→运行</strong>：被调度器选中</p></li>
+<li><p><strong>运行→就绪</strong>：时间片用完</p></li>
+<li><p><strong>运行→阻塞</strong>：等待I/O或事件</p></li>
+<li><p><strong>阻塞→就绪</strong>：I/O完成或事件发生</p></li>
+</ul>
+</section>
+<section id="fork">
+<h3>1.3 进程创建：fork()<a class="headerlink" href="#fork" title="Link to this heading"></a></h3>
+<p><strong>Linux的fork实现</strong>：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 写时复制（Copy-On-Write）</span>
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 1. 复制父进程的task_struct</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dup_task_struct</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 子进程获得新的PID</span>
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_pid</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 页表复制（标记为只读，写时复制）</span>
+<span class="w">    </span><span class="n">copy_page_tables</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 4. 文件描述符引用计数+1</span>
+<span class="w">    </span><span class="n">copy_files</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 5. 设置返回值（父进程返回子PID，子进程返回0）</span>
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">context</span><span class="p">.</span><span class="n">regs</span><span class="p">.</span><span class="n">eax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// 子进程返回0</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 6. 加入就绪队列</span>
+<span class="w">    </span><span class="n">wake_up_new_task</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">;</span><span class="w">  </span><span class="c1">// 父进程返回子PID</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>写时复制的优势</strong>：</p>
+<ul class="simple">
+<li><p>避免不必要的内存复制</p></li>
+<li><p>fork后立即exec的场景非常高效</p></li>
+<li><p>延迟复制直到真正需要时</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h2>2. 线程基础<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="vs">
+<h3>2.1 进程 vs 线程<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>对比项</p></th>
+<th class="head"><p>进程</p></th>
+<th class="head"><p>线程</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>地址空间</p></td>
+<td><p>独立</p></td>
+<td><p>共享</p></td>
+</tr>
+<tr class="row-odd"><td><p>资源</p></td>
+<td><p>独立</p></td>
+<td><p>共享（代码、数据、文件）</p></td>
+</tr>
+<tr class="row-even"><td><p>通信</p></td>
+<td><p>IPC（复杂）</p></td>
+<td><p>共享内存（简单）</p></td>
+</tr>
+<tr class="row-odd"><td><p>切换开销</p></td>
+<td><p>大（切换页表、刷TLB）</p></td>
+<td><p>小（只切换上下文）</p></td>
+</tr>
+<tr class="row-even"><td><p>健壮性</p></td>
+<td><p>高（隔离）</p></td>
+<td><p>低（一个崩溃全崩溃）</p></td>
+</tr>
+<tr class="row-odd"><td><p>创建开销</p></td>
+<td><p>大</p></td>
+<td><p>小</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id6">
+<h3>2.2 线程模型<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p><strong>1. 用户级线程（User-Level Thread）</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>优点：
+- 切换快（不需要系统调用）
+- 可移植性好
+- 可以在不支持线程的OS上运行
+
+缺点：
+- 一个线程阻塞，整个进程阻塞
+- 无法利用多核CPU
+- 内核不感知线程存在
+</pre></div>
+</div>
+<p><strong>2. 内核级线程（Kernel-Level Thread）</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>优点：
+- 一个线程阻塞，其他线程可继续运行
+- 充分利用多核CPU
+- 内核直接调度
+
+缺点：
+- 切换开销大（需要系统调用）
+- 系统资源消耗大
+</pre></div>
+</div>
+<p><strong>3. 混合模型（M:N）</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M个用户线程映射到N个内核线程</span>
+<span class="o">-</span> <span class="n">结合两者优点</span>
+<span class="o">-</span> <span class="n">调度复杂</span>
+<span class="o">-</span> <span class="n">Go语言的goroutine就是这种模型</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>2.3 线程实现<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p><strong>POSIX线程（pthread）示例</strong>：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pthread.h&gt;</span>
+
+<span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">thread_function</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">;</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Thread: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">pthread_t</span><span class="w"> </span><span class="kr">thread</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">arg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 创建线程</span>
+<span class="w">    </span><span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">thread_function</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">arg</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 等待线程结束</span>
+<span class="w">    </span><span class="n">pthread_join</span><span class="p">(</span><span class="kr">thread</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h2>3. 进程/线程切换<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h3>3.1 上下文切换流程<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">context_switch</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 保存当前进程的上下文</span>
+<span class="w">    </span><span class="n">save_context</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 切换页表（进程切换才需要）</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">mm</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">next</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">switch_page_table</span><span class="p">(</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">pgd</span><span class="p">);</span>
+<span class="w">        </span><span class="n">flush_tlb</span><span class="p">();</span><span class="w">  </span><span class="c1">// 刷新TLB</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 3. 切换内核栈</span>
+<span class="w">    </span><span class="n">switch_to</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">next</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 4. 恢复新进程的上下文</span>
+<span class="w">    </span><span class="n">restore_context</span><span class="p">(</span><span class="n">next</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>3.2 上下文内容<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<p><strong>需要保存的寄存器</strong>：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>通用寄存器：EAX, EBX, ECX, EDX, ESI, EDI
+栈寄存器：ESP, EBP
+程序计数器：EIP
+标志寄存器：EFLAGS
+段寄存器：CS, DS, SS, ES, FS, GS
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>3.3 切换开销<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p><strong>进程切换开销</strong>：</p>
+<ol class="arabic simple">
+<li><p>保存/恢复寄存器：~100ns</p></li>
+<li><p>切换页表：~1μs</p></li>
+<li><p>刷新TLB：~10μs（最大）</p></li>
+<li><p>缓存失效：~10-100μs</p></li>
+</ol>
+<p><strong>线程切换开销</strong>（同进程内）：</p>
+<ol class="arabic simple">
+<li><p>保存/恢复寄存器：~100ns</p></li>
+<li><p>无需切换页表</p></li>
+<li><p>总开销：~1-2μs</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="ipc">
+<h2>4. 进程通信 (IPC)<a class="headerlink" href="#ipc" title="Link to this heading"></a></h2>
+<section id="pipe">
+<h3>4.1 管道（Pipe）<a class="headerlink" href="#pipe" title="Link to this heading"></a></h3>
+<p><strong>匿名管道</strong>：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pipefd</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="n">pipe</span><span class="p">(</span><span class="n">pipefd</span><span class="p">);</span><span class="w">  </span><span class="c1">// pipefd[0]读端，pipefd[1]写端</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 子进程：写数据</span>
+<span class="w">        </span><span class="n">close</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">        </span><span class="n">write</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">close</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 父进程：读数据</span>
+<span class="w">        </span><span class="n">close</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="w">        </span><span class="n">read</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="n">close</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>半双工（单向通信）</p></li>
+<li><p>只能用于父子进程</p></li>
+<li><p>缓冲区大小有限（默认64KB）</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>4.2 消息队列<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/msg.h&gt;</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">msg_buffer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">msg_type</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">msg_text</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="c1">// 创建消息队列</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">msgid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msgget</span><span class="p">(</span><span class="n">IPC_PRIVATE</span><span class="p">,</span><span class="w"> </span><span class="mo">0666</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IPC_CREAT</span><span class="p">);</span>
+
+<span class="c1">// 发送消息</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">msg_buffer</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">};</span>
+<span class="n">msgsnd</span><span class="p">(</span><span class="n">msgid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">msg_text</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// 接收消息</span>
+<span class="n">msgrcv</span><span class="p">(</span><span class="n">msgid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">msg_text</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>消息有类型，可选择性接收</p></li>
+<li><p>消息持久化（不会因进程退出而消失）</p></li>
+<li><p>有大小限制</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>4.3 共享内存（最快）<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/shm.h&gt;</span>
+
+<span class="c1">// 创建共享内存</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">shmid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shmget</span><span class="p">(</span><span class="n">IPC_PRIVATE</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span><span class="w"> </span><span class="mo">0666</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IPC_CREAT</span><span class="p">);</span>
+
+<span class="c1">// 映射到地址空间</span>
+<span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">shm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">shmat</span><span class="p">(</span><span class="n">shmid</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// 写入数据</span>
+<span class="n">strcpy</span><span class="p">(</span><span class="n">shm</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">);</span>
+
+<span class="c1">// 分离</span>
+<span class="n">shmdt</span><span class="p">(</span><span class="n">shm</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>速度最快（直接内存访问）</p></li>
+<li><p>需要同步机制（信号量）</p></li>
+<li><p>需要手动管理生命周期</p></li>
+</ul>
+</section>
+<section id="semaphore">
+<h3>4.4 信号量（Semaphore）<a class="headerlink" href="#semaphore" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/sem.h&gt;</span>
+
+<span class="c1">// 创建信号量</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">semget</span><span class="p">(</span><span class="n">IPC_PRIVATE</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mo">0666</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IPC_CREAT</span><span class="p">);</span>
+
+<span class="c1">// P操作（-1）</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">sembuf</span><span class="w"> </span><span class="n">p_op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">SEM_UNDO</span><span class="p">};</span>
+<span class="n">semop</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p_op</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// 临界区代码</span>
+
+<span class="c1">// V操作（+1）</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">sembuf</span><span class="w"> </span><span class="n">v_op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">SEM_UNDO</span><span class="p">};</span>
+<span class="n">semop</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v_op</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="socket">
+<h3>4.5 套接字（Socket）<a class="headerlink" href="#socket" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 服务端</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">sockfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_UNIX</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">bind</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+<span class="n">listen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">clientfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accept</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">read</span><span class="p">(</span><span class="n">clientfd</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+
+<span class="c1">// 客户端</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">sockfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_UNIX</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+<span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>可跨网络</p></li>
+<li><p>全双工</p></li>
+<li><p>支持多种协议</p></li>
+</ul>
+</section>
+<section id="id14">
+<h3>4.6 IPC对比<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>方式</p></th>
+<th class="head"><p>速度</p></th>
+<th class="head"><p>通信范围</p></th>
+<th class="head"><p>数据量</p></th>
+<th class="head"><p>使用难度</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>管道</p></td>
+<td><p>中</p></td>
+<td><p>父子进程</p></td>
+<td><p>小</p></td>
+<td><p>简单</p></td>
+</tr>
+<tr class="row-odd"><td><p>消息队列</p></td>
+<td><p>中</p></td>
+<td><p>任意进程</p></td>
+<td><p>中</p></td>
+<td><p>中等</p></td>
+</tr>
+<tr class="row-even"><td><p>共享内存</p></td>
+<td><p>快</p></td>
+<td><p>任意进程</p></td>
+<td><p>大</p></td>
+<td><p>复杂</p></td>
+</tr>
+<tr class="row-odd"><td><p>信号量</p></td>
+<td><p>-</p></td>
+<td><p>任意进程</p></td>
+<td><p>-</p></td>
+<td><p>中等</p></td>
+</tr>
+<tr class="row-even"><td><p>套接字</p></td>
+<td><p>慢</p></td>
+<td><p>跨机器</p></td>
+<td><p>大</p></td>
+<td><p>中等</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id15">
+<h2>5. 实战案例<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>5.1 生产者-消费者（共享内存+信号量）<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 共享缓冲区</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">shared_buffer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="n">BUFFER_SIZE</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">in</span><span class="p">;</span><span class="w">   </span><span class="c1">// 写指针</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">out</span><span class="p">;</span><span class="w">  </span><span class="c1">// 读指针</span>
+<span class="p">};</span>
+
+<span class="c1">// 信号量</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">mutex</span><span class="p">;</span><span class="w">   </span><span class="c1">// 互斥访问缓冲区</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">empty</span><span class="p">;</span><span class="w">   </span><span class="c1">// 空槽位数量</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">full</span><span class="p">;</span><span class="w">    </span><span class="c1">// 满槽位数量</span>
+
+<span class="c1">// 生产者</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">producer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">produce_item</span><span class="p">();</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">sem_wait</span><span class="p">(</span><span class="n">empty</span><span class="p">);</span><span class="w">   </span><span class="c1">// 等待空槽位</span>
+<span class="w">        </span><span class="n">sem_wait</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span><span class="w">   </span><span class="c1">// 进入临界区</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">buffer</span><span class="p">[</span><span class="n">in</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="w">        </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">BUFFER_SIZE</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">sem_post</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span><span class="w">   </span><span class="c1">// 离开临界区</span>
+<span class="w">        </span><span class="n">sem_post</span><span class="p">(</span><span class="n">full</span><span class="p">);</span><span class="w">    </span><span class="c1">// 增加满槽位</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 消费者</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">consumer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sem_wait</span><span class="p">(</span><span class="n">full</span><span class="p">);</span><span class="w">    </span><span class="c1">// 等待满槽位</span>
+<span class="w">        </span><span class="n">sem_wait</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span><span class="w">   </span><span class="c1">// 进入临界区</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="n">out</span><span class="p">];</span>
+<span class="w">        </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">BUFFER_SIZE</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">sem_post</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span><span class="w">   </span><span class="c1">// 离开临界区</span>
+<span class="w">        </span><span class="n">sem_post</span><span class="p">(</span><span class="n">empty</span><span class="p">);</span><span class="w">   </span><span class="c1">// 增加空槽位</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">consume_item</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>5.2 进程池实现<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define POOL_SIZE 10</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">process_pool</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pipefd</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="n">pipe</span><span class="p">(</span><span class="n">pipefd</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 创建进程池</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">POOL_SIZE</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// 子进程：工作进程</span>
+<span class="w">            </span><span class="n">close</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">            </span><span class="n">worker_process</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">            </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 父进程：分发任务</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_task</span><span class="p">();</span>
+<span class="w">        </span><span class="n">write</span><span class="p">(</span><span class="n">pipefd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">task</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">worker_process</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">readfd</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="p">;</span>
+<span class="w">        </span><span class="n">read</span><span class="p">(</span><span class="n">readfd</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">task</span><span class="p">));</span>
+<span class="w">        </span><span class="n">process_task</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id18">
+<h2>6. 性能优化<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>6.1 减少上下文切换<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用线程池而非频繁创建线程</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">thread_pool</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">pthread_t</span><span class="w"> </span><span class="n">threads</span><span class="p">[</span><span class="n">POOL_SIZE</span><span class="p">];</span>
+<span class="w">    </span><span class="n">task_queue_t</span><span class="w"> </span><span class="n">queue</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pthread_mutex_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pthread_cond_t</span><span class="w"> </span><span class="n">notify</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 避免不必要的sleep</span>
+<span class="c1">// 使用非阻塞I/O + epoll</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">epollfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epoll_create1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="n">events</span><span class="p">[</span><span class="n">MAX_EVENTS</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">nfds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epoll_wait</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span><span class="w"> </span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="n">MAX_EVENTS</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="cpu">
+<h3>6.2 CPU亲和性<a class="headerlink" href="#cpu" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 绑定线程到特定CPU，减少缓存失效</span>
+<span class="kt">cpu_set_t</span><span class="w"> </span><span class="n">cpuset</span><span class="p">;</span>
+<span class="n">CPU_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span>
+<span class="n">CPU_SET</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span><span class="w">  </span><span class="c1">// 绑定到CPU 0</span>
+<span class="n">pthread_setaffinity_np</span><span class="p">(</span><span class="n">pthread_self</span><span class="p">(),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">cpuset</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="false-sharing">
+<h3>6.3 避免伪共享（False Sharing）<a class="headerlink" href="#false-sharing" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 错误：两个线程访问相邻数据，导致缓存行失效</span>
+<span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter1</span><span class="p">;</span><span class="w">  </span><span class="c1">// 线程1访问</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter2</span><span class="p">;</span><span class="w">  </span><span class="c1">// 线程2访问</span>
+<span class="p">}</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+
+<span class="c1">// 正确：使用缓存行对齐</span>
+<span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">padding</span><span class="p">[</span><span class="mi">60</span><span class="p">];</span><span class="w">  </span><span class="c1">// 填充到64字节（一个缓存行）</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter2</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="mi">64</span><span class="p">)));</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id20">
+<h2>7. 常见问题<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="q1-fork">
+<h3>Q1: fork后父子进程谁先运行？<a class="headerlink" href="#q1-fork" title="Link to this heading"></a></h3>
+<p><strong>A</strong>: 不确定，由调度器决定。但Linux倾向于先运行子进程，因为子进程可能立即exec，避免写时复制。</p>
+</section>
+<section id="q2">
+<h3>Q2: 为什么线程比进程快？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ol class="arabic simple">
+<li><p>创建快：不需要复制页表</p></li>
+<li><p>切换快：不需要切换页表和刷新TLB</p></li>
+<li><p>通信快：共享内存，无需IPC</p></li>
+</ol>
+</section>
+<section id="q3">
+<h3>Q3: 什么时候用多进程，什么时候用多线程？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p><strong>多进程</strong>：需要隔离、健壮性要求高、利用多核</p></li>
+<li><p><strong>多线程</strong>：需要共享数据、频繁通信、低延迟</p></li>
+</ul>
+</section>
+<section id="q4">
+<h3>Q4: 僵尸进程和孤儿进程？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p><strong>僵尸进程</strong>：子进程退出，父进程未wait()，子进程PCB仍在</p>
+<ul>
+<li><p>解决：父进程调用wait()回收</p></li>
+</ul>
+</li>
+<li><p><strong>孤儿进程</strong>：父进程退出，子进程被init进程（PID 1）收养</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="leetcode">
+<h2>8. LeetCode相关题目<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://leetcode.cn/problems/print-in-order/">1114. 按序打印</a> - 线程同步</p></li>
+<li><p><a class="reference external" href="https://leetcode.cn/problems/print-foobar-alternately/">1115. 交替打印FooBar</a> - 线程协作</p></li>
+<li><p><a class="reference external" href="https://leetcode.cn/problems/print-zero-even-odd/">1116. 打印零与奇偶数</a> - 多线程同步</p></li>
+<li><p><a class="reference external" href="https://leetcode.cn/problems/building-h2o/">1117. H2O生成</a> - 信号量应用</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id21">
+<h2>参考资源<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>《操作系统：精髓与设计原理》</p></li>
+<li><p>《深入理解Linux内核》</p></li>
+<li><p>《Unix环境高级编程》(APUE)</p></li>
+<li><p>Linux内核源码：<code class="docutils literal notranslate"><span class="pre">kernel/fork.c</span></code>, <code class="docutils literal notranslate"><span class="pre">kernel/sched/</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="进程与线程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../02-process-scheduling/index.html" class="btn btn-neutral float-right" title="进程调度" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

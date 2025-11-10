@@ -1,0 +1,6 @@
+.DS_Store
+web-sites-hub/*/venv/
+web-sites-hub/*/*.gz
+web-sites-hub/*/*.tar.gz
+.github
+web-sites-hub/venv/

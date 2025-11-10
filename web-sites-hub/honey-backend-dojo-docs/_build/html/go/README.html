@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 Golang 开发 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="01-Go环境搭建" href="01-environment-setup.html" />
+    <link rel="prev" title="Golang 教程" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Golang 教程</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Golang 开发</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">学习时间线</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">阶段一：基础入门（2020-11）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">阶段二：并发编程（2020-12）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#web-2021-02">阶段三：Web开发（2021-02）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">阶段四：微服务（2021-04）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">阶段五：性能优化（2021-06）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">学习文档</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#go">Go核心特性</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">语言特性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">并发模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">工具链</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">项目实践</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">练习项目</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">实战技术栈</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">学习资源</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">官方文档</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">推荐书籍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">开源项目</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">应用场景</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">云原生基础设施</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#web">Web后端</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#devops">DevOps工具</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">区块链</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">最佳实践</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id21">代码规范</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">错误处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">并发编程</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">性能优化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">项目结构</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">学习心得</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-environment-setup.html">01-Go环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-Go基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-concurrency.html">03-Go并发编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-web-development.html">04-Go Web开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-microservices.html">05-Go微服务实践</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-performance.html">06-Go性能优化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Golang 教程</a></li>
+      <li class="breadcrumb-item active">🚀 Golang 开发</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/go/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="golang">
+<h1>🚀 Golang 开发<a class="headerlink" href="#golang" title="Link to this heading"></a></h1>
+<p>Go语言由Google于2009年发布，专注于简洁、高效、并发。云原生时代的首选语言。</p>
+<section id="id1">
+<h2>学习时间线<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>2020年11月 - 2021年6月（8个月）</strong></p>
+<section id="id2">
+<h3>阶段一：基础入门（2020-11）<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Go环境搭建、工具链</p></li>
+<li><p>基础语法、数据类型</p></li>
+<li><p>函数、方法、接口</p></li>
+<li><p>错误处理</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>阶段二：并发编程（2020-12）<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>goroutine调度模型</p></li>
+<li><p>channel通信</p></li>
+<li><p>sync包同步原语</p></li>
+<li><p>context包</p></li>
+</ul>
+</section>
+<section id="web-2021-02">
+<h3>阶段三：Web开发（2021-02）<a class="headerlink" href="#web-2021-02" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>HTTP标准库</p></li>
+<li><p>Gin框架</p></li>
+<li><p>数据库操作（GORM）</p></li>
+<li><p>RESTful API</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>阶段四：微服务（2021-04）<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>服务注册与发现</p></li>
+<li><p>gRPC通信</p></li>
+<li><p>消息队列</p></li>
+<li><p>链路追踪</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>阶段五：性能优化（2021-06）<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>pprof性能分析</p></li>
+<li><p>内存优化</p></li>
+<li><p>并发优化</p></li>
+<li><p>GC调优</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>学习文档<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>01-环境搭建.md</strong> - Go安装、工具链、开发环境</p></li>
+<li><p><strong>02-基础语法.md</strong> - 数据类型、控制结构、函数、接口</p></li>
+<li><p><strong>03-并发编程.md</strong> - goroutine、channel、sync、context</p></li>
+<li><p><strong>04-Web开发.md</strong> - HTTP、Gin、数据库、RESTful</p></li>
+<li><p><strong>05-微服务.md</strong> - 微服务架构、gRPC、服务治理</p></li>
+<li><p><strong>06-性能优化.md</strong> - pprof、benchmark、内存优化</p></li>
+</ol>
+</section>
+<section id="go">
+<h2>Go核心特性<a class="headerlink" href="#go" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>语言特性<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>简洁语法</strong>：25个关键字，学习曲线平缓</p></li>
+<li><p><strong>静态类型</strong>：编译期类型检查，运行时性能高</p></li>
+<li><p><strong>垃圾回收</strong>：自动内存管理，无需手动释放</p></li>
+<li><p><strong>接口隐式实现</strong>：鸭子类型，解耦灵活</p></li>
+<li><p><strong>defer机制</strong>：资源清理优雅</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>并发模型<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>goroutine</strong>：轻量级线程，栈初始2KB</p></li>
+<li><p><strong>channel</strong>：类型安全的通信管道</p></li>
+<li><p><strong>select</strong>：多路复用，优雅处理多channel</p></li>
+<li><p><strong>context</strong>：传递取消信号和超时控制</p></li>
+<li><p><strong>GMP调度</strong>：高效的M:N调度模型</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>工具链<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>go build</strong>：快速编译，单一二进制</p></li>
+<li><p><strong>go test</strong>：内置测试框架，benchmark支持</p></li>
+<li><p><strong>go mod</strong>：依赖管理，语义化版本</p></li>
+<li><p><strong>gofmt</strong>：自动格式化，统一代码风格</p></li>
+<li><p><strong>go vet</strong>：静态分析，发现潜在错误</p></li>
+<li><p><strong>pprof</strong>：性能分析，定位瓶颈</p></li>
+</ul>
+</section>
+</section>
+<section id="id10">
+<h2>项目实践<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>练习项目<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>CLI工具</strong> - 文件处理、命令行参数解析</p></li>
+<li><p><strong>HTTP服务器</strong> - RESTful API、数据库集成</p></li>
+<li><p><strong>并发爬虫</strong> - goroutine池、channel通信</p></li>
+<li><p><strong>微服务系统</strong> - gRPC、服务发现、链路追踪</p></li>
+</ol>
+</section>
+<section id="id12">
+<h3>实战技术栈<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Web框架</strong>：Gin、Echo、Fiber</p></li>
+<li><p><strong>ORM</strong>：GORM、ent、sqlx</p></li>
+<li><p><strong>数据库</strong>：MySQL、PostgreSQL、Redis、MongoDB</p></li>
+<li><p><strong>消息队列</strong>：Kafka、RabbitMQ、NATS</p></li>
+<li><p><strong>RPC</strong>：gRPC、Thrift</p></li>
+<li><p><strong>配置</strong>：Viper、etcd</p></li>
+<li><p><strong>日志</strong>：logrus、zap</p></li>
+<li><p><strong>监控</strong>：Prometheus、Grafana</p></li>
+<li><p><strong>追踪</strong>：Jaeger、Zipkin</p></li>
+</ul>
+</section>
+</section>
+<section id="id13">
+<h2>学习资源<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>官方文档<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Go官网：https://go.dev</p></li>
+<li><p>Go Tour：https://go.dev/tour/</p></li>
+<li><p>Effective Go：https://go.dev/doc/effective_go</p></li>
+<li><p>Go标准库：https://pkg.go.dev/std</p></li>
+</ul>
+</section>
+<section id="id15">
+<h3>推荐书籍<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>《Go程序设计语言》（The Go Programming Language）</p></li>
+<li><p>《Go语言实战》（Go in Action）</p></li>
+<li><p>《Go并发编程实战》</p></li>
+<li><p>《Go Web编程》</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>开源项目<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Docker</strong> - 容器引擎</p></li>
+<li><p><strong>Kubernetes</strong> - 容器编排</p></li>
+<li><p><strong>etcd</strong> - 分布式键值存储</p></li>
+<li><p><strong>Prometheus</strong> - 监控系统</p></li>
+<li><p><strong>Gin</strong> - Web框架</p></li>
+<li><p><strong>GORM</strong> - ORM框架</p></li>
+</ul>
+</section>
+</section>
+<section id="id17">
+<h2>应用场景<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>云原生基础设施<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Docker、Kubernetes容器技术</p></li>
+<li><p>etcd、Consul服务发现</p></li>
+<li><p>Prometheus、Grafana监控</p></li>
+<li><p>Envoy、Istio服务网格</p></li>
+</ul>
+</section>
+<section id="web">
+<h3>Web后端<a class="headerlink" href="#web" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>微服务API</p></li>
+<li><p>高并发Web服务</p></li>
+<li><p>RESTful/gRPC服务</p></li>
+<li><p>WebSocket实时通信</p></li>
+</ul>
+</section>
+<section id="devops">
+<h3>DevOps工具<a class="headerlink" href="#devops" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>kubectl、helm命令行工具</p></li>
+<li><p>部署脚本、自动化工具</p></li>
+<li><p>日志收集、监控代理</p></li>
+</ul>
+</section>
+<section id="id19">
+<h3>区块链<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Ethereum（Geth）</p></li>
+<li><p>Hyperledger Fabric</p></li>
+</ul>
+</section>
+</section>
+<section id="id20">
+<h2>最佳实践<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="id21">
+<h3>代码规范<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>使用<code class="docutils literal notranslate"><span class="pre">gofmt</span></code>自动格式化</p></li>
+<li><p>遵循Effective Go指南</p></li>
+<li><p>导出标识符大写，未导出小写</p></li>
+<li><p>接口名以<code class="docutils literal notranslate"><span class="pre">er</span></code>结尾</p></li>
+<li><p>包名小写单词，无下划线</p></li>
+</ol>
+</section>
+<section id="id22">
+<h3>错误处理<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>每个error都检查</p></li>
+<li><p>错误包装用<code class="docutils literal notranslate"><span class="pre">fmt.Errorf(&quot;%w&quot;,</span> <span class="pre">err)</span></code></p></li>
+<li><p>自定义错误实现Error()接口</p></li>
+<li><p>使用errors.Is/As判断错误类型</p></li>
+</ol>
+</section>
+<section id="id23">
+<h3>并发编程<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>不要通过共享内存通信，通过通信共享内存</p></li>
+<li><p>关闭channel由发送方负责</p></li>
+<li><p>使用context传递取消信号</p></li>
+<li><p>限制goroutine数量（worker pool）</p></li>
+<li><p>用<code class="docutils literal notranslate"><span class="pre">-race</span></code>检测竞态条件</p></li>
+</ol>
+</section>
+<section id="id24">
+<h3>性能优化<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>先测量，后优化（pprof、benchmark）</p></li>
+<li><p>预分配slice容量</p></li>
+<li><p>使用sync.Pool复用对象</p></li>
+<li><p>字符串拼接用strings.Builder</p></li>
+<li><p>简单计数用atomic，复杂用mutex</p></li>
+</ol>
+</section>
+<section id="id25">
+<h3>项目结构<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project/
+├── cmd/           # 可执行文件入口
+├── internal/      # 私有代码
+├── pkg/           # 可导出的库
+├── api/           # API定义（proto、OpenAPI）
+├── configs/       # 配置文件
+├── scripts/       # 脚本
+├── deployments/   # 部署配置（Docker、K8s）
+├── go.mod
+└── README.md
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id26">
+<h2>学习心得<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Go哲学简洁</strong>：少即是多，避免过度设计</p></li>
+<li><p><strong>并发是核心</strong>：理解goroutine和channel是关键</p></li>
+<li><p><strong>标准库强大</strong>：大部分需求标准库已覆盖</p></li>
+<li><p><strong>工具链完善</strong>：开发、测试、部署一站式</p></li>
+<li><p><strong>社区活跃</strong>：云原生领域事实标准</p></li>
+<li><p><strong>性能优秀</strong>：接近C，远超动态语言</p></li>
+<li><p><strong>部署简单</strong>：单一二进制，无依赖</p></li>
+<li><p><strong>错误处理显式</strong>：冗余但清晰</p></li>
+<li><p><strong>接口灵活</strong>：鸭子类型，解耦优雅</p></li>
+<li><p><strong>适合团队</strong>：gofmt统一风格，无争议</p></li>
+</ol>
+<p><strong>核心：</strong> Go是实用主义语言，为工程效率而生，云原生时代的最佳选择。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="Golang 教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="01-environment-setup.html" class="btn btn-neutral float-right" title="01-Go环境搭建" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>05-分治算法 &mdash; Algorithms Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="贪心算法" href="../06-greedy/index.html" />
+    <link rel="prev" title="分治算法" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Algorithms Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Algorithms Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-sorting-algorithms/index.html">排序算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-search-algorithms/index.html">搜索算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-two-pointers/index.html">双指针技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-recursion-backtracking/index.html">递归与回溯</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">分治算法</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">分治算法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">💡 核心结论</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">分治本质</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vs">分治 vs 其他</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">经典分治问题</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">🎯 归并排序（分治典范）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#k">🔍 快速选择（第K大）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#leetcode">📚 LeetCode练习</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">💻 完整代码实现</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python">Python 实现</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c">C++ 实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../06-greedy/index.html">贪心算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-dynamic-programming-basic/index.html">动态规划基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-knapsack/index.html">背包问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-dynamic-programming-advanced/index.html">DP进阶</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Algorithms Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">分治算法</a></li>
+      <li class="breadcrumb-item active">05-分治算法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/05-divide-conquer/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>05-分治算法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>分治本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>定义</strong>：分解→递归解决→合并结果</p></li>
+<li><p><strong>三步骤</strong>：Divide（分解）→ Conquer（解决）→ Combine（合并）</p></li>
+<li><p><strong>关键</strong>：子问题独立、可递归、能合并</p></li>
+<li><p><strong>时间</strong>：T(n) = aT(n/b) + f(n)，主定理分析</p></li>
+<li><p><strong>应用</strong>：归并排序、快排、二分查找、大整数乘法</p></li>
+</ul>
+</section>
+<section id="vs">
+<h3>分治 vs 其他<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>策略</p></th>
+<th class="head"><p>特点</p></th>
+<th class="head"><p>典型算法</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>分治</p></td>
+<td><p>子问题独立</p></td>
+<td><p>归并、快排</p></td>
+</tr>
+<tr class="row-odd"><td><p>动态规划</p></td>
+<td><p>子问题重叠</p></td>
+<td><p>斐波那契、背包</p></td>
+</tr>
+<tr class="row-even"><td><p>贪心</p></td>
+<td><p>局部最优</p></td>
+<td><p>Dijkstra、哈夫曼</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id4">
+<h3>经典分治问题<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>排序</strong>：归并O(n log n)、快排O(n log n)</p></li>
+<li><p><strong>搜索</strong>：二分O(log n)</p></li>
+<li><p><strong>矩阵</strong>：Strassen矩阵乘法O(n^2.81)</p></li>
+<li><p><strong>大整数</strong>：Karatsuba乘法O(n^1.58)</p></li>
+<li><p><strong>几何</strong>：最近点对O(n log n)</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>🎯 归并排序（分治典范）<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="c1"># 分解</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">arr</span>
+    
+    <span class="n">mid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[:</span><span class="n">mid</span><span class="p">])</span>   <span class="c1"># 递归左半</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">:])</span>  <span class="c1"># 递归右半</span>
+    
+    <span class="c1"># 合并</span>
+    <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="k">
+<h2>🔍 快速选择（第K大）<a class="headerlink" href="#k" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">quick_select</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;平均O(n)找第k大元素&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="n">pivot</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">]</span>
+    <span class="n">mid</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">pivot</span><span class="p">]</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">quick_select</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">mid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">quick_select</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">mid</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="leetcode">
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://leetcode.com/problems/sort-an-array/">912. Sort an Array</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/kth-largest-element-in-an-array/">215. Kth Largest Element</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/merge-k-sorted-lists/">23. Merge k Sorted Lists</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/majority-element/">169. Majority Element</a></p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>💻 完整代码实现<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="python">
+<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">分治算法实现</span>
+<span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="c1"># ========== 快速选择（第K大元素） ==========</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="k">def</span><span class="w"> </span><span class="nf">quick_select</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="linenos">  8</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;找第k大元素（平均O(n)）&quot;&quot;&quot;</span>
+<span class="linenos">  9</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span>
+<span class="linenos"> 10</span>        <span class="k">return</span> <span class="kc">None</span>
+<span class="linenos"> 11</span>    
+<span class="linenos"> 12</span>    <span class="n">pivot</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+<span class="linenos"> 13</span>    <span class="n">left</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">]</span>
+<span class="linenos"> 14</span>    <span class="n">mid</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">pivot</span><span class="p">]</span>
+<span class="linenos"> 15</span>    <span class="n">right</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">]</span>
+<span class="linenos"> 16</span>    
+<span class="linenos"> 17</span>    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
+<span class="linenos"> 18</span>        <span class="k">return</span> <span class="n">quick_select</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="linenos"> 19</span>    <span class="k">elif</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">mid</span><span class="p">):</span>
+<span class="linenos"> 20</span>        <span class="k">return</span> <span class="n">mid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 21</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 22</span>        <span class="k">return</span> <span class="n">quick_select</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">mid</span><span class="p">))</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="c1"># ========== 归并排序 ==========</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="k">def</span><span class="w"> </span><span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;归并排序&quot;&quot;&quot;</span>
+<span class="linenos"> 29</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+<span class="linenos"> 30</span>        <span class="k">return</span> <span class="n">arr</span>
+<span class="linenos"> 31</span>    
+<span class="linenos"> 32</span>    <span class="n">mid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="linenos"> 33</span>    <span class="n">left</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[:</span><span class="n">mid</span><span class="p">])</span>
+<span class="linenos"> 34</span>    <span class="n">right</span> <span class="o">=</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">:])</span>
+<span class="linenos"> 35</span>    
+<span class="linenos"> 36</span>    <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<span class="linenos"> 37</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;合并两个有序数组&quot;&quot;&quot;</span>
+<span class="linenos"> 41</span>    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 42</span>    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 43</span>    
+<span class="linenos"> 44</span>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+<span class="linenos"> 45</span>        <span class="k">if</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<span class="linenos"> 46</span>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 47</span>            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 48</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 49</span>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="linenos"> 50</span>            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 51</span>    
+<span class="linenos"> 52</span>    <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+<span class="linenos"> 53</span>    <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">:])</span>
+<span class="linenos"> 54</span>    <span class="k">return</span> <span class="n">result</span>
+<span class="linenos"> 55</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="c1"># ========== 计算逆序对 ==========</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="k">def</span><span class="w"> </span><span class="nf">merge_count</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;归并排序同时计算逆序对&quot;&quot;&quot;</span>
+<span class="linenos"> 61</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+<span class="linenos"> 62</span>        <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="mi">0</span>
+<span class="linenos"> 63</span>    
+<span class="linenos"> 64</span>    <span class="n">mid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="linenos"> 65</span>    <span class="n">left</span><span class="p">,</span> <span class="n">left_count</span> <span class="o">=</span> <span class="n">merge_count</span><span class="p">(</span><span class="n">arr</span><span class="p">[:</span><span class="n">mid</span><span class="p">])</span>
+<span class="linenos"> 66</span>    <span class="n">right</span><span class="p">,</span> <span class="n">right_count</span> <span class="o">=</span> <span class="n">merge_count</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">:])</span>
+<span class="linenos"> 67</span>    
+<span class="linenos"> 68</span>    <span class="n">merged</span><span class="p">,</span> <span class="n">merge_count_val</span> <span class="o">=</span> <span class="n">merge_and_count</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<span class="linenos"> 69</span>    
+<span class="linenos"> 70</span>    <span class="k">return</span> <span class="n">merged</span><span class="p">,</span> <span class="n">left_count</span> <span class="o">+</span> <span class="n">right_count</span> <span class="o">+</span> <span class="n">merge_count_val</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span><span class="k">def</span><span class="w"> </span><span class="nf">merge_and_count</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;合并并计算跨越两部分的逆序对&quot;&quot;&quot;</span>
+<span class="linenos"> 75</span>    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 76</span>    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 77</span>    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 78</span>    
+<span class="linenos"> 79</span>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+<span class="linenos"> 80</span>        <span class="k">if</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<span class="linenos"> 81</span>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 82</span>            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 83</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 84</span>            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="linenos"> 85</span>            <span class="n">count</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>  <span class="c1"># 逆序对数</span>
+<span class="linenos"> 86</span>            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos"> 87</span>    
+<span class="linenos"> 88</span>    <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+<span class="linenos"> 89</span>    <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">:])</span>
+<span class="linenos"> 90</span>    
+<span class="linenos"> 91</span>    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">count</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="k">def</span><span class="w"> </span><span class="nf">count_inversions</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;计算逆序对数量&quot;&quot;&quot;</span>
+<span class="linenos"> 96</span>    <span class="n">_</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">merge_count</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="linenos"> 97</span>    <span class="k">return</span> <span class="n">count</span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="c1"># ========== 最大子数组和（分治） ==========</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span><span class="k">def</span><span class="w"> </span><span class="nf">max_subarray_divide_conquer</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+<span class="linenos">103</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;分治法求最大子数组和&quot;&quot;&quot;</span>
+<span class="linenos">104</span>    <span class="k">if</span> <span class="n">left</span> <span class="o">==</span> <span class="n">right</span><span class="p">:</span>
+<span class="linenos">105</span>        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+<span class="linenos">106</span>    
+<span class="linenos">107</span>    <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="n">right</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="linenos">108</span>    
+<span class="linenos">109</span>    <span class="c1"># 左半部分最大</span>
+<span class="linenos">110</span>    <span class="n">left_max</span> <span class="o">=</span> <span class="n">max_subarray_divide_conquer</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span>
+<span class="linenos">111</span>    <span class="c1"># 右半部分最大</span>
+<span class="linenos">112</span>    <span class="n">right_max</span> <span class="o">=</span> <span class="n">max_subarray_divide_conquer</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<span class="linenos">113</span>    <span class="c1"># 跨中点最大</span>
+<span class="linenos">114</span>    <span class="n">cross_max</span> <span class="o">=</span> <span class="n">max_crossing_sum</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<span class="linenos">115</span>    
+<span class="linenos">116</span>    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">left_max</span><span class="p">,</span> <span class="n">right_max</span><span class="p">,</span> <span class="n">cross_max</span><span class="p">)</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span>
+<span class="linenos">119</span><span class="k">def</span><span class="w"> </span><span class="nf">max_crossing_sum</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+<span class="linenos">120</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;计算跨越中点的最大子数组和&quot;&quot;&quot;</span>
+<span class="linenos">121</span>    <span class="c1"># 左边最大</span>
+<span class="linenos">122</span>    <span class="n">left_sum</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+<span class="linenos">123</span>    <span class="n">curr_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">124</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="linenos">125</span>        <span class="n">curr_sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos">126</span>        <span class="n">left_sum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">left_sum</span><span class="p">,</span> <span class="n">curr_sum</span><span class="p">)</span>
+<span class="linenos">127</span>    
+<span class="linenos">128</span>    <span class="c1"># 右边最大</span>
+<span class="linenos">129</span>    <span class="n">right_sum</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+<span class="linenos">130</span>    <span class="n">curr_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">131</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos">132</span>        <span class="n">curr_sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos">133</span>        <span class="n">right_sum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">right_sum</span><span class="p">,</span> <span class="n">curr_sum</span><span class="p">)</span>
+<span class="linenos">134</span>    
+<span class="linenos">135</span>    <span class="k">return</span> <span class="n">left_sum</span> <span class="o">+</span> <span class="n">right_sum</span>
+<span class="linenos">136</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span><span class="k">def</span><span class="w"> </span><span class="nf">demo</span><span class="p">():</span>
+<span class="linenos">139</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;演示分治算法&quot;&quot;&quot;</span>
+<span class="linenos">140</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== 分治算法演示 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">141</span>    
+<span class="linenos">142</span>    <span class="c1"># 快速选择</span>
+<span class="linenos">143</span>    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="linenos">144</span>    <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="linenos">145</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;第</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">大元素 </span><span class="si">{</span><span class="n">nums</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">146</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  结果: </span><span class="si">{</span><span class="n">quick_select</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">147</span>    
+<span class="linenos">148</span>    <span class="c1"># 归并排序</span>
+<span class="linenos">149</span>    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="linenos">150</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;归并排序 </span><span class="si">{</span><span class="n">arr</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">151</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  结果: </span><span class="si">{</span><span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">152</span>    
+<span class="linenos">153</span>    <span class="c1"># 逆序对</span>
+<span class="linenos">154</span>    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="linenos">155</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;逆序对 </span><span class="si">{</span><span class="n">arr</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">156</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  数量: </span><span class="si">{</span><span class="n">count_inversions</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">157</span>    
+<span class="linenos">158</span>    <span class="c1"># 最大子数组和（分治）</span>
+<span class="linenos">159</span>    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="linenos">160</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最大子数组和 </span><span class="si">{</span><span class="n">nums</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">161</span>    <span class="n">result</span> <span class="o">=</span> <span class="n">max_subarray_divide_conquer</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">162</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  结果: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">163</span>
+<span class="linenos">164</span>
+<span class="linenos">165</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">166</span>    <span class="n">demo</span><span class="p">()</span>
+<span class="linenos">167</span>
+</pre></div>
+</div>
+</section>
+<section id="c">
+<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
+<span class="linenos">  2</span><span class="cm"> * 分治算法实现</span>
+<span class="linenos">  3</span><span class="cm"> */</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="linenos">  6</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span>
+<span class="linenos">  8</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;climits&gt;</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="c1">// 归并排序</span>
+<span class="linenos"> 13</span><span class="kt">void</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 14</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 15</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">R</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 16</span><span class="w">    </span>
+<span class="linenos"> 17</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">;</span>
+<span class="linenos"> 18</span><span class="w">    </span>
+<span class="linenos"> 19</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">L</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 20</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 21</span><span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos"> 22</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 23</span><span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos"> 24</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 25</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 26</span><span class="w">    </span>
+<span class="linenos"> 27</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">L</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos"> 29</span><span class="p">}</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="kt">void</span><span class="w"> </span><span class="nf">mergeSortHelper</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 32</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 33</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">left</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 34</span><span class="w">        </span><span class="n">mergeSortHelper</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">);</span>
+<span class="linenos"> 35</span><span class="w">        </span><span class="n">mergeSortHelper</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos"> 36</span><span class="w">        </span><span class="n">merge</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos"> 37</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 38</span><span class="p">}</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">mergeSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="n">mergeSortHelper</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">arr</span><span class="p">;</span>
+<span class="linenos"> 43</span><span class="p">}</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="c1">// 快速选择（第K大元素）</span>
+<span class="linenos"> 46</span><span class="kt">int</span><span class="w"> </span><span class="n">partition</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 47</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pivot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">;</span>
+<span class="linenos"> 49</span><span class="w">    </span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">pivot</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 降序，找第k大</span>
+<span class="linenos"> 52</span><span class="w">            </span><span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+<span class="linenos"> 53</span><span class="w">            </span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="linenos"> 54</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 56</span><span class="w">    </span><span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]);</span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="linenos"> 58</span><span class="p">}</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="kt">int</span><span class="w"> </span><span class="n">quickSelect</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 61</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+<span class="linenos"> 62</span><span class="w">    </span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pivotIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partition</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos"> 64</span><span class="w">    </span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pivotIndex</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 66</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pivotIndex</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 68</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">quickSelect</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">pivotIndex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 70</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">quickSelect</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">pivotIndex</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 72</span><span class="p">}</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="kt">int</span><span class="w"> </span><span class="n">findKthLargest</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 75</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">quickSelect</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 76</span><span class="p">}</span>
+<span class="linenos"> 77</span>
+<span class="linenos"> 78</span><span class="c1">// 最大子数组和（分治）</span>
+<span class="linenos"> 79</span><span class="kt">int</span><span class="w"> </span><span class="n">maxCrossingSum</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">leftSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INT_MIN</span><span class="p">;</span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">left</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 83</span><span class="w">        </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos"> 84</span><span class="w">        </span><span class="n">leftSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">leftSum</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 86</span><span class="w">    </span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rightSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INT_MIN</span><span class="p">;</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">right</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 90</span><span class="w">        </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos"> 91</span><span class="w">        </span><span class="n">rightSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">rightSum</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 93</span><span class="w">    </span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">leftSum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rightSum</span><span class="p">;</span>
+<span class="linenos"> 95</span><span class="p">}</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span><span class="kt">int</span><span class="w"> </span><span class="n">maxSubArrayDC</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 99</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+<span class="linenos">100</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">101</span><span class="w">    </span>
+<span class="linenos">102</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos">103</span><span class="w">    </span>
+<span class="linenos">104</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">leftMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maxSubArrayDC</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">);</span>
+<span class="linenos">105</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rightMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maxSubArrayDC</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos">106</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">crossMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maxCrossingSum</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos">107</span><span class="w">    </span>
+<span class="linenos">108</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">max</span><span class="p">({</span><span class="n">leftMax</span><span class="p">,</span><span class="w"> </span><span class="n">rightMax</span><span class="p">,</span><span class="w"> </span><span class="n">crossMax</span><span class="p">});</span>
+<span class="linenos">109</span><span class="p">}</span>
+<span class="linenos">110</span>
+<span class="linenos">111</span><span class="kt">int</span><span class="w"> </span><span class="n">maxSubArray</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">112</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">maxSubArrayDC</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos">113</span><span class="p">}</span>
+<span class="linenos">114</span>
+<span class="linenos">115</span><span class="c1">// 计算逆序对</span>
+<span class="linenos">116</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">mergeAndCount</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">117</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">L</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos">118</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">R</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos">119</span><span class="w">    </span>
+<span class="linenos">120</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">;</span>
+<span class="linenos">121</span><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">invCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">122</span><span class="w">    </span>
+<span class="linenos">123</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">L</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">124</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">125</span><span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos">126</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">127</span><span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos">128</span><span class="w">            </span><span class="n">invCount</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">L</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">  </span><span class="c1">// 逆序对数</span>
+<span class="linenos">129</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">130</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">131</span><span class="w">    </span>
+<span class="linenos">132</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">L</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos">133</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+<span class="linenos">134</span><span class="w">    </span>
+<span class="linenos">135</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">invCount</span><span class="p">;</span>
+<span class="linenos">136</span><span class="p">}</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">mergeSortCount</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">139</span><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">invCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">140</span><span class="w">    </span>
+<span class="linenos">141</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">right</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">142</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">left</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos">143</span><span class="w">        </span><span class="n">invCount</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mergeSortCount</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">);</span>
+<span class="linenos">144</span><span class="w">        </span><span class="n">invCount</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mergeSortCount</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos">145</span><span class="w">        </span><span class="n">invCount</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mergeAndCount</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="linenos">146</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">147</span><span class="w">    </span>
+<span class="linenos">148</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">invCount</span><span class="p">;</span>
+<span class="linenos">149</span><span class="p">}</span>
+<span class="linenos">150</span>
+<span class="linenos">151</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">countInversions</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">152</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mergeSortCount</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos">153</span><span class="p">}</span>
+<span class="linenos">154</span>
+<span class="linenos">155</span><span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">156</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;=== 分治算法演示 ===&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">157</span><span class="w">    </span>
+<span class="linenos">158</span><span class="w">    </span><span class="c1">// 快速选择</span>
+<span class="linenos">159</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span>
+<span class="linenos">160</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos">161</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;第&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;大元素 [3,2,1,5,6,4]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">162</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  结果: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">findKthLargest</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">163</span><span class="w">    </span>
+<span class="linenos">164</span><span class="w">    </span><span class="c1">// 归并排序</span>
+<span class="linenos">165</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">};</span>
+<span class="linenos">166</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;归并排序 [5,2,8,1,9,3]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">167</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mergeSort</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="linenos">168</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  结果: [&quot;</span><span class="p">;</span>
+<span class="linenos">169</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sorted</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">170</span><span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sorted</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos">171</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sorted</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">;</span>
+<span class="linenos">172</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">173</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;]&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">174</span><span class="w">    </span>
+<span class="linenos">175</span><span class="w">    </span><span class="c1">// 逆序对</span>
+<span class="linenos">176</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">};</span>
+<span class="linenos">177</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;逆序对 [8,4,2,1]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">178</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  数量: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">countInversions</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">179</span><span class="w">    </span>
+<span class="linenos">180</span><span class="w">    </span><span class="c1">// 最大子数组和</span>
+<span class="linenos">181</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">-2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">-3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">-5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span>
+<span class="linenos">182</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;最大子数组和 [-2,1,-3,4,-1,2,1,-5,4]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">183</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  结果: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">maxSubArray</span><span class="p">(</span><span class="n">nums2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">184</span><span class="w">    </span>
+<span class="linenos">185</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">186</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="分治算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../06-greedy/index.html" class="btn btn-neutral float-right" title="贪心算法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
