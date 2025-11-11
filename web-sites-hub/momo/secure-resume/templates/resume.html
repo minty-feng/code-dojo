@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="minty-feng 的个人简历 - 技能树、工作经历、教育背景、项目经验">
+    <title>个人简历 - minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/resume.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            if (window.location.protocol === 'file:') {
+                const replacements = [
+                    { selector: 'link[href="/static/favicon.svg"]', attr: 'href', value: '../static/favicon.svg' },
+                    { selector: 'link[href="/static/main.css"]', attr: 'href', value: '../static/main.css' },
+                    { selector: 'link[href="/static/resume.css"]', attr: 'href', value: '../static/resume.css' }
+                ];
+                replacements.forEach(({ selector, attr, value }) => {
+                    const el = document.querySelector(selector);
+                    if (el) {
+                        el.setAttribute(attr, value);
+                    }
+                });
+                window.__adjustStaticPath = true;
+            }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <!-- Snowflakes container (only visible in dark mode) -->
+        <div class="snowflakes" id="snowflakes"></div>
+        <!-- Fireflies container (only visible in dark mode) -->
+        <div class="fireflies" id="fireflies"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <a href="https://joketop.com" class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">个人简历</p>
+                </a>
+                <div class="header-actions">
+                    <button class="download-pdf-btn" id="downloadPdfBtn" aria-label="下载 PDF">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>下载 PDF</span>
+                    </button>
+                    <button class="download-pdf-btn logout-btn" id="logoutBtn" aria-label="退出登录">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 17l-5-5 5-5"></path>
+                            <path d="M15 12H5"></path>
+                            <path d="M19 21V3a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v3"></path>
+                        </svg>
+                        <span>退出</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main resume-main">
+            <!-- Personal Info Section -->
+            <section class="resume-section">
+                <div class="resume-card personal-card">
+                    <div class="personal-header">
+                        <div class="personal-avatar">
+                            <div class="avatar-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="personal-info">
+                            <h1 class="personal-name">minty-feng</h1>
+                            <p class="personal-title">全栈开发工程师</p>
+                            <div class="personal-contact">
+                                <a href="mailto:your@email.com" class="contact-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                    <span>your@email.com</span>
+                                </a>
+                                <a href="https://github.com/minty-feng" class="contact-item" target="_blank" rel="noopener noreferrer">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="personal-bio">
+                        <p>热爱编程的全栈开发工程师，专注于构建优雅、高效的 Web 应用。擅长前后端开发，对新技术保持好奇心，享受解决问题的过程。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">01</span>
+                        <span class="section-title-text">技能树</span>
+                    </h2>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">前端技术</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">后端技术</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Go</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">Redis</span>
+                            <span class="skill-tag">Docker</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">工具 & 其他</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Linux</span>
+                            <span class="skill-tag">Nginx</span>
+                            <span class="skill-tag">CI/CD</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Kubernetes</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">02</span>
+                        <span class="section-title-text">工作经历</span>
+                    </h2>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 class="timeline-title">高级全栈开发工程师</h3>
+                                <span class="timeline-company">XX 科技有限公司</span>
+                                <span class="timeline-date">2022.01 - 至今</span>
+                            </div>
+                            <ul class="timeline-description">
+                                <li>负责核心业务系统的架构设计与开发，提升系统性能 40%</li>
+                                <li>主导前端组件库建设，提高开发效率 30%</li>
+                                <li>优化数据库查询，将响应时间从 2s 降低到 200ms</li>
+                                <li>指导团队成员技术成长，参与代码审查和技术分享</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 class="timeline-title">全栈开发工程师</h3>
+                                <span class="timeline-company">XX 互联网公司</span>
+                                <span class="timeline-date">2020.06 - 2021.12</span>
+                            </div>
+                            <ul class="timeline-description">
+                                <li>参与多个 Web 应用的前后端开发，使用 React + Node.js 技术栈</li>
+                                <li>实现微服务架构改造，提升系统可扩展性</li>
+                                <li>负责 API 设计与实现，支持日均 100万+ 请求</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3 class="timeline-title">前端开发工程师</h3>
+                                <span class="timeline-company">XX 软件公司</span>
+                                <span class="timeline-date">2019.07 - 2020.05</span>
+                            </div>
+                            <ul class="timeline-description">
+                                <li>负责企业级管理系统的前端开发</li>
+                                <li>使用 Vue.js 构建响应式 Web 应用</li>
+                                <li>优化页面加载性能，提升用户体验</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">03</span>
+                        <span class="section-title-text">教育背景</span>
+                    </h2>
+                </div>
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+                        <div class="education-content">
+                            <h3 class="education-degree">计算机科学与技术</h3>
+                            <p class="education-school">XX 大学</p>
+                            <span class="education-date">2015.09 - 2019.06</span>
+                            <p class="education-desc">主修课程：数据结构、算法、操作系统、计算机网络、数据库系统</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">04</span>
+                        <span class="section-title-text">项目经验</span>
+                    </h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-name">企业级管理系统</h3>
+                            <div class="project-tags">
+                                <span class="project-tag">React</span>
+                                <span class="project-tag">Node.js</span>
+                                <span class="project-tag">MySQL</span>
+                            </div>
+                        </div>
+                        <p class="project-description">为企业开发的一站式管理系统，包含用户管理、权限控制、数据分析等功能模块。采用微服务架构，支持高并发访问。</p>
+                        <div class="project-highlights">
+                            <span>日均处理 10万+ 请求</span>
+                            <span>响应时间 < 200ms</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-name">开源组件库</h3>
+                            <div class="project-tags">
+                                <span class="project-tag">React</span>
+                                <span class="project-tag">TypeScript</span>
+                                <span class="project-tag">Storybook</span>
+                            </div>
+                        </div>
+                        <p class="project-description">基于 React 的企业级 UI 组件库，提供 50+ 高质量组件，支持主题定制和 TypeScript 类型定义。</p>
+                        <div class="project-highlights">
+                            <span>GitHub Stars: 500+</span>
+                            <span>npm 周下载量 1000+</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-name">实时协作平台</h3>
+                            <div class="project-tags">
+                                <span class="project-tag">Vue.js</span>
+                                <span class="project-tag">WebSocket</span>
+                                <span class="project-tag">Redis</span>
+                            </div>
+                        </div>
+                        <p class="project-description">支持多人实时协作的在线平台，使用 WebSocket 实现实时通信，Redis 管理会话状态，支持 1000+ 并发用户。</p>
+                        <div class="project-highlights">
+                            <span>实时延迟 < 50ms</span>
+                            <span>支持 1000+ 并发</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 minty-feng</p>
+                <div class="footer-links">
+                    <a href="https://joketop.com">返回主页</a>
+                    <a href="https://blog.joketop.com">技术博客</a>
+                    <a href="https://showcase.joketop.com">项目展示</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/resume.js"></script>
+    <script>
+        (function() {
+            if (window.location.protocol === 'file:' && window.__adjustStaticPath) {
+                const scripts = [
+                    { selector: 'script[src="/static/main.js"]', attr: 'src', value: '../static/main.js' },
+                    { selector: 'script[src="/static/resume.js"]', attr: 'src', value: '../static/resume.js' }
+                ];
+                scripts.forEach(({ selector, attr, value }) => {
+                    const el = document.querySelector(selector);
+                    if (el) {
+                        el.setAttribute(attr, value);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
+
