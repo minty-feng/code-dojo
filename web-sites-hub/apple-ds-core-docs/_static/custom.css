@@ -1,66 +1,61 @@
 /* 全屏显示样式 - 保留侧边栏，内容区域全屏 */
-/* 侧边栏保持显示 */
-.wy-nav-side {
-    display: block !important; /* 保留侧边栏 */
-}
-
-/* 内容区域占满剩余空间 */
-.wy-nav-content-wrap {
-    margin-left: 300px !important; /* 保留侧边栏空间 */
-}
-
-.wy-nav-content {
-    max-width: none !important; /* 移除最大宽度限制 */
-    width: 100% !important; /* 占满整个可用宽度 */
-    padding: 0 40px !important; /* 调整左右内边距 */
-}
-
-.rst-content {
-    max-width: none !important; /* 移除最大宽度限制 */
-    width: 100% !important;
-}
-
-.rst-content .document {
-    max-width: none !important; /* 移除最大宽度限制 */
-    width: 100% !important;
-}
-
-/* 确保内容区域在侧边栏存在时也能充分利用空间 */
-.wy-body-for-nav .wy-nav-content {
-    max-width: none !important; /* 移除最大宽度限制 */
-    width: 100% !important;
-}
-
-/* 确保内容区域的内层容器也占满宽度 */
-.rst-content .section {
-    max-width: none !important;
-}
-
-.rst-content .section ul,
-.rst-content .section ol {
-    max-width: none !important;
-}
-
-/* 确保代码块也能全屏显示 */
-.rst-content pre {
-    max-width: 100%;
-    overflow-x: auto;
-}
-
-/* 表格全屏显示 */
-.rst-content table {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* 响应式：小屏幕时保持侧边栏 */
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 1025px) {
+    /* 侧边栏保持显示 */
     .wy-nav-side {
-        display: block !important;
+        display: block !important; /* 保留侧边栏 */
     }
-    
+
+    /* 内容区域占满剩余空间 */
     .wy-nav-content-wrap {
-        margin-left: 300px !important;
+        margin-left: 300px !important; /* 保留侧边栏空间 */
+    }
+
+    .wy-nav-content {
+        max-width: none !important; /* 移除最大宽度限制 */
+        width: 100% !important; /* 占满整个可用宽度 */
+        padding: 0 40px !important; /* 调整左右内边距 */
+    }
+
+    .rst-content {
+        max-width: none !important; /* 移除最大宽度限制 */
+        width: 100% !important;
+    }
+
+    .rst-content .document {
+        max-width: none !important; /* 移除最大宽度限制 */
+        width: 100% !important;
+    }
+
+    /* 确保内容区域在侧边栏存在时也能充分利用空间 */
+    .wy-body-for-nav .wy-nav-content {
+        max-width: none !important; /* 移除最大宽度限制 */
+        width: 100% !important;
+    }
+
+    /* 确保内容区域的内层容器也占满宽度 */
+    .rst-content .section,
+    .rst-content .section ul,
+    .rst-content .section ol {
+        max-width: none !important;
+    }
+
+    /* 确保代码块也能全屏显示 */
+    .rst-content pre {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    /* 表格全屏显示 */
+    .rst-content table {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* 移动端：展开目录时隐藏正文内容 */
+@media screen and (max-width: 1024px) {
+    .wy-nav-content-wrap.shift .wy-nav-content {
+        display: none;
     }
 }
 

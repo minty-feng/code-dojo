@@ -80,5 +80,5 @@ echo "   配置 Nginx (HTTP):"
 echo "   sudo ./deploy-all-docs.sh"
 echo ""
 echo "   配置 Nginx (HTTPS):"
-echo "   sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com"
+echo "   sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com"
 
