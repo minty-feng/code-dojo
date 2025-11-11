@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', logout);
+        logoutBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            handleLogout();
+        });
     }
 });
 
@@ -137,18 +140,19 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-async function logout() {
+async function handleLogout() {
     try {
         await fetch('/api/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            cache: 'no-store',
         });
     } catch (error) {
         console.error('退出错误:', error);
     } finally {
-        window.location.href = '/';
+        window.location.replace('/');
     }
 }
 

@@ -1,6 +1,19 @@
+let statusBubble;
+let statusIcon;
+let statusText;
+let defaultMessage = '请联系简历主人获取邀请码';
+let defaultIcon = '💬';
+
 document.addEventListener('DOMContentLoaded', function () {
     const inviteInput = document.getElementById('inviteCode');
-    const errorDiv = document.getElementById('error');
+    statusBubble = document.getElementById('statusBubble');
+
+    if (statusBubble) {
+        statusIcon = statusBubble.querySelector('.status-icon');
+        statusText = statusBubble.querySelector('.status-text');
+        defaultMessage = statusText?.textContent?.trim() || defaultMessage;
+        defaultIcon = statusIcon?.textContent?.trim() || defaultIcon;
+    }
 
     inviteInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
@@ -9,25 +22,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     inviteInput.addEventListener('input', function () {
-        errorDiv.textContent = '';
+        showStatus(defaultMessage);
     });
 
+    showStatus(defaultMessage);
     inviteInput.focus();
 });
 
 async function verifyInvite() {
-    const code = document.getElementById('inviteCode').value.trim();
-    const errorDiv = document.getElementById('error');
+    const codeInput = document.getElementById('inviteCode');
+    const code = codeInput.value.trim();
     const authBtn = document.querySelector('.auth-btn');
 
-    errorDiv.textContent = '';
-
     if (!code) {
-        errorDiv.textContent = '请输入邀请码';
+        showStatus('请输入邀请码', 'error');
         return;
     }
     if (code.length !== 32) {
-        errorDiv.textContent = '邀请码应为32位字符';
+        showStatus('邀请码应为 32 位字符', 'error');
         return;
     }
 
@@ -35,6 +47,7 @@ async function verifyInvite() {
     authBtn.innerHTML =
         '<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> 验证中...';
     authBtn.disabled = true;
+    showStatus('正在验证邀请码...', 'info');
 
     try {
         const response = await fetch('/api/auth', {
@@ -51,16 +64,28 @@ async function verifyInvite() {
         if (result.success) {
             window.location.href = '/';
         } else {
-            errorDiv.textContent = result.message;
-            document.getElementById('inviteCode').value = '';
-            document.getElementById('inviteCode').focus();
+            showStatus(result.message || '邀请码无效', 'error');
+            codeInput.value = '';
+            codeInput.focus();
         }
     } catch (error) {
         console.error('验证错误:', error);
-        errorDiv.textContent = '网络错误，请检查连接后重试';
+        showStatus('网络错误，请检查连接后重试', 'error');
     } finally {
         authBtn.innerHTML = originalText;
         authBtn.disabled = false;
     }
 }
 
+function showStatus(message, type = 'info') {
+    if (!statusBubble || !statusIcon || !statusText) {
+        return;
+    }
+
+    const text = message ? message.trim() : defaultMessage;
+    const isError = type === 'error';
+
+    statusBubble.classList.toggle('error', isError);
+    statusIcon.textContent =  defaultIcon;
+    statusText.textContent = text || defaultMessage;
+}

@@ -1,3 +1,23 @@
+.error-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.error-message {
+    margin: 0;
+    max-width: 320px;
+    flex: 0 1 320px;
+}
+
+.auth-footer {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+}
 * {
     margin: 0;
     padding: 0;
@@ -91,21 +111,37 @@ body {
     box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
 }
 
-.error-message {
-    color: #e53e3e;
-    margin: 15px 0;
+.status-bubble {
+    margin: 26px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(224, 242, 255, 0.92), rgba(198, 221, 255, 0.9));
+    border: 1px solid rgba(99, 179, 237, 0.35);
+    box-shadow: 0 18px 38px rgba(99, 179, 237, 0.2);
+    backdrop-filter: blur(14px);
+    color: #2b6cb0;
     font-size: 0.95rem;
-    min-height: 20px;
-    padding: 10px;
-    background: #fed7d7;
-    border-radius: 8px;
-    border: 1px solid #feb2b2;
+    transition: all 0.25s ease;
+    max-width: 420px;
+    justify-content: center;
 }
 
-.auth-footer {
-    margin-top: 30px;
-    color: #a0aec0;
-    font-size: 0.9rem;
+.status-bubble .status-icon {
+    font-size: 1.1rem;
+}
+
+.status-bubble.error {
+    background: linear-gradient(135deg, rgba(254, 215, 215, 0.9), rgba(252, 129, 129, 0.85));
+    border: 1px solid rgba(252, 129, 129, 0.45);
+    box-shadow: 0 18px 38px rgba(245, 101, 101, 0.22);
+    color: #c53030;
+}
+
+.status-bubble .status-text {
+    display: inline-block;
 }
 
 .resume-section {
@@ -286,5 +322,11 @@ body {
     .header-content h1 {
         font-size: 2rem;
     }
+
+.status-bubble {
+    max-width: 100%;
+    justify-content: center;
+    text-align: center;
+}
 }
 
