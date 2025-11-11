@@ -13,6 +13,7 @@ NGINX_CONF_FILE="$NGINX_SITES_AVAILABLE/joketop.conf"
 # 获取脚本所在目录
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NGINX_CONF_TEMPLATE="$SCRIPT_DIR/joketop.conf"
+NGINX_CONF_TEMPLATE_HTTP="$SCRIPT_DIR/joketop-http.conf"
 NGINX_LETSENCRYPT_TEMP="$SCRIPT_DIR/joketop-letsencrypt-temp.conf"
 
 # 旧配置文件列表（需要清理的）
@@ -38,16 +39,51 @@ declare -a SERVICES=(
 )
 
 # HTTPS 配置
-ENABLE_HTTPS=false
+# 取值说明：
+#   http         - 默认仅部署 HTTP
+#   letsencrypt  - 请求自动获取证书
+#   manual       - 手动指定证书
+#   https        - 证书就绪，部署 HTTPS
+ENABLE_HTTPS="http"
 SSL_CERT_PATH=""
 SSL_KEY_PATH=""
+LETSENCRYPT_EMAIL=""
+
+ensure_nginx_ready() {
+    echo "   🔎 检查 Nginx 环境..."
+    if ! command -v nginx >/dev/null 2>&1; then
+        echo "   📥 未检测到 Nginx，正在安装..."
+        if command -v apt-get >/dev/null 2>&1; then
+            apt-get update
+            apt-get install -y nginx
+        elif command -v yum >/dev/null 2>&1; then
+            yum install -y nginx
+        else
+            echo "❌ 无法自动安装 Nginx，请先手动安装后重试"
+            exit 1
+        fi
+    else
+        echo "   ✅ 已检测到 Nginx"
+    fi
+
+    for nginx_dir in "$NGINX_SITES_AVAILABLE" "$NGINX_SITES_ENABLED"; do
+        if [ ! -d "$nginx_dir" ]; then
+            echo "   📁 创建目录: $nginx_dir"
+            mkdir -p "$nginx_dir"
+        fi
+    done
+
+    if [ ! -d "/var/log/nginx" ]; then
+        echo "   📁 创建目录: /var/log/nginx"
+        mkdir -p /var/log/nginx
+    fi
+}
 
 # 解析命令行参数
 while [[ $# -gt 0 ]]; do
     case $1 in
         --letsencrypt)
-            ENABLE_HTTPS=true
-            USE_LETSENCRYPT=true
+            ENABLE_HTTPS="letsencrypt"
             shift
             ;;
         --email)
@@ -55,7 +91,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         --cert)
-            ENABLE_HTTPS=true
+            ENABLE_HTTPS="manual"
             SSL_CERT_PATH="$2"
             shift 2
             ;;
@@ -117,12 +153,14 @@ done
 echo ""
 
 # Let's Encrypt 配置
-if [ "$USE_LETSENCRYPT" = true ]; then
+if [ "$ENABLE_HTTPS" = "letsencrypt" ]; then
     echo "📋 步骤 2/6: 配置 SSL 证书..."
     if [ -z "$LETSENCRYPT_EMAIL" ]; then
         echo "❌ 使用 --letsencrypt 时必须提供 --email 参数"
         exit 1
     fi
+
+    ensure_nginx_ready
     
     echo "   📧 邮箱: $LETSENCRYPT_EMAIL"
     
@@ -247,19 +285,24 @@ if [ "$USE_LETSENCRYPT" = true ]; then
         exit 1
     fi
     
-    ENABLE_HTTPS=true
+    ENABLE_HTTPS="https"
     echo "   ✅ 所有证书都已就绪，将部署 HTTPS 配置"
     echo ""
 fi
 
 # 手动 HTTPS 配置检查
-if [ "$ENABLE_HTTPS" = true ] && [ -n "$SSL_CERT_PATH" ] && [ -n "$SSL_KEY_PATH" ]; then
+if [ "$ENABLE_HTTPS" = "manual" ]; then
+    if [ -z "$SSL_CERT_PATH" ] || [ -z "$SSL_KEY_PATH" ]; then
+        echo "❌ 使用 --cert/--key 时必须同时提供证书和私钥路径"
+        exit 1
+    fi
     if [ ! -f "$SSL_CERT_PATH" ] || [ ! -f "$SSL_KEY_PATH" ]; then
         echo "❌ SSL 证书文件不存在"
         echo "   证书: $SSL_CERT_PATH"
         echo "   私钥: $SSL_KEY_PATH"
         exit 1
     fi
+    ENABLE_HTTPS="https"
 fi
 
 # 部署 Nginx 配置
@@ -273,6 +316,8 @@ if [ ! -d "$JOKETOP_DEPLOY_DIR" ]; then
     echo "   示例: sudo ./deploy-joketop.sh joketop-*.tar.gz"
     exit 1
 fi
+
+ensure_nginx_ready
 
 # 检查关键文件是否存在
 if [ ! -f "$JOKETOP_DEPLOY_DIR/index.html" ]; then
@@ -301,13 +346,18 @@ echo "   ✅ 部署目录检查通过"
 echo ""
 
 # 检查配置文件模板是否存在
-if [ ! -f "$NGINX_CONF_TEMPLATE" ]; then
-    echo "❌ 错误: Nginx 配置模板不存在: $NGINX_CONF_TEMPLATE"
+SELECTED_TEMPLATE="$NGINX_CONF_TEMPLATE_HTTP"
+if [ "$ENABLE_HTTPS" = "https" ]; then
+    SELECTED_TEMPLATE="$NGINX_CONF_TEMPLATE"
+fi
+
+if [ ! -f "$SELECTED_TEMPLATE" ]; then
+    echo "❌ 错误: Nginx 配置模板不存在: $SELECTED_TEMPLATE"
     exit 1
 fi
 
 echo "   📄 拷贝 Nginx 配置文件..."
-cp "$NGINX_CONF_TEMPLATE" "$NGINX_CONF_FILE"
+cp "$SELECTED_TEMPLATE" "$NGINX_CONF_FILE"
 echo "   ✅ 配置文件已拷贝到 $NGINX_CONF_FILE"
 echo ""
 
@@ -351,13 +401,13 @@ if nginx -t 2>&1 | grep -q "successful"; then
     for service_config in "${SERVICES[@]}"; do
         IFS=':' read -r path deploy_dir service_name <<< "$service_config"
         if [ -d "$deploy_dir" ]; then
-            if [ "$ENABLE_HTTPS" = true ]; then
+            if [ "$ENABLE_HTTPS" = "https" ]; then
                 echo "   ✅ $service_name: https://$DOMAIN$path"
             else
                 echo "   ✅ $service_name: http://$DOMAIN$path"
             fi
         else
-            if [ "$ENABLE_HTTPS" = true ]; then
+            if [ "$ENABLE_HTTPS" = "https" ]; then
                 echo "   ⚠️  $service_name: https://$DOMAIN$path (目录不存在: $deploy_dir)"
             else
                 echo "   ⚠️  $service_name: http://$DOMAIN$path (目录不存在: $deploy_dir)"
@@ -366,7 +416,7 @@ if nginx -t 2>&1 | grep -q "successful"; then
     done
     echo ""
     echo "📋 joketop.com 站点:"
-    if [ "$ENABLE_HTTPS" = true ]; then
+    if [ "$ENABLE_HTTPS" = "https" ]; then
         # HTTPS 配置
         echo "   ✅ 主站: https://joketop.com"
         echo "   ✅ 简历: https://me.joketop.com"
@@ -413,7 +463,7 @@ if nginx -t 2>&1 | grep -q "successful"; then
     echo ""
     
     # DNS 配置提示
-    if [ "$ENABLE_HTTPS" = false ]; then
+    if [ "$ENABLE_HTTPS" = "http" ]; then
         echo "💡 DNS 配置提示:"
         echo "   需要在域名服务商配置以下 DNS 记录："
         echo "   - joketop.com → A 记录 → 服务器 IP"
