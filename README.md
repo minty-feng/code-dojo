@@ -18,7 +18,7 @@
 - 🍓 **jam-mini-program-dojo** - 小程序道场
 - 🥝 **kiwi-harmony-dojo** - 鸿蒙道场
 - 🍋 **lemon-ai-dojo** - AI道场
-- 🥭 **mango-resources** - 资源库
+- 🥭 **mango-toolbox** - 开发者工具箱
 
 ## 🎨 设计理念
 
