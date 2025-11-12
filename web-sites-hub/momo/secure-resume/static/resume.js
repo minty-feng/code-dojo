@@ -104,8 +104,8 @@ function showNotification(message, type = 'success') {
 }
 
 // 添加动画样式
-const style = document.createElement('style');
-style.textContent = `
+const pdfNotificationStyle = document.createElement('style');
+pdfNotificationStyle.textContent = `
     @keyframes slideIn {
         from {
             transform: translateX(100%);
@@ -138,7 +138,7 @@ style.textContent = `
         to { transform: rotate(360deg); }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(pdfNotificationStyle);
 
 async function handleLogout() {
     try {
