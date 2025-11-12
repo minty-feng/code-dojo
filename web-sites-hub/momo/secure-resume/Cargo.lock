@@ -1428,6 +1428,7 @@ dependencies = [
  "env_logger",
  "log",
  "nanoid",
+ "once_cell",
  "rusqlite",
  "serde",
  "serde_json",

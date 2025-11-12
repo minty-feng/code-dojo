@@ -1,16 +1,48 @@
 use actix_files::Files;
 use actix_session::{storage::CookieSessionStore, Session, SessionMiddleware};
-use actix_web::{middleware::Logger, web, App, HttpRequest, HttpResponse, HttpServer};
+use actix_web::{
+    cookie::SameSite,
+    http::header::{CACHE_CONTROL, EXPIRES, PRAGMA, STRICT_TRANSPORT_SECURITY},
+    middleware::{DefaultHeaders, Logger},
+    web, App, HttpRequest, HttpResponse, HttpResponseBuilder, HttpServer,
+};
 use chrono::prelude::*;
-use nanoid::nanoid;
 use log::{error, info, warn};
+use nanoid::nanoid;
+use once_cell::sync::Lazy;
 use rusqlite::{params, Connection, Result};
 use serde::{Deserialize, Serialize};
-use std::fs;
 use std::sync::Mutex;
+use std::{env, fs};
 
 const AUTH_TEMPLATE: &str = "templates/auth.html";
 const RESUME_TEMPLATE: &str = "templates/resume.html";
+
+// 根据编译模式决定模板加载方式：
+// - debug 模式：磁盘加载（支持热更新，方便开发）
+// - release 模式：内存加载（性能优化，适合生产）
+fn template_load_mode() -> &'static str {
+    if cfg!(debug_assertions) {
+        "disk"
+    } else {
+        "memory"
+    }
+}
+
+// 内存缓存模式：启动时加载模板到内存
+static AUTH_TEMPLATE_CACHED: Lazy<String> = Lazy::new(|| {
+    fs::read_to_string(AUTH_TEMPLATE).unwrap_or_else(|err| {
+        eprintln!("错误：无法读取登录模板 {}: {}", AUTH_TEMPLATE, err);
+        String::from("<!DOCTYPE html><html><body><h1>服务器错误：无法加载登录页面</h1></body></html>")
+    })
+});
+
+static RESUME_TEMPLATE_CACHED: Lazy<String> = Lazy::new(|| {
+    fs::read_to_string(RESUME_TEMPLATE).unwrap_or_else(|err| {
+        eprintln!("错误：无法读取简历模板 {}: {}", RESUME_TEMPLATE, err);
+        String::from("<!DOCTYPE html><html><body><h1>服务器错误：无法加载简历页面</h1></body></html>")
+    })
+});
 
 struct AppState {
     db: Mutex<Connection>,
@@ -31,6 +63,20 @@ struct AuthResponse {
 async fn main() -> std::io::Result<()> {
     env_logger::init();
 
+    // 根据编译模式决定模板加载方式
+    let load_mode = template_load_mode();
+    info!("模板加载模式: {} (编译模式: {})", 
+          load_mode,
+          if cfg!(debug_assertions) { "debug" } else { "release" });
+    
+    // 如果是内存模式，预加载模板（触发 Lazy 初始化）
+    if load_mode == "memory" {
+        info!("预加载模板到内存...");
+        let _ = AUTH_TEMPLATE_CACHED.as_str();
+        let _ = RESUME_TEMPLATE_CACHED.as_str();
+        info!("模板已加载到内存");
+    }
+
     let db_conn = init_db().expect("Failed to initialize database");
     let app_state = web::Data::new(AppState {
         db: Mutex::new(db_conn),
@@ -38,21 +84,31 @@ async fn main() -> std::io::Result<()> {
 
     let secret_key = actix_web::cookie::Key::generate();
 
-    // 检查模板是否存在
-    fs::read_to_string(AUTH_TEMPLATE)
-        .unwrap_or_else(|err| panic!("Failed to read auth template: {}", err));
-    fs::read_to_string(RESUME_TEMPLATE)
-        .unwrap_or_else(|err| panic!("Failed to read resume template: {}", err));
+    let use_secure_cookie = env::var("SECURE_RESUME_SECURE_COOKIE")
+        .map(|val| val == "1" || val.eq_ignore_ascii_case("true"))
+        .unwrap_or(!cfg!(debug_assertions));
 
-    info!("安全简历系统启动在 http://localhost:8080");
+    info!("安全简历系统启动在 http://127.0.0.1:8080");
 
     HttpServer::new(move || {
         App::new()
             .app_data(app_state.clone())
+            .wrap(
+                DefaultHeaders::new()
+                    .add((
+                        STRICT_TRANSPORT_SECURITY,
+                        "max-age=31536000; includeSubDomains",
+                    ))
+                    .add(("X-Frame-Options", "DENY"))
+                    .add(("X-Content-Type-Options", "nosniff"))
+                    .add(("Referrer-Policy", "strict-origin-when-cross-origin")),
+            )
             .wrap(Logger::default())
             .wrap(
                 SessionMiddleware::builder(CookieSessionStore::default(), secret_key.clone())
-                    .cookie_secure(false)
+                    .cookie_secure(use_secure_cookie)
+                    .cookie_same_site(SameSite::Strict)
+                    .cookie_name("secure_resume_session".into())
                     .build(),
             )
             .route("/", web::get().to(index))
@@ -60,9 +116,13 @@ async fn main() -> std::io::Result<()> {
             .route("/api/logout", web::post().to(logout))
             .route("/api/generate", web::post().to(generate_invite_codes))
             .route("/api/stats", web::get().to(get_stats))
-            .service(Files::new("/static", "./static"))
+            .service(
+                Files::new("/static", "./static")
+                    .prefer_utf8(true)
+                    .use_last_modified(true),
+            )
     })
-    .bind("0.0.0.0:8080")?
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
@@ -86,33 +146,65 @@ fn init_db() -> Result<Connection> {
 }
 
 async fn index(session: Session) -> HttpResponse {
-    if let Some(authenticated) = session.get::<bool>("authenticated").unwrap_or(None) {
-        if authenticated {
-            return match fs::read_to_string(RESUME_TEMPLATE) {
-                Ok(html) => HttpResponse::Ok()
-                    .content_type("text/html; charset=utf-8")
-                    .body(html),
+    let load_mode = template_load_mode();
+    
+    // 检查是否已登录
+    let is_authenticated = session
+        .get::<bool>("authenticated")
+        .unwrap_or(None)
+        .unwrap_or(false);
+    
+    if is_authenticated {
+        // 已登录：返回简历页面
+        let html = if load_mode == "memory" {
+            // release 模式：使用内存缓存的模板
+            RESUME_TEMPLATE_CACHED.as_str()
+        } else {
+            // debug 模式：每次从磁盘读取（支持热更新）
+            match fs::read_to_string(RESUME_TEMPLATE) {
+                Ok(content) => {
+                    return no_store_response(HttpResponse::Ok())
+                        .content_type("text/html; charset=utf-8")
+                        .body(content);
+                }
                 Err(err) => {
                     error!("读取简历模板失败: {}", err);
-                    HttpResponse::InternalServerError()
+                    return HttpResponse::InternalServerError()
                         .content_type("text/plain; charset=utf-8")
-                        .body("服务器暂时无法加载简历内容，请稍后重试")
+                        .body("服务器暂时无法加载简历内容，请稍后重试");
                 }
-            };
-        }
+            }
+        };
+        
+        return no_store_response(HttpResponse::Ok())
+            .content_type("text/html; charset=utf-8")
+            .body(html);
     }
 
-    match fs::read_to_string(AUTH_TEMPLATE) {
-        Ok(html) => HttpResponse::Ok()
-            .content_type("text/html; charset=utf-8")
-            .body(html),
-        Err(err) => {
-            error!("读取登录模板失败: {}", err);
-            HttpResponse::InternalServerError()
-                .content_type("text/plain; charset=utf-8")
-                .body("服务器暂时无法加载登录页面，请稍后重试")
+    // 未登录：返回登录页面
+    let html = if load_mode == "memory" {
+        // release 模式：使用内存缓存的模板
+        AUTH_TEMPLATE_CACHED.as_str()
+    } else {
+        // debug 模式：每次从磁盘读取（支持热更新）
+        match fs::read_to_string(AUTH_TEMPLATE) {
+            Ok(content) => {
+                return no_store_response(HttpResponse::Ok())
+                    .content_type("text/html; charset=utf-8")
+                    .body(content);
+            }
+            Err(err) => {
+                error!("读取登录模板失败: {}", err);
+                return HttpResponse::InternalServerError()
+                    .content_type("text/plain; charset=utf-8")
+                    .body("服务器暂时无法加载登录页面，请稍后重试");
+            }
         }
-    }
+    };
+    
+    no_store_response(HttpResponse::Ok())
+        .content_type("text/html; charset=utf-8")
+        .body(html)
 }
 
 async fn verify_invite_code(
@@ -128,10 +220,7 @@ async fn verify_invite_code(
         .unwrap_or("unknown")
         .to_string();
 
-    info!(
-        "收到邀请码校验请求，code={} ip={}",
-        form.code, client_ip
-    );
+    info!("收到邀请码校验请求，code={} ip={}", form.code, client_ip);
 
     match db.query_row(
         "SELECT code, used FROM invites WHERE code = ?1",
@@ -140,10 +229,7 @@ async fn verify_invite_code(
     ) {
         Ok((code, used)) => {
             if used {
-                warn!(
-                    "邀请码已被使用，拒绝访问，code={} ip={}",
-                    code, client_ip
-                );
+                warn!("邀请码已被使用，拒绝访问，code={} ip={}", code, client_ip);
                 HttpResponse::BadRequest().json(AuthResponse {
                     success: false,
                     message: "邀请码已被使用".to_string(),
@@ -168,7 +254,10 @@ async fn verify_invite_code(
                         })
                     }
                     Err(e) => {
-                        error!("更新邀请码状态失败，code={} ip={} err={}", code, client_ip, e);
+                        error!(
+                            "更新邀请码状态失败，code={} ip={} err={}",
+                            code, client_ip, e
+                        );
                         HttpResponse::InternalServerError().json(AuthResponse {
                             success: false,
                             message: "服务器错误".to_string(),
@@ -178,10 +267,7 @@ async fn verify_invite_code(
             }
         }
         Err(_) => {
-            warn!(
-                "无效的邀请码尝试，code={} ip={}",
-                form.code, client_ip
-            );
+            warn!("无效的邀请码尝试，code={} ip={}", form.code, client_ip);
             HttpResponse::NotFound().json(AuthResponse {
                 success: false,
                 message: "无效的邀请码".to_string(),
@@ -193,7 +279,7 @@ async fn verify_invite_code(
 async fn logout(session: Session) -> HttpResponse {
     info!("收到注销请求");
     session.purge();
-    HttpResponse::Ok().json(serde_json::json!({
+    no_store_response(HttpResponse::Ok()).json(serde_json::json!({
         "success": true,
         "message": "已退出"
     }))
@@ -216,11 +302,7 @@ async fn generate_invite_codes(state: web::Data<AppState>) -> HttpResponse {
     if codes.is_empty() {
         warn!("邀请码生成请求未插入任何新邀请码（可能是重复）");
     } else {
-        info!(
-            "成功生成 {} 个邀请码: {}",
-            codes.len(),
-            codes.join(", ")
-        );
+        info!("成功生成 {} 个邀请码: {}", codes.len(), codes.join(", "));
     }
 
     HttpResponse::Ok().json(serde_json::json!({
@@ -237,7 +319,11 @@ async fn get_stats(state: web::Data<AppState>) -> HttpResponse {
         .query_row("SELECT COUNT(*) FROM invites", [], |row| row.get(0))
         .unwrap_or(0);
     let used: i64 = db
-        .query_row("SELECT COUNT(*) FROM invites WHERE used = TRUE", [], |row| row.get(0))
+        .query_row(
+            "SELECT COUNT(*) FROM invites WHERE used = TRUE",
+            [],
+            |row| row.get(0),
+        )
         .unwrap_or(0);
 
     HttpResponse::Ok().json(serde_json::json!({
@@ -247,3 +333,9 @@ async fn get_stats(state: web::Data<AppState>) -> HttpResponse {
     }))
 }
 
+fn no_store_response(mut builder: HttpResponseBuilder) -> HttpResponseBuilder {
+    builder.insert_header((CACHE_CONTROL, "no-store, no-cache, must-revalidate"));
+    builder.insert_header((PRAGMA, "no-cache"));
+    builder.insert_header((EXPIRES, "0"));
+    builder
+}

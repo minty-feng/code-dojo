@@ -20,7 +20,34 @@ Actix Web 属于 Rust 社区的高性能异步 Web 框架，特点包括 Actor �
   - `templates/resume.html`：完整的简历页面，可直接双击在浏览器里查看；通过后端访问时使用 Actix 提供的 `/static` 静态目录。  
   - `static/style.css`、`static/auth.js`、`static/resume.js`：样式与脚本文件。`resume.js` 只负责注销按钮，模板渲染直接写在 HTML 中。
 
+## 系统依赖
+
+编译 `secure-resume` 需要以下系统库：
+
+**Ubuntu/Debian：**
+
+```bash
+sudo apt update
+sudo apt install -y build-essential libsqlite3-dev pkg-config libssl-dev
+```
+
+**CentOS/RHEL：**
+
+```bash
+sudo yum install -y gcc gcc-c++ sqlite-devel pkgconfig openssl-devel
+```
+
+如果编译时提示找不到 `-lsqlite3`，请确保已安装 `libsqlite3-dev`（Ubuntu）或 `sqlite-devel`（CentOS）。
+
 ## 运行方式
+
+### 生产部署要点
+
+- 发布到 HTTPS 环境时设置 `SECURE_RESUME_SECURE_COOKIE=1`，生产构建会默认打开安全 Cookie、`SameSite=Strict` 以及 HSTS。
+- Nginx/反向代理需要把 `Host`、`X-Real-IP`、`X-Forwarded-For`、`X-Forwarded-Proto` 传给 Actix，示例配置见 `docs/secure-resume-production.md`。
+- 为避免缓存页面内容，服务端会主动返回 `Cache-Control: no-store`，CDN 需要尊重该头或按域名关闭缓存。
+- 静态资源可通过 `/static/` 在 Nginx 端 alias 到部署目录（如 `/opt/secure-resume/static`），或直接由 Actix 处理。
+
 
 | 场景 | 命令 |
 | ---- | ---- |
@@ -50,15 +77,17 @@ Actix Web 属于 Rust 社区的高性能异步 Web 框架，特点包括 Actor �
 脚本运行后日志位于 `secure-resume.log`，可用 `tail -f secure-resume.log` 查看实时输出。
 ```
 
-启动后访问 `http://localhost:8080`，通过 `/api/generate` 生成邀请码即可测试登录流程。
+启动后访问 `http://127.0.0.1:8080`，通过 `/api/generate` 生成邀请码即可测试登录流程。
 
 生成邀请码示例命令：
 
 ```bash
-curl -X POST http://localhost:8080/api/generate \
+curl -X POST http://127.0.0.1:8080/api/generate \
   -H "Content-Type: application/json" \
   -H "Accept: application/json"
 ```
+
+> **注意**：服务默认监听 `127.0.0.1:8080`（仅本地访问），通过 Nginx 反向代理对外提供服务。如需本地开发测试，可临时修改 `src/main.rs` 中的 `bind("127.0.0.1:8080")` 为 `bind("0.0.0.0:8080")`。
 
 ## Actix Server 专业概览
 
@@ -70,11 +99,11 @@ Actix Web 基于 `actix_server` 构建底层运行时。`HttpServer::new` 实际
   - 该模型利用多核并行提升吞吐量，同时避免阻塞（所有 handler 都应当是 `async` 或快速返回）。
 
 - **监听与绑定**  
-  - `bind("0.0.0.0:8080")` 会通过 `actix_server::ServerBuilder` 创建监听 socket。  
-  - 日志 `starting server on 0.0.0.0:8080` 表示对所有网卡开放端口：  
-    - 本机访问：`http://127.0.0.1:8080` 或 `http://localhost:8080`  
-    - 局域网访问：`http://<你的主机IP>:8080`  
-  - 可使用多次 `bind`/`bind_openssl` 注册额外端口或开启 TLS。
+  - `bind("127.0.0.1:8080")` 会通过 `actix_server::ServerBuilder` 创建监听 socket（仅本地访问）。  
+  - 日志 `starting server on 127.0.0.1:8080` 表示仅监听本地回环接口：  
+    - 本机访问：`http://127.0.0.1:8080`  
+    - 通过 Nginx 反向代理对外提供服务  
+  - 可使用 `bind("0.0.0.0:8080")` 对所有网卡开放端口（开发环境），或使用多次 `bind`/`bind_openssl` 注册额外端口或开启 TLS。
 
 - **热重启与优雅关闭**  
   - `actix_server` 支持 `graceful shutdown`，可在捕获 `SIGINT`/`SIGTERM` 时调用 `Server::stop(true)`，等待所有连接完成。  
@@ -96,7 +125,7 @@ RUST_LOG=info cargo run
 
 关键日志包括：
 
-- 服务启动：`安全简历系统启动在 http://localhost:8080`
+- 服务启动：`安全简历系统启动在 http://127.0.0.1:8080`
 - 邀请码验证流程：记录请求 IP、邀请码状态以及数据库更新结果
 - 邀请码生成：打印生成数量和具体列表
 - 注销与错误：分别使用 `info!`、`warn!`、`error!` 进行标记
