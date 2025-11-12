@@ -69,7 +69,7 @@ cd /path/to/code-dojo/sphinx-docs
 sudo ./deploy-all-docs.sh
 
 # 或使用 SSL
-sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
+sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
 ```
 
 ## 配置说明
