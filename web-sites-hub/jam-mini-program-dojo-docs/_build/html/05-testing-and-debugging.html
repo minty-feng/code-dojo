@@ -1,0 +1,937 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>测试与调试 &mdash; Mini Program Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d25bc049" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+      <script src="_static/copy-code.js?v=37526288"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="后端开发与集成" href="06-backend-development.html" />
+    <link rel="prev" title="部署与发布" href="04-deployment-and-release.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #07c160" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mini Program Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">WeChat Mini Program Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-wechat-miniprogram-basics.html">基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-network-request-and-cloud.html">网络请求与云开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-performance-optimization.html">性能优化与最佳实践</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-deployment-and-release.html">部署与发布</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">测试与调试</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">💡 核心结论</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1. 开发者工具调试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">1.1 调试器使用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">1.2 性能分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">1.3 存储面板</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">2. 真机调试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">2.1 预览功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">2.2 真机调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">2.3 远程调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">2.4 常见真机问题</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">3. 单元测试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">3.1 测试框架配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">3.2 工具函数测试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">3.3 API测试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">3.4 组件测试</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">4. 集成测试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id17">4.1 页面流程测试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">4.2 用户交互测试</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#e2e">5. E2E测试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id19">5.1 自动化测试工具</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mock">6. Mock数据</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id20">6.1 本地Mock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">6.2 Mock服务</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id22">7. 调试技巧</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id23">7.1 条件断点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">7.2 日志分级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">7.3 性能分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">7.4 数据快照</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id27">8. 测试最佳实践</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id28">8.1 测试覆盖率</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">8.2 测试金字塔</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">8.3 测试命名规范</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">8.4 测试隔离</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">9. 常见问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#q1">Q1: 真机调试看不到日志？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q2">Q2: 如何测试不同机型？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q3-mock-wx-api">Q3: 单元测试如何Mock wx API？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q4">Q4: 如何测试异步操作？</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id33">参考资源</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="06-backend-development.html">后端开发与集成</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #07c160" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mini Program Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">测试与调试</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/05-testing-and-debugging.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>测试与调试<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>小程序测试包括单元测试、集成测试、端到端测试</strong></p></li>
+<li><p><strong>开发者工具提供调试器、性能分析、网络监控等功能</strong></p></li>
+<li><p><strong>真机调试是发现问题的关键，不同机型表现可能不同</strong></p></li>
+<li><p><strong>Mock数据和测试工具可以提升开发效率</strong></p></li>
+<li><p><strong>自动化测试可以保证代码质量和稳定性</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>1. 开发者工具调试<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>1.1 调试器使用<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p><strong>Console面板</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基础日志</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;普通日志&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;信息日志&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;警告日志&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;错误日志&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+
+<span class="c1">// 分组日志</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="s1">&#39;分组1&#39;</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;内容1&#39;</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;内容2&#39;</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">()</span>
+
+<span class="c1">// 表格显示</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">table</span><span class="p">([</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;张三&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">25</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;李四&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="w"> </span><span class="p">}</span>
+<span class="p">])</span>
+
+<span class="c1">// 计时</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;timer&#39;</span><span class="p">)</span>
+<span class="c1">// ... 代码执行</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">&#39;timer&#39;</span><span class="p">)</span><span class="w">  </span><span class="c1">// 输出: timer: 123.456ms</span>
+</pre></div>
+</div>
+<p><strong>Sources面板</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 断点调试</span>
+<span class="c1">// 1. 在代码行号左侧点击设置断点</span>
+<span class="c1">// 2. 触发代码执行</span>
+<span class="c1">// 3. 查看变量值、调用栈</span>
+<span class="c1">// 4. 单步执行（F10）、进入函数（F11）、跳出函数（Shift+F11）</span>
+
+<span class="c1">// 条件断点</span>
+<span class="c1">// 右键断点 → 编辑断点 → 设置条件</span>
+<span class="c1">// 例如：index &gt; 10</span>
+</pre></div>
+</div>
+<p><strong>Network面板</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 查看所有网络请求</span>
+<span class="c1">// - 请求URL、方法、状态码</span>
+<span class="c1">// - 请求头、响应头</span>
+<span class="c1">// - 请求参数、响应数据</span>
+<span class="c1">// - 请求耗时</span>
+
+<span class="c1">// 过滤请求</span>
+<span class="c1">// - 按类型：XHR、Image、WebSocket</span>
+<span class="c1">// - 按关键词搜索</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>1.2 性能分析<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Performance面板</span>
+<span class="c1">// 1. 点击&quot;开始录制&quot;</span>
+<span class="c1">// 2. 执行操作</span>
+<span class="c1">// 3. 点击&quot;停止录制&quot;</span>
+<span class="c1">// 4. 查看性能数据：</span>
+<span class="c1">//    - FPS（帧率）</span>
+<span class="c1">//    - CPU使用率</span>
+<span class="c1">//    - 内存占用</span>
+<span class="c1">//    - setData调用次数</span>
+<span class="c1">//    - 渲染时间</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>1.3 存储面板<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Storage面板</span>
+<span class="c1">// 查看：</span>
+<span class="c1">// - Local Storage</span>
+<span class="c1">// - Session Storage</span>
+<span class="c1">// - 小程序Storage（wx.setStorage存储的数据）</span>
+
+<span class="c1">// 可以：</span>
+<span class="c1">// - 查看所有key-value</span>
+<span class="c1">// - 编辑、删除数据</span>
+<span class="c1">// - 清空所有数据</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h2>2. 真机调试<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>2.1 预览功能<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 开发者工具 → 预览</span>
+<span class="c1"># 生成二维码 → 微信扫码 → 真机预览</span>
+
+<span class="c1"># 注意事项：</span>
+<span class="c1"># 1. 手机和电脑需在同一网络</span>
+<span class="c1"># 2. 需要登录开发者账号</span>
+<span class="c1"># 3. 可以查看控制台日志</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>2.2 真机调试<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 开发者工具 → 真机调试</span>
+<span class="c1"># 生成二维码 → 微信扫码 → 开启调试</span>
+
+<span class="c1"># 功能：</span>
+<span class="c1"># 1. 实时查看控制台日志</span>
+<span class="c1"># 2. 查看网络请求</span>
+<span class="c1"># 3. 查看Storage数据</span>
+<span class="c1"># 4. 查看页面结构</span>
+<span class="c1"># 5. 查看元素样式</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>2.3 远程调试<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小程序后台 → 开发 → 开发管理 → 开发设置 → 远程调试</span>
+
+<span class="c1">// 使用场景：</span>
+<span class="c1">// 1. 真机预览无法复现问题</span>
+<span class="c1">// 2. 需要查看详细日志</span>
+<span class="c1">// 3. 需要调试特定功能</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>2.4 常见真机问题<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<p><strong>1. 样式问题</strong>：</p>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* 不同机型可能表现不同 */</span>
+<span class="c">/* 使用rpx单位，避免使用px */</span>
+<span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">750</span><span class="n">rpx</span><span class="p">;</span><span class="w">  </span><span class="c">/* ✅ 正确 */</span>
+<span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">375</span><span class="kt">px</span><span class="p">;</span><span class="w">   </span><span class="c">/* ❌ 可能在不同机型显示异常 */</span>
+<span class="p">}</span>
+
+<span class="c">/* 测试不同机型 */</span>
+<span class="c">/* iPhone、Android、iPad */</span>
+</pre></div>
+</div>
+<p><strong>2. 兼容性问题</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 检查API支持</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">wx</span><span class="p">.</span><span class="nx">canIUse</span><span class="p">(</span><span class="s1">&#39;getUpdateManager&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 使用新API</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 降级方案</span>
+<span class="p">}</span>
+
+<span class="c1">// 检查基础库版本</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">systemInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getSystemInfoSync</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;基础库版本&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">systemInfo</span><span class="p">.</span><span class="nx">SDKVersion</span><span class="p">)</span>
+
+<span class="c1">// 最低基础库版本要求</span>
+<span class="c1">// app.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;libVersion&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2.19.4&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>3. 网络问题</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 真机网络环境可能不同</span>
+<span class="c1">// 测试：</span>
+<span class="c1">// - WiFi环境</span>
+<span class="c1">// - 4G/5G环境</span>
+<span class="c1">// - 弱网环境</span>
+
+<span class="c1">// 模拟弱网</span>
+<span class="c1">// 开发者工具 → 设置 → 项目设置 → 不校验合法域名</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id12">
+<h2>3. 单元测试<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="id13">
+<h3>3.1 测试框架配置<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装依赖</span>
+npm<span class="w"> </span>install<span class="w"> </span>--save-dev<span class="w"> </span>jest<span class="w"> </span>@miniprogram/jest
+
+<span class="c1"># 或使用miniprogram-simulate</span>
+npm<span class="w"> </span>install<span class="w"> </span>--save-dev<span class="w"> </span>miniprogram-simulate
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// package.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;scripts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;test&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jest&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;test:watch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jest --watch&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;test:coverage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jest --coverage&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;jest&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;preset&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@miniprogram/jest&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;testEnvironment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jsdom&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;testMatch&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;**/__tests__/**/*.test.js&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;collectCoverageFrom&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;**/*.js&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;!**/node_modules/**&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;!**/dist/**&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>3.2 工具函数测试<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/format.test.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">formatPrice</span><span class="p">,</span><span class="w"> </span><span class="nx">formatDate</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./format.js&#39;</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;format工具函数&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;formatPrice应该正确格式化价格&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">formatPrice</span><span class="p">(</span><span class="mf">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;¥1.00&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">formatPrice</span><span class="p">(</span><span class="mf">1234</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;¥12.34&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">formatPrice</span><span class="p">(</span><span class="mf">0</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;¥0.00&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;formatDate应该正确格式化日期&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2024-01-01&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">formatDate</span><span class="p">(</span><span class="nx">date</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;2024-01-01&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/format.js</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">formatPrice</span><span class="p">(</span><span class="nx">price</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;¥&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">price</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100</span><span class="p">).</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">formatDate</span><span class="p">(</span><span class="nx">date</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">date</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">).</span><span class="nx">padStart</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">day</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getDate</span><span class="p">()).</span><span class="nx">padStart</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">year</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nx">month</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nx">day</span><span class="si">}</span><span class="sb">`</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h3>3.3 API测试<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/request.test.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./request.js&#39;</span>
+
+<span class="c1">// Mock wx.request</span>
+<span class="nx">jest</span><span class="p">.</span><span class="nx">mock</span><span class="p">(</span><span class="s1">&#39;wx&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<span class="w">  </span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="p">}))</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;request工具&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">beforeEach</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">jest</span><span class="p">.</span><span class="nx">clearAllMocks</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;get请求应该正确调用wx.request&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">mockData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">mockImplementation</span><span class="p">((</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">options</span><span class="p">.</span><span class="nx">success</span><span class="p">({</span><span class="w"> </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">mockData</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/products&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">).</span><span class="nx">toHaveBeenCalledWith</span><span class="p">(</span>
+<span class="w">      </span><span class="nx">expect</span><span class="p">.</span><span class="nx">objectContaining</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="nx">expect</span><span class="p">.</span><span class="nx">stringContaining</span><span class="p">(</span><span class="s1">&#39;/api/products&#39;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">mockData</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;请求失败应该抛出错误&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">mockImplementation</span><span class="p">((</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">options</span><span class="p">.</span><span class="nx">fail</span><span class="p">({</span><span class="w"> </span><span class="nx">errMsg</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;request:fail&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/products&#39;</span><span class="p">)).</span><span class="nx">rejects</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>3.4 组件测试<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// components/product-item/product-item.test.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">simulate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;miniprogram-simulate&#39;</span><span class="p">)</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;ProductItem组件&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">comp</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">beforeEach</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">comp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s1">&#39;/components/product-item/product-item&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该正确显示商品信息&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;测试商品&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">10000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">comp</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">product</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="nx">comp</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">comp</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.product-name&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;测试商品&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">comp</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.product-price&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;¥100.00&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;点击应该触发tap事件&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;测试商品&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">10000</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">comp</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">product</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="nx">comp</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">tapHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">comp</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">tapHandler</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">comp</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.product-item&#39;</span><span class="p">).</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">tapHandler</span><span class="p">).</span><span class="nx">toHaveBeenCalledWith</span><span class="p">(</span>
+<span class="w">      </span><span class="nx">expect</span><span class="p">.</span><span class="nx">objectContaining</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id16">
+<h2>4. 集成测试<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="id17">
+<h3>4.1 页面流程测试<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// tests/pages/index.test.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">simulate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;miniprogram-simulate&#39;</span><span class="p">)</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;首页流程测试&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">page</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">beforeEach</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s1">&#39;/pages/index/index&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;页面加载应该请求数据&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">mockRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mockRequest</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">triggerLifeTime</span><span class="p">(</span><span class="s1">&#39;onLoad&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">sleep</span><span class="p">(</span><span class="mf">100</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">mockRequest</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;下拉刷新应该重新加载数据&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">mockRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mockRequest</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">triggerLifeTime</span><span class="p">(</span><span class="s1">&#39;onPullDownRefresh&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">sleep</span><span class="p">(</span><span class="mf">100</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">mockRequest</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">wx</span><span class="p">.</span><span class="nx">stopPullDownRefresh</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;上拉加载应该加载更多&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="nb">Array</span><span class="p">(</span><span class="mf">10</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="mf">0</span><span class="p">).</span><span class="nx">map</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">}))</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">mockRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mockRequest</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">triggerLifeTime</span><span class="p">(</span><span class="s1">&#39;onReachBottom&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">sleep</span><span class="p">(</span><span class="mf">100</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">mockRequest</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>4.2 用户交互测试<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// tests/user-interaction.test.js</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;用户交互测试&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;点击按钮应该触发相应操作&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s1">&#39;/pages/index/index&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.submit-button&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">submitHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">instance</span><span class="p">.</span><span class="nx">onSubmit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">submitHandler</span>
+<span class="w">    </span><span class="nx">button</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">submitHandler</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;输入框输入应该更新数据&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">simulate</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s1">&#39;/pages/index/index&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">page</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.search-input&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">input</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;测试&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">page</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">keyword</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;测试&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="e2e">
+<h2>5. E2E测试<a class="headerlink" href="#e2e" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>5.1 自动化测试工具<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装miniprogram-automator</span>
+npm<span class="w"> </span>install<span class="w"> </span>--save-dev<span class="w"> </span>miniprogram-automator
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// tests/e2e/index.test.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">automator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;miniprogram-automator&#39;</span><span class="p">)</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;E2E测试&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">miniProgram</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">page</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">beforeAll</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">miniProgram</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">automator</span><span class="p">.</span><span class="nx">launch</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">projectPath</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./miniprogram&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">cliPath</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/Applications/wechatwebdevtools.app/Contents/MacOS/cli&#39;</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">miniProgram</span><span class="p">.</span><span class="nx">reLaunch</span><span class="p">(</span><span class="s1">&#39;/pages/index/index&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">(</span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">afterAll</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">miniProgram</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该正确显示首页内容&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.page-title&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">title</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">text</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;首页&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该能够搜索商品&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">searchInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.search-input&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">searchInput</span><span class="p">.</span><span class="nx">input</span><span class="p">(</span><span class="s1">&#39;手机&#39;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">searchButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.search-button&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">searchButton</span><span class="p">.</span><span class="nx">tap</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">(</span><span class="mf">2000</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">products</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">$$</span><span class="p">(</span><span class="s1">&#39;.product-item&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">products</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBeGreaterThan</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该能够添加商品到购物车&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">addButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.add-to-cart&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">addButton</span><span class="p">.</span><span class="nx">tap</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">(</span><span class="mf">500</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">toast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.weui-toast&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">toastText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">toast</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">toastText</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="s1">&#39;添加成功&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="mock">
+<h2>6. Mock数据<a class="headerlink" href="#mock" title="Link to this heading"></a></h2>
+<section id="id20">
+<h3>6.1 本地Mock<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// mock/api.js</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">mockData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;商品1&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">10000</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;商品2&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">20000</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;测试用户&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">avatar</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://example.com/avatar.png&#39;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// utils/request.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">mockData</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../mock/api.js&#39;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">isDev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;development&#39;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">useMock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">isDev</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;useMock&#39;</span><span class="p">)</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">useMock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">mockData</span><span class="p">[</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">])</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="nx">resolve</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">fail</span><span class="o">:</span><span class="w"> </span><span class="nx">reject</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>6.2 Mock服务<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用mockjs</span>
+<span class="c1">// npm install mockjs</span>
+
+<span class="c1">// mock/index.js</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Mock</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;mockjs&#39;</span>
+
+<span class="nx">Mock</span><span class="p">.</span><span class="nx">mock</span><span class="p">(</span><span class="s1">&#39;/api/products&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;get&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="nx">Mock</span><span class="p">.</span><span class="nx">mock</span><span class="p">({</span>
+<span class="w">      </span><span class="s1">&#39;list|10&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">        </span><span class="s1">&#39;id|+1&#39;</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;name&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;@ctitle(5, 10)&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;price|1000-10000&#39;</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;image&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;@image(&quot;200x200&quot;)&#39;</span>
+<span class="w">      </span><span class="p">}]</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+
+<span class="c1">// 在开发环境启用</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;development&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./mock&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id22">
+<h2>7. 调试技巧<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<section id="id23">
+<h3>7.1 条件断点<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 只在特定条件下暂停</span>
+<span class="c1">// 例如：只在index &gt; 10时暂停</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">100</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 设置条件断点：i &gt; 10</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id24">
+<h3>7.2 日志分级<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/logger.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">DEBUG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;true&#39;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">debug</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">DEBUG</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[DEBUG]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">args</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">info</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[INFO]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">args</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">error</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;[ERROR]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">args</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id25">
+<h3>7.3 性能分析<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/performance.js</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">measure</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">fn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">fn</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`[Performance] </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">start</span><span class="si">}</span><span class="sb">ms`</span><span class="p">)</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="nx">measure</span><span class="p">(</span><span class="s1">&#39;loadData&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">loadData</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id26">
+<h3>7.4 数据快照<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 保存数据快照用于调试</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">snapshot</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;snapshot&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">snapshotData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">timestamp</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">(),</span>
+<span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">wx</span><span class="p">.</span><span class="nx">setStorageSync</span><span class="p">(</span><span class="sb">`snapshot_</span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span><span class="w"> </span><span class="nx">snapshotData</span><span class="p">)</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`[Snapshot] </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb"> saved`</span><span class="p">,</span><span class="w"> </span><span class="nx">snapshotData</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="nx">snapshot</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;pageData&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id27">
+<h2>8. 测试最佳实践<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<section id="id28">
+<h3>8.1 测试覆盖率<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行测试并生成覆盖率报告</span>
+npm<span class="w"> </span>run<span class="w"> </span>test:coverage
+
+<span class="c1"># 目标覆盖率：</span>
+<span class="c1"># - 语句覆盖率 &gt; 80%</span>
+<span class="c1"># - 分支覆盖率 &gt; 75%</span>
+<span class="c1"># - 函数覆盖率 &gt; 80%</span>
+</pre></div>
+</div>
+</section>
+<section id="id29">
+<h3>8.2 测试金字塔<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        /\
+       /E2E\        ← 少量端到端测试
+      /------\
+     /集成测试\      ← 适量集成测试
+    /----------\
+   /  单元测试  \    ← 大量单元测试
+  /--------------\
+</pre></div>
+</div>
+</section>
+<section id="id30">
+<h3>8.3 测试命名规范<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ 好的测试命名</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;ProductItem组件&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该正确显示商品名称和价格&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{})</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;点击商品应该跳转到详情页&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{})</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;价格应该格式化为两位小数&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{})</span>
+<span class="p">})</span>
+
+<span class="c1">// ❌ 不好的测试命名</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;test1&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{})</span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;test2&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id31">
+<h3>8.4 测试隔离<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 每个测试应该独立，不依赖其他测试</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;用户登录&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">beforeEach</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 每个测试前重置状态</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">clearStorageSync</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该能够登录&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 测试代码</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;登录失败应该显示错误&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 测试代码</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id32">
+<h2>9. 常见问题<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<section id="q1">
+<h3>Q1: 真机调试看不到日志？<a class="headerlink" href="#q1" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ol class="arabic simple">
+<li><p>确认开启了真机调试模式</p></li>
+<li><p>检查手机和电脑是否在同一网络</p></li>
+<li><p>尝试重启开发者工具</p></li>
+<li><p>检查防火墙设置</p></li>
+</ol>
+</section>
+<section id="q2">
+<h3>Q2: 如何测试不同机型？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ol class="arabic simple">
+<li><p>使用真机预览功能</p></li>
+<li><p>准备多台测试设备</p></li>
+<li><p>使用云测试平台（如Testin、WeTest）</p></li>
+</ol>
+</section>
+<section id="q3-mock-wx-api">
+<h3>Q3: 单元测试如何Mock wx API？<a class="headerlink" href="#q3-mock-wx-api" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用jest.mock</span>
+<span class="nx">jest</span><span class="p">.</span><span class="nx">mock</span><span class="p">(</span><span class="s1">&#39;wx&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<span class="w">  </span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">showToast</span><span class="o">:</span><span class="w"> </span><span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">()</span>
+<span class="p">}))</span>
+</pre></div>
+</div>
+</section>
+<section id="q4">
+<h3>Q4: 如何测试异步操作？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;应该异步加载数据&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loadData</span><span class="p">()</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">promise</span><span class="p">).</span><span class="nx">resolves</span><span class="p">.</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">expectedData</span><span class="p">)</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id33">
+<h2>参考资源<a class="headerlink" href="#id33" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>微信开发者工具文档</p></li>
+<li><p>Jest测试框架文档</p></li>
+<li><p>miniprogram-simulate文档</p></li>
+<li><p>小程序测试最佳实践</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="04-deployment-and-release.html" class="btn btn-neutral float-left" title="部署与发布" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="06-backend-development.html" class="btn btn-neutral float-right" title="后端开发与集成" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
