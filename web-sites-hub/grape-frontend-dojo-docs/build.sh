@@ -51,6 +51,31 @@ if [ ! -f "_build/html/index.html" ]; then
     exit 1
 fi
 
+# Minify and obfuscate JavaScript files
+echo "🔧 Minifying JavaScript files..."
+JS_DIR="_build/html/_static"
+if [ -d "$JS_DIR" ]; then
+    # Check if terser is available
+    if ! command -v terser >/dev/null 2>&1; then
+        echo "❌ terser not installed, please install: npm install -g terser"
+        exit 1
+    fi
+    
+    while IFS= read -r -d '' js_file; do
+        filename=$(basename "$js_file")
+        # Only minify custom JS (e.g., copy-code.js), skip third-party libraries
+        if [[ "$filename" == "copy-code.js" ]]; then
+            if terser "$js_file" -c -m --comments false -o "${js_file}.tmp" 2>/dev/null; then
+                mv "${js_file}.tmp" "$js_file"
+                echo "    ✓ Minified: $filename"
+            else
+                echo "    ❌ Minification failed: $filename"
+                exit 1
+            fi
+        fi
+    done < <(find "$JS_DIR" -name "*.js" -type f ! -name "*.min.js" -print0)
+fi
+
 echo ""
 echo "✅ Build successful!"
 echo ""

@@ -52,6 +52,31 @@ if [ ! -f "_build/html/index.html" ]; then
     exit 1
 fi
 
+# 压缩和混淆 JavaScript 文件
+echo "🔧 压缩 JavaScript 文件..."
+JS_DIR="_build/html/_static"
+if [ -d "$JS_DIR" ]; then
+    # 检查是否有 terser
+    if ! command -v terser >/dev/null 2>&1; then
+        echo "❌ terser 未安装，请先安装: npm install -g terser"
+        exit 1
+    fi
+    
+    while IFS= read -r -d '' js_file; do
+        filename=$(basename "$js_file")
+        # 只压缩自定义 JS（如 copy-code.js），跳过第三方库
+        if [[ "$filename" == "copy-code.js" ]]; then
+            if terser "$js_file" -c -m --comments false -o "${js_file}.tmp" 2>/dev/null; then
+                mv "${js_file}.tmp" "$js_file"
+                echo "    ✓ 压缩: $filename"
+            else
+                echo "    ❌ 压缩失败: $filename"
+                exit 1
+            fi
+        fi
+    done < <(find "$JS_DIR" -name "*.js" -type f ! -name "*.min.js" -print0)
+fi
+
 echo ""
 echo "✅ 构建成功！"
 echo ""

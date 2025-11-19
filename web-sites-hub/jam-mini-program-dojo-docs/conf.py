@@ -78,9 +78,9 @@ html_theme_options = {
 }
 
 # -- Options for internationalization ----------------------------------------
-language = 'zh_CN'
-locale_dirs = ['_locale/']
-gettext_compact = False
+language = 'en'
+# locale_dirs = ['_locale/']
+# gettext_compact = False
 
 # -- Path setup --------------------------------------------------------------
 import os

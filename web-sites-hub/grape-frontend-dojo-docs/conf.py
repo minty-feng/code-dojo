@@ -54,6 +54,11 @@ html_css_files = [
     'custom.css',
 ]
 
+# Add custom JavaScript
+html_js_files = [
+    'copy-code.js',
+]
+
 html_logo = None
 # Favicon will be configured below (need to import os first)
 
@@ -73,8 +78,8 @@ html_theme_options = {
 }
 
 # -- Options for internationalization ----------------------------------------
-language = 'zh_CN'
-locale_dirs = ['_locale/']
+language = 'en'
+# locale_dirs = ['_locale/']
 gettext_compact = False
 
 # -- Path setup --------------------------------------------------------------
