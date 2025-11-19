@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>01-调试技巧 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>01-调试技巧 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=34088549"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/copy-code.js?v=caf91246"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="02-测试技术" href="02-testing-techniques.html" />
     <link rel="prev" title="00-环境配置" href="00-environment-setup.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Frontend Tutorial</a></li>
@@ -113,19 +113,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">01-调试技巧</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/01-debugging-techniques.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/01-debugging-techniques.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -134,9 +134,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>01-调试技巧<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>01-调试技巧<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>📋 学习目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握浏览器调试工具</p></li>
 <li><p>学习JavaScript调试技巧</p></li>
@@ -145,9 +145,9 @@
 </ul>
 </section>
 <section id="chrome-devtools">
-<h2>🔍 Chrome DevTools<a class="headerlink" href="#chrome-devtools" title="Link to this heading"></a></h2>
+<h2>🔍 Chrome DevTools<a class="headerlink" href="#chrome-devtools" title="Permalink to this heading"></a></h2>
 <section id="console">
-<h3>Console调试<a class="headerlink" href="#console" title="Link to this heading"></a></h3>
+<h3>Console调试<a class="headerlink" href="#console" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基本输出</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">);</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">);</span>
@@ -189,7 +189,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>断点调试<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>断点调试<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. debugger语句</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">calculate</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">debugger</span><span class="p">;</span><span class="w"> </span><span class="c1">// 代码会在此处暂停</span>
@@ -209,7 +209,7 @@
 </div>
 </section>
 <section id="network">
-<h3>Network调试<a class="headerlink" href="#network" title="Link to this heading"></a></h3>
+<h3>Network调试<a class="headerlink" href="#network" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 查看请求</span>
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
@@ -227,7 +227,7 @@
 </div>
 </section>
 <section id="performance">
-<h3>Performance分析<a class="headerlink" href="#performance" title="Link to this heading"></a></h3>
+<h3>Performance分析<a class="headerlink" href="#performance" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 性能标记</span>
 <span class="nx">performance</span><span class="p">.</span><span class="nx">mark</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">);</span>
 
@@ -249,9 +249,9 @@
 </section>
 </section>
 <section id="javascript">
-<h2>🔧 JavaScript调试技巧<a class="headerlink" href="#javascript" title="Link to this heading"></a></h2>
+<h2>🔧 JavaScript调试技巧<a class="headerlink" href="#javascript" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>错误处理<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>错误处理<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// try-catch</span>
 <span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">invalidJSON</span><span class="p">);</span>
@@ -287,7 +287,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>调试工具函数<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>调试工具函数<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 深拷贝调试</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">debugClone</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Original:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">obj</span><span class="p">);</span>
@@ -329,7 +329,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>调试异步代码<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>调试异步代码<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Promise调试</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">debugFetch</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Fetching:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">);</span>
@@ -371,9 +371,9 @@
 </section>
 </section>
 <section id="react">
-<h2>⚛️ React调试<a class="headerlink" href="#react" title="Link to this heading"></a></h2>
+<h2>⚛️ React调试<a class="headerlink" href="#react" title="Permalink to this heading"></a></h2>
 <section id="react-devtools">
-<h3>React DevTools<a class="headerlink" href="#react-devtools" title="Link to this heading"></a></h3>
+<h3>React DevTools<a class="headerlink" href="#react-devtools" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// 查看组件Props和State</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">Counter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">count</span><span class="p">,</span><span class="w"> </span><span class="nx">setCount</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
@@ -407,7 +407,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>React调试技巧<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>React调试技巧<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// useDebugValue</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">useCustomHook</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">useDebugValue</span><span class="p">(</span><span class="nx">value</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;Positive&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Negative&#39;</span><span class="p">);</span>
@@ -444,9 +444,9 @@
 </section>
 </section>
 <section id="vue">
-<h2>💚 Vue调试<a class="headerlink" href="#vue" title="Link to this heading"></a></h2>
+<h2>💚 Vue调试<a class="headerlink" href="#vue" title="Permalink to this heading"></a></h2>
 <section id="vue-devtools">
-<h3>Vue DevTools<a class="headerlink" href="#vue-devtools" title="Link to this heading"></a></h3>
+<h3>Vue DevTools<a class="headerlink" href="#vue-devtools" title="Permalink to this heading"></a></h3>
 <div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">watch</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
 
@@ -467,7 +467,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>Vue调试技巧<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>Vue调试技巧<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
 <span class="c1">// 调试Props</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineProps</span><span class="p">({</span>
@@ -500,9 +500,9 @@
 </section>
 </section>
 <section id="id9">
-<h2>🌐 网络调试<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<h2>🌐 网络调试<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
 <section id="id10">
-<h3>请求拦截<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>请求拦截<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用axios拦截器</span>
 <span class="nx">axios</span><span class="p">.</span><span class="nx">interceptors</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">config</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Request:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
@@ -524,7 +524,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>模拟数据<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>模拟数据<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用MSW (Mock Service Worker)</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">rest</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;msw&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">setupWorker</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;msw/browser&#39;</span><span class="p">;</span>
@@ -547,9 +547,9 @@
 </section>
 </section>
 <section id="id12">
-<h2>🔍 内存调试<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>🔍 内存调试<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="id13">
-<h3>内存泄漏检测<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>内存泄漏检测<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 检查DOM节点泄漏</span>
 <span class="kd">class</span><span class="w"> </span><span class="nx">DOMLeakDetector</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -589,9 +589,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>💡 调试最佳实践<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>💡 调试最佳实践<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="source-maps">
-<h3>1. 使用Source Maps<a class="headerlink" href="#source-maps" title="Link to this heading"></a></h3>
+<h3>1. 使用Source Maps<a class="headerlink" href="#source-maps" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// vite.config.ts</span>
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">build</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
@@ -602,7 +602,7 @@
 </div>
 </section>
 <section id="id15">
-<h3>2. 日志分级<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>2. 日志分级<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">DEBUG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;development&#39;</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -618,7 +618,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>3. 条件断点<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>3. 条件断点<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 只在特定条件下断点</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">processItems</span><span class="p">(</span><span class="nx">items</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">items</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -630,7 +630,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>4. 错误边界<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>4. 错误边界<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// React错误边界</span>
 <span class="kd">class</span><span class="w"> </span><span class="nx">ErrorBoundary</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">React</span><span class="p">.</span><span class="nx">Component</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">hasError</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">};</span>
@@ -657,9 +657,9 @@
 </section>
 </section>
 <section id="id18">
-<h2>📚 调试工具推荐<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>📚 调试工具推荐<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>浏览器扩展<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>浏览器扩展<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>React DevTools</p></li>
 <li><p>Vue DevTools</p></li>
@@ -669,7 +669,7 @@
 </ul>
 </section>
 <section id="vscode">
-<h3>VSCode扩展<a class="headerlink" href="#vscode" title="Link to this heading"></a></h3>
+<h3>VSCode扩展<a class="headerlink" href="#vscode" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Debugger for Chrome</p></li>
 <li><p>Error Lens</p></li>
@@ -679,7 +679,7 @@
 </section>
 </section>
 <section id="id20">
-<h2>📚 参考资料<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://developer.chrome.com/docs/devtools/">Chrome DevTools文档</a></p></li>
 <li><p><a class="reference external" href="https://react.dev/learn/react-developer-tools">React DevTools</a></p></li>
@@ -691,20 +691,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="00-environment-setup.html" class="btn btn-neutral float-left" title="00-环境配置" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02-testing-techniques.html" class="btn btn-neutral float-right" title="02-测试技术" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="00-environment-setup.html" class="btn btn-neutral float-left" title="00-环境配置" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02-testing-techniques.html" class="btn btn-neutral float-right" title="02-测试技术" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02-React状态管理 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>02-React状态管理 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="03-React Router路由与导航" href="03-routing-and-navigation.html" />
     <link rel="prev" title="01-React Hooks核心" href="01-hooks-core.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -115,20 +115,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">React 教程</a></li>
       <li class="breadcrumb-item active">02-React状态管理</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/react/02-state-management.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/react/02-state-management.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -137,9 +137,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="react">
-<h1>02-React状态管理<a class="headerlink" href="#react" title="Link to this heading"></a></h1>
+<h1>02-React状态管理<a class="headerlink" href="#react" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握Context API状态共享</p></li>
 <li><p>学习Redux Toolkit使用</p></li>
@@ -148,9 +148,9 @@
 </ul>
 </section>
 <section id="context-api">
-<h2>🎯 Context API<a class="headerlink" href="#context-api" title="Link to this heading"></a></h2>
+<h2>🎯 Context API<a class="headerlink" href="#context-api" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>基本用法<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createContext</span><span class="p">,</span><span class="w"> </span><span class="nx">useContext</span><span class="p">,</span><span class="w"> </span><span class="nx">useState</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="c1">// 创建Context</span>
@@ -204,7 +204,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>复杂状态管理<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>复杂状态管理<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createContext</span><span class="p">,</span><span class="w"> </span><span class="nx">useContext</span><span class="p">,</span><span class="w"> </span><span class="nx">useReducer</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="c1">// 定义状态和Actions</span>
@@ -280,15 +280,15 @@
 </section>
 </section>
 <section id="redux-toolkit">
-<h2>🔴 Redux Toolkit<a class="headerlink" href="#redux-toolkit" title="Link to this heading"></a></h2>
+<h2>🔴 Redux Toolkit<a class="headerlink" href="#redux-toolkit" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>安装和配置<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>安装和配置<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pnpm<span class="w"> </span>add<span class="w"> </span>@reduxjs/toolkit<span class="w"> </span>react-redux
 </pre></div>
 </div>
 </section>
 <section id="store">
-<h3>创建Store<a class="headerlink" href="#store" title="Link to this heading"></a></h3>
+<h3>创建Store<a class="headerlink" href="#store" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// store.js</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">configureStore</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@reduxjs/toolkit&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="nx">counterReducer</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./features/counter/counterSlice&#39;</span><span class="p">;</span>
@@ -311,7 +311,7 @@
 </div>
 </section>
 <section id="slice">
-<h3>创建Slice<a class="headerlink" href="#slice" title="Link to this heading"></a></h3>
+<h3>创建Slice<a class="headerlink" href="#slice" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// counterSlice.js</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createSlice</span><span class="p">,</span><span class="w"> </span><span class="nx">PayloadAction</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@reduxjs/toolkit&#39;</span><span class="p">;</span>
 
@@ -350,7 +350,7 @@
 </div>
 </section>
 <section id="thunk">
-<h3>异步Thunk<a class="headerlink" href="#thunk" title="Link to this heading"></a></h3>
+<h3>异步Thunk<a class="headerlink" href="#thunk" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createSlice</span><span class="p">,</span><span class="w"> </span><span class="nx">createAsyncThunk</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@reduxjs/toolkit&#39;</span><span class="p">;</span>
 
 <span class="c1">// 异步Thunk</span>
@@ -405,7 +405,7 @@
 </div>
 </section>
 <section id="redux">
-<h3>使用Redux<a class="headerlink" href="#redux" title="Link to this heading"></a></h3>
+<h3>使用Redux<a class="headerlink" href="#redux" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// App.tsx</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Provider</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-redux&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">store</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./store&#39;</span><span class="p">;</span>
@@ -455,7 +455,7 @@
 </div>
 </section>
 <section id="hooks">
-<h3>类型安全的Hooks<a class="headerlink" href="#hooks" title="Link to this heading"></a></h3>
+<h3>类型安全的Hooks<a class="headerlink" href="#hooks" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// hooks.ts</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useDispatch</span><span class="p">,</span><span class="w"> </span><span class="nx">useSelector</span><span class="p">,</span><span class="w"> </span><span class="nx">TypedUseSelectorHook</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-redux&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="p">{</span><span class="nx">RootState</span><span class="p">,</span><span class="w"> </span><span class="nx">AppDispatch</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./store&#39;</span><span class="p">;</span>
@@ -476,9 +476,9 @@
 </section>
 </section>
 <section id="zustand">
-<h2>🐻 Zustand<a class="headerlink" href="#zustand" title="Link to this heading"></a></h2>
+<h2>🐻 Zustand<a class="headerlink" href="#zustand" title="Permalink to this heading"></a></h2>
 <section id="id5">
-<h3>基本用法<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">create</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;zustand&#39;</span><span class="p">;</span>
 
 <span class="c1">// 创建Store</span>
@@ -520,7 +520,7 @@
 </div>
 </section>
 <section id="actions">
-<h3>异步Actions<a class="headerlink" href="#actions" title="Link to this heading"></a></h3>
+<h3>异步Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kr">interface</span><span class="w"> </span><span class="nx">UserStore</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
 <span class="w">    </span><span class="nx">loading</span><span class="o">:</span><span class="w"> </span><span class="kr">boolean</span><span class="p">;</span>
@@ -548,7 +548,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>中间件<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>中间件<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">create</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;zustand&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">persist</span><span class="p">,</span><span class="w"> </span><span class="nx">devtools</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;zustand/middleware&#39;</span><span class="p">;</span>
 
@@ -593,7 +593,7 @@
 </div>
 </section>
 <section id="immer">
-<h3>Immer集成<a class="headerlink" href="#immer" title="Link to this heading"></a></h3>
+<h3>Immer集成<a class="headerlink" href="#immer" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">create</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;zustand&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">immer</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;zustand/middleware/immer&#39;</span><span class="p">;</span>
 
@@ -614,9 +614,9 @@
 </section>
 </section>
 <section id="id7">
-<h2>🎯 状态管理对比<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>🎯 状态管理对比<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="context">
-<h3>何时使用Context<a class="headerlink" href="#context" title="Link to this heading"></a></h3>
+<h3>何时使用Context<a class="headerlink" href="#context" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>主题、语言等全局配置</p></li>
 <li><p>用户认证状态</p></li>
@@ -625,7 +625,7 @@
 </ul>
 </section>
 <section id="id8">
-<h3>何时使用Redux<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>何时使用Redux<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>复杂的状态逻辑</p></li>
 <li><p>需要时间旅行调试</p></li>
@@ -634,7 +634,7 @@
 </ul>
 </section>
 <section id="id9">
-<h3>何时使用Zustand<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>何时使用Zustand<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>中小型应用</p></li>
 <li><p>需要简洁的API</p></li>
@@ -644,9 +644,9 @@
 </section>
 </section>
 <section id="id10">
-<h2>💡 最佳实践<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>💡 最佳实践<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>1. 状态设计原则<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>1. 状态设计原则<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ 扁平化状态</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nx">State</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">users</span><span class="o">:</span><span class="w"> </span><span class="p">{[</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="nx">User</span><span class="p">};</span>
@@ -668,7 +668,7 @@
 </div>
 </section>
 <section id="id12">
-<h3>2. 拆分状态<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>2. 拆分状态<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 按功能拆分</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">useAuthStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create</span><span class="p">(...);</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">useCartStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create</span><span class="p">(...);</span>
@@ -680,7 +680,7 @@
 </div>
 </section>
 <section id="prop-drilling">
-<h3>3. 避免prop drilling<a class="headerlink" href="#prop-drilling" title="Link to this heading"></a></h3>
+<h3>3. 避免prop drilling<a class="headerlink" href="#prop-drilling" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ Prop drilling</span>
 <span class="p">&lt;</span><span class="nt">Parent</span><span class="p">&gt;</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Child1</span><span class="w"> </span><span class="na">theme</span><span class="o">=</span><span class="p">{</span><span class="nx">theme</span><span class="p">}&gt;</span>
@@ -704,7 +704,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>4. 性能优化<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>4. 性能优化<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// Zustand选择性订阅</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useStore</span><span class="p">(</span><span class="nx">state</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="p">);</span><span class="w"> </span><span class="c1">// 只订阅count</span>
 
@@ -727,9 +727,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>📚 实践练习<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="todo">
-<h3>练习1：Todo应用<a class="headerlink" href="#todo" title="Link to this heading"></a></h3>
+<h3>练习1：Todo应用<a class="headerlink" href="#todo" title="Permalink to this heading"></a></h3>
 <p>使用Zustand实现：</p>
 <ul class="simple">
 <li><p>添加、删除、切换Todo</p></li>
@@ -738,7 +738,7 @@
 </ul>
 </section>
 <section id="id15">
-<h3>练习2：购物车<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>练习2：购物车<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p>使用Redux Toolkit实现：</p>
 <ul class="simple">
 <li><p>添加商品到购物车</p></li>
@@ -748,7 +748,7 @@
 </ul>
 </section>
 <section id="id16">
-<h3>练习3：多主题系统<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>练习3：多主题系统<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <p>使用Context实现：</p>
 <ul class="simple">
 <li><p>切换主题</p></li>
@@ -758,7 +758,7 @@
 </section>
 </section>
 <section id="id17">
-<h2>📚 参考资料<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://redux-toolkit.js.org/">Redux Toolkit官方文档</a></p></li>
 <li><p><a class="reference external" href="https://docs.pmnd.rs/zustand/getting-started/introduction">Zustand文档</a></p></li>
@@ -770,20 +770,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="01-hooks-core.html" class="btn btn-neutral float-left" title="01-React Hooks核心" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="03-routing-and-navigation.html" class="btn btn-neutral float-right" title="03-React Router路由与导航" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01-hooks-core.html" class="btn btn-neutral float-left" title="01-React Hooks核心" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03-routing-and-navigation.html" class="btn btn-neutral float-right" title="03-React Router路由与导航" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

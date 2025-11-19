@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>03-React Router路由与导航 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>03-React Router路由与导航 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Vue 教程" href="../vue/index.html" />
     <link rel="prev" title="02-React状态管理" href="02-state-management.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -127,20 +127,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">React 教程</a></li>
       <li class="breadcrumb-item active">03-React Router路由与导航</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/react/03-routing-and-navigation.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/react/03-routing-and-navigation.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -149,9 +149,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="react-router">
-<h1>03-React Router路由与导航<a class="headerlink" href="#react-router" title="Link to this heading"></a></h1>
+<h1>03-React Router路由与导航<a class="headerlink" href="#react-router" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握React Router v6核心概念</p></li>
 <li><p>学习路由配置和导航</p></li>
@@ -160,15 +160,15 @@
 </ul>
 </section>
 <section id="id2">
-<h2>🛣️ React Router基础<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>🛣️ React Router基础<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>安装<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>安装<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pnpm<span class="w"> </span>add<span class="w"> </span>react-router-dom
 </pre></div>
 </div>
 </section>
 <section id="id4">
-<h3>基本配置<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>基本配置<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">BrowserRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">Routes</span><span class="p">,</span><span class="w"> </span><span class="nx">Route</span><span class="p">,</span><span class="w"> </span><span class="nx">Link</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -193,7 +193,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>路由模式<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>路由模式<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// BrowserRouter - HTML5 History API</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">BrowserRouter</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 <span class="c1">// URL: /about</span>
@@ -209,9 +209,9 @@
 </section>
 </section>
 <section id="id6">
-<h2>🔗 导航<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>🔗 导航<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="link">
-<h3>Link组件<a class="headerlink" href="#link" title="Link to this heading"></a></h3>
+<h3>Link组件<a class="headerlink" href="#link" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Link</span><span class="p">,</span><span class="w"> </span><span class="nx">NavLink</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Navigation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -252,7 +252,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>编程式导航<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>编程式导航<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useNavigate</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">LoginForm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -285,9 +285,9 @@
 </section>
 </section>
 <section id="id8">
-<h2>📍 动态路由<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>📍 动态路由<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>路径参数<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>路径参数<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// 路由配置</span>
 <span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/users/:id&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">UserDetail</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/posts/:postId/comments/:commentId&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Comment</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
@@ -314,7 +314,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>查询参数<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>查询参数<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useSearchParams</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">SearchPage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -350,9 +350,9 @@
 </section>
 </section>
 <section id="id11">
-<h2>🗂️ 嵌套路由<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>🗂️ 嵌套路由<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>基本嵌套<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>基本嵌套<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Layout</span><span class="w"> </span><span class="p">/&gt;}&gt;</span>
 <span class="w">        </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">index</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
@@ -393,7 +393,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>相对路径<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>相对路径<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">Users</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">        </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -414,9 +414,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>🔐 路由守卫<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>🔐 路由守卫<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>受保护路由<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>受保护路由<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Navigate</span><span class="p">,</span><span class="w"> </span><span class="nx">useLocation</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">PrivateRoute</span><span class="p">({</span><span class="nx">children</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
@@ -453,7 +453,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>角色权限控制<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>角色权限控制<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">RoleRoute</span><span class="p">({</span><span class="nx">children</span><span class="p">,</span><span class="w"> </span><span class="nx">allowedRoles</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useAuth</span><span class="p">();</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useLocation</span><span class="p">();</span>
@@ -483,9 +483,9 @@
 </section>
 </section>
 <section id="id17">
-<h2>⚡ 代码分割<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>⚡ 代码分割<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>路由级懒加载<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>路由级懒加载<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">lazy</span><span class="p">,</span><span class="w"> </span><span class="nx">Suspense</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Routes</span><span class="p">,</span><span class="w"> </span><span class="nx">Route</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
@@ -514,7 +514,7 @@
 </div>
 </section>
 <section id="id19">
-<h3>预加载<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>预加载<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">lazy</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">About</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/About&#39;</span><span class="p">));</span>
@@ -539,9 +539,9 @@
 </section>
 </section>
 <section id="id20">
-<h2>🔄 数据加载<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>🔄 数据加载<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <section id="loader-react-router-v6-4">
-<h3>Loader（React Router v6.4+）<a class="headerlink" href="#loader-react-router-v6-4" title="Link to this heading"></a></h3>
+<h3>Loader（React Router v6.4+）<a class="headerlink" href="#loader-react-router-v6-4" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createBrowserRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">RouterProvider</span><span class="p">,</span><span class="w"> </span><span class="nx">useLoaderData</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="c1">// 定义loader</span>
@@ -578,7 +578,7 @@
 </div>
 </section>
 <section id="action">
-<h3>Action（表单处理）<a class="headerlink" href="#action" title="Link to this heading"></a></h3>
+<h3>Action（表单处理）<a class="headerlink" href="#action" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createUserAction</span><span class="p">({</span><span class="nx">request</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">formData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">formData</span><span class="p">();</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -619,9 +619,9 @@
 </section>
 </section>
 <section id="id21">
-<h2>🎯 实战案例<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>🎯 实战案例<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>完整的路由配置<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>完整的路由配置<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createBrowserRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">RouterProvider</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createBrowserRouter</span><span class="p">([</span>
@@ -684,9 +684,9 @@
 </section>
 </section>
 <section id="id23">
-<h2>💡 最佳实践<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<h2>💡 最佳实践<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h2>
 <section id="id24">
-<h3>1. 路由配置集中管理<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>1. 路由配置集中管理<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// routes.jsx</span>
 <span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;},</span>
@@ -710,7 +710,7 @@
 </div>
 </section>
 <section id="id25">
-<h3>2. 404处理<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>2. 404处理<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
@@ -720,7 +720,7 @@
 </div>
 </section>
 <section id="id26">
-<h3>3. 面包屑导航<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>3. 面包屑导航<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useMatches</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Breadcrumbs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -744,9 +744,9 @@
 </section>
 </section>
 <section id="id27">
-<h2>📚 实践练习<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h2>
 <section id="id28">
-<h3>练习1：博客系统路由<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<h3>练习1：博客系统路由<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
 <p>实现以下路由：</p>
 <ul class="simple">
 <li><p>文章列表：<code class="docutils literal notranslate"><span class="pre">/posts</span></code></p></li>
@@ -756,7 +756,7 @@
 </ul>
 </section>
 <section id="id29">
-<h3>练习2：权限管理<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<h3>练习2：权限管理<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <p>实现：</p>
 <ul class="simple">
 <li><p>登录保护</p></li>
@@ -765,7 +765,7 @@
 </ul>
 </section>
 <section id="id30">
-<h3>练习3：嵌套布局<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>练习3：嵌套布局<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <p>实现：</p>
 <ul class="simple">
 <li><p>多层嵌套路由</p></li>
@@ -775,7 +775,7 @@
 </section>
 </section>
 <section id="id31">
-<h2>📚 参考资料<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://reactrouter.com/">React Router官方文档</a></p></li>
 <li><p><a class="reference external" href="https://reactrouter.com/en/main/upgrading/v5">React Router v6迁移指南</a></p></li>
@@ -786,20 +786,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-state-management.html" class="btn btn-neutral float-left" title="02-React状态管理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../vue/index.html" class="btn btn-neutral float-right" title="Vue 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-state-management.html" class="btn btn-neutral float-left" title="02-React状态管理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vue/index.html" class="btn btn-neutral float-right" title="Vue 教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>03-语义化与可访问性 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>03-语义化与可访问性 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="04-Canvas与SVG" href="04-canvas-and-svg.html" />
     <link rel="prev" title="02-表单元素详解" href="02-form-elements.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -110,20 +110,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">HTML 教程</a></li>
       <li class="breadcrumb-item active">03-语义化与可访问性</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/html/03-semantic-html-and-accessibility.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/html/03-semantic-html-and-accessibility.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -132,9 +132,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>03-语义化与可访问性<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>03-语义化与可访问性<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>📋 学习目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>理解HTML5语义化标签的重要性</p></li>
 <li><p>掌握ARIA属性的使用</p></li>
@@ -143,9 +143,9 @@
 </ul>
 </section>
 <section id="html5">
-<h2>🏷️ HTML5语义化标签<a class="headerlink" href="#html5" title="Link to this heading"></a></h2>
+<h2>🏷️ HTML5语义化标签<a class="headerlink" href="#html5" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>页面结构标签<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>页面结构标签<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;zh-CN&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -209,9 +209,9 @@
 </div>
 </section>
 <section id="id4">
-<h3>语义化标签详解<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>语义化标签详解<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <section id="header">
-<h4>header - 页眉<a class="headerlink" href="#header" title="Link to this heading"></a></h4>
+<h4>header - 页眉<a class="headerlink" href="#header" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 页面级header --&gt;</span>
 <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>网站标题<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
@@ -236,7 +236,7 @@
 </div>
 </section>
 <section id="nav">
-<h4>nav - 导航<a class="headerlink" href="#nav" title="Link to this heading"></a></h4>
+<h4>nav - 导航<a class="headerlink" href="#nav" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 主导航 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;主导航&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
@@ -267,7 +267,7 @@
 </div>
 </section>
 <section id="main">
-<h4>main - 主要内容<a class="headerlink" href="#main" title="Link to this heading"></a></h4>
+<h4>main - 主要内容<a class="headerlink" href="#main" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 每个页面只能有一个main标签 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>页面主要内容<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
@@ -281,7 +281,7 @@
 </div>
 </section>
 <section id="article">
-<h4>article - 独立文章<a class="headerlink" href="#article" title="Link to this heading"></a></h4>
+<h4>article - 独立文章<a class="headerlink" href="#article" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 博客文章 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
@@ -315,7 +315,7 @@
 </div>
 </section>
 <section id="section">
-<h4>section - 章节<a class="headerlink" href="#section" title="Link to this heading"></a></h4>
+<h4>section - 章节<a class="headerlink" href="#section" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>完整教程<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
     
@@ -333,7 +333,7 @@
 </div>
 </section>
 <section id="aside">
-<h4>aside - 侧边内容<a class="headerlink" href="#aside" title="Link to this heading"></a></h4>
+<h4>aside - 侧边内容<a class="headerlink" href="#aside" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 侧边栏 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">aside</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
@@ -365,7 +365,7 @@
 </div>
 </section>
 <section id="footer">
-<h4>footer - 页脚<a class="headerlink" href="#footer" title="Link to this heading"></a></h4>
+<h4>footer - 页脚<a class="headerlink" href="#footer" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 页面页脚 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;页脚导航&quot;</span><span class="p">&gt;</span>
@@ -389,9 +389,9 @@
 </section>
 </section>
 <section id="id5">
-<h3>其他语义化标签<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>其他语义化标签<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <section id="figurefigcaption">
-<h4>figure和figcaption<a class="headerlink" href="#figurefigcaption" title="Link to this heading"></a></h4>
+<h4>figure和figcaption<a class="headerlink" href="#figurefigcaption" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 图片及说明 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;chart.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;销售数据图表&quot;</span><span class="p">&gt;</span>
@@ -419,7 +419,7 @@ function hello() {
 </div>
 </section>
 <section id="detailssummary">
-<h4>details和summary<a class="headerlink" href="#detailssummary" title="Link to this heading"></a></h4>
+<h4>details和summary<a class="headerlink" href="#detailssummary" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 可折叠内容 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>点击查看详情<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
@@ -452,13 +452,13 @@ function hello() {
 </div>
 </section>
 <section id="mark">
-<h4>mark - 高亮<a class="headerlink" href="#mark" title="Link to this heading"></a></h4>
+<h4>mark - 高亮<a class="headerlink" href="#mark" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>搜索结果中的<span class="p">&lt;</span><span class="nt">mark</span><span class="p">&gt;</span>关键词<span class="p">&lt;/</span><span class="nt">mark</span><span class="p">&gt;</span>会被高亮显示<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="time">
-<h4>time - 时间<a class="headerlink" href="#time" title="Link to this heading"></a></h4>
+<h4>time - 时间<a class="headerlink" href="#time" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 日期 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21&quot;</span><span class="p">&gt;</span>2025年10月21日<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
 
@@ -475,11 +475,11 @@ function hello() {
 </section>
 </section>
 <section id="web-a11y">
-<h2>♿ Web可访问性（A11y）<a class="headerlink" href="#web-a11y" title="Link to this heading"></a></h2>
+<h2>♿ Web可访问性（A11y）<a class="headerlink" href="#web-a11y" title="Permalink to this heading"></a></h2>
 <section id="aria">
-<h3>ARIA属性<a class="headerlink" href="#aria" title="Link to this heading"></a></h3>
+<h3>ARIA属性<a class="headerlink" href="#aria" title="Permalink to this heading"></a></h3>
 <section id="role">
-<h4>role属性<a class="headerlink" href="#role" title="Link to this heading"></a></h4>
+<h4>role属性<a class="headerlink" href="#role" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Landmark Roles --&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;banner&quot;</span><span class="p">&gt;</span>页眉内容（等同于header）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;navigation&quot;</span><span class="p">&gt;</span>导航菜单（等同于nav）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -505,7 +505,7 @@ function hello() {
 <p><strong>注意</strong>：优先使用HTML5语义化标签，只有在必要时才使用role属性。</p>
 </section>
 <section id="aria-labelaria-labelledby">
-<h4>aria-label和aria-labelledby<a class="headerlink" href="#aria-labelaria-labelledby" title="Link to this heading"></a></h4>
+<h4>aria-label和aria-labelledby<a class="headerlink" href="#aria-labelaria-labelledby" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- aria-label：直接提供标签文本 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">button</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;关闭对话框&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">svg</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span> <span class="cm">&lt;!-- 图标 --&gt;</span>
@@ -530,7 +530,7 @@ function hello() {
 </div>
 </section>
 <section id="aria-describedby">
-<h4>aria-describedby<a class="headerlink" href="#aria-describedby" title="Link to this heading"></a></h4>
+<h4>aria-describedby<a class="headerlink" href="#aria-describedby" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 为元素提供描述 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;email&quot;</span> 
        <span class="na">id</span><span class="o">=</span><span class="s">&quot;email&quot;</span>
@@ -548,7 +548,7 @@ function hello() {
 </div>
 </section>
 <section id="aria-hidden">
-<h4>aria-hidden<a class="headerlink" href="#aria-hidden" title="Link to this heading"></a></h4>
+<h4>aria-hidden<a class="headerlink" href="#aria-hidden" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 对屏幕阅读器隐藏装饰性内容 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">span</span> <span class="na">aria-hidden</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>🔍<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
@@ -565,7 +565,7 @@ function hello() {
 </div>
 </section>
 <section id="aria-live">
-<h4>aria-live<a class="headerlink" href="#aria-live" title="Link to this heading"></a></h4>
+<h4>aria-live<a class="headerlink" href="#aria-live" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 实时更新区域 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">aria-live</span><span class="o">=</span><span class="s">&quot;polite&quot;</span> <span class="na">aria-atomic</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>新消息：您有3条未读消息<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
@@ -584,7 +584,7 @@ function hello() {
 </div>
 </section>
 <section id="aria-expanded">
-<h4>aria-expanded<a class="headerlink" href="#aria-expanded" title="Link to this heading"></a></h4>
+<h4>aria-expanded<a class="headerlink" href="#aria-expanded" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 展开/折叠状态 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">button</span> <span class="na">aria-expanded</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="na">aria-controls</span><span class="o">=</span><span class="s">&quot;menu&quot;</span><span class="p">&gt;</span>
     菜单
@@ -608,7 +608,7 @@ function hello() {
 </div>
 </section>
 <section id="aria-selectedaria-current">
-<h4>aria-selected和aria-current<a class="headerlink" href="#aria-selectedaria-current" title="Link to this heading"></a></h4>
+<h4>aria-selected和aria-current<a class="headerlink" href="#aria-selectedaria-current" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 标签页 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tablist&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">button</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tab&quot;</span> <span class="na">aria-selected</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>标签1<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
@@ -635,9 +635,9 @@ function hello() {
 </section>
 </section>
 <section id="id6">
-<h3>键盘可访问性<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>键盘可访问性<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <section id="tabindex">
-<h4>tabindex<a class="headerlink" href="#tabindex" title="Link to this heading"></a></h4>
+<h4>tabindex<a class="headerlink" href="#tabindex" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- tabindex=&quot;0&quot;: 自然顺序 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;button&quot;</span><span class="p">&gt;</span>可聚焦的div<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
@@ -654,7 +654,7 @@ function hello() {
 </div>
 </section>
 <section id="id7">
-<h4>键盘事件处理<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
+<h4>键盘事件处理<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 自定义按钮 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;button&quot;</span> 
      <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;0&quot;</span>
@@ -699,7 +699,7 @@ function hello() {
 </section>
 </section>
 <section id="id8">
-<h3>焦点管理<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>焦点管理<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 焦点陷阱（模态框中）</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">modal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">);</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">focusableElements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">modal</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span>
@@ -742,7 +742,7 @@ function hello() {
 </div>
 </section>
 <section id="id9">
-<h3>图片替代文本<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>图片替代文本<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 内容性图片 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;chart.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;2025年Q1销售额同比增长25%&quot;</span><span class="p">&gt;</span>
 
@@ -775,9 +775,9 @@ function hello() {
 </section>
 </section>
 <section id="seo">
-<h2>🔍 SEO优化<a class="headerlink" href="#seo" title="Link to this heading"></a></h2>
+<h2>🔍 SEO优化<a class="headerlink" href="#seo" title="Permalink to this heading"></a></h2>
 <section id="id10">
-<h3>结构化数据<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>结构化数据<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- JSON-LD格式 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;application/ld+json&quot;</span><span class="p">&gt;</span>
 <span class="p">{</span>
@@ -827,7 +827,7 @@ function hello() {
 </div>
 </section>
 <section id="htmlseo">
-<h3>语义化HTML与SEO<a class="headerlink" href="#htmlseo" title="Link to this heading"></a></h3>
+<h3>语义化HTML与SEO<a class="headerlink" href="#htmlseo" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 良好的标题层级 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>网站主标题<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
@@ -852,9 +852,9 @@ function hello() {
 </section>
 </section>
 <section id="id11">
-<h2>🎯 完整示例<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>🎯 完整示例<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>可访问的模态框<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>可访问的模态框<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;zh-CN&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -973,9 +973,9 @@ function hello() {
 </section>
 </section>
 <section id="id13">
-<h2>📚 实践练习<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>练习1：语义化博客页面<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>练习1：语义化博客页面<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <p>创建一个语义化的博客文章页面，包含：</p>
 <ul class="simple">
 <li><p>正确的文档结构</p></li>
@@ -986,7 +986,7 @@ function hello() {
 </ul>
 </section>
 <section id="id15">
-<h3>练习2：可访问的下拉菜单<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>练习2：可访问的下拉菜单<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p>实现一个完全可访问的下拉菜单，要求：</p>
 <ul class="simple">
 <li><p>键盘可操作（Tab、Enter、Escape、方向键）</p></li>
@@ -996,7 +996,7 @@ function hello() {
 </ul>
 </section>
 <section id="id16">
-<h3>练习3：SEO优化页面<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>练习3：SEO优化页面<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <p>创建一个SEO优化的产品页面，包含：</p>
 <ul class="simple">
 <li><p>完整的meta标签</p></li>
@@ -1007,9 +1007,9 @@ function hello() {
 </section>
 </section>
 <section id="id17">
-<h2>💡 最佳实践<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>💡 最佳实践<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>1. 优先使用语义化标签<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>1. 优先使用语义化标签<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 不推荐 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;header&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav&quot;</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -1023,7 +1023,7 @@ function hello() {
 </div>
 </section>
 <section id="id19">
-<h3>2. 提供多种访问方式<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>2. 提供多种访问方式<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>键盘导航</p></li>
 <li><p>屏幕阅读器支持</p></li>
@@ -1032,7 +1032,7 @@ function hello() {
 </ul>
 </section>
 <section id="id20">
-<h3>3. 测试工具<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>3. 测试工具<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>axe DevTools</strong>：自动化可访问性测试</p></li>
 <li><p><strong>WAVE</strong>：网页可访问性评估工具</p></li>
@@ -1042,7 +1042,7 @@ function hello() {
 </section>
 </section>
 <section id="id21">
-<h2>📚 参考资料<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1指南</a></p></li>
 <li><p><a class="reference external" href="https://www.w3.org/WAI/ARIA/apg/">WAI-ARIA最佳实践</a></p></li>
@@ -1055,20 +1055,20 @@ function hello() {
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-form-elements.html" class="btn btn-neutral float-left" title="02-表单元素详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="04-canvas-and-svg.html" class="btn btn-neutral float-right" title="04-Canvas与SVG" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-form-elements.html" class="btn btn-neutral float-left" title="02-表单元素详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="04-canvas-and-svg.html" class="btn btn-neutral float-right" title="04-Canvas与SVG" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>03-性能优化 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>03-性能优化 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=34088549"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/copy-code.js?v=caf91246"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="HTML 教程" href="html/index.html" />
     <link rel="prev" title="02-测试技术" href="02-testing-techniques.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Frontend Tutorial</a></li>
@@ -121,19 +121,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">03-性能优化</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/03-performance-optimization.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/03-performance-optimization.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -142,9 +142,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>03-性能优化<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>03-性能优化<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>📋 学习目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握性能分析方法</p></li>
 <li><p>学习代码层面优化</p></li>
@@ -153,9 +153,9 @@
 </ul>
 </section>
 <section id="id3">
-<h2>📊 性能指标<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>📊 性能指标<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="core-web-vitals">
-<h3>Core Web Vitals<a class="headerlink" href="#core-web-vitals" title="Link to this heading"></a></h3>
+<h3>Core Web Vitals<a class="headerlink" href="#core-web-vitals" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// LCP (Largest Contentful Paint) - 最大内容绘制</span>
 <span class="c1">// 目标：&lt; 2.5s</span>
 
@@ -176,7 +176,7 @@
 </div>
 </section>
 <section id="api">
-<h3>性能API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
+<h3>性能API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Navigation Timing</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">perfData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">performance</span><span class="p">.</span><span class="nx">getEntriesByType</span><span class="p">(</span><span class="s1">&#39;navigation&#39;</span><span class="p">)[</span><span class="mf">0</span><span class="p">];</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;DOM加载时间:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">perfData</span><span class="p">.</span><span class="nx">domContentLoadedEventEnd</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">perfData</span><span class="p">.</span><span class="nx">domContentLoadedEventStart</span><span class="p">);</span>
@@ -198,9 +198,9 @@
 </section>
 </section>
 <section id="id4">
-<h2>🎨 代码优化<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h2>🎨 代码优化<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <section id="javascript">
-<h3>JavaScript优化<a class="headerlink" href="#javascript" title="Link to this heading"></a></h3>
+<h3>JavaScript优化<a class="headerlink" href="#javascript" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 避免：频繁操作DOM</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="sb">`&lt;div&gt;</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">&lt;/div&gt;`</span><span class="p">;</span>
@@ -239,7 +239,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>防抖和节流<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>防抖和节流<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 防抖（Debounce）</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">debounce</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
@@ -282,7 +282,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>虚拟滚动<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>虚拟滚动<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">FixedSizeList</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-window&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">VirtualList</span><span class="p">({</span><span class="nx">items</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
@@ -308,9 +308,9 @@
 </section>
 </section>
 <section id="react">
-<h2>⚛️ React性能优化<a class="headerlink" href="#react" title="Link to this heading"></a></h2>
+<h2>⚛️ React性能优化<a class="headerlink" href="#react" title="Permalink to this heading"></a></h2>
 <section id="memousememo">
-<h3>memo和useMemo<a class="headerlink" href="#memousememo" title="Link to this heading"></a></h3>
+<h3>memo和useMemo<a class="headerlink" href="#memousememo" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// React.memo：避免不必要的重渲染</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">ExpensiveComponent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">React</span><span class="p">.</span><span class="nx">memo</span><span class="p">(({</span><span class="nx">data</span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Rendering ExpensiveComponent&#39;</span><span class="p">);</span>
@@ -345,7 +345,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>代码分割<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>代码分割<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// 路由级别分割</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">Home</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/Home&#39;</span><span class="p">));</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">About</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/About&#39;</span><span class="p">));</span>
@@ -382,7 +382,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>列表优化<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>列表优化<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 避免：使用index作为key</span>
 <span class="p">{</span><span class="nx">items</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Item</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="w"> </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="nx">item</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
@@ -412,9 +412,9 @@
 </section>
 </section>
 <section id="vue">
-<h2>💚 Vue性能优化<a class="headerlink" href="#vue" title="Link to this heading"></a></h2>
+<h2>💚 Vue性能优化<a class="headerlink" href="#vue" title="Permalink to this heading"></a></h2>
 <section id="v-memov-once">
-<h3>v-memo和v-once<a class="headerlink" href="#v-memov-once" title="Link to this heading"></a></h3>
+<h3>v-memo和v-once<a class="headerlink" href="#v-memov-once" title="Permalink to this heading"></a></h3>
 <div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- v-once：只渲染一次 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">v-once</span><span class="p">&gt;</span>
@@ -430,7 +430,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>计算属性缓存<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>计算属性缓存<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">computed</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
 
@@ -452,7 +452,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>异步组件<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>异步组件<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-vue notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span><span class="p">&gt;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">defineAsyncComponent</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="p">;</span>
 
@@ -477,9 +477,9 @@
 </section>
 </section>
 <section id="id11">
-<h2>📦 资源优化<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>📦 资源优化<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>图片优化<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>图片优化<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 响应式图片 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">picture</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">source</span> <span class="na">srcset</span><span class="o">=</span><span class="s">&quot;image.webp&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;image/webp&quot;</span><span class="p">&gt;</span>
@@ -501,7 +501,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>字体优化<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>字体优化<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* 字体预加载 */</span>
 <span class="o">&lt;</span><span class="nt">link</span><span class="w"> </span><span class="nt">rel</span><span class="o">=</span><span class="s2">&quot;preload&quot;</span><span class="w"> </span><span class="nt">href</span><span class="o">=</span><span class="s2">&quot;font.woff2&quot;</span><span class="w"> </span><span class="nt">as</span><span class="o">=</span><span class="s2">&quot;font&quot;</span><span class="w"> </span><span class="nt">type</span><span class="o">=</span><span class="s2">&quot;font/woff2&quot;</span><span class="w"> </span><span class="nt">crossorigin</span><span class="o">&gt;</span>
 
@@ -522,7 +522,7 @@
 </div>
 </section>
 <section id="css">
-<h3>CSS优化<a class="headerlink" href="#css" title="Link to this heading"></a></h3>
+<h3>CSS优化<a class="headerlink" href="#css" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* 避免昂贵的选择器 */</span>
 <span class="c">/* ❌ 避免 */</span>
 <span class="c">/* 通用选择器 */</span>
@@ -563,9 +563,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>🌐 网络优化<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>🌐 网络优化<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>资源预加载<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>资源预加载<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- DNS预解析 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;dns-prefetch&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://api.example.com&quot;</span><span class="p">&gt;</span>
 
@@ -585,7 +585,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>代码分割<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>代码分割<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vite配置</span>
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">build</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
@@ -610,7 +610,7 @@
 </div>
 </section>
 <section id="http">
-<h3>HTTP缓存<a class="headerlink" href="#http" title="Link to this heading"></a></h3>
+<h3>HTTP缓存<a class="headerlink" href="#http" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Service Worker缓存</span>
 <span class="nx">self</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;fetch&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">event</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span>
@@ -627,9 +627,9 @@
 </section>
 </section>
 <section id="id17">
-<h2>🔍 性能监控<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>🔍 性能监控<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>性能监控工具<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>性能监控工具<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Web Vitals</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">getCLS</span><span class="p">,</span><span class="w"> </span><span class="nx">getFID</span><span class="p">,</span><span class="w"> </span><span class="nx">getLCP</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;web-vitals&#39;</span><span class="p">;</span>
 
@@ -662,7 +662,7 @@
 </div>
 </section>
 <section id="lighthouse-ci">
-<h3>Lighthouse CI<a class="headerlink" href="#lighthouse-ci" title="Link to this heading"></a></h3>
+<h3>Lighthouse CI<a class="headerlink" href="#lighthouse-ci" title="Permalink to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># .github/workflows/lighthouse.yml</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lighthouse CI</span>
 
@@ -684,9 +684,9 @@
 </section>
 </section>
 <section id="id19">
-<h2>💡 性能优化检查清单<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>💡 性能优化检查清单<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="id20">
-<h3>JavaScript<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>JavaScript<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <ul class="contains-task-list simple">
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 使用代码分割</p></li>
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 懒加载非关键组件</p></li>
@@ -696,7 +696,7 @@
 </ul>
 </section>
 <section id="id21">
-<h3>CSS<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>CSS<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <ul class="contains-task-list simple">
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 使用CSS contain</p></li>
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 避免复杂选择器</p></li>
@@ -706,7 +706,7 @@
 </ul>
 </section>
 <section id="id22">
-<h3>资源<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>资源<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <ul class="contains-task-list simple">
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 压缩图片</p></li>
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 使用WebP格式</p></li>
@@ -716,7 +716,7 @@
 </ul>
 </section>
 <section id="id23">
-<h3>网络<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>网络<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <ul class="contains-task-list simple">
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 启用HTTP/2</p></li>
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 使用Gzip/Brotli压缩</p></li>
@@ -727,9 +727,9 @@
 </section>
 </section>
 <section id="id24">
-<h2>📚 工具推荐<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>📚 工具推荐<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <section id="id25">
-<h3>分析工具<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>分析工具<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Lighthouse</p></li>
 <li><p>WebPageTest</p></li>
@@ -738,7 +738,7 @@
 </ul>
 </section>
 <section id="id26">
-<h3>优化工具<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>优化工具<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>ImageOptim（图片压缩）</p></li>
 <li><p>SVGO（SVG优化）</p></li>
@@ -748,7 +748,7 @@
 </section>
 </section>
 <section id="id27">
-<h2>📚 参考资料<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://web.dev/performance/">Web.dev Performance</a></p></li>
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/Performance">MDN Performance</a></p></li>
@@ -761,20 +761,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-testing-techniques.html" class="btn btn-neutral float-left" title="02-测试技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="html/index.html" class="btn btn-neutral float-right" title="HTML 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-testing-techniques.html" class="btn btn-neutral float-left" title="02-测试技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="html/index.html" class="btn btn-neutral float-right" title="HTML 教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

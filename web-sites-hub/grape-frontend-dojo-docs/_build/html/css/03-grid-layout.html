@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>03-Grid布局 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>03-Grid布局 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="04-动画与过渡" href="04-animations-and-transitions.html" />
     <link rel="prev" title="02-Flexbox布局" href="02-flexbox-layout.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -138,20 +138,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">CSS 教程</a></li>
       <li class="breadcrumb-item active">03-Grid布局</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/css/03-grid-layout.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/css/03-grid-layout.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -160,9 +160,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="grid">
-<h1>03-Grid布局<a class="headerlink" href="#grid" title="Link to this heading"></a></h1>
+<h1>03-Grid布局<a class="headerlink" href="#grid" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握CSS Grid布局系统</p></li>
 <li><p>理解网格轨道和单元格</p></li>
@@ -171,9 +171,9 @@
 </ul>
 </section>
 <section id="id2">
-<h2>🎯 Grid基础<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>🎯 Grid基础<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>启用Grid布局<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>启用Grid布局<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w">        </span><span class="c">/* 块级grid容器 */</span>
 <span class="w">    </span><span class="c">/* 或 */</span>
@@ -183,7 +183,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>基本概念<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>基本概念<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Grid Container（网格容器）
 Grid Item（网格项目）
 Grid Line（网格线）
@@ -195,9 +195,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id5">
-<h2>📏 容器属性<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>📏 容器属性<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="grid-template-columns-rows">
-<h3>grid-template-columns / rows<a class="headerlink" href="#grid-template-columns-rows" title="Link to this heading"></a></h3>
+<h3>grid-template-columns / rows<a class="headerlink" href="#grid-template-columns-rows" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 固定宽度 */</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
@@ -235,7 +235,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="minmax">
-<h3>minmax()函数<a class="headerlink" href="#minmax" title="Link to this heading"></a></h3>
+<h3>minmax()函数<a class="headerlink" href="#minmax" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 最小200px，最大1fr */</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">200</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
@@ -250,7 +250,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="grid-template-areas">
-<h3>grid-template-areas<a class="headerlink" href="#grid-template-areas" title="Link to this heading"></a></h3>
+<h3>grid-template-areas<a class="headerlink" href="#grid-template-areas" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
@@ -278,7 +278,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="grid-template">
-<h3>grid-template（简写）<a class="headerlink" href="#grid-template" title="Link to this heading"></a></h3>
+<h3>grid-template（简写）<a class="headerlink" href="#grid-template" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* grid-template-rows / grid-template-columns */</span>
 <span class="w">    </span><span class="k">grid-template</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
@@ -294,7 +294,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="gap">
-<h3>gap（间距）<a class="headerlink" href="#gap" title="Link to this heading"></a></h3>
+<h3>gap（间距）<a class="headerlink" href="#gap" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 行列间距 */</span>
 <span class="w">    </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
@@ -317,7 +317,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="justify-items">
-<h3>justify-items（水平对齐）<a class="headerlink" href="#justify-items" title="Link to this heading"></a></h3>
+<h3>justify-items（水平对齐）<a class="headerlink" href="#justify-items" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 起点对齐 */</span>
 <span class="w">    </span><span class="k">justify-items</span><span class="p">:</span><span class="w"> </span><span class="kc">start</span><span class="p">;</span>
@@ -335,7 +335,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="align-items">
-<h3>align-items（垂直对齐）<a class="headerlink" href="#align-items" title="Link to this heading"></a></h3>
+<h3>align-items（垂直对齐）<a class="headerlink" href="#align-items" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">start</span><span class="p">;</span>
 <span class="w">    </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">end</span><span class="p">;</span>
@@ -346,7 +346,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="place-items">
-<h3>place-items（复合属性）<a class="headerlink" href="#place-items" title="Link to this heading"></a></h3>
+<h3>place-items（复合属性）<a class="headerlink" href="#place-items" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* align-items justify-items */</span>
 <span class="w">    </span><span class="k">place-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
@@ -356,7 +356,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="justify-content">
-<h3>justify-content（网格整体水平对齐）<a class="headerlink" href="#justify-content" title="Link to this heading"></a></h3>
+<h3>justify-content（网格整体水平对齐）<a class="headerlink" href="#justify-content" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 网格总宽度小于容器时 */</span>
 <span class="w">    </span><span class="k">justify-content</span><span class="p">:</span><span class="w"> </span><span class="kc">start</span><span class="p">;</span>
@@ -371,7 +371,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="align-content">
-<h3>align-content（网格整体垂直对齐）<a class="headerlink" href="#align-content" title="Link to this heading"></a></h3>
+<h3>align-content（网格整体垂直对齐）<a class="headerlink" href="#align-content" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>
 <span class="w">    </span><span class="k">align-content</span><span class="p">:</span><span class="w"> </span><span class="kc">start</span><span class="p">;</span>
@@ -386,7 +386,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="place-content">
-<h3>place-content（复合属性）<a class="headerlink" href="#place-content" title="Link to this heading"></a></h3>
+<h3>place-content（复合属性）<a class="headerlink" href="#place-content" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* align-content justify-content */</span>
 <span class="w">    </span><span class="k">place-content</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
@@ -395,7 +395,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="grid-auto-columns-rows">
-<h3>grid-auto-columns / rows<a class="headerlink" href="#grid-auto-columns-rows" title="Link to this heading"></a></h3>
+<h3>grid-auto-columns / rows<a class="headerlink" href="#grid-auto-columns-rows" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 隐式网格的列宽 */</span>
 <span class="w">    </span><span class="k">grid-auto-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">px</span><span class="p">;</span>
@@ -409,7 +409,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="grid-auto-flow">
-<h3>grid-auto-flow<a class="headerlink" href="#grid-auto-flow" title="Link to this heading"></a></h3>
+<h3>grid-auto-flow<a class="headerlink" href="#grid-auto-flow" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 先行后列（默认） */</span>
 <span class="w">    </span><span class="k">grid-auto-flow</span><span class="p">:</span><span class="w"> </span><span class="kc">row</span><span class="p">;</span>
@@ -426,9 +426,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id6">
-<h2>🎁 项目属性<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>🎁 项目属性<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="grid-column-row">
-<h3>grid-column / row<a class="headerlink" href="#grid-column-row" title="Link to this heading"></a></h3>
+<h3>grid-column / row<a class="headerlink" href="#grid-column-row" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">item</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 列起始线 / 列结束线 */</span>
 <span class="w">    </span><span class="k">grid-column-start</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -461,7 +461,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="grid-area">
-<h3>grid-area<a class="headerlink" href="#grid-area" title="Link to this heading"></a></h3>
+<h3>grid-area<a class="headerlink" href="#grid-area" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* 方式1：指定区域名称 */</span>
 <span class="p">.</span><span class="nc">item</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">grid-area</span><span class="p">:</span><span class="w"> </span><span class="n">header</span><span class="p">;</span>
@@ -482,7 +482,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="justify-self-align-self">
-<h3>justify-self / align-self<a class="headerlink" href="#justify-self-align-self" title="Link to this heading"></a></h3>
+<h3>justify-self / align-self<a class="headerlink" href="#justify-self-align-self" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">item</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* 水平对齐 */</span>
 <span class="w">    </span><span class="k">justify-self</span><span class="p">:</span><span class="w"> </span><span class="kc">start</span><span class="p">;</span>
@@ -500,7 +500,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="place-self">
-<h3>place-self<a class="headerlink" href="#place-self" title="Link to this heading"></a></h3>
+<h3>place-self<a class="headerlink" href="#place-self" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">item</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c">/* align-self justify-self */</span>
 <span class="w">    </span><span class="k">place-self</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
@@ -510,9 +510,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id7">
-<h2>🎨 常见布局<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>🎨 常见布局<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>等宽列布局<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>等宽列布局<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">grid</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
@@ -522,7 +522,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id9">
-<h3>圣杯布局<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>圣杯布局<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">min-height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>
@@ -544,7 +544,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id10">
-<h3>瀑布流布局<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>瀑布流布局<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">grid</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fill</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">250</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
@@ -560,7 +560,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id11">
-<h3>响应式网格<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>响应式网格<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">grid</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fit</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">300</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
@@ -572,7 +572,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id12">
-<h3>12列栅格系统<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>12列栅格系统<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">row</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
@@ -589,7 +589,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id13">
-<h3>卡片布局<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>卡片布局<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">cards</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fill</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">280</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
@@ -622,7 +622,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id14">
-<h3>图片画廊<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>图片画廊<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">gallery</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fit</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">200</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
@@ -658,9 +658,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id15">
-<h2>🔧 实战技巧<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>🔧 实战技巧<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>自动响应式布局<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>自动响应式布局<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">auto-grid</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="kc">auto</span><span class="nv">-fit</span><span class="p">,</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">250</span><span class="kt">px</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">));</span>
@@ -670,7 +670,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id17">
-<h3>固定侧边栏<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>固定侧边栏<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">layout</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">250</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
@@ -686,7 +686,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id18">
-<h3>重叠元素<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>重叠元素<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">overlap-container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="p">}</span>
@@ -706,7 +706,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id19">
-<h3>命名网格线<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>命名网格线<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
 <span class="w">    </span><span class="k">grid-template-columns</span><span class="p">:</span>
@@ -727,9 +727,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="grid-vs-flexbox">
-<h2>📚 Grid vs Flexbox<a class="headerlink" href="#grid-vs-flexbox" title="Link to this heading"></a></h2>
+<h2>📚 Grid vs Flexbox<a class="headerlink" href="#grid-vs-flexbox" title="Permalink to this heading"></a></h2>
 <section id="id20">
-<h3>何时使用Grid<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>何时使用Grid<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>二维布局（行和列）</p></li>
 <li><p>复杂页面布局</p></li>
@@ -738,7 +738,7 @@ Grid Area（网格区域）
 </ul>
 </section>
 <section id="flexbox">
-<h3>何时使用Flexbox<a class="headerlink" href="#flexbox" title="Link to this heading"></a></h3>
+<h3>何时使用Flexbox<a class="headerlink" href="#flexbox" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>一维布局（行或列）</p></li>
 <li><p>组件内部布局</p></li>
@@ -747,7 +747,7 @@ Grid Area（网格区域）
 </ul>
 </section>
 <section id="id21">
-<h3>结合使用<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>结合使用<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* Grid用于页面布局 */</span>
 <span class="p">.</span><span class="nc">page</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
@@ -768,9 +768,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id22">
-<h2>📚 完整示例<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>📚 完整示例<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <section id="id23">
-<h3>杂志风格布局<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>杂志风格布局<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;magazine&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;item item-1&quot;</span><span class="p">&gt;</span>Article 1<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;item item-2&quot;</span><span class="p">&gt;</span>Article 2<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -812,7 +812,7 @@ Grid Area（网格区域）
 </div>
 </section>
 <section id="id24">
-<h3>仪表板布局<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>仪表板布局<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;dashboard&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">header</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;header&quot;</span><span class="p">&gt;</span>Header<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;sidebar&quot;</span><span class="p">&gt;</span>Sidebar<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
@@ -874,9 +874,9 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id25">
-<h2>📚 实践练习<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <section id="id26">
-<h3>练习1：响应式网格<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>练习1：响应式网格<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <p>创建一个响应式产品网格：</p>
 <ul class="simple">
 <li><p>大屏4列，中屏3列，平板2列，手机1列</p></li>
@@ -884,7 +884,7 @@ Grid Area（网格区域）
 </ul>
 </section>
 <section id="id27">
-<h3>练习2：复杂布局<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>练习2：复杂布局<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <p>实现一个新闻网站首页：</p>
 <ul class="simple">
 <li><p>头部、侧边栏、主内容区、广告位、底部</p></li>
@@ -893,7 +893,7 @@ Grid Area（网格区域）
 </ul>
 </section>
 <section id="id28">
-<h3>练习3：图片画廊<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<h3>练习3：图片画廊<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
 <p>创建一个图片画廊：</p>
 <ul class="simple">
 <li><p>自动适应列数</p></li>
@@ -903,7 +903,7 @@ Grid Area（网格区域）
 </section>
 </section>
 <section id="id29">
-<h2>📚 参考资料<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://css-tricks.com/snippets/css/complete-guide-grid/">CSS Grid完全指南</a></p></li>
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout">MDN Grid布局</a></p></li>
@@ -916,20 +916,20 @@ Grid Area（网格区域）
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-flexbox-layout.html" class="btn btn-neutral float-left" title="02-Flexbox布局" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="04-animations-and-transitions.html" class="btn btn-neutral float-right" title="04-动画与过渡" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-flexbox-layout.html" class="btn btn-neutral float-left" title="02-Flexbox布局" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="04-animations-and-transitions.html" class="btn btn-neutral float-right" title="04-动画与过渡" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

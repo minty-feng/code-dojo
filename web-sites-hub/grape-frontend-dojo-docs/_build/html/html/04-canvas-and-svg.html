@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-Canvas与SVG &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>04-Canvas与SVG &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CSS 教程" href="../css/index.html" />
     <link rel="prev" title="03-语义化与可访问性" href="03-semantic-html-and-accessibility.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -110,20 +110,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">HTML 教程</a></li>
       <li class="breadcrumb-item active">04-Canvas与SVG</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/html/04-canvas-and-svg.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/html/04-canvas-and-svg.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -132,9 +132,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="canvassvg">
-<h1>04-Canvas与SVG<a class="headerlink" href="#canvassvg" title="Link to this heading"></a></h1>
+<h1>04-Canvas与SVG<a class="headerlink" href="#canvassvg" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握Canvas 2D绘图API</p></li>
 <li><p>理解SVG矢量图形</p></li>
@@ -143,9 +143,9 @@
 </ul>
 </section>
 <section id="canvas">
-<h2>🎨 Canvas基础<a class="headerlink" href="#canvas" title="Link to this heading"></a></h2>
+<h2>🎨 Canvas基础<a class="headerlink" href="#canvas" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>Canvas元素<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>Canvas元素<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">canvas</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;myCanvas&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;800&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;600&quot;</span><span class="p">&gt;</span>
     您的浏览器不支持Canvas
 <span class="p">&lt;/</span><span class="nt">canvas</span><span class="p">&gt;</span>
@@ -164,9 +164,9 @@
 </ul>
 </section>
 <section id="id3">
-<h3>绘制基本形状<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>绘制基本形状<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <section id="id4">
-<h4>矩形<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
+<h4>矩形<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
 
 <span class="c1">// 填充矩形</span>
@@ -184,7 +184,7 @@
 </div>
 </section>
 <section id="id5">
-<h4>路径绘制<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
+<h4>路径绘制<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 三角形</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="mf">250</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">);</span>
@@ -220,9 +220,9 @@
 </section>
 </section>
 <section id="id6">
-<h3>样式和颜色<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>样式和颜色<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <section id="id7">
-<h4>颜色设置<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
+<h4>颜色设置<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 填充颜色</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;#ff6b6b&#39;</span><span class="p">;</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;rgb(255, 107, 107)&#39;</span><span class="p">;</span>
@@ -257,7 +257,7 @@
 </div>
 </section>
 <section id="id8">
-<h4>线条样式<a class="headerlink" href="#id8" title="Link to this heading"></a></h4>
+<h4>线条样式<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">ctx</span><span class="p">.</span><span class="nx">lineWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5</span><span class="p">;</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineCap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;round&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">// butt, round, square</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineJoin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;round&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// miter, round, bevel</span>
@@ -268,7 +268,7 @@
 </section>
 </section>
 <section id="id9">
-<h3>文本绘制<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>文本绘制<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 填充文本</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">font</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;30px Arial&#39;</span><span class="p">;</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;#000&#39;</span><span class="p">;</span>
@@ -290,7 +290,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>图像处理<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>图像处理<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">img</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Image</span><span class="p">();</span>
 <span class="nx">img</span><span class="p">.</span><span class="nx">src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;photo.jpg&#39;</span><span class="p">;</span>
 <span class="nx">img</span><span class="p">.</span><span class="nx">onload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -325,9 +325,9 @@
 </div>
 </section>
 <section id="id11">
-<h3>变换<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>变换<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <section id="id12">
-<h4>基本变换<a class="headerlink" href="#id12" title="Link to this heading"></a></h4>
+<h4>基本变换<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 平移</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="mf">100</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">);</span>
 
@@ -346,7 +346,7 @@
 </div>
 </section>
 <section id="id13">
-<h4>保存和恢复状态<a class="headerlink" href="#id13" title="Link to this heading"></a></h4>
+<h4>保存和恢复状态<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;#ff6b6b&#39;</span><span class="p">;</span>
 <span class="nx">ctx</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span><span class="w"> </span><span class="c1">// 保存当前状态</span>
 
@@ -360,9 +360,9 @@
 </section>
 </section>
 <section id="id14">
-<h3>动画<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>动画<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <section id="id15">
-<h4>基本动画循环<a class="headerlink" href="#id15" title="Link to this heading"></a></h4>
+<h4>基本动画循环<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">animate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -386,7 +386,7 @@
 </div>
 </section>
 <section id="id16">
-<h4>小球弹跳动画<a class="headerlink" href="#id16" title="Link to this heading"></a></h4>
+<h4>小球弹跳动画<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h4>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">ball</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span>
 <span class="w">    </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span>
@@ -431,9 +431,9 @@
 </section>
 </section>
 <section id="svg">
-<h2>📐 SVG基础<a class="headerlink" href="#svg" title="Link to this heading"></a></h2>
+<h2>📐 SVG基础<a class="headerlink" href="#svg" title="Permalink to this heading"></a></h2>
 <section id="id17">
-<h3>SVG元素<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>SVG元素<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 内联SVG --&gt;</span>
 <span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;200&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">circle</span> <span class="na">cx</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">cy</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">r</span><span class="o">=</span><span class="s">&quot;80&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ff6b6b&quot;</span><span class="p">/&gt;</span>
@@ -450,9 +450,9 @@
 </div>
 </section>
 <section id="id18">
-<h3>基本形状<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>基本形状<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <section id="id19">
-<h4>矩形<a class="headerlink" href="#id19" title="Link to this heading"></a></h4>
+<h4>矩形<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;300&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- 基本矩形 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">rect</span> <span class="na">x</span><span class="o">=</span><span class="s">&quot;10&quot;</span> <span class="na">y</span><span class="o">=</span><span class="s">&quot;10&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;80&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ff6b6b&quot;</span><span class="p">/&gt;</span>
@@ -468,7 +468,7 @@
 </div>
 </section>
 <section id="id20">
-<h4>圆形和椭圆<a class="headerlink" href="#id20" title="Link to this heading"></a></h4>
+<h4>圆形和椭圆<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- 圆形 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">circle</span> <span class="na">cx</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">cy</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">r</span><span class="o">=</span><span class="s">&quot;80&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ffd43b&quot;</span><span class="p">/&gt;</span>
@@ -480,7 +480,7 @@
 </div>
 </section>
 <section id="id21">
-<h4>线条和多边形<a class="headerlink" href="#id21" title="Link to this heading"></a></h4>
+<h4>线条和多边形<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;300&quot;</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- 直线 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">line</span> <span class="na">x1</span><span class="o">=</span><span class="s">&quot;10&quot;</span> <span class="na">y1</span><span class="o">=</span><span class="s">&quot;10&quot;</span> <span class="na">x2</span><span class="o">=</span><span class="s">&quot;200&quot;</span> <span class="na">y2</span><span class="o">=</span><span class="s">&quot;100&quot;</span> 
@@ -498,7 +498,7 @@
 </div>
 </section>
 <section id="id22">
-<h4>路径<a class="headerlink" href="#id22" title="Link to this heading"></a></h4>
+<h4>路径<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;300&quot;</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- 基本路径 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">path</span> <span class="na">d</span><span class="o">=</span><span class="s">&quot;M 10 10 L 100 10 L 100 100 Z&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ff6b6b&quot;</span><span class="p">/&gt;</span>
@@ -531,9 +531,9 @@
 </section>
 </section>
 <section id="id23">
-<h3>SVG样式<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>SVG样式<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <section id="id24">
-<h4>填充和描边<a class="headerlink" href="#id24" title="Link to this heading"></a></h4>
+<h4>填充和描边<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- 填充 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">circle</span> <span class="na">cx</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">cy</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">r</span><span class="o">=</span><span class="s">&quot;50&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ff6b6b&quot;</span><span class="p">/&gt;</span>
@@ -550,7 +550,7 @@
 </div>
 </section>
 <section id="id25">
-<h4>渐变<a class="headerlink" href="#id25" title="Link to this heading"></a></h4>
+<h4>渐变<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">defs</span><span class="p">&gt;</span>
         <span class="cm">&lt;!-- 线性渐变 --&gt;</span>
@@ -573,7 +573,7 @@
 </div>
 </section>
 <section id="id26">
-<h4>滤镜<a class="headerlink" href="#id26" title="Link to this heading"></a></h4>
+<h4>滤镜<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">defs</span><span class="p">&gt;</span>
         <span class="cm">&lt;!-- 模糊滤镜 --&gt;</span>
@@ -598,9 +598,9 @@
 </section>
 </section>
 <section id="id27">
-<h3>SVG动画<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>SVG动画<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <section id="css">
-<h4>CSS动画<a class="headerlink" href="#css" title="Link to this heading"></a></h4>
+<h4>CSS动画<a class="headerlink" href="#css" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;200&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">circle</span> <span class="na">cx</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">cy</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">r</span><span class="o">=</span><span class="s">&quot;50&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ff6b6b&quot;</span><span class="p">&gt;</span>
         <span class="p">&lt;</span><span class="nt">animate</span> <span class="na">attributeName</span><span class="o">=</span><span class="s">&quot;r&quot;</span> 
@@ -625,7 +625,7 @@
 </div>
 </section>
 <section id="smil">
-<h4>SMIL动画<a class="headerlink" href="#smil" title="Link to this heading"></a></h4>
+<h4>SMIL动画<a class="headerlink" href="#smil" title="Permalink to this heading"></a></h4>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span><span class="p">&gt;</span>
     <span class="cm">&lt;!-- 移动动画 --&gt;</span>
     <span class="p">&lt;</span><span class="nt">circle</span> <span class="na">cx</span><span class="o">=</span><span class="s">&quot;50&quot;</span> <span class="na">cy</span><span class="o">=</span><span class="s">&quot;100&quot;</span> <span class="na">r</span><span class="o">=</span><span class="s">&quot;20&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#ff6b6b&quot;</span><span class="p">&gt;</span>
@@ -651,9 +651,9 @@
 </section>
 </section>
 <section id="id28">
-<h2>🎯 实战案例<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<h2>🎯 实战案例<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
 <section id="id29">
-<h3>Canvas图表示例<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<h3>Canvas图表示例<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 柱状图</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">drawBarChart</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">canvas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;chart&#39;</span><span class="p">);</span>
@@ -699,7 +699,7 @@
 </div>
 </section>
 <section id="id30">
-<h3>SVG交互图标<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>SVG交互图标<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;200&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;interactive-icon&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">defs</span><span class="p">&gt;</span>
         <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
@@ -731,9 +731,9 @@
 </section>
 </section>
 <section id="canvas-vs-svg">
-<h2>⚖️ Canvas vs SVG对比<a class="headerlink" href="#canvas-vs-svg" title="Link to this heading"></a></h2>
+<h2>⚖️ Canvas vs SVG对比<a class="headerlink" href="#canvas-vs-svg" title="Permalink to this heading"></a></h2>
 <section id="id31">
-<h3>Canvas优势<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<h3>Canvas优势<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>像素级操作</p></li>
 <li><p>高性能动画</p></li>
@@ -743,7 +743,7 @@
 </ul>
 </section>
 <section id="id32">
-<h3>SVG优势<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<h3>SVG优势<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>矢量图形，无损缩放</p></li>
 <li><p>可通过CSS和JavaScript操作</p></li>
@@ -753,7 +753,7 @@
 </ul>
 </section>
 <section id="id33">
-<h3>选择建议<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<h3>选择建议<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Canvas适用于：
 - 实时游戏渲染
 - 复杂动画效果
@@ -770,9 +770,9 @@ SVG适用于：
 </section>
 </section>
 <section id="id34">
-<h2>📚 实践练习<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h2>
 <section id="id35">
-<h3>练习1：Canvas时钟<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<h3>练习1：Canvas时钟<a class="headerlink" href="#id35" title="Permalink to this heading"></a></h3>
 <p>实现一个实时时钟，包含：</p>
 <ul class="simple">
 <li><p>表盘、刻度、指针</p></li>
@@ -781,7 +781,7 @@ SVG适用于：
 </ul>
 </section>
 <section id="id36">
-<h3>练习2：SVG图表<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<h3>练习2：SVG图表<a class="headerlink" href="#id36" title="Permalink to this heading"></a></h3>
 <p>创建一个SVG饼图，要求：</p>
 <ul class="simple">
 <li><p>数据驱动</p></li>
@@ -790,7 +790,7 @@ SVG适用于：
 </ul>
 </section>
 <section id="id37">
-<h3>练习3：Canvas画板<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<h3>练习3：Canvas画板<a class="headerlink" href="#id37" title="Permalink to this heading"></a></h3>
 <p>实现一个简单的画板应用：</p>
 <ul class="simple">
 <li><p>自由绘制</p></li>
@@ -801,7 +801,7 @@ SVG适用于：
 </section>
 </section>
 <section id="id38">
-<h2>📚 参考资料<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id38" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API">MDN Canvas教程</a></p></li>
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG">MDN SVG教程</a></p></li>
@@ -813,20 +813,20 @@ SVG适用于：
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-semantic-html-and-accessibility.html" class="btn btn-neutral float-left" title="03-语义化与可访问性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../css/index.html" class="btn btn-neutral float-right" title="CSS 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-semantic-html-and-accessibility.html" class="btn btn-neutral float-left" title="03-语义化与可访问性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../css/index.html" class="btn btn-neutral float-right" title="CSS 教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

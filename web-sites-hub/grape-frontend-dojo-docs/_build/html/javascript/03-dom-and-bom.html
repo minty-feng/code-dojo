@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>03-DOM与BOM操作 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>03-DOM与BOM操作 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="React 教程" href="../react/index.html" />
     <link rel="prev" title="02-异步编程" href="02-asynchronous-programming.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -109,20 +109,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">JavaScript 教程</a></li>
       <li class="breadcrumb-item active">03-DOM与BOM操作</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/javascript/03-dom-and-bom.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/javascript/03-dom-and-bom.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -131,9 +131,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="dombom">
-<h1>03-DOM与BOM操作<a class="headerlink" href="#dombom" title="Link to this heading"></a></h1>
+<h1>03-DOM与BOM操作<a class="headerlink" href="#dombom" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握DOM操作核心API</p></li>
 <li><p>学习事件处理机制</p></li>
@@ -142,9 +142,9 @@
 </ul>
 </section>
 <section id="dom">
-<h2>🌳 DOM操作<a class="headerlink" href="#dom" title="Link to this heading"></a></h2>
+<h2>🌳 DOM操作<a class="headerlink" href="#dom" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>元素选择<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>元素选择<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// getElementById</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;myId&#39;</span><span class="p">);</span>
 
@@ -170,7 +170,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>元素创建与插入<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>元素创建与插入<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建元素</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
 <span class="nx">div</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;container&#39;</span><span class="p">;</span>
@@ -208,7 +208,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>元素属性操作<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>元素属性操作<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 类名操作</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
@@ -238,7 +238,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>DOM遍历<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>DOM遍历<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 父元素</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">parentElement</span><span class="p">;</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
@@ -268,9 +268,9 @@
 </section>
 </section>
 <section id="id6">
-<h2>📅 事件处理<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>📅 事件处理<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>事件监听<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>事件监听<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 添加事件监听</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Clicked!&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">);</span>
@@ -307,7 +307,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>事件委托<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>事件委托<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 为每个元素添加监听</span>
 <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.item&#39;</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">item</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">item</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">);</span>
@@ -340,7 +340,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>常用事件<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>常用事件<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 鼠标事件</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
 <span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dblclick&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
@@ -391,7 +391,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>自定义事件<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>自定义事件<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建自定义事件</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomEvent</span><span class="p">(</span><span class="s1">&#39;myEvent&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
@@ -439,9 +439,9 @@
 </section>
 </section>
 <section id="bom">
-<h2>🌐 BOM操作<a class="headerlink" href="#bom" title="Link to this heading"></a></h2>
+<h2>🌐 BOM操作<a class="headerlink" href="#bom" title="Permalink to this heading"></a></h2>
 <section id="window">
-<h3>window对象<a class="headerlink" href="#window" title="Link to this heading"></a></h3>
+<h3>window对象<a class="headerlink" href="#window" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 窗口尺寸</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 视口宽度</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">;</span><span class="w">  </span><span class="c1">// 视口高度</span>
@@ -478,7 +478,7 @@
 </div>
 </section>
 <section id="location">
-<h3>location对象<a class="headerlink" href="#location" title="Link to this heading"></a></h3>
+<h3>location对象<a class="headerlink" href="#location" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// URL信息</span>
 <span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span><span class="w">      </span><span class="c1">// 完整URL</span>
 <span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span><span class="p">;</span><span class="w">  </span><span class="c1">// 协议（http:）</span>
@@ -516,7 +516,7 @@
 </div>
 </section>
 <section id="history">
-<h3>history对象<a class="headerlink" href="#history" title="Link to this heading"></a></h3>
+<h3>history对象<a class="headerlink" href="#history" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 导航</span>
 <span class="nx">history</span><span class="p">.</span><span class="nx">back</span><span class="p">();</span><span class="w">     </span><span class="c1">// 后退</span>
 <span class="nx">history</span><span class="p">.</span><span class="nx">forward</span><span class="p">();</span><span class="w">  </span><span class="c1">// 前进</span>
@@ -560,7 +560,7 @@
 </div>
 </section>
 <section id="navigator">
-<h3>navigator对象<a class="headerlink" href="#navigator" title="Link to this heading"></a></h3>
+<h3>navigator对象<a class="headerlink" href="#navigator" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 浏览器信息</span>
 <span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">;</span>
 <span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">;</span>
@@ -592,7 +592,7 @@
 </div>
 </section>
 <section id="screen">
-<h3>screen对象<a class="headerlink" href="#screen" title="Link to this heading"></a></h3>
+<h3>screen对象<a class="headerlink" href="#screen" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">screen</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span><span class="w">   </span><span class="c1">// 屏幕宽度</span>
 <span class="nx">screen</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span><span class="w">  </span><span class="c1">// 屏幕高度</span>
 <span class="nx">screen</span><span class="p">.</span><span class="nx">availWidth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 可用宽度</span>
@@ -604,9 +604,9 @@
 </section>
 </section>
 <section id="id11">
-<h2>⚡ 性能优化<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>⚡ 性能优化<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>防抖和节流<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>防抖和节流<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 防抖</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">debounce</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
@@ -647,7 +647,7 @@
 </div>
 </section>
 <section id="documentfragment">
-<h3>DocumentFragment<a class="headerlink" href="#documentfragment" title="Link to this heading"></a></h3>
+<h3>DocumentFragment<a class="headerlink" href="#documentfragment" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 多次操作DOM</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">li</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">);</span>
@@ -667,7 +667,7 @@
 </div>
 </section>
 <section id="intersectionobserver">
-<h3>IntersectionObserver<a class="headerlink" href="#intersectionobserver" title="Link to this heading"></a></h3>
+<h3>IntersectionObserver<a class="headerlink" href="#intersectionobserver" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 懒加载图片</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">observer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">IntersectionObserver</span><span class="p">((</span><span class="nx">entries</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">entries</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">entry</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -696,9 +696,9 @@
 </section>
 </section>
 <section id="id13">
-<h2>📚 实践练习<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="todo">
-<h3>练习1：Todo列表<a class="headerlink" href="#todo" title="Link to this heading"></a></h3>
+<h3>练习1：Todo列表<a class="headerlink" href="#todo" title="Permalink to this heading"></a></h3>
 <p>实现功能：</p>
 <ul class="simple">
 <li><p>添加、删除Todo</p></li>
@@ -708,7 +708,7 @@
 </ul>
 </section>
 <section id="id14">
-<h3>练习2：图片懒加载<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>练习2：图片懒加载<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <p>实现：</p>
 <ul class="simple">
 <li><p>IntersectionObserver</p></li>
@@ -717,7 +717,7 @@
 </ul>
 </section>
 <section id="id15">
-<h3>练习3：无限滚动<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>练习3：无限滚动<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p>实现：</p>
 <ul class="simple">
 <li><p>滚动加载</p></li>
@@ -727,7 +727,7 @@
 </section>
 </section>
 <section id="id16">
-<h2>📚 参考资料<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model">MDN DOM文档</a></p></li>
 <li><p><a class="reference external" href="https://dom.spec.whatwg.org/">DOM Standard</a></p></li>
@@ -739,20 +739,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-asynchronous-programming.html" class="btn btn-neutral float-left" title="02-异步编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../react/index.html" class="btn btn-neutral float-right" title="React 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-asynchronous-programming.html" class="btn btn-neutral float-left" title="02-异步编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../react/index.html" class="btn btn-neutral float-right" title="React 教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

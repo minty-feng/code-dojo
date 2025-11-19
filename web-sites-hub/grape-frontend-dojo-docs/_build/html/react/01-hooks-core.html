@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>01-React Hooks核心 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>01-React Hooks核心 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="02-React状态管理" href="02-state-management.html" />
     <link rel="prev" title="⚛️ React 核心技术" href="README.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -121,20 +121,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">React 教程</a></li>
       <li class="breadcrumb-item active">01-React Hooks核心</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/react/01-hooks-core.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/react/01-hooks-core.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -143,9 +143,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="react-hooks">
-<h1>01-React Hooks核心<a class="headerlink" href="#react-hooks" title="Link to this heading"></a></h1>
+<h1>01-React Hooks核心<a class="headerlink" href="#react-hooks" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>掌握常用Hooks的使用</p></li>
 <li><p>理解Hooks的原理和规则</p></li>
@@ -154,9 +154,9 @@
 </ul>
 </section>
 <section id="usestate">
-<h2>🪝 useState<a class="headerlink" href="#usestate" title="Link to this heading"></a></h2>
+<h2>🪝 useState<a class="headerlink" href="#usestate" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>基本用法<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useState</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Counter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -181,7 +181,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>对象和数组状态<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>对象和数组状态<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">Form</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">setUser</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">({</span>
 <span class="w">        </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span>
@@ -211,9 +211,9 @@
 </section>
 </section>
 <section id="useeffect">
-<h2>🎬 useEffect<a class="headerlink" href="#useeffect" title="Link to this heading"></a></h2>
+<h2>🎬 useEffect<a class="headerlink" href="#useeffect" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>基本用法<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useEffect</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Component</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -247,7 +247,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>实际应用<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>实际应用<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// 数据获取</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">UserProfile</span><span class="p">({</span><span class="nx">userId</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">setUser</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
@@ -313,9 +313,9 @@
 </section>
 </section>
 <section id="usecontext">
-<h2>🎯 useContext<a class="headerlink" href="#usecontext" title="Link to this heading"></a></h2>
+<h2>🎯 useContext<a class="headerlink" href="#usecontext" title="Permalink to this heading"></a></h2>
 <section id="id6">
-<h3>基本用法<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createContext</span><span class="p">,</span><span class="w"> </span><span class="nx">useContext</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="c1">// 创建Context</span>
@@ -370,9 +370,9 @@
 </section>
 </section>
 <section id="usereducer">
-<h2>🔄 useReducer<a class="headerlink" href="#usereducer" title="Link to this heading"></a></h2>
+<h2>🔄 useReducer<a class="headerlink" href="#usereducer" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>基本用法<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useReducer</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="c1">// Reducer函数</span>
@@ -416,7 +416,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>复杂表单管理<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>复杂表单管理<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">formReducer</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;UPDATE_FIELD&#39;</span><span class="o">:</span>
@@ -466,9 +466,9 @@
 </section>
 </section>
 <section id="useref">
-<h2>📌 useRef<a class="headerlink" href="#useref" title="Link to this heading"></a></h2>
+<h2>📌 useRef<a class="headerlink" href="#useref" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>基本用法<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useRef</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Input</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -518,9 +518,9 @@
 </section>
 </section>
 <section id="usememo">
-<h2>⚡ useMemo<a class="headerlink" href="#usememo" title="Link to this heading"></a></h2>
+<h2>⚡ useMemo<a class="headerlink" href="#usememo" title="Permalink to this heading"></a></h2>
 <section id="id10">
-<h3>基本用法<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useMemo</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">ExpensiveComponent</span><span class="p">({</span><span class="nx">items</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
@@ -555,9 +555,9 @@
 </section>
 </section>
 <section id="usecallback">
-<h2>🔄 useCallback<a class="headerlink" href="#usecallback" title="Link to this heading"></a></h2>
+<h2>🔄 useCallback<a class="headerlink" href="#usecallback" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>基本用法<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useCallback</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Parent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -604,9 +604,9 @@
 </section>
 </section>
 <section id="hook">
-<h2>🛠️ 自定义Hook<a class="headerlink" href="#hook" title="Link to this heading"></a></h2>
+<h2>🛠️ 自定义Hook<a class="headerlink" href="#hook" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>基本自定义Hook<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>基本自定义Hook<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// useLocalStorage</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">useLocalStorage</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">initialValue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">setValue</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -685,7 +685,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>高级自定义Hook<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>高级自定义Hook<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// useDebounce</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">useDebounce</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">debouncedValue</span><span class="p">,</span><span class="w"> </span><span class="nx">setDebouncedValue</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
@@ -734,9 +734,9 @@
 </section>
 </section>
 <section id="hooks">
-<h2>📏 Hooks规则<a class="headerlink" href="#hooks" title="Link to this heading"></a></h2>
+<h2>📏 Hooks规则<a class="headerlink" href="#hooks" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>两大规则<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>两大规则<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ 规则1：只在顶层调用Hook</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">Component</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">count</span><span class="p">,</span><span class="w"> </span><span class="nx">setCount</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
@@ -770,9 +770,9 @@
 </section>
 </section>
 <section id="id15">
-<h2>📚 实践练习<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>练习1：自定义Hook<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>练习1：自定义Hook<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <p>实现以下自定义Hook：</p>
 <ul class="simple">
 <li><p>useToggle：布尔值切换</p></li>
@@ -781,7 +781,7 @@
 </ul>
 </section>
 <section id="id17">
-<h3>练习2：表单管理<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>练习2：表单管理<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <p>使用useReducer实现表单管理：</p>
 <ul class="simple">
 <li><p>字段验证</p></li>
@@ -790,7 +790,7 @@
 </ul>
 </section>
 <section id="id18">
-<h3>练习3：性能优化<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>练习3：性能优化<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <p>优化以下组件：</p>
 <ul class="simple">
 <li><p>大列表渲染</p></li>
@@ -800,7 +800,7 @@
 </section>
 </section>
 <section id="id19">
-<h2>📚 参考资料<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://react.dev/reference/react">React Hooks官方文档</a></p></li>
 <li><p><a class="reference external" href="https://usehooks.com/">usehooks.com</a></p></li>
@@ -812,20 +812,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="README.html" class="btn btn-neutral float-left" title="⚛️ React 核心技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02-state-management.html" class="btn btn-neutral float-right" title="02-React状态管理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="⚛️ React 核心技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02-state-management.html" class="btn btn-neutral float-right" title="02-React状态管理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

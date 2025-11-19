@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02-异步编程 &mdash; Frontend Tutorial 1.0.0 文档</title>
+  <title>02-异步编程 &mdash; Frontend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="03-DOM与BOM操作" href="03-dom-and-bom.html" />
     <link rel="prev" title="01-ES6+核心特性" href="01-es6-core-features.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
@@ -115,20 +115,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Frontend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">JavaScript 教程</a></li>
       <li class="breadcrumb-item active">02-异步编程</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/javascript/02-asynchronous-programming.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/javascript/02-asynchronous-programming.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -137,9 +137,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>02-异步编程<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>02-异步编程<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>📋 学习目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>📋 学习目标<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>理解JavaScript事件循环机制</p></li>
 <li><p>掌握Promise的使用和原理</p></li>
@@ -148,9 +148,9 @@
 </ul>
 </section>
 <section id="id3">
-<h2>🔄 事件循环<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>🔄 事件循环<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>执行模型<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>执行模型<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 同步任务</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">);</span>
 
@@ -171,7 +171,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>任务队列<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>任务队列<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">执行顺序：</span>
 <span class="cm">1. 同步代码</span>
@@ -206,9 +206,9 @@
 </section>
 </section>
 <section id="id6">
-<h2>📞 回调函数<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>📞 回调函数<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>基本回调<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>基本回调<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 简单回调</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -232,7 +232,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>回调地狱<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>回调地狱<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 回调地狱示例</span>
 <span class="nx">getUser</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -258,9 +258,9 @@
 </section>
 </section>
 <section id="promise">
-<h2>🎁 Promise<a class="headerlink" href="#promise" title="Link to this heading"></a></h2>
+<h2>🎁 Promise<a class="headerlink" href="#promise" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>基本用法<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建Promise</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// 异步操作</span>
@@ -293,7 +293,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>Promise状态<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>Promise状态<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">三种状态：</span>
 <span class="cm">1. pending（进行中）</span>
@@ -310,7 +310,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>链式调用<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>链式调用<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">getUser</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -343,7 +343,7 @@
 </div>
 </section>
 <section id="id12">
-<h3>Promise静态方法<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>Promise静态方法<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Promise.all - 所有成功才成功</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
@@ -391,7 +391,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>Promise实现<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>Promise实现<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span><span class="w"> </span><span class="nx">MyPromise</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">executor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">;</span>
@@ -485,9 +485,9 @@
 </section>
 </section>
 <section id="async-await">
-<h2>🚀 Async/Await<a class="headerlink" href="#async-await" title="Link to this heading"></a></h2>
+<h2>🚀 Async/Await<a class="headerlink" href="#async-await" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>基本用法<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// async函数返回Promise</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;data&#39;</span><span class="p">;</span>
@@ -511,7 +511,7 @@
 </div>
 </section>
 <section id="id15">
-<h3>错误处理<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>错误处理<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// try-catch捕获错误</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
@@ -548,7 +548,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>并发执行<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>并发执行<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 串行执行（慢）</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">sequential</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchUser</span><span class="p">();</span><span class="w">      </span><span class="c1">// 1秒</span>
@@ -581,7 +581,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>循环中的异步<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>循环中的异步<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ forEach不等待</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">wrong</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">];</span>
@@ -627,9 +627,9 @@
 </section>
 </section>
 <section id="id18">
-<h2>🔧 实战技巧<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>🔧 实战技巧<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>超时控制<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>超时控制<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">timeout</span><span class="p">(</span><span class="nx">ms</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Timeout&#39;</span><span class="p">)),</span><span class="w"> </span><span class="nx">ms</span><span class="p">);</span>
@@ -654,7 +654,7 @@
 </div>
 </section>
 <section id="id20">
-<h3>重试机制<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>重试机制<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">retry</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="w"> </span><span class="nx">maxAttempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">maxAttempts</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
@@ -673,7 +673,7 @@
 </div>
 </section>
 <section id="id21">
-<h3>并发限制<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>并发限制<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span><span class="w"> </span><span class="nx">PromisePool</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">maxConcurrency</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">maxConcurrency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">maxConcurrency</span><span class="p">;</span>
@@ -715,7 +715,7 @@
 </div>
 </section>
 <section id="id22">
-<h3>取消请求<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>取消请求<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用AbortController</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">AbortController</span><span class="p">();</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">signal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">controller</span><span class="p">.</span><span class="nx">signal</span><span class="p">;</span>
@@ -752,7 +752,7 @@
 </div>
 </section>
 <section id="id23">
-<h3>缓存Promise<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>缓存Promise<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">();</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">getCachedData</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">fetcher</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -791,9 +791,9 @@
 </section>
 </section>
 <section id="id24">
-<h2>📚 实践练习<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>📚 实践练习<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <section id="id25">
-<h3>练习1：Promise实现<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>练习1：Promise实现<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <p>手动实现：</p>
 <ul class="simple">
 <li><p>Promise.all</p></li>
@@ -803,7 +803,7 @@
 </ul>
 </section>
 <section id="id26">
-<h3>练习2：异步工具函数<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>练习2：异步工具函数<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <p>实现以下工具：</p>
 <ul class="simple">
 <li><p>带超时的fetch</p></li>
@@ -813,7 +813,7 @@
 </ul>
 </section>
 <section id="id27">
-<h3>练习3：实际应用<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>练习3：实际应用<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <p>创建一个数据获取层：</p>
 <ul class="simple">
 <li><p>支持缓存</p></li>
@@ -824,7 +824,7 @@
 </section>
 </section>
 <section id="id28">
-<h2>💡 最佳实践<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<h2>💡 最佳实践<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>优先使用async/await</strong>而不是Promise链</p></li>
 <li><p><strong>注意Promise.all的失败处理</strong></p></li>
@@ -834,7 +834,7 @@
 </ol>
 </section>
 <section id="id29">
-<h2>📚 参考资料<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<h2>📚 参考资料<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise">MDN Promise</a></p></li>
 <li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function">MDN async/await</a></p></li>
@@ -846,20 +846,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="01-es6-core-features.html" class="btn btn-neutral float-left" title="01-ES6+核心特性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="03-dom-and-bom.html" class="btn btn-neutral float-right" title="03-DOM与BOM操作" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01-es6-core-features.html" class="btn btn-neutral float-left" title="01-ES6+核心特性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03-dom-and-bom.html" class="btn btn-neutral float-right" title="03-DOM与BOM操作" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
