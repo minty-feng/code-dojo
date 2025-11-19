@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-二叉树 &mdash; Data Structures Core 1.0.0 文档</title>
+  <title>04-二叉树 &mdash; Data Structures Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d25bc049" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="二叉搜索树" href="../05-binary-search-tree/index.html" />
     <link rel="prev" title="二叉树" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Data Structures Core</a></li>
@@ -95,20 +95,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Data Structures Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">二叉树</a></li>
       <li class="breadcrumb-item active">04-二叉树</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/04-binary-tree/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/04-binary-tree/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -117,11 +117,11 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>04-二叉树<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>04-二叉树<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>二叉树本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>二叉树本质<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：每个节点最多有两个子节点的树结构</p></li>
 <li><p><strong>遍历</strong>：前序、中序、后序、层序，各有应用场景</p></li>
@@ -131,7 +131,7 @@
 </ul>
 </section>
 <section id="id4">
-<h3>遍历方式对比<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>遍历方式对比<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>遍历</p></th>
@@ -165,7 +165,7 @@
 </table>
 </section>
 <section id="id5">
-<h3>关键概念<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>关键概念<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>满二叉树</strong>：每层都满，节点数 = 2^h - 1</p></li>
 <li><p><strong>完全二叉树</strong>：除最后一层外都满，最后一层从左到右连续</p></li>
@@ -175,7 +175,7 @@
 </ul>
 </section>
 <section id="id6">
-<h3>性质<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>性质<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>n个节点的二叉树高度：⌈log₂(n+1)⌉ ≤ h ≤ n</p></li>
 <li><p>第i层最多有 2^(i-1) 个节点</p></li>
@@ -184,9 +184,9 @@
 </section>
 </section>
 <section id="id7">
-<h2>🌳 二叉树遍历<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>🌳 二叉树遍历<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>递归遍历<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>递归遍历<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">preorder</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>    <span class="c1"># 前序：根左右</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span> <span class="k">return</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
@@ -208,7 +208,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>迭代遍历（重要）<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>迭代遍历（重要）<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 前序（栈）</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">preorder_iterative</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
@@ -248,9 +248,9 @@
 </section>
 </section>
 <section id="id10">
-<h2>🎯 常见问题<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>🎯 常见问题<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>树的高度/深度<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>树的高度/深度<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">height</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">),</span> <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">))</span>
@@ -258,7 +258,7 @@
 </div>
 </section>
 <section id="id12">
-<h3>节点数<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>节点数<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">count_nodes</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">count_nodes</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">count_nodes</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
@@ -266,7 +266,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>镜像翻转<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>镜像翻转<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span> <span class="k">return</span>
     <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span>
@@ -276,7 +276,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>路径和<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>路径和<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">has_path_sum</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
@@ -288,7 +288,7 @@
 </section>
 </section>
 <section id="leetcode">
-<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/binary-tree-preorder-traversal/">144. Binary Tree Preorder Traversal</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/binary-tree-inorder-traversal/">94. Binary Tree Inorder Traversal</a></p></li>
@@ -299,9 +299,9 @@
 </ul>
 </section>
 <section id="id15">
-<h2>💻 完整代码实现<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>💻 完整代码实现<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="python">
-<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<h3>Python 实现<a class="headerlink" href="#python" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">  2</span><span class="sd">二叉树实现和遍历</span>
 <span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
@@ -522,7 +522,7 @@
 </div>
 </section>
 <section id="c">
-<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<h3>C++ 实现<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
 <span class="linenos">  2</span><span class="cm"> * 二叉树实现和遍历</span>
 <span class="linenos">  3</span><span class="cm"> */</span>
@@ -735,20 +735,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="二叉树" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../05-binary-search-tree/index.html" class="btn btn-neutral float-right" title="二叉搜索树" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="二叉树" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../05-binary-search-tree/index.html" class="btn btn-neutral float-right" title="二叉搜索树" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

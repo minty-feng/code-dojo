@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>09-图 &mdash; Data Structures Core 1.0.0 文档</title>
+  <title>09-图 &mdash; Data Structures Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d25bc049" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="并查集" href="../10-union-find/index.html" />
     <link rel="prev" title="图" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Data Structures Core</a></li>
@@ -114,20 +114,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Data Structures Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">图</a></li>
       <li class="breadcrumb-item active">09-图</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/09-graph/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/09-graph/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -136,11 +136,11 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>09-图<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>09-图<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>图的本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>图的本质<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：节点（顶点）+ 边的集合，G = (V, E)</p></li>
 <li><p><strong>分类</strong>：有向/无向、有权/无权、连通/非连通</p></li>
@@ -150,7 +150,7 @@
 </ul>
 </section>
 <section id="id4">
-<h3>存储方式对比<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>存储方式对比<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>方式</p></th>
@@ -177,7 +177,7 @@
 </table>
 </section>
 <section id="id5">
-<h3>图的遍历<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>图的遍历<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>算法</p></th>
@@ -201,7 +201,7 @@
 </table>
 </section>
 <section id="id6">
-<h3>经典算法<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>经典算法<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>最短路径</strong>：Dijkstra、Bellman-Ford、Floyd</p></li>
 <li><p><strong>最小生成树</strong>：Prim、Kruskal</p></li>
@@ -211,9 +211,9 @@
 </section>
 </section>
 <section id="id7">
-<h2>🎯 图的表示<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>🎯 图的表示<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>邻接矩阵<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>邻接矩阵<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 无向图</span>
 <span class="n">graph</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># 0连接1,2</span>
@@ -241,7 +241,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>邻接表<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>邻接表<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 无向图</span>
 <span class="n">graph</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
@@ -270,9 +270,9 @@
 </section>
 </section>
 <section id="dfs">
-<h2>🌲 DFS深度优先<a class="headerlink" href="#dfs" title="Link to this heading"></a></h2>
+<h2>🌲 DFS深度优先<a class="headerlink" href="#dfs" title="Permalink to this heading"></a></h2>
 <section id="id10">
-<h3>递归实现<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>递归实现<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dfs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">visited</span><span class="p">):</span>
     <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
@@ -284,7 +284,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>应用：检测环<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>应用：检测环<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">has_cycle</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
     <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">rec_stack</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -313,9 +313,9 @@
 </section>
 </section>
 <section id="bfs">
-<h2>🌊 BFS广度优先<a class="headerlink" href="#bfs" title="Link to this heading"></a></h2>
+<h2>🌊 BFS广度优先<a class="headerlink" href="#bfs" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>最短路径<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>最短路径<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">shortest_path</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
@@ -339,9 +339,9 @@
 </section>
 </section>
 <section id="id13">
-<h2>🛤️ 拓扑排序<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>🛤️ 拓扑排序<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="kahn-bfs">
-<h3>Kahn算法（BFS）<a class="headerlink" href="#kahn-bfs" title="Link to this heading"></a></h3>
+<h3>Kahn算法（BFS）<a class="headerlink" href="#kahn-bfs" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">topological_sort</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
     <span class="c1"># 计算入度</span>
     <span class="n">in_degree</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">}</span>
@@ -368,9 +368,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>🎯 最短路径算法<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>🎯 最短路径算法<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="dijkstra">
-<h3>Dijkstra算法（单源最短路径）<a class="headerlink" href="#dijkstra" title="Link to this heading"></a></h3>
+<h3>Dijkstra算法（单源最短路径）<a class="headerlink" href="#dijkstra" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">heapq</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">dijkstra</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
@@ -395,7 +395,7 @@
 </div>
 </section>
 <section id="floyd">
-<h3>Floyd算法（所有点对最短路径）<a class="headerlink" href="#floyd" title="Link to this heading"></a></h3>
+<h3>Floyd算法（所有点对最短路径）<a class="headerlink" href="#floyd" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">floyd</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
     <span class="n">dist</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -419,9 +419,9 @@
 </section>
 </section>
 <section id="id15">
-<h2>🌳 最小生成树<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>🌳 最小生成树<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="kruskal">
-<h3>Kruskal算法（并查集）<a class="headerlink" href="#kruskal" title="Link to this heading"></a></h3>
+<h3>Kruskal算法（并查集）<a class="headerlink" href="#kruskal" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">UnionFind</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
@@ -456,9 +456,9 @@
 </section>
 </section>
 <section id="leetcode">
-<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>基础<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>基础<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/number-of-islands/">200. Number of Islands</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/clone-graph/">133. Clone Graph</a></p></li>
@@ -466,7 +466,7 @@
 </ul>
 </section>
 <section id="id17">
-<h3>进阶<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>进阶<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/network-delay-time/">743. Network Delay Time</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/min-cost-to-connect-all-points/">1584. Min Cost to Connect All Points</a></p></li>
@@ -475,9 +475,9 @@
 </section>
 </section>
 <section id="id18">
-<h2>💻 完整代码实现<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>💻 完整代码实现<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="python">
-<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<h3>Python 实现<a class="headerlink" href="#python" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">  2</span><span class="sd">图的实现和基本算法</span>
 <span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
@@ -645,7 +645,7 @@
 </div>
 </section>
 <section id="c">
-<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<h3>C++ 实现<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
 <span class="linenos">  2</span><span class="cm"> * 图的实现和基本算法</span>
 <span class="linenos">  3</span><span class="cm"> */</span>
@@ -893,20 +893,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="图" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../10-union-find/index.html" class="btn btn-neutral float-right" title="并查集" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="图" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../10-union-find/index.html" class="btn btn-neutral float-right" title="并查集" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
