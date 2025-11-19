@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>并发与同步 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+  <title>并发与同步 &mdash; OS &amp; Network Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="死锁处理" href="../06-deadlock/index.html" />
     <link rel="prev" title="并发与同步" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
@@ -120,20 +120,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">OS & Network Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">并发与同步</a></li>
       <li class="breadcrumb-item active">并发与同步</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/05-concurrency-sync/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/05-concurrency-sync/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -142,9 +142,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>并发与同步<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>并发与同步<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>临界区问题的三个条件：互斥、进步、有限等待</strong></p></li>
 <li><p><strong>锁的实现需要硬件支持（原子指令）</strong></p></li>
@@ -155,9 +155,9 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 临界区问题<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 临界区问题<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="race-condition">
-<h3>1.1 竞态条件（Race Condition）<a class="headerlink" href="#race-condition" title="Link to this heading"></a></h3>
+<h3>1.1 竞态条件（Race Condition）<a class="headerlink" href="#race-condition" title="Permalink to this heading"></a></h3>
 <p><strong>示例</strong>：银行账户</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
 
@@ -180,7 +180,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>1.2 临界区解决方案要求<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.2 临界区解决方案要求<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><strong>三个条件</strong>：</p>
 <ol class="arabic simple">
 <li><p><strong>互斥（Mutual Exclusion）</strong>：一次只有一个进程在临界区</p></li>
@@ -191,9 +191,9 @@
 </section>
 <hr class="docutils" />
 <section id="id5">
-<h2>2. 锁机制<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>2. 锁机制<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="spinlock">
-<h3>2.1 自旋锁（Spinlock）<a class="headerlink" href="#spinlock" title="Link to this heading"></a></h3>
+<h3>2.1 自旋锁（Spinlock）<a class="headerlink" href="#spinlock" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：忙等待</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">locked</span><span class="p">;</span><span class="w">  </span><span class="c1">// 0=未锁，1=已锁</span>
@@ -251,7 +251,7 @@
 </ul>
 </section>
 <section id="mutex">
-<h3>2.2 互斥锁（Mutex）<a class="headerlink" href="#mutex" title="Link to this heading"></a></h3>
+<h3>2.2 互斥锁（Mutex）<a class="headerlink" href="#mutex" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：阻塞等待</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">locked</span><span class="p">;</span>
@@ -291,7 +291,7 @@
 </div>
 </section>
 <section id="rwlock">
-<h3>2.3 读写锁（RWLock）<a class="headerlink" href="#rwlock" title="Link to this heading"></a></h3>
+<h3>2.3 读写锁（RWLock）<a class="headerlink" href="#rwlock" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：多个读者，一个写者</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">readers</span><span class="p">;</span><span class="w">     </span><span class="c1">// 当前读者数</span>
@@ -338,9 +338,9 @@
 </section>
 <hr class="docutils" />
 <section id="semaphore">
-<h2>3. 信号量（Semaphore）<a class="headerlink" href="#semaphore" title="Link to this heading"></a></h2>
+<h2>3. 信号量（Semaphore）<a class="headerlink" href="#semaphore" title="Permalink to this heading"></a></h2>
 <section id="id6">
-<h3>3.1 二元信号量<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>3.1 二元信号量<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：计数器（0或1）</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
@@ -379,7 +379,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>3.2 计数信号量<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>3.2 计数信号量<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p><strong>用途</strong>：限制资源访问数量</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 限制最多N个线程同时访问</span>
 <span class="n">semaphore_t</span><span class="w"> </span><span class="n">sem</span><span class="p">;</span>
@@ -394,7 +394,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>3.3 经典问题：生产者-消费者<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>3.3 经典问题：生产者-消费者<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define BUFFER_SIZE 10</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="n">BUFFER_SIZE</span><span class="p">];</span>
@@ -443,7 +443,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>3.4 经典问题：读者-写者<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.4 经典问题：读者-写者<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">readers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="n">semaphore_t</span><span class="w"> </span><span class="n">mutex</span><span class="p">;</span><span class="w">      </span><span class="c1">// 保护readers计数</span>
 <span class="n">semaphore_t</span><span class="w"> </span><span class="n">write_lock</span><span class="p">;</span><span class="w"> </span><span class="c1">// 写锁</span>
@@ -523,9 +523,9 @@
 </section>
 <hr class="docutils" />
 <section id="condition-variable">
-<h2>4. 条件变量（Condition Variable）<a class="headerlink" href="#condition-variable" title="Link to this heading"></a></h2>
+<h2>4. 条件变量（Condition Variable）<a class="headerlink" href="#condition-variable" title="Permalink to this heading"></a></h2>
 <section id="id10">
-<h3>4.1 基本操作<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>4.1 基本操作<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">queue_t</span><span class="w"> </span><span class="n">wait_queue</span><span class="p">;</span>
 <span class="p">}</span><span class="w"> </span><span class="n">cond_t</span><span class="p">;</span>
@@ -559,7 +559,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>4.2 生产者-消费者（条件变量版）<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>4.2 生产者-消费者（条件变量版）<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mutex_t</span><span class="w"> </span><span class="n">mutex</span><span class="p">;</span>
 <span class="n">cond_t</span><span class="w"> </span><span class="n">not_full</span><span class="p">,</span><span class="w"> </span><span class="n">not_empty</span><span class="p">;</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -618,7 +618,7 @@
 </section>
 <hr class="docutils" />
 <section id="monitor">
-<h2>5. 管程（Monitor）<a class="headerlink" href="#monitor" title="Link to this heading"></a></h2>
+<h2>5. 管程（Monitor）<a class="headerlink" href="#monitor" title="Permalink to this heading"></a></h2>
 <p><strong>概念</strong>：封装共享数据和同步操作</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span><span class="w"> </span><span class="n">BoundedBuffer</span><span class="w"> </span><span class="p">{</span>
 <span class="n">private</span><span class="o">:</span>
@@ -684,9 +684,9 @@
 </section>
 <hr class="docutils" />
 <section id="id12">
-<h2>6. 无锁编程<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>6. 无锁编程<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="id13">
-<h3>6.1 原子操作<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>6.1 原子操作<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdatomic.h&gt;</span>
 
 <span class="kt">atomic_int</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -707,7 +707,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>6.2 无锁栈<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>6.2 无锁栈<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
 <span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
@@ -757,9 +757,9 @@
 </section>
 <hr class="docutils" />
 <section id="bug">
-<h2>7. 常见并发bug<a class="headerlink" href="#bug" title="Link to this heading"></a></h2>
+<h2>7. 常见并发bug<a class="headerlink" href="#bug" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>7.1 死锁<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>7.1 死锁<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mutex_t</span><span class="w"> </span><span class="n">lock1</span><span class="p">,</span><span class="w"> </span><span class="n">lock2</span><span class="p">;</span>
 
 <span class="c1">// 线程1</span>
@@ -795,7 +795,7 @@
 </div>
 </section>
 <section id="livelock">
-<h3>7.2 活锁（Livelock）<a class="headerlink" href="#livelock" title="Link to this heading"></a></h3>
+<h3>7.2 活锁（Livelock）<a class="headerlink" href="#livelock" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 两个线程都在尝试让对方先执行</span>
 <span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">other_is_waiting</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">yield</span><span class="p">();</span><span class="w">  </span><span class="c1">// 无限循环</span>
@@ -804,7 +804,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>7.3 优先级反转<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>7.3 优先级反转<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>H: 高优先级（等待锁）
 M: 中优先级（运行）
 L: 低优先级（持有锁）
@@ -817,9 +817,9 @@ H等待L，但M抢占L，导致H间接等待M
 </section>
 <hr class="docutils" />
 <section id="id17">
-<h2>8. 性能优化<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>8. 性能优化<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>8.1 减少锁竞争<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>8.1 减少锁竞争<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 粗粒度锁（高竞争）</span>
 <span class="n">mutex_t</span><span class="w"> </span><span class="n">global_lock</span><span class="p">;</span>
 
@@ -843,7 +843,7 @@ H等待L，但M抢占L，导致H间接等待M
 </div>
 </section>
 <section id="id19">
-<h3>8.2 无锁数据结构<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>8.2 无锁数据结构<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 用原子操作代替锁</span>
 <span class="kt">atomic_int</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 
@@ -856,9 +856,9 @@ H等待L，但M抢占L，导致H间接等待M
 </section>
 <hr class="docutils" />
 <section id="id20">
-<h2>9. 常见问题<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>9. 常见问题<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <section id="q1-vs">
-<h3>Q1: 自旋锁 vs 互斥锁？<a class="headerlink" href="#q1-vs" title="Link to this heading"></a></h3>
+<h3>Q1: 自旋锁 vs 互斥锁？<a class="headerlink" href="#q1-vs" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p><strong>自旋锁</strong>：临界区短（&lt;微秒）、多核、不能休眠</p></li>
@@ -866,7 +866,7 @@ H等待L，但M抢占L，导致H间接等待M
 </ul>
 </section>
 <section id="q2-vs">
-<h3>Q2: 信号量 vs 条件变量？<a class="headerlink" href="#q2-vs" title="Link to this heading"></a></h3>
+<h3>Q2: 信号量 vs 条件变量？<a class="headerlink" href="#q2-vs" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p><strong>信号量</strong>：计数、不需要锁、P/V操作可分离</p></li>
@@ -874,7 +874,7 @@ H等待L，但M抢占L，导致H间接等待M
 </ul>
 </section>
 <section id="q3">
-<h3>Q3: 如何避免死锁？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<h3>Q3: 如何避免死锁？<a class="headerlink" href="#q3" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>锁排序</p></li>
@@ -884,7 +884,7 @@ H等待L，但M抢占L，导致H间接等待M
 </ol>
 </section>
 <section id="q4-volatile-vs-atomic">
-<h3>Q4: volatile vs atomic？<a class="headerlink" href="#q4-volatile-vs-atomic" title="Link to this heading"></a></h3>
+<h3>Q4: volatile vs atomic？<a class="headerlink" href="#q4-volatile-vs-atomic" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p><strong>volatile</strong>：防止编译器优化，不保证原子性</p></li>
@@ -894,7 +894,7 @@ H等待L，但M抢占L，导致H间接等待M
 </section>
 <hr class="docutils" />
 <section id="leetcode">
-<h2>LeetCode相关题目<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<h2>LeetCode相关题目<a class="headerlink" href="#leetcode" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.cn/problems/print-in-order/">1114. 按序打印</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.cn/problems/print-foobar-alternately/">1115. 交替打印FooBar</a></p></li>
@@ -905,7 +905,7 @@ H等待L，但M抢占L，导致H间接等待M
 </section>
 <hr class="docutils" />
 <section id="id21">
-<h2>参考资源<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>《Operating Systems: Three Easy Pieces》- Concurrency章节</p></li>
 <li><p>《The Art of Multiprocessor Programming》</p></li>
@@ -918,20 +918,20 @@ H等待L，但M抢占L，导致H间接等待M
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="并发与同步" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../06-deadlock/index.html" class="btn btn-neutral float-right" title="死锁处理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="并发与同步" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../06-deadlock/index.html" class="btn btn-neutral float-right" title="死锁处理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

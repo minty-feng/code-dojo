@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>死锁处理 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+  <title>死锁处理 &mdash; OS &amp; Network Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="TCP-IP协议详解" href="../07-tcp-ip/index.html" />
     <link rel="prev" title="死锁处理" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
@@ -127,20 +127,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">OS & Network Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">死锁处理</a></li>
       <li class="breadcrumb-item active">死锁处理</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/06-deadlock/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/06-deadlock/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -149,9 +149,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>死锁处理<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>死锁处理<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>死锁四大必要条件：互斥、占有并等待、非抢占、循环等待</strong></p></li>
 <li><p><strong>破坏任意一个条件即可预防死锁</strong></p></li>
@@ -162,10 +162,10 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 死锁定义<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 死锁定义<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <p><strong>死锁（Deadlock）</strong>：多个进程永久等待对方持有的资源</p>
 <section id="id4">
-<h3>1.1 经典例子<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.1 经典例子<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mutex_t</span><span class="w"> </span><span class="n">lock_A</span><span class="p">,</span><span class="w"> </span><span class="n">lock_B</span><span class="p">;</span>
 
 <span class="c1">// 进程1</span>
@@ -200,9 +200,9 @@
 </section>
 <hr class="docutils" />
 <section id="id5">
-<h2>2. 死锁四大条件<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>2. 死锁四大条件<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="mutual-exclusion">
-<h3>2.1 互斥（Mutual Exclusion）<a class="headerlink" href="#mutual-exclusion" title="Link to this heading"></a></h3>
+<h3>2.1 互斥（Mutual Exclusion）<a class="headerlink" href="#mutual-exclusion" title="Permalink to this heading"></a></h3>
 <p><strong>定义</strong>：资源同时只能被一个进程使用</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mutex_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
 
@@ -216,7 +216,7 @@
 </div>
 </section>
 <section id="hold-and-wait">
-<h3>2.2 占有并等待（Hold and Wait）<a class="headerlink" href="#hold-and-wait" title="Link to this heading"></a></h3>
+<h3>2.2 占有并等待（Hold and Wait）<a class="headerlink" href="#hold-and-wait" title="Permalink to this heading"></a></h3>
 <p><strong>定义</strong>：进程持有资源的同时等待其他资源</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">lock</span><span class="p">(</span><span class="n">resource1</span><span class="p">);</span><span class="w">    </span><span class="c1">// 持有resource1</span>
@@ -227,7 +227,7 @@
 </div>
 </section>
 <section id="no-preemption">
-<h3>2.3 非抢占（No Preemption）<a class="headerlink" href="#no-preemption" title="Link to this heading"></a></h3>
+<h3>2.3 非抢占（No Preemption）<a class="headerlink" href="#no-preemption" title="Permalink to this heading"></a></h3>
 <p><strong>定义</strong>：资源不能被强制抢占，只能主动释放</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 进程持有锁后，其他进程不能强制夺走</span>
 <span class="n">lock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
@@ -237,7 +237,7 @@
 </div>
 </section>
 <section id="circular-wait">
-<h3>2.4 循环等待（Circular Wait）<a class="headerlink" href="#circular-wait" title="Link to this heading"></a></h3>
+<h3>2.4 循环等待（Circular Wait）<a class="headerlink" href="#circular-wait" title="Permalink to this heading"></a></h3>
 <p><strong>定义</strong>：存在进程环路，每个进程等待下一个进程的资源</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>P1 → R1 → P2 → R2 → P3 → R3 → P1
 (P1等R1，R1被P2持有，P2等R2，R2被P3持有，P3等R3，R3被P1持有)
@@ -247,10 +247,10 @@
 </section>
 <hr class="docutils" />
 <section id="id6">
-<h2>3. 死锁预防<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>3. 死锁预防<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <p><strong>原理</strong>：破坏四大条件之一</p>
 <section id="id7">
-<h3>3.1 破坏互斥条件<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>3.1 破坏互斥条件<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p><strong>方法</strong>：资源共享（不现实）</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 只读资源可以共享</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">shared_data</span><span class="p">;</span><span class="w">  </span><span class="c1">// 多个进程可同时读取</span>
@@ -262,7 +262,7 @@
 <p><strong>结论</strong>：通常无法破坏（资源本质决定）</p>
 </section>
 <section id="id8">
-<h3>3.2 破坏占有并等待<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>3.2 破坏占有并等待<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p><strong>方法1</strong>：一次性申请所有资源</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// 一次性获取所有需要的锁</span>
@@ -304,7 +304,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>3.3 破坏非抢占条件<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.3 破坏非抢占条件<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p><strong>方法</strong>：允许抢占</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">lock</span><span class="p">(</span><span class="n">lock_A</span><span class="p">);</span>
@@ -330,7 +330,7 @@
 </ul>
 </section>
 <section id="id10">
-<h3>3.4 破坏循环等待（最常用）<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>3.4 破坏循环等待（最常用）<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <p><strong>方法</strong>：资源排序，按序申请</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 给锁分配全局顺序</span>
 <span class="cp">#define LOCK_A_ID 1</span>
@@ -372,10 +372,10 @@
 </section>
 <hr class="docutils" />
 <section id="id11">
-<h2>4. 死锁避免<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>4. 死锁避免<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <p><strong>原理</strong>：动态检查资源分配安全性</p>
 <section id="id12">
-<h3>4.1 银行家算法<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>4.1 银行家算法<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <p><strong>概念</strong>：类比银行贷款，确保系统处于安全状态</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 系统状态</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">available</span><span class="p">[</span><span class="n">M</span><span class="p">];</span><span class="w">           </span><span class="c1">// 可用资源</span>
@@ -477,10 +477,10 @@ P2   9 0 2     3 0 2       6 0 0
 </section>
 <hr class="docutils" />
 <section id="id13">
-<h2>5. 死锁检测<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>5. 死锁检测<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <p><strong>原理</strong>：允许死锁发生，定期检测并恢复</p>
 <section id="id14">
-<h3>5.1 资源分配图<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>5.1 资源分配图<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>进程 → 资源：请求边
 资源 → 进程：分配边
 
@@ -499,7 +499,7 @@ P1 → R1 → P2 → R2
 </div>
 </section>
 <section id="id15">
-<h3>5.2 检测算法<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>5.2 检测算法<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">process</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">request</span><span class="p">[</span><span class="n">M</span><span class="p">];</span><span class="w">    </span><span class="c1">// 请求的资源</span>
@@ -554,9 +554,9 @@ P1 → R1 → P2 → R2
 </section>
 <hr class="docutils" />
 <section id="id16">
-<h2>6. 死锁恢复<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>6. 死锁恢复<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <section id="id17">
-<h3>6.1 进程终止<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>6.1 进程终止<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <p><strong>方法1</strong>：终止所有死锁进程</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">recover_terminate_all</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Process</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">deadlocked_processes</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -583,7 +583,7 @@ P1 → R1 → P2 → R2
 </ul>
 </section>
 <section id="id18">
-<h3>6.2 资源抢占<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>6.2 资源抢占<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">recover_preempt</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">detect_deadlock</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// 1. 选择受害者</span>
@@ -611,9 +611,9 @@ P1 → R1 → P2 → R2
 </section>
 <hr class="docutils" />
 <section id="id19">
-<h2>7. 实际系统策略<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>7. 实际系统策略<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="id20">
-<h3>7.1 鸵鸟策略<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>7.1 鸵鸟策略<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：忽略死锁（假装不存在）</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 大多数操作系统的做法</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">system_hang</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -634,7 +634,7 @@ P1 → R1 → P2 → R2
 </ul>
 </section>
 <section id="id21">
-<h3>7.2 超时机制<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>7.2 超时机制<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span><span class="w"> </span><span class="nf">lock_with_timeout</span><span class="p">(</span><span class="n">mutex_t</span><span class="w"> </span><span class="o">*</span><span class="n">lock</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="w">    </span>
@@ -669,9 +669,9 @@ P1 → R1 → P2 → R2
 </section>
 <hr class="docutils" />
 <section id="id22">
-<h2>8. 实战案例<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>8. 实战案例<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <section id="id23">
-<h3>8.1 哲学家就餐问题<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>8.1 哲学家就餐问题<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <p><strong>问题</strong>：5个哲学家，5根筷子，需要两根筷子才能吃饭</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 死锁版本</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">philosopher</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -733,7 +733,7 @@ P1 → R1 → P2 → R2
 </div>
 </section>
 <section id="id24">
-<h3>8.2 数据库死锁<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>8.2 数据库死锁<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- 事务1</span>
 <span class="k">BEGIN</span><span class="p">;</span>
 <span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">-- 锁定账户1</span>
@@ -764,9 +764,9 @@ P1 → R1 → P2 → R2
 </section>
 <hr class="docutils" />
 <section id="id25">
-<h2>9. 常见问题<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>9. 常见问题<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <section id="q1">
-<h3>Q1: 死锁和饥饿的区别？<a class="headerlink" href="#q1" title="Link to this heading"></a></h3>
+<h3>Q1: 死锁和饥饿的区别？<a class="headerlink" href="#q1" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p><strong>死锁</strong>：互相等待，永远无法继续</p></li>
@@ -774,7 +774,7 @@ P1 → R1 → P2 → R2
 </ul>
 </section>
 <section id="q2">
-<h3>Q2: 如何调试死锁？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<h3>Q2: 如何调试死锁？<a class="headerlink" href="#q2" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ps</span> <span class="pre">aux</span></code> 查看进程状态（D状态）</p></li>
@@ -784,7 +784,7 @@ P1 → R1 → P2 → R2
 </ol>
 </section>
 <section id="q3">
-<h3>Q3: 为什么数据库能自动处理死锁？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<h3>Q3: 为什么数据库能自动处理死锁？<a class="headerlink" href="#q3" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>数据库维护等待图</p></li>
@@ -794,7 +794,7 @@ P1 → R1 → P2 → R2
 </ul>
 </section>
 <section id="q4">
-<h3>Q4: 多线程程序如何避免死锁？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<h3>Q4: 多线程程序如何避免死锁？<a class="headerlink" href="#q4" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>锁排序（最重要）</p></li>
@@ -807,9 +807,9 @@ P1 → R1 → P2 → R2
 </section>
 <hr class="docutils" />
 <section id="id26">
-<h2>10. 调试工具<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<h2>10. 调试工具<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h2>
 <section id="linux">
-<h3>10.1 Linux工具<a class="headerlink" href="#linux" title="Link to this heading"></a></h3>
+<h3>10.1 Linux工具<a class="headerlink" href="#linux" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看进程状态</span>
 ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>D<span class="w">  </span><span class="c1"># D状态可能是死锁</span>
 
@@ -827,7 +827,7 @@ gdb<span class="w"> </span>-p<span class="w"> </span>&lt;pid&gt;
 </div>
 </section>
 <section id="valgrind-helgrind">
-<h3>10.2 Valgrind Helgrind<a class="headerlink" href="#valgrind-helgrind" title="Link to this heading"></a></h3>
+<h3>10.2 Valgrind Helgrind<a class="headerlink" href="#valgrind-helgrind" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 死锁检测</span>
 valgrind<span class="w"> </span>--tool<span class="o">=</span>helgrind<span class="w"> </span>./program
 
@@ -838,7 +838,7 @@ valgrind<span class="w"> </span>--tool<span class="o">=</span>helgrind<span clas
 </div>
 </section>
 <section id="id27">
-<h3>10.3 死锁检测代码<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>10.3 死锁检测代码<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define MAX_LOCKS 100</span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">lock_info</span><span class="w"> </span><span class="p">{</span>
@@ -869,7 +869,7 @@ valgrind<span class="w"> </span>--tool<span class="o">=</span>helgrind<span clas
 </section>
 <hr class="docutils" />
 <section id="id28">
-<h2>参考资源<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>《Operating Systems: Three Easy Pieces》- Deadlock章节</p></li>
 <li><p>《Database System Concepts》- 事务和并发控制</p></li>
@@ -882,20 +882,20 @@ valgrind<span class="w"> </span>--tool<span class="o">=</span>helgrind<span clas
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="死锁处理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../07-tcp-ip/index.html" class="btn btn-neutral float-right" title="TCP-IP协议详解" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="死锁处理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../07-tcp-ip/index.html" class="btn btn-neutral float-right" title="TCP-IP协议详解" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

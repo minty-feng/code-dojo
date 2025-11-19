@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>进程调度 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+  <title>进程调度 &mdash; OS &amp; Network Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="内存管理" href="../03-memory-management/index.html" />
     <link rel="prev" title="进程调度" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
@@ -125,20 +125,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">OS & Network Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">进程调度</a></li>
       <li class="breadcrumb-item active">进程调度</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/02-process-scheduling/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/02-process-scheduling/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -147,9 +147,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>进程调度<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>进程调度<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>CPU密集型任务适合短作业优先，I/O密集型适合时间片轮转</strong></p></li>
 <li><p><strong>优先级调度容易导致饥饿，需要老化(aging)机制</strong></p></li>
@@ -160,9 +160,9 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 调度算法分类<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 调度算法分类<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>1.1 非抢占式调度<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.1 非抢占式调度<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>进程主动放弃CPU才能调度</p></li>
 <li><p>简单，无需处理竞态条件</p></li>
@@ -170,7 +170,7 @@
 </ul>
 </section>
 <section id="id5">
-<h3>1.2 抢占式调度<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>1.2 抢占式调度<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>可以强制剥夺CPU</p></li>
 <li><p>响应时间好</p></li>
@@ -180,9 +180,9 @@
 </section>
 <hr class="docutils" />
 <section id="id6">
-<h2>2. 经典调度算法<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>2. 经典调度算法<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="fcfs">
-<h3>2.1 先来先服务 (FCFS)<a class="headerlink" href="#fcfs" title="Link to this heading"></a></h3>
+<h3>2.1 先来先服务 (FCFS)<a class="headerlink" href="#fcfs" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：按到达顺序执行，非抢占式</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">fcfs_schedule</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">queue_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ready_queue</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
@@ -211,7 +211,7 @@ P3    2     1
 </div>
 </section>
 <section id="sjf">
-<h3>2.2 短作业优先 (SJF)<a class="headerlink" href="#sjf" title="Link to this heading"></a></h3>
+<h3>2.2 短作业优先 (SJF)<a class="headerlink" href="#sjf" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：选择运行时间最短的进程</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">sjf_schedule</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// 按运行时间排序</span>
@@ -243,7 +243,7 @@ P3    2     1
 </div>
 </section>
 <section id="srtf">
-<h3>2.3 最短剩余时间优先 (SRTF)<a class="headerlink" href="#srtf" title="Link to this heading"></a></h3>
+<h3>2.3 最短剩余时间优先 (SRTF)<a class="headerlink" href="#srtf" title="Permalink to this heading"></a></h3>
 <p><strong>SJF的抢占式版本</strong>：</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">srtf_schedule</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">Process</span><span class="w"> </span><span class="o">*</span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
@@ -272,7 +272,7 @@ P3    2     1
 </ul>
 </section>
 <section id="round-robin">
-<h3>2.4 时间片轮转 (Round Robin)<a class="headerlink" href="#round-robin" title="Link to this heading"></a></h3>
+<h3>2.4 时间片轮转 (Round Robin)<a class="headerlink" href="#round-robin" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：每个进程执行一个时间片，然后切换</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define TIME_SLICE 10  </span><span class="c1">// 时间片大小（ms）</span>
 
@@ -308,7 +308,7 @@ P3     3
 </div>
 </section>
 <section id="id7">
-<h3>2.5 优先级调度<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>2.5 优先级调度<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：每个进程有优先级，优先级高的先执行</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">process</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span>
@@ -340,7 +340,7 @@ P3     3
 </div>
 </section>
 <section id="mlfq">
-<h3>2.6 多级反馈队列 (MLFQ)<a class="headerlink" href="#mlfq" title="Link to this heading"></a></h3>
+<h3>2.6 多级反馈队列 (MLFQ)<a class="headerlink" href="#mlfq" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：多个优先级队列，动态调整优先级</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define LEVELS 3</span>
 <span class="n">Queue</span><span class="w"> </span><span class="n">queues</span><span class="p">[</span><span class="n">LEVELS</span><span class="p">];</span><span class="w">  </span><span class="c1">// 优先级从0到2递减</span>
@@ -389,9 +389,9 @@ P3     3
 </section>
 <hr class="docutils" />
 <section id="linux">
-<h2>3. Linux调度器<a class="headerlink" href="#linux" title="Link to this heading"></a></h2>
+<h2>3. Linux调度器<a class="headerlink" href="#linux" title="Permalink to this heading"></a></h2>
 <section id="cfs">
-<h3>3.1 完全公平调度器 (CFS)<a class="headerlink" href="#cfs" title="Link to this heading"></a></h3>
+<h3>3.1 完全公平调度器 (CFS)<a class="headerlink" href="#cfs" title="Permalink to this heading"></a></h3>
 <p><strong>核心思想</strong>：让每个进程获得相同的CPU时间</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">vruntime</span><span class="p">;</span><span class="w">         </span><span class="c1">// 虚拟运行时间</span>
@@ -447,7 +447,7 @@ P3     5     335    10ms     30.5ms
 </div>
 </section>
 <section id="id8">
-<h3>3.2 实时调度<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>3.2 实时调度<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p><strong>SCHED_FIFO</strong>：先进先出，非抢占</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">sched_fifo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rt_queue</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
@@ -477,7 +477,7 @@ P3     5     335    10ms     30.5ms
 </ul>
 </section>
 <section id="id9">
-<h3>3.3 Linux调度类<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.3 Linux调度类<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>优先级从高到低：
 
 1. stop_sched_class      // 最高优先级（迁移线程）
@@ -491,9 +491,9 @@ P3     5     335    10ms     30.5ms
 </section>
 <hr class="docutils" />
 <section id="id10">
-<h2>4. 多核调度<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>4. 多核调度<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>4.1 负载均衡<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>4.1 负载均衡<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <p><strong>问题</strong>：某些核心负载过重，某些核心空闲</p>
 <p><strong>解决</strong>：周期性迁移进程</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">load_balance</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -518,7 +518,7 @@ P3     5     335    10ms     30.5ms
 </div>
 </section>
 <section id="cpu">
-<h3>4.2 CPU亲和性<a class="headerlink" href="#cpu" title="Link to this heading"></a></h3>
+<h3>4.2 CPU亲和性<a class="headerlink" href="#cpu" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 绑定进程到特定CPU集合</span>
 <span class="kt">cpu_set_t</span><span class="w"> </span><span class="n">cpuset</span><span class="p">;</span>
 <span class="n">CPU_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span>
@@ -535,7 +535,7 @@ P3     5     335    10ms     30.5ms
 </ul>
 </section>
 <section id="numa">
-<h3>4.3 NUMA感知调度<a class="headerlink" href="#numa" title="Link to this heading"></a></h3>
+<h3>4.3 NUMA感知调度<a class="headerlink" href="#numa" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Non-Uniform Memory Access</span>
 <span class="c1">// 内存访问延迟不同</span>
 
@@ -555,34 +555,34 @@ P3     5     335    10ms     30.5ms
 </section>
 <hr class="docutils" />
 <section id="id12">
-<h2>5. 调度性能指标<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>5. 调度性能指标<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="throughput">
-<h3>5.1 吞吐量 (Throughput)<a class="headerlink" href="#throughput" title="Link to this heading"></a></h3>
+<h3>5.1 吞吐量 (Throughput)<a class="headerlink" href="#throughput" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">吞吐量</span> <span class="o">=</span> <span class="n">完成的进程数</span> <span class="o">/</span> <span class="n">时间</span>
 </pre></div>
 </div>
 </section>
 <section id="turnaround-time">
-<h3>5.2 周转时间 (Turnaround Time)<a class="headerlink" href="#turnaround-time" title="Link to this heading"></a></h3>
+<h3>5.2 周转时间 (Turnaround Time)<a class="headerlink" href="#turnaround-time" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">周转时间</span> <span class="o">=</span> <span class="n">完成时间</span> <span class="o">-</span> <span class="n">到达时间</span>
 <span class="n">平均周转时间</span> <span class="o">=</span> <span class="n">Σ周转时间</span> <span class="o">/</span> <span class="n">进程数</span>
 </pre></div>
 </div>
 </section>
 <section id="waiting-time">
-<h3>5.3 等待时间 (Waiting Time)<a class="headerlink" href="#waiting-time" title="Link to this heading"></a></h3>
+<h3>5.3 等待时间 (Waiting Time)<a class="headerlink" href="#waiting-time" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">等待时间</span> <span class="o">=</span> <span class="n">周转时间</span> <span class="o">-</span> <span class="n">运行时间</span>
 </pre></div>
 </div>
 </section>
 <section id="response-time">
-<h3>5.4 响应时间 (Response Time)<a class="headerlink" href="#response-time" title="Link to this heading"></a></h3>
+<h3>5.4 响应时间 (Response Time)<a class="headerlink" href="#response-time" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">响应时间</span> <span class="o">=</span> <span class="n">首次执行时间</span> <span class="o">-</span> <span class="n">到达时间</span>
 </pre></div>
 </div>
 </section>
 <section id="id13">
-<h3>5.5 CPU利用率<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>5.5 CPU利用率<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CPU利用率</span> <span class="o">=</span> <span class="p">(</span><span class="n">总运行时间</span> <span class="o">-</span> <span class="n">空闲时间</span><span class="p">)</span> <span class="o">/</span> <span class="n">总运行时间</span>
 </pre></div>
 </div>
@@ -590,9 +590,9 @@ P3     5     335    10ms     30.5ms
 </section>
 <hr class="docutils" />
 <section id="id14">
-<h2>6. 实战案例<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>6. 实战案例<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>6.1 调度算法对比<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>6.1 调度算法对比<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p><strong>场景</strong>：3个进程，时间片=2</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">进程</span>  <span class="n">到达</span>  <span class="n">运行</span>
 <span class="n">P1</span>    <span class="mi">0</span>     <span class="mi">5</span>
@@ -620,7 +620,7 @@ P3     5     335    10ms     30.5ms
 </div>
 </section>
 <section id="id16">
-<h3>6.2 优先级反转问题<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>6.2 优先级反转问题<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <p><strong>场景</strong>：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>H：高优先级任务
 M：中优先级任务
@@ -643,7 +643,7 @@ L：低优先级任务（持有锁）
 </div>
 </section>
 <section id="id17">
-<h3>6.3 CPU时间测量<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>6.3 CPU时间测量<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">measure_cpu_time</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -669,9 +669,9 @@ L：低优先级任务（持有锁）
 </section>
 <hr class="docutils" />
 <section id="id18">
-<h2>7. 调度器调优<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>7. 调度器调优<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="nice">
-<h3>7.1 修改nice值<a class="headerlink" href="#nice" title="Link to this heading"></a></h3>
+<h3>7.1 修改nice值<a class="headerlink" href="#nice" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 降低优先级（提高nice值）</span>
 nice<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>./my_program
 
@@ -684,7 +684,7 @@ renice<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
 </div>
 </section>
 <section id="id19">
-<h3>7.2 设置实时优先级<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>7.2 设置实时优先级<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sched.h&gt;</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">set_realtime</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -701,7 +701,7 @@ renice<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
 </div>
 </section>
 <section id="id20">
-<h3>7.3 CFS调优参数<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>7.3 CFS调优参数<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看CFS参数</span>
 cat<span class="w"> </span>/proc/sys/kernel/sched_latency_ns<span class="w">        </span><span class="c1"># 调度延迟</span>
 cat<span class="w"> </span>/proc/sys/kernel/sched_min_granularity_ns<span class="w"> </span><span class="c1"># 最小粒度</span>
@@ -715,9 +715,9 @@ cat<span class="w"> </span>/proc/sys/kernel/sched_wakeup_granularity_ns<span cla
 </section>
 <hr class="docutils" />
 <section id="id21">
-<h2>8. 常见问题<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>8. 常见问题<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="q1-linuxcfs">
-<h3>Q1: 为什么Linux用CFS而不是传统优先级调度？<a class="headerlink" href="#q1-linuxcfs" title="Link to this heading"></a></h3>
+<h3>Q1: 为什么Linux用CFS而不是传统优先级调度？<a class="headerlink" href="#q1-linuxcfs" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>CFS更公平，避免饥饿</p></li>
@@ -727,7 +727,7 @@ cat<span class="w"> </span>/proc/sys/kernel/sched_wakeup_granularity_ns<span cla
 </ul>
 </section>
 <section id="q2">
-<h3>Q2: 实时调度会导致系统卡死吗？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<h3>Q2: 实时调度会导致系统卡死吗？<a class="headerlink" href="#q2" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>可能！实时进程优先级极高</p></li>
@@ -737,7 +737,7 @@ cat<span class="w"> </span>/proc/sys/kernel/sched_wakeup_granularity_ns<span cla
 </ul>
 </section>
 <section id="q3">
-<h3>Q3: 如何选择时间片大小？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<h3>Q3: 如何选择时间片大小？<a class="headerlink" href="#q3" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>考虑上下文切换开销（~1-10μs）</p></li>
@@ -747,7 +747,7 @@ cat<span class="w"> </span>/proc/sys/kernel/sched_wakeup_granularity_ns<span cla
 </ul>
 </section>
 <section id="q4">
-<h3>Q4: 多核调度如何避免缓存颠簸？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<h3>Q4: 多核调度如何避免缓存颠簸？<a class="headerlink" href="#q4" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>CPU亲和性绑定</p></li>
@@ -759,7 +759,7 @@ cat<span class="w"> </span>/proc/sys/kernel/sched_wakeup_granularity_ns<span cla
 </section>
 <hr class="docutils" />
 <section id="id22">
-<h2>参考资源<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>《Operating Systems: Three Easy Pieces》</p></li>
 <li><p>Linux内核文档：Documentation/scheduler/</p></li>
@@ -772,20 +772,20 @@ cat<span class="w"> </span>/proc/sys/kernel/sched_wakeup_granularity_ns<span cla
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="进程调度" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../03-memory-management/index.html" class="btn btn-neutral float-right" title="内存管理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="进程调度" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../03-memory-management/index.html" class="btn btn-neutral float-right" title="内存管理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

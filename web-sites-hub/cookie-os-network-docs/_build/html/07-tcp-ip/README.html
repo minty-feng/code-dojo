@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TCP/IP协议详解 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+  <title>TCP/IP协议详解 &mdash; OS &amp; Network Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="HTTP协议与实战" href="../08-http/index.html" />
     <link rel="prev" title="TCP-IP协议详解" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
@@ -113,20 +113,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">OS & Network Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">TCP-IP协议详解</a></li>
       <li class="breadcrumb-item active">TCP/IP协议详解</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/07-tcp-ip/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/07-tcp-ip/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -135,9 +135,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="tcp-ip">
-<h1>TCP/IP协议详解<a class="headerlink" href="#tcp-ip" title="Link to this heading"></a></h1>
+<h1>TCP/IP协议详解<a class="headerlink" href="#tcp-ip" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>💡 核心结论<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>TCP三次握手建立连接，四次挥手断开连接</strong></p></li>
 <li><p><strong>TCP通过序列号、确认号、重传实现可靠传输</strong></p></li>
@@ -148,9 +148,9 @@
 </section>
 <hr class="docutils" />
 <section id="id2">
-<h2>1. TCP/IP模型<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>1. TCP/IP模型<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>1.1 四层模型<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>1.1 四层模型<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>应用层    HTTP, FTP, DNS, SMTP
     ↓
 传输层    TCP, UDP
@@ -162,7 +162,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>1.2 数据封装<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.2 数据封装<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>应用数据
     ↓
 [TCP头部 | 应用数据]          TCP段（Segment）
@@ -176,9 +176,9 @@
 </section>
 <hr class="docutils" />
 <section id="tcp">
-<h2>2. TCP协议<a class="headerlink" href="#tcp" title="Link to this heading"></a></h2>
+<h2>2. TCP协议<a class="headerlink" href="#tcp" title="Permalink to this heading"></a></h2>
 <section id="id5">
-<h3>2.1 TCP头部格式<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>2.1 TCP头部格式<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">tcp_header</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">source_port</span><span class="p">;</span><span class="w">      </span><span class="c1">// 源端口</span>
 <span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">dest_port</span><span class="p">;</span><span class="w">        </span><span class="c1">// 目标端口</span>
@@ -204,7 +204,7 @@
 </ul>
 </section>
 <section id="id6">
-<h3>2.2 三次握手<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>2.2 三次握手<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>客户端                                  服务器
   │                                       │
   │── SYN seq=x ───────────────────────→ │  LISTEN
@@ -249,7 +249,7 @@ ESTABLISHED                           ESTABLISHED
 </div>
 </section>
 <section id="id7">
-<h3>2.3 四次挥手<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>2.3 四次挥手<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>客户端                                  服务器
   │                                       │
   │── FIN seq=u ───────────────────────→ │  CLOSE_WAIT
@@ -296,7 +296,7 @@ CLOSED                                    │
 </div>
 </section>
 <section id="id8">
-<h3>2.4 可靠传输<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>2.4 可靠传输<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p><strong>序列号和确认号</strong>：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>发送方: seq=100, 发送100字节
 接收方: ack=200 (期望接收第200字节)
@@ -348,7 +348,7 @@ seq=200 ───→ ✓ 快速重传！
 </div>
 </section>
 <section id="id9">
-<h3>2.5 流量控制（滑动窗口）<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>2.5 流量控制（滑动窗口）<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：接收方告诉发送方自己的缓冲区大小</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>接收方:
 recv_window = BUFFER_SIZE - (next_seq - acked_seq)
@@ -377,7 +377,7 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </div>
 </section>
 <section id="id10">
-<h3>2.6 拥塞控制<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>2.6 拥塞控制<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <p><strong>四个算法</strong>：</p>
 <p><strong>1. 慢启动（Slow Start）</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>初始cwnd = 1 MSS
@@ -429,9 +429,9 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </section>
 <hr class="docutils" />
 <section id="udp">
-<h2>3. UDP协议<a class="headerlink" href="#udp" title="Link to this heading"></a></h2>
+<h2>3. UDP协议<a class="headerlink" href="#udp" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>3.1 UDP头部格式<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>3.1 UDP头部格式<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">udp_header</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">source_port</span><span class="p">;</span><span class="w">   </span><span class="c1">// 源端口 (2字节)</span>
 <span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">dest_port</span><span class="p">;</span><span class="w">     </span><span class="c1">// 目标端口 (2字节)</span>
@@ -444,7 +444,7 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </div>
 </section>
 <section id="id12">
-<h3>3.2 UDP特点<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>3.2 UDP特点<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <p><strong>优点</strong>：</p>
 <ul class="simple">
 <li><p>✅ 无连接，无握手开销</p></li>
@@ -460,7 +460,7 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </ul>
 </section>
 <section id="udp-vs-tcp">
-<h3>3.3 UDP vs TCP<a class="headerlink" href="#udp-vs-tcp" title="Link to this heading"></a></h3>
+<h3>3.3 UDP vs TCP<a class="headerlink" href="#udp-vs-tcp" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -493,7 +493,7 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </table>
 </section>
 <section id="id13">
-<h3>3.4 UDP应用场景<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>3.4 UDP应用场景<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>✅ DNS查询：单个数据包，丢包重查即可
 ✅ 视频直播：实时性优先，丢几帧无所谓
 ✅ 在线游戏：低延迟优先，丢包插值
@@ -507,7 +507,7 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </div>
 </section>
 <section id="id14">
-<h3>3.5 UDP编程示例<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>3.5 UDP编程示例<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// UDP服务器</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">sockfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_DGRAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 
@@ -553,9 +553,9 @@ send_window = min(recv_window, cwnd)  // cwnd是拥塞窗口
 </section>
 <hr class="docutils" />
 <section id="ip">
-<h2>4. IP协议<a class="headerlink" href="#ip" title="Link to this heading"></a></h2>
+<h2>4. IP协议<a class="headerlink" href="#ip" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>4.1 IP地址<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>4.1 IP地址<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p><strong>IPv4</strong>：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>32位，4个字节
 点分十进制：192.168.1.1
@@ -582,7 +582,7 @@ C类：192.0.0.0 - 223.255.255.255
 </div>
 </section>
 <section id="id16">
-<h3>4.2 IP数据包格式<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>4.2 IP数据包格式<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">ip_header</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">version</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">       </span><span class="c1">// 版本号 (4)</span>
 <span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">ihl</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">           </span><span class="c1">// 头部长度</span>
@@ -602,7 +602,7 @@ C类：192.0.0.0 - 223.255.255.255
 </div>
 </section>
 <section id="id17">
-<h3>4.3 IP路由<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>4.3 IP路由<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <p><strong>路由表</strong>：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看路由表</span>
 $<span class="w"> </span>route<span class="w"> </span>-n
@@ -618,7 +618,7 @@ Destination<span class="w">     </span>Gateway<span class="w">         </span>Ge
 </div>
 </section>
 <section id="nat">
-<h3>4.4 NAT（网络地址转换）<a class="headerlink" href="#nat" title="Link to this heading"></a></h3>
+<h3>4.4 NAT（网络地址转换）<a class="headerlink" href="#nat" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>内网 → 外网
 源IP: 192.168.1.100:5000
 NAT转换: 203.0.113.5:60000
@@ -639,9 +639,9 @@ NAT表:
 </section>
 <hr class="docutils" />
 <section id="id18">
-<h2>5. 常见问题<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>5. 常见问题<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="q1-time-wait2msl">
-<h3>Q1: 为什么TIME_WAIT要等2MSL？<a class="headerlink" href="#q1-time-wait2msl" title="Link to this heading"></a></h3>
+<h3>Q1: 为什么TIME_WAIT要等2MSL？<a class="headerlink" href="#q1-time-wait2msl" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>确保最后的ACK到达（如果丢失，对方会重发FIN，需要能接收并回复）</p></li>
@@ -649,7 +649,7 @@ NAT表:
 </ol>
 </section>
 <section id="q2-time-wait">
-<h3>Q2: 如何减少TIME_WAIT？<a class="headerlink" href="#q2-time-wait" title="Link to this heading"></a></h3>
+<h3>Q2: 如何减少TIME_WAIT？<a class="headerlink" href="#q2-time-wait" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>调整<code class="docutils literal notranslate"><span class="pre">tcp_tw_reuse</span></code>和<code class="docutils literal notranslate"><span class="pre">tcp_tw_recycle</span></code>（需谨慎）</p></li>
@@ -658,7 +658,7 @@ NAT表:
 </ul>
 </section>
 <section id="q3-tcpnagle">
-<h3>Q3: TCP为什么需要Nagle算法？<a class="headerlink" href="#q3-tcpnagle" title="Link to this heading"></a></h3>
+<h3>Q3: TCP为什么需要Nagle算法？<a class="headerlink" href="#q3-tcpnagle" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>合并小包，减少网络拥塞</p></li>
@@ -666,7 +666,7 @@ NAT表:
 </ul>
 </section>
 <section id="q4-udp">
-<h3>Q4: 为什么UDP不可靠但还要用？<a class="headerlink" href="#q4-udp" title="Link to this heading"></a></h3>
+<h3>Q4: 为什么UDP不可靠但还要用？<a class="headerlink" href="#q4-udp" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>低延迟优先级高于可靠性（实时应用）</p></li>
@@ -676,9 +676,9 @@ NAT表:
 </section>
 <hr class="docutils" />
 <section id="id19">
-<h2>6. 性能优化<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>6. 性能优化<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="id20">
-<h3>6.1 TCP优化<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>6.1 TCP优化<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 增大缓冲区</span>
 sysctl<span class="w"> </span>-w<span class="w"> </span>net.core.rmem_max<span class="o">=</span><span class="m">16777216</span>
 sysctl<span class="w"> </span>-w<span class="w"> </span>net.core.wmem_max<span class="o">=</span><span class="m">16777216</span>
@@ -698,7 +698,7 @@ sysctl<span class="w"> </span>-w<span class="w"> </span>net.core.somaxconn<span 
 </div>
 </section>
 <section id="id21">
-<h3>6.2 应用层优化<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>6.2 应用层优化<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// TCP_NODELAY: 禁用Nagle算法</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="n">setsockopt</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="n">IPPROTO_TCP</span><span class="p">,</span><span class="w"> </span><span class="n">TCP_NODELAY</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">flag</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">flag</span><span class="p">));</span>
@@ -716,7 +716,7 @@ sysctl<span class="w"> </span>-w<span class="w"> </span>net.core.somaxconn<span 
 </section>
 <hr class="docutils" />
 <section id="id22">
-<h2>参考资源<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>《TCP/IP详解 卷1：协议》</p></li>
 <li><p>RFC 793 (TCP)</p></li>
@@ -730,20 +730,20 @@ sysctl<span class="w"> </span>-w<span class="w"> </span>net.core.somaxconn<span 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="TCP-IP协议详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../08-http/index.html" class="btn btn-neutral float-right" title="HTTP协议与实战" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="TCP-IP协议详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../08-http/index.html" class="btn btn-neutral float-right" title="HTTP协议与实战" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

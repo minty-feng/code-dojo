@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>网络安全基础 &mdash; OS &amp; Network Core 1.0.0 文档</title>
+  <title>网络安全基础 &mdash; OS &amp; Network Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="网络安全基础" href="index.html" /> 
 </head>
 
@@ -38,12 +38,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">OS &amp; Network Core</a></li>
@@ -121,20 +121,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">OS & Network Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">网络安全基础</a></li>
       <li class="breadcrumb-item active">网络安全基础</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/11-network-security/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/11-network-security/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -143,9 +143,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>网络安全基础<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>网络安全基础<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>对称加密快但密钥交换困难，非对称加密慢但安全</strong></p></li>
 <li><p><strong>HTTPS通过TLS提供加密、完整性和身份验证</strong></p></li>
@@ -156,9 +156,9 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 加密技术<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 加密技术<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>1.1 对称加密<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.1 对称加密<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：加密和解密使用同一个密钥</p>
 <p><strong>常用算法</strong>：</p>
 <ul class="simple">
@@ -196,7 +196,7 @@
 </ul>
 </section>
 <section id="id5">
-<h3>1.2 非对称加密<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>1.2 非对称加密<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：公钥加密，私钥解密</p>
 <p><strong>常用算法</strong>：</p>
 <ul class="simple">
@@ -233,7 +233,7 @@
 </ul>
 </section>
 <section id="id6">
-<h3>1.3 哈希函数<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>1.3 哈希函数<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <p><strong>原理</strong>：将任意长度数据映射为固定长度</p>
 <p><strong>常用算法</strong>：</p>
 <ul class="simple">
@@ -267,9 +267,9 @@
 </section>
 <hr class="docutils" />
 <section id="https-tls">
-<h2>2. HTTPS/TLS<a class="headerlink" href="#https-tls" title="Link to this heading"></a></h2>
+<h2>2. HTTPS/TLS<a class="headerlink" href="#https-tls" title="Permalink to this heading"></a></h2>
 <section id="tls">
-<h3>2.1 TLS握手过程<a class="headerlink" href="#tls" title="Link to this heading"></a></h3>
+<h3>2.1 TLS握手过程<a class="headerlink" href="#tls" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Client</span> <span class="n">Hello</span>
    <span class="o">-</span> <span class="n">支持的TLS版本</span>
    <span class="o">-</span> <span class="n">支持的加密套件</span>
@@ -300,7 +300,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>2.2 证书链<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>2.2 证书链<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Root CA (根证书)
   签名 ↓
 Intermediate CA (中间证书)
@@ -321,7 +321,7 @@ $<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </s
 </div>
 </section>
 <section id="id8">
-<h3>2.3 生成自签名证书<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>2.3 生成自签名证书<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 生成私钥</span>
 $<span class="w"> </span>openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>server.key<span class="w"> </span><span class="m">2048</span>
 
@@ -337,9 +337,9 @@ $<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </s
 </section>
 <hr class="docutils" />
 <section id="web">
-<h2>3. Web安全<a class="headerlink" href="#web" title="Link to this heading"></a></h2>
+<h2>3. Web安全<a class="headerlink" href="#web" title="Permalink to this heading"></a></h2>
 <section id="xss">
-<h3>3.1 XSS（跨站脚本攻击）<a class="headerlink" href="#xss" title="Link to this heading"></a></h3>
+<h3>3.1 XSS（跨站脚本攻击）<a class="headerlink" href="#xss" title="Permalink to this heading"></a></h3>
 <p><strong>类型</strong>：</p>
 <ol class="arabic simple">
 <li><p><strong>存储型XSS</strong>：恶意脚本存储在服务器</p></li>
@@ -375,7 +375,7 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </div>
 </section>
 <section id="csrf">
-<h3>3.2 CSRF（跨站请求伪造）<a class="headerlink" href="#csrf" title="Link to this heading"></a></h3>
+<h3>3.2 CSRF（跨站请求伪造）<a class="headerlink" href="#csrf" title="Permalink to this heading"></a></h3>
 <p><strong>攻击示例</strong>：</p>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 受害者访问恶意网站 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;http://bank.com/transfer?to=attacker&amp;amount=1000&quot;</span><span class="p">&gt;</span>
@@ -409,7 +409,7 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </div>
 </section>
 <section id="sql">
-<h3>3.3 SQL注入<a class="headerlink" href="#sql" title="Link to this heading"></a></h3>
+<h3>3.3 SQL注入<a class="headerlink" href="#sql" title="Permalink to this heading"></a></h3>
 <p><strong>攻击示例</strong>：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 危险代码</span>
 <span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
@@ -444,7 +444,7 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </div>
 </section>
 <section id="id9">
-<h3>3.4 命令注入<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.4 命令注入<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p><strong>攻击示例</strong>：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 危险代码</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">)</span>
@@ -474,9 +474,9 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </section>
 <hr class="docutils" />
 <section id="id10">
-<h2>4. 身份认证<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>4. 身份认证<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="session">
-<h3>4.1 Session认证<a class="headerlink" href="#session" title="Link to this heading"></a></h3>
+<h3>4.1 Session认证<a class="headerlink" href="#session" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">request</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -503,7 +503,7 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </div>
 </section>
 <section id="jwt">
-<h3>4.2 JWT认证<a class="headerlink" href="#jwt" title="Link to this heading"></a></h3>
+<h3>4.2 JWT认证<a class="headerlink" href="#jwt" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
@@ -549,7 +549,7 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </div>
 </section>
 <section id="oauth-2-0">
-<h3>4.3 OAuth 2.0<a class="headerlink" href="#oauth-2-0" title="Link to this heading"></a></h3>
+<h3>4.3 OAuth 2.0<a class="headerlink" href="#oauth-2-0" title="Permalink to this heading"></a></h3>
 <p><strong>流程</strong>：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. 客户端 → 授权服务器：请求授权
 2. 用户登录并授权
@@ -562,7 +562,7 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </section>
 <hr class="docutils" />
 <section id="id11">
-<h2>5. 常见安全头部<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>5. 常见安全头部<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Content-Security-Policy (CSP)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Content-Security-Policy&#39;</span><span class="p">]</span> <span class="o">=</span> \
     <span class="s2">&quot;default-src &#39;self&#39;; script-src &#39;self&#39; &#39;unsafe-inline&#39;&quot;</span>
@@ -591,9 +591,9 @@ http://example.com/search?q=<span class="p">&lt;</span><span class="nt">script</
 </section>
 <hr class="docutils" />
 <section id="id12">
-<h2>6. 防火墙和端口管理<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>6. 防火墙和端口管理<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="iptables">
-<h3>6.1 iptables<a class="headerlink" href="#iptables" title="Link to this heading"></a></h3>
+<h3>6.1 iptables<a class="headerlink" href="#iptables" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看规则</span>
 $<span class="w"> </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-L<span class="w"> </span>-n<span class="w"> </span>-v
 
@@ -619,7 +619,7 @@ $<span class="w"> </span>sudo<span class="w"> </span>iptables-save<span class="w
 </div>
 </section>
 <section id="ufw-ubuntu">
-<h3>6.2 ufw（Ubuntu）<a class="headerlink" href="#ufw-ubuntu" title="Link to this heading"></a></h3>
+<h3>6.2 ufw（Ubuntu）<a class="headerlink" href="#ufw-ubuntu" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 启用防火墙</span>
 $<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span><span class="nb">enable</span>
 
@@ -647,9 +647,9 @@ $<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>
 </section>
 <hr class="docutils" />
 <section id="id13">
-<h2>7. 安全扫描工具<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>7. 安全扫描工具<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="nikto-web">
-<h3>7.1 Nikto（Web扫描）<a class="headerlink" href="#nikto-web" title="Link to this heading"></a></h3>
+<h3>7.1 Nikto（Web扫描）<a class="headerlink" href="#nikto-web" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 扫描网站</span>
 $<span class="w"> </span>nikto<span class="w"> </span>-h<span class="w"> </span>https://example.com
 
@@ -662,7 +662,7 @@ $<span class="w"> </span>nikto<span class="w"> </span>-h<span class="w"> </span>
 </div>
 </section>
 <section id="owasp-zap">
-<h3>7.2 OWASP ZAP<a class="headerlink" href="#owasp-zap" title="Link to this heading"></a></h3>
+<h3>7.2 OWASP ZAP<a class="headerlink" href="#owasp-zap" title="Permalink to this heading"></a></h3>
 <p><strong>功能</strong>：Web应用安全扫描</p>
 <p><strong>使用</strong>：</p>
 <ol class="arabic simple">
@@ -673,7 +673,7 @@ $<span class="w"> </span>nikto<span class="w"> </span>-h<span class="w"> </span>
 </ol>
 </section>
 <section id="sqlmap-sql">
-<h3>7.3 SQLMap（SQL注入测试）<a class="headerlink" href="#sqlmap-sql" title="Link to this heading"></a></h3>
+<h3>7.3 SQLMap（SQL注入测试）<a class="headerlink" href="#sqlmap-sql" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 测试URL</span>
 $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://example.com/page?id=1&quot;</span>
 
@@ -694,9 +694,9 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </section>
 <hr class="docutils" />
 <section id="id14">
-<h2>8. 最佳实践<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>8. 最佳实践<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>8.1 密码安全<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>8.1 密码安全<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 使用强哈希算法</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">bcrypt</span>
 <span class="n">hashed</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">hashpw</span><span class="p">(</span><span class="n">password</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">gensalt</span><span class="p">())</span>
@@ -724,7 +724,7 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </div>
 </section>
 <section id="id16">
-<h3>8.2 输入验证<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>8.2 输入验证<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 白名单验证</span>
 <span class="n">ALLOWED_EXTENSIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;txt&#39;</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">}</span>
 <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_EXTENSIONS</span><span class="p">:</span>
@@ -746,7 +746,7 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </div>
 </section>
 <section id="id17">
-<h3>8.3 日志和监控<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>8.3 日志和监控<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="c1"># 配置日志</span>
@@ -773,9 +773,9 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </section>
 <hr class="docutils" />
 <section id="id18">
-<h2>9. 常见问题<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>9. 常见问题<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="q1-https">
-<h3>Q1: HTTPS就一定安全吗？<a class="headerlink" href="#q1-https" title="Link to this heading"></a></h3>
+<h3>Q1: HTTPS就一定安全吗？<a class="headerlink" href="#q1-https" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>HTTPS加密传输，但不保证服务器安全</p></li>
@@ -784,7 +784,7 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </ul>
 </section>
 <section id="q2-jwt-vs-session">
-<h3>Q2: JWT vs Session？<a class="headerlink" href="#q2-jwt-vs-session" title="Link to this heading"></a></h3>
+<h3>Q2: JWT vs Session？<a class="headerlink" href="#q2-jwt-vs-session" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p><strong>JWT</strong>: 无状态、跨域、可扩展</p></li>
@@ -792,7 +792,7 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </ul>
 </section>
 <section id="q3-ddos">
-<h3>Q3: 如何防止DDoS？<a class="headerlink" href="#q3-ddos" title="Link to this heading"></a></h3>
+<h3>Q3: 如何防止DDoS？<a class="headerlink" href="#q3-ddos" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>限流（Rate Limiting）</p></li>
@@ -802,7 +802,7 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </ol>
 </section>
 <section id="q4">
-<h3>Q4: 安全更新频率？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<h3>Q4: 安全更新频率？<a class="headerlink" href="#q4" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>操作系统：每月</p></li>
@@ -813,7 +813,7 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 </section>
 <hr class="docutils" />
 <section id="id19">
-<h2>参考资源<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>OWASP Top 10</p></li>
 <li><p>CWE/SANS Top 25</p></li>
@@ -827,19 +827,19 @@ $<span class="w"> </span>sqlmap<span class="w"> </span>-u<span class="w"> </span
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="网络安全基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="网络安全基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
