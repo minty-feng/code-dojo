@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>06-贪心算法 &mdash; Algorithms Core 1.0.0 文档</title>
+  <title>06-贪心算法 &mdash; Algorithms Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="动态规划基础" href="../07-dynamic-programming-basic/index.html" />
     <link rel="prev" title="贪心算法" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Algorithms Core</a></li>
@@ -87,20 +87,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Algorithms Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">贪心算法</a></li>
       <li class="breadcrumb-item active">06-贪心算法</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/06-greedy/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/06-greedy/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -109,11 +109,11 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>06-贪心算法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>06-贪心算法<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>贪心本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>贪心本质<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：每步选择当前最优，期望全局最优</p></li>
 <li><p><strong>关键</strong>：局部最优 → 全局最优（需要证明）</p></li>
@@ -123,7 +123,7 @@
 </ul>
 </section>
 <section id="vs">
-<h3>贪心 vs 动态规划<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<h3>贪心 vs 动态规划<a class="headerlink" href="#vs" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -156,7 +156,7 @@
 </table>
 </section>
 <section id="id4">
-<h3>贪心策略<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>贪心策略<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p><strong>排序</strong>：按某种规则排序后贪心选择</p></li>
 <li><p><strong>优先队列</strong>：每次选择最优元素</p></li>
@@ -164,7 +164,7 @@
 </ol>
 </section>
 <section id="id5">
-<h3>经典问题<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>经典问题<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>区间调度</strong>：按结束时间排序</p></li>
 <li><p><strong>跳跃游戏</strong>：维护最远距离</p></li>
@@ -174,9 +174,9 @@
 </section>
 </section>
 <section id="id6">
-<h2>🎯 经典贪心问题<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>🎯 经典贪心问题<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>1. 区间调度<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>1. 区间调度<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">interval_scheduling</span><span class="p">(</span><span class="n">intervals</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;最多不重叠区间数&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">intervals</span><span class="p">:</span>
@@ -198,7 +198,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>2. 跳跃游戏<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>2. 跳跃游戏<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">can_jump</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;能否跳到最后&quot;&quot;&quot;</span>
     <span class="n">max_reach</span> <span class="o">=</span> <span class="mi">0</span>
@@ -225,7 +225,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>3. 分配饼干<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3. 分配饼干<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">find_content_children</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;g:孩子胃口 s:饼干大小&quot;&quot;&quot;</span>
     <span class="n">g</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -243,7 +243,7 @@
 </section>
 </section>
 <section id="leetcode">
-<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/non-overlapping-intervals/">435. Non-overlapping Intervals</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/jump-game/">55. Jump Game</a></p></li>
@@ -253,9 +253,9 @@
 </ul>
 </section>
 <section id="id10">
-<h2>💻 完整代码实现<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>💻 完整代码实现<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="python">
-<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<h3>Python 实现<a class="headerlink" href="#python" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">  2</span><span class="sd">贪心算法实现</span>
 <span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
@@ -441,7 +441,7 @@
 </div>
 </section>
 <section id="c">
-<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<h3>C++ 实现<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
 <span class="linenos">  2</span><span class="cm"> * 贪心算法实现</span>
 <span class="linenos">  3</span><span class="cm"> */</span>
@@ -626,20 +626,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="贪心算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../07-dynamic-programming-basic/index.html" class="btn btn-neutral float-right" title="动态规划基础" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="贪心算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../07-dynamic-programming-basic/index.html" class="btn btn-neutral float-right" title="动态规划基础" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02-搜索算法 &mdash; Algorithms Core 1.0.0 文档</title>
+  <title>02-搜索算法 &mdash; Algorithms Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="双指针技巧" href="../03-two-pointers/index.html" />
     <link rel="prev" title="搜索算法" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Algorithms Core</a></li>
@@ -101,20 +101,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Algorithms Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">搜索算法</a></li>
       <li class="breadcrumb-item active">02-搜索算法</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/02-search-algorithms/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/02-search-algorithms/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -123,11 +123,11 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>02-搜索算法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>02-搜索算法<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>二分查找<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>二分查找<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>前提</strong>：有序数组</p></li>
 <li><p><strong>原理</strong>：每次排除一半，O(log n)</p></li>
@@ -137,7 +137,7 @@
 </ul>
 </section>
 <section id="dfs">
-<h3>深度优先搜索（DFS）<a class="headerlink" href="#dfs" title="Link to this heading"></a></h3>
+<h3>深度优先搜索（DFS）<a class="headerlink" href="#dfs" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>策略</strong>：一条路走到底，走不通回退</p></li>
 <li><p><strong>实现</strong>：递归或栈</p></li>
@@ -146,7 +146,7 @@
 </ul>
 </section>
 <section id="bfs">
-<h3>广度优先搜索（BFS）<a class="headerlink" href="#bfs" title="Link to this heading"></a></h3>
+<h3>广度优先搜索（BFS）<a class="headerlink" href="#bfs" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>策略</strong>：逐层搜索，找最短路径</p></li>
 <li><p><strong>实现</strong>：队列</p></li>
@@ -155,7 +155,7 @@
 </ul>
 </section>
 <section id="dfs-vs-bfs">
-<h3>DFS vs BFS<a class="headerlink" href="#dfs-vs-bfs" title="Link to this heading"></a></h3>
+<h3>DFS vs BFS<a class="headerlink" href="#dfs-vs-bfs" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -189,9 +189,9 @@
 </section>
 </section>
 <section id="id4">
-<h2>🔍 二分查找<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h2>🔍 二分查找<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <section id="id5">
-<h3>基本模板<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>基本模板<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">binary_search</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     
@@ -210,7 +210,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>左边界查找<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>左边界查找<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">left_bound</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
     
@@ -226,7 +226,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>右边界查找<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>右边界查找<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">right_bound</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
     
@@ -243,9 +243,9 @@
 </section>
 </section>
 <section id="id8">
-<h2>🌲 DFS深度优先<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>🌲 DFS深度优先<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>递归实现<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>递归实现<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dfs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">visited</span><span class="p">):</span>
     <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
@@ -257,7 +257,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>栈实现<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>栈实现<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dfs_iterative</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
     <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
@@ -276,9 +276,9 @@
 </section>
 </section>
 <section id="id11">
-<h2>🌊 BFS广度优先<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>🌊 BFS广度优先<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>队列实现<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>队列实现<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">bfs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
@@ -297,7 +297,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>分层BFS<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>分层BFS<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bfs_levels</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
     <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">start</span><span class="p">])</span>
     <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="n">start</span><span class="p">])</span>
@@ -322,9 +322,9 @@
 </section>
 </section>
 <section id="leetcode">
-<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>二分查找<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>二分查找<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/binary-search/">704. Binary Search</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/">34. Find First and Last Position</a></p></li>
@@ -333,7 +333,7 @@
 </ul>
 </section>
 <section id="dfs-bfs">
-<h3>DFS/BFS<a class="headerlink" href="#dfs-bfs" title="Link to this heading"></a></h3>
+<h3>DFS/BFS<a class="headerlink" href="#dfs-bfs" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/number-of-islands/">200. Number of Islands</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/course-schedule/">207. Course Schedule</a></p></li>
@@ -343,9 +343,9 @@
 </section>
 </section>
 <section id="id15">
-<h2>💻 完整代码实现<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>💻 完整代码实现<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="python">
-<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<h3>Python 实现<a class="headerlink" href="#python" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">  2</span><span class="sd">二分查找及变种</span>
 <span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
@@ -735,7 +735,7 @@
 </div>
 </section>
 <section id="c">
-<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<h3>C++ 实现<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
 <span class="linenos">  2</span><span class="cm"> * 二分查找及变种实现</span>
 <span class="linenos">  3</span><span class="cm"> */</span>
@@ -1076,20 +1076,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="搜索算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../03-two-pointers/index.html" class="btn btn-neutral float-right" title="双指针技巧" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="搜索算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../03-two-pointers/index.html" class="btn btn-neutral float-right" title="双指针技巧" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

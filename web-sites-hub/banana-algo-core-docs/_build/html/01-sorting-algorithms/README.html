@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>01-排序算法 &mdash; Algorithms Core 1.0.0 文档</title>
+  <title>01-排序算法 &mdash; Algorithms Core 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="搜索算法" href="../02-search-algorithms/index.html" />
     <link rel="prev" title="排序算法" href="index.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Algorithms Core</a></li>
@@ -144,20 +144,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Algorithms Core</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">排序算法</a></li>
       <li class="breadcrumb-item active">01-排序算法</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/01-sorting-algorithms/README.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/01-sorting-algorithms/README.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -166,11 +166,11 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>01-排序算法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>01-排序算法<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>排序算法本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>排序算法本质<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>目标</strong>：将无序数据按某种规则排列成有序</p></li>
 <li><p><strong>关键指标</strong>：时间复杂度、空间复杂度、稳定性</p></li>
@@ -179,7 +179,7 @@
 </ul>
 </section>
 <section id="id4">
-<h3>算法对比（必须记住）<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>算法对比（必须记住）<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>算法</p></th>
@@ -276,7 +276,7 @@
 </table>
 </section>
 <section id="id5">
-<h3>选择建议<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>选择建议<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>通用场景</strong>：快速排序（平均最快）</p></li>
 <li><p><strong>需要稳定</strong>：归并排序</p></li>
@@ -288,7 +288,7 @@
 </ul>
 </section>
 <section id="id6">
-<h3>核心思想<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>核心思想<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>比较排序</strong>：通过比较决定顺序，下界O(n log n)</p></li>
 <li><p><strong>非比较排序</strong>：利用特殊性质，可以O(n)</p></li>
@@ -299,13 +299,13 @@
 </section>
 </section>
 <section id="id7">
-<h2>🔵 冒泡排序<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>🔵 冒泡排序<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>原理<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>原理<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p>重复遍历，比较相邻元素，逆序则交换，每次把最大元素”冒泡”到末尾。</p>
 </section>
 <section id="id9">
-<h3>时间复杂度<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>时间复杂度<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>最好：O(n) - 已有序，一次遍历</p></li>
 <li><p>平均：O(n²)</p></li>
@@ -313,7 +313,7 @@
 </ul>
 </section>
 <section id="id10">
-<h3>优化<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>优化<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>添加flag：一轮没交换则提前结束</p></li>
 <li><p>记录最后交换位置：减少比较次数</p></li>
@@ -321,13 +321,13 @@
 </section>
 </section>
 <section id="id11">
-<h2>🔴 选择排序<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>🔴 选择排序<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>原理<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>原理<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <p>每次从未排序部分选择最小元素，放到已排序部分末尾。</p>
 </section>
 <section id="id13">
-<h3>时间复杂度<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>时间复杂度<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>始终O(n²)，无论数据状态</p></li>
 <li><p>交换次数O(n)，少于冒泡</p></li>
@@ -335,13 +335,13 @@
 </section>
 </section>
 <section id="id14">
-<h2>🟡 插入排序<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>🟡 插入排序<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>原理<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>原理<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p>将元素插入到已排序部分的正确位置。</p>
 </section>
 <section id="id16">
-<h3>时间复杂度<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>时间复杂度<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>最好：O(n) - 已有序</p></li>
 <li><p>平均：O(n²)</p></li>
@@ -350,13 +350,13 @@
 </section>
 </section>
 <section id="id17">
-<h2>🟢 归并排序<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>🟢 归并排序<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>原理<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>原理<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <p>分治策略：分割→递归排序→合并。</p>
 </section>
 <section id="id19">
-<h3>特点<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>特点<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>稳定排序</strong></p></li>
 <li><p><strong>时间稳定</strong>：O(n log n)</p></li>
@@ -365,7 +365,7 @@
 </ul>
 </section>
 <section id="id20">
-<h3>应用<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>应用<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>外部排序</p></li>
 <li><p>求逆序对</p></li>
@@ -374,13 +374,13 @@
 </section>
 </section>
 <section id="id21">
-<h2>🟣 快速排序<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>🟣 快速排序<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>原理<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>原理<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <p>选择pivot，分区使左边&lt;pivot，右边&gt;pivot，递归排序。</p>
 </section>
 <section id="id23">
-<h3>特点<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>特点<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>平均最快</strong>：O(n log n)</p></li>
 <li><p><strong>最坏O(n²)</strong>：已排序数据，需要随机化或三数取中</p></li>
@@ -389,7 +389,7 @@
 </ul>
 </section>
 <section id="id24">
-<h3>优化<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>优化<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>三数取中选pivot</p></li>
 <li><p>小规模用插入排序</p></li>
@@ -398,13 +398,13 @@
 </section>
 </section>
 <section id="id25">
-<h2>🟠 堆排序<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>🟠 堆排序<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <section id="id26">
-<h3>原理<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>原理<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <p>建最大堆，反复取堆顶放到末尾，调整堆。</p>
 </section>
 <section id="id27">
-<h3>特点<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>特点<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>时间稳定</strong>：O(n log n)</p></li>
 <li><p><strong>原地排序</strong>：O(1)额外空间</p></li>
@@ -413,9 +413,9 @@
 </section>
 </section>
 <section id="id28">
-<h2>⚪ 非比较排序<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<h2>⚪ 非比较排序<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
 <section id="id29">
-<h3>计数排序<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<h3>计数排序<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>适用</strong>：整数，范围k不大（k &lt; n log n）</p></li>
 <li><p><strong>时间</strong>：O(n + k)</p></li>
@@ -424,7 +424,7 @@
 </ul>
 </section>
 <section id="id30">
-<h3>桶排序<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>桶排序<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>适用</strong>：数据均匀分布</p></li>
 <li><p><strong>时间</strong>：O(n)（理想情况）</p></li>
@@ -432,7 +432,7 @@
 </ul>
 </section>
 <section id="id31">
-<h3>基数排序<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<h3>基数排序<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>适用</strong>：多关键字排序</p></li>
 <li><p><strong>时间</strong>：O(d(n + k))，d为位数</p></li>
@@ -441,9 +441,9 @@
 </section>
 </section>
 <section id="id32">
-<h2>🎯 经典应用<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<h2>🎯 经典应用<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h2>
 <section id="k">
-<h3>1. 第K大元素<a class="headerlink" href="#k" title="Link to this heading"></a></h3>
+<h3>1. 第K大元素<a class="headerlink" href="#k" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 快速选择：O(n)平均</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">findKthLargest</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">quickSelect</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span>
@@ -455,29 +455,29 @@
 </div>
 </section>
 <section id="id33">
-<h3>2. 数组中的第K个最大元素<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<h3>2. 数组中的第K个最大元素<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h3>
 <p>快速选择 &gt; 堆 &gt; 排序</p>
 </section>
 <section id="id34">
-<h3>3. 合并K个有序链表<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<h3>3. 合并K个有序链表<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h3>
 <p>最小堆：O(n log k)</p>
 </section>
 <section id="id35">
-<h3>4. 求逆序对<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<h3>4. 求逆序对<a class="headerlink" href="#id35" title="Permalink to this heading"></a></h3>
 <p>归并排序：O(n log n)</p>
 </section>
 </section>
 <section id="leetcode">
-<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Permalink to this heading"></a></h2>
 <section id="id36">
-<h3>基础<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<h3>基础<a class="headerlink" href="#id36" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/sort-an-array/">912. Sort an Array</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/sort-colors/">75. Sort Colors</a></p></li>
 </ul>
 </section>
 <section id="id37">
-<h3>应用<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<h3>应用<a class="headerlink" href="#id37" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://leetcode.com/problems/kth-largest-element-in-an-array/">215. Kth Largest Element</a></p></li>
 <li><p><a class="reference external" href="https://leetcode.com/problems/merge-k-sorted-lists/">23. Merge k Sorted Lists</a></p></li>
@@ -487,9 +487,9 @@
 </section>
 </section>
 <section id="id38">
-<h2>💡 面试建议<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
+<h2>💡 面试建议<a class="headerlink" href="#id38" title="Permalink to this heading"></a></h2>
 <section id="id39">
-<h3>必须手写<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<h3>必须手写<a class="headerlink" href="#id39" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>快速排序</p></li>
 <li><p>归并排序</p></li>
@@ -497,7 +497,7 @@
 </ul>
 </section>
 <section id="id40">
-<h3>必须理解<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<h3>必须理解<a class="headerlink" href="#id40" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>时间复杂度分析</p></li>
 <li><p>稳定性的应用</p></li>
@@ -505,7 +505,7 @@
 </ul>
 </section>
 <section id="id41">
-<h3>常见问题<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<h3>常见问题<a class="headerlink" href="#id41" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>为什么快排平均最快？</strong></p>
 <ul>
@@ -526,16 +526,16 @@
 </section>
 </section>
 <section id="id42">
-<h2>🔧 优化技巧<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
+<h2>🔧 优化技巧<a class="headerlink" href="#id42" title="Permalink to this heading"></a></h2>
 <section id="id43">
-<h3>1. 小规模用插入<a class="headerlink" href="#id43" title="Link to this heading"></a></h3>
+<h3>1. 小规模用插入<a class="headerlink" href="#id43" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
     <span class="n">insertion_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="id44">
-<h3>2. 快排优化<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<h3>2. 快排优化<a class="headerlink" href="#id44" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>随机化pivot</p></li>
 <li><p>三数取中</p></li>
@@ -543,7 +543,7 @@
 </ul>
 </section>
 <section id="id45">
-<h3>3. 混合排序<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<h3>3. 混合排序<a class="headerlink" href="#id45" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 归并排序 + 插入排序</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
@@ -554,7 +554,7 @@
 </section>
 </section>
 <section id="id46">
-<h2>🎯 总结<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<h2>🎯 总结<a class="headerlink" href="#id46" title="Permalink to this heading"></a></h2>
 <p>排序是算法基础，务必掌握：</p>
 <ol class="arabic simple">
 <li><p><strong>理解原理</strong>：每种排序的核心思想</p></li>
@@ -565,9 +565,9 @@
 </ol>
 </section>
 <section id="id47">
-<h2>💻 完整代码实现<a class="headerlink" href="#id47" title="Link to this heading"></a></h2>
+<h2>💻 完整代码实现<a class="headerlink" href="#id47" title="Permalink to this heading"></a></h2>
 <section id="python">
-<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<h3>Python 实现<a class="headerlink" href="#python" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos">  2</span><span class="sd">经典排序算法实现</span>
 <span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
@@ -803,7 +803,7 @@
 </div>
 </section>
 <section id="c">
-<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<h3>C++ 实现<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
 <span class="linenos">  2</span><span class="cm"> * 经典排序算法实现</span>
 <span class="linenos">  3</span><span class="cm"> */</span>
@@ -998,20 +998,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="排序算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../02-search-algorithms/index.html" class="btn btn-neutral float-right" title="搜索算法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="排序算法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../02-search-algorithms/index.html" class="btn btn-neutral float-right" title="搜索算法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
