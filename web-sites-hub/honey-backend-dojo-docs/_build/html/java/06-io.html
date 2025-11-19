@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>06-Java IO流 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>06-Java IO流 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Node.js 教程" href="../nodejs/index.html" />
     <link rel="prev" title="05-Java多线程编程" href="05-multithreading.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -92,20 +92,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Java 教程</a></li>
       <li class="breadcrumb-item active">06-Java IO流</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/java/06-io.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/java/06-io.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -114,10 +114,10 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="java-io">
-<h1>06-Java IO流<a class="headerlink" href="#java-io" title="Link to this heading"></a></h1>
+<h1>06-Java IO流<a class="headerlink" href="#java-io" title="Permalink to this heading"></a></h1>
 <p>Java IO体系庞大，分为字节流和字符流，输入流和输出流。NIO提供非阻塞IO，适合高性能场景。</p>
 <section id="io">
-<h2>IO流体系<a class="headerlink" href="#io" title="Link to this heading"></a></h2>
+<h2>IO流体系<a class="headerlink" href="#io" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>字节流（8位）
 ├── InputStream（输入）
 │   ├── FileInputStream
@@ -145,9 +145,9 @@
 </div>
 </section>
 <section id="id1">
-<h2>文件操作<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>文件操作<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>字节流读写<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>字节流读写<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.io.*</span><span class="p">;</span>
 
 <span class="c1">// 写文件</span>
@@ -178,7 +178,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>字符流读写<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>字符流读写<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 写文件</span>
 <span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">FileWriter</span><span class="w"> </span><span class="n">fw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileWriter</span><span class="p">(</span><span class="s">&quot;output.txt&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">fw</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span>
@@ -208,7 +208,7 @@
 </section>
 </section>
 <section id="id4">
-<h2>对象序列化<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h2>对象序列化<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <p>将对象转为字节流，用于持久化或网络传输。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.io.*</span><span class="p">;</span>
 
@@ -251,7 +251,7 @@
 </ul>
 </section>
 <section id="files-java-7">
-<h2>Files类（Java 7+）<a class="headerlink" href="#files-java-7" title="Link to this heading"></a></h2>
+<h2>Files类（Java 7+）<a class="headerlink" href="#files-java-7" title="Permalink to this heading"></a></h2>
 <p>现代文件操作API，简洁高效。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.file.*</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
@@ -305,10 +305,10 @@
 </div>
 </section>
 <section id="nio-new-io">
-<h2>NIO（New IO）<a class="headerlink" href="#nio-new-io" title="Link to this heading"></a></h2>
+<h2>NIO（New IO）<a class="headerlink" href="#nio-new-io" title="Permalink to this heading"></a></h2>
 <p>非阻塞IO，适合高并发场景。</p>
 <section id="bufferchannel">
-<h3>Buffer和Channel<a class="headerlink" href="#bufferchannel" title="Link to this heading"></a></h3>
+<h3>Buffer和Channel<a class="headerlink" href="#bufferchannel" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.*</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.channels.*</span><span class="p">;</span>
 
@@ -341,7 +341,7 @@
 </div>
 </section>
 <section id="selector-io">
-<h3>Selector（IO多路复用）<a class="headerlink" href="#selector-io" title="Link to this heading"></a></h3>
+<h3>Selector（IO多路复用）<a class="headerlink" href="#selector-io" title="Permalink to this heading"></a></h3>
 <p>一个线程管理多个Channel，实现高并发。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.channels.*</span><span class="p">;</span>
 
@@ -385,9 +385,9 @@
 </section>
 </section>
 <section id="id5">
-<h2>资源管理<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>资源管理<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="try-with-resources">
-<h3>try-with-resources（推荐）<a class="headerlink" href="#try-with-resources" title="Link to this heading"></a></h3>
+<h3>try-with-resources（推荐）<a class="headerlink" href="#try-with-resources" title="Permalink to this heading"></a></h3>
 <p>自动关闭实现 <code class="docutils literal notranslate"><span class="pre">AutoCloseable</span></code> 的资源，避免资源泄漏。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Java 7+</span>
 <span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">BufferedReader</span><span class="w"> </span><span class="n">br</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">));</span>
@@ -405,7 +405,7 @@
 </div>
 </section>
 <section id="try-finally">
-<h3>传统try-finally<a class="headerlink" href="#try-finally" title="Link to this heading"></a></h3>
+<h3>传统try-finally<a class="headerlink" href="#try-finally" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">BufferedReader</span><span class="w"> </span><span class="n">br</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
 <span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">br</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">));</span>
@@ -427,7 +427,7 @@
 </section>
 </section>
 <section id="io-vs-nio">
-<h2>IO vs NIO<a class="headerlink" href="#io-vs-nio" title="Link to this heading"></a></h2>
+<h2>IO vs NIO<a class="headerlink" href="#io-vs-nio" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -472,7 +472,7 @@
 </ul>
 </section>
 <section id="id6">
-<h2>最佳实践<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>优先Files类</strong>：Java 7+文件操作首选</p></li>
 <li><p><strong>使用缓冲流</strong>：BufferedReader/Writer性能提升明显</p></li>
@@ -492,20 +492,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="05-multithreading.html" class="btn btn-neutral float-left" title="05-Java多线程编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../nodejs/index.html" class="btn btn-neutral float-right" title="Node.js 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05-multithreading.html" class="btn btn-neutral float-left" title="05-Java多线程编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../nodejs/index.html" class="btn btn-neutral float-right" title="Node.js 教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

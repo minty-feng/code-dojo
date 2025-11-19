@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>07-异常处理 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>07-异常处理 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="08-并发编程基础" href="08-concurrency.html" />
     <link rel="prev" title="06-内存管理" href="06-memory.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -119,20 +119,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">C++ 教程</a></li>
       <li class="breadcrumb-item active">07-异常处理</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/cpp/07-exceptions.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/cpp/07-exceptions.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -141,13 +141,13 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>07-异常处理<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>07-异常处理<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <p>异常处理是C++的错误处理机制，通过 <code class="docutils literal notranslate"><span class="pre">throw</span></code>/<code class="docutils literal notranslate"><span class="pre">catch</span></code> 实现错误传播。比返回错误码更清晰，但有性能开销。</p>
 <section id="id2">
-<h2>异常基础<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>异常基础<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>异常将错误检测和处理分离。<code class="docutils literal notranslate"><span class="pre">throw</span></code> 抛出异常，<code class="docutils literal notranslate"><span class="pre">catch</span></code> 捕获处理。未捕获异常导致程序终止。</p>
 <section id="id3">
-<h3>异常抛出<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>异常抛出<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">throw</span></code> 可抛出任何类型对象，但推荐使用标准异常类或其派生类。异常对象会被复制。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdexcept&gt;</span>
 
@@ -177,7 +177,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>异常捕获<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>异常捕获<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">catch</span></code> 按类型匹配异常，从上到下顺序检查。派生类应在基类前，<code class="docutils literal notranslate"><span class="pre">catch(...)</span></code> 捕获所有异常。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
@@ -192,7 +192,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>异常规范<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>异常规范<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">noexcept</span></code> 声明函数不抛异常，编译器可优化。违反<code class="docutils literal notranslate"><span class="pre">noexcept</span></code>会调用 <code class="docutils literal notranslate"><span class="pre">std::terminate()</span></code>。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// C++11之前的异常规范（已废弃）</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">oldFunction</span><span class="p">()</span><span class="w"> </span><span class="k">throw</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">);</span>
@@ -209,10 +209,10 @@
 </section>
 </section>
 <section id="id6">
-<h2>标准异常类<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>标准异常类<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <p>C++标准库提供异常类层次，所有标准异常继承自 <code class="docutils literal notranslate"><span class="pre">std::exception</span></code>。分为逻辑错误和运行时错误。</p>
 <section id="id7">
-<h3>标准异常层次<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>标准异常层次<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p>标准异常形成树状继承关系，捕获基类可同时捕获所有派生类异常。</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>std::exception
 ├── std::logic_error
@@ -230,7 +230,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>常用异常类型<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>常用异常类型<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p>选择合适的异常类型传达错误信息。逻辑错误表示程序bug，运行时错误表示外部因素导致的失败。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 逻辑错误</span>
 <span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="s">&quot;Invalid parameter&quot;</span><span class="p">);</span>
@@ -251,10 +251,10 @@
 </section>
 </section>
 <section id="raii">
-<h2>RAII与异常安全<a class="headerlink" href="#raii" title="Link to this heading"></a></h2>
+<h2>RAII与异常安全<a class="headerlink" href="#raii" title="Permalink to this heading"></a></h2>
 <p>RAII确保异常发生时资源正确释放。异常安全分三个级别：基本保证、强保证、无异常保证。</p>
 <section id="id9">
-<h3>异常安全保证<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>异常安全保证<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p>异常安全描述函数在异常时的行为保证。级别越高越安全，但实现难度也越大。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Resource</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -289,7 +289,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>智能指针与异常<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>智能指针与异常<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">safeFunction</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -307,9 +307,9 @@
 </section>
 </section>
 <section id="id11">
-<h2>异常处理最佳实践<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>异常处理最佳实践<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>异常安全设计<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>异常安全设计<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SafeContainer</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
@@ -333,7 +333,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>异常传播<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>异常传播<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 让异常自然传播</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">function1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Error in function1&quot;</span><span class="p">);</span>
@@ -366,9 +366,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>异常与构造函数<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>异常与构造函数<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>构造函数中的异常<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>构造函数中的异常<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SafeClass</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ptr1</span><span class="p">;</span>
@@ -389,7 +389,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>异常与析构函数<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>异常与析构函数<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SafeDestructor</span><span class="w"> </span><span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
 <span class="w">    </span><span class="o">~</span><span class="n">SafeDestructor</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
@@ -413,9 +413,9 @@
 </section>
 </section>
 <section id="id17">
-<h2>自定义异常类<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>自定义异常类<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>继承标准异常<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>继承标准异常<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DatabaseException</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">errorCode</span><span class="p">;</span>
@@ -438,7 +438,7 @@
 </div>
 </section>
 <section id="id19">
-<h3>异常链<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>异常链<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ChainedException</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">message</span><span class="p">;</span>
@@ -467,9 +467,9 @@
 </section>
 </section>
 <section id="id20">
-<h2>异常处理模式<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>异常处理模式<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <section id="id21">
-<h3>异常处理装饰器<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>异常处理装饰器<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Func</span><span class="o">&gt;</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">withExceptionHandling</span><span class="p">(</span><span class="n">Func</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="n">func</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Func</span><span class="o">&gt;</span><span class="p">(</span><span class="n">func</span><span class="p">)](</span><span class="k">auto</span><span class="o">&amp;&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -491,7 +491,7 @@
 </div>
 </section>
 <section id="id22">
-<h3>异常安全包装器<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>异常安全包装器<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExceptionSafeWrapper</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -531,9 +531,9 @@
 </section>
 </section>
 <section id="id23">
-<h2>异常处理最佳实践<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<h2>异常处理最佳实践<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h2>
 <section id="id24">
-<h3>何时使用异常<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>何时使用异常<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <p><strong>适合使用异常：</strong></p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ 构造函数失败（无法返回错误码）</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">File</span><span class="w"> </span><span class="p">{</span>
@@ -594,7 +594,7 @@
 </div>
 </section>
 <section id="id25">
-<h3>性能考虑<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>性能考虑<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <p><strong>异常的成本：</strong></p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 无异常路径：几乎零开销（现代编译器）</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">normal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -639,7 +639,7 @@
 </div>
 </section>
 <section id="vs">
-<h3>异常 vs 错误码<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<h3>异常 vs 错误码<a class="headerlink" href="#vs" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -689,20 +689,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="06-memory.html" class="btn btn-neutral float-left" title="06-内存管理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="08-concurrency.html" class="btn btn-neutral float-right" title="08-并发编程基础" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="06-memory.html" class="btn btn-neutral float-left" title="06-内存管理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="08-concurrency.html" class="btn btn-neutral float-right" title="08-并发编程基础" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

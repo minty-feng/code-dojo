@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>01-Rust环境搭建与所有权 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>01-Rust环境搭建与所有权 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="02-Rust基础语法" href="02-basic-syntax.html" />
     <link rel="prev" title="🦀 Rust 开发" href="README.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -149,20 +149,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Rust 教程</a></li>
       <li class="breadcrumb-item active">01-Rust环境搭建与所有权</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/rust/01-environment-ownership.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/rust/01-environment-ownership.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -171,12 +171,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="rust">
-<h1>01-Rust环境搭建与所有权<a class="headerlink" href="#rust" title="Link to this heading"></a></h1>
+<h1>01-Rust环境搭建与所有权<a class="headerlink" href="#rust" title="Permalink to this heading"></a></h1>
 <p>Rust是Mozilla于2010年启动的系统编程语言，2015年发布1.0版本。核心特性：内存安全、零成本抽象、并发安全。</p>
 <section id="id1">
-<h2>Rust简介<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>Rust简介<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>设计目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>设计目标<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>内存安全</strong>：无GC的内存安全，编译期检查</p></li>
 <li><p><strong>并发安全</strong>：消除数据竞争，编译期保证</p></li>
@@ -186,7 +186,7 @@
 </ul>
 </section>
 <section id="id3">
-<h3>应用场景<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>应用场景<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p><strong>系统编程：</strong></p>
 <ul class="simple">
 <li><p>操作系统内核（Redox OS）</p></li>
@@ -216,7 +216,7 @@
 </ul>
 </section>
 <section id="id4">
-<h3>语言特点<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>语言特点<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><strong>优势：</strong></p>
 <ul class="simple">
 <li><p>内存安全（无悬空指针、无数据竞争）</p></li>
@@ -235,9 +235,9 @@
 </section>
 </section>
 <section id="id5">
-<h2>环境安装<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>环境安装<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="rustup">
-<h3>rustup（推荐）<a class="headerlink" href="#rustup" title="Link to this heading"></a></h3>
+<h3>rustup（推荐）<a class="headerlink" href="#rustup" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/macOS</span>
 curl<span class="w"> </span>--proto<span class="w"> </span><span class="s1">&#39;=https&#39;</span><span class="w"> </span>--tlsv1.2<span class="w"> </span>-sSf<span class="w"> </span>https://sh.rustup.rs<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 
@@ -258,7 +258,7 @@ rustup<span class="w"> </span>self<span class="w"> </span>uninstall
 </div>
 </section>
 <section id="id6">
-<h3>工具链管理<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>工具链管理<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看已安装工具链</span>
 rustup<span class="w"> </span>show
 
@@ -289,9 +289,9 @@ rustup<span class="w"> </span>target<span class="w"> </span>add<span class="w"> 
 </section>
 </section>
 <section id="cargo">
-<h2>Cargo包管理<a class="headerlink" href="#cargo" title="Link to this heading"></a></h2>
+<h2>Cargo包管理<a class="headerlink" href="#cargo" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>基本命令<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>基本命令<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 创建项目</span>
 cargo<span class="w"> </span>new<span class="w"> </span>myproject<span class="w">        </span><span class="c1"># 二进制项目</span>
 cargo<span class="w"> </span>new<span class="w"> </span>--lib<span class="w"> </span>mylib<span class="w">      </span><span class="c1"># 库项目</span>
@@ -331,7 +331,7 @@ cargo<span class="w"> </span>publish
 </div>
 </section>
 <section id="cargo-toml">
-<h3>Cargo.toml配置<a class="headerlink" href="#cargo-toml" title="Link to this heading"></a></h3>
+<h3>Cargo.toml配置<a class="headerlink" href="#cargo-toml" title="Permalink to this heading"></a></h3>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[package]</span>
 <span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;myproject&quot;</span>
 <span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span>
@@ -363,9 +363,9 @@ cargo<span class="w"> </span>publish
 </section>
 </section>
 <section id="id8">
-<h2>开发工具<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>开发工具<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="vs-code">
-<h3>VS Code<a class="headerlink" href="#vs-code" title="Link to this heading"></a></h3>
+<h3>VS Code<a class="headerlink" href="#vs-code" title="Permalink to this heading"></a></h3>
 <p><strong>必装插件：</strong></p>
 <ul class="simple">
 <li><p>rust-analyzer（官方推荐，替代rls）</p></li>
@@ -382,7 +382,7 @@ cargo<span class="w"> </span>publish
 </div>
 </section>
 <section id="intellij-idea">
-<h3>IntelliJ IDEA<a class="headerlink" href="#intellij-idea" title="Link to this heading"></a></h3>
+<h3>IntelliJ IDEA<a class="headerlink" href="#intellij-idea" title="Permalink to this heading"></a></h3>
 <p><strong>插件：</strong></p>
 <ul class="simple">
 <li><p>IntelliJ Rust（JetBrains官方）</p></li>
@@ -397,9 +397,9 @@ cargo<span class="w"> </span>publish
 </section>
 </section>
 <section id="hello-world">
-<h2>Hello World<a class="headerlink" href="#hello-world" title="Link to this heading"></a></h2>
+<h2>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>基本程序<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>基本程序<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// main.rs</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span>
@@ -418,7 +418,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id10">
-<h3>项目结构<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>项目结构<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>myproject/
 ├── Cargo.toml          # 项目配置
 ├── Cargo.lock          # 依赖锁定（自动生成）
@@ -441,10 +441,10 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id11">
-<h2>所有权系统<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>所有权系统<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <p>Rust核心特性，编译期保证内存安全，无需GC。</p>
 <section id="id12">
-<h3>三条规则<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>三条规则<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p><strong>每个值都有一个所有者（owner）</strong></p></li>
 <li><p><strong>同时只能有一个所有者</strong></p></li>
@@ -452,7 +452,7 @@ cargo<span class="w"> </span>run
 </ol>
 </section>
 <section id="move">
-<h3>移动（Move）<a class="headerlink" href="#move" title="Link to this heading"></a></h3>
+<h3>移动（Move）<a class="headerlink" href="#move" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// String是堆分配，所有权会转移</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span><span class="w">  </span><span class="c1">// s1的所有权移动到s2</span>
@@ -467,7 +467,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="clone">
-<h3>克隆（Clone）<a class="headerlink" href="#clone" title="Link to this heading"></a></h3>
+<h3>克隆（Clone）<a class="headerlink" href="#clone" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 深拷贝</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w">  </span><span class="c1">// 显式克隆</span>
@@ -477,7 +477,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="copy-trait">
-<h3>Copy trait<a class="headerlink" href="#copy-trait" title="Link to this heading"></a></h3>
+<h3>Copy trait<a class="headerlink" href="#copy-trait" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 实现Copy的类型：整数、浮点、布尔、字符、元组（元素都是Copy）</span>
 <span class="c1">// 不能实现Copy的类型：String、Vec、Box等堆分配</span>
 
@@ -492,7 +492,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id13">
-<h3>函数和所有权<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>函数和所有权<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="w">    </span>
@@ -515,7 +515,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id14">
-<h3>返回值和所有权<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>返回值和所有权<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gives_ownership</span><span class="p">();</span><span class="w">  </span><span class="c1">// 所有权转移给s1</span>
 <span class="w">    </span>
@@ -539,10 +539,10 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id15">
-<h2>引用和借用<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>引用和借用<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <p>不获取所有权，只借用。</p>
 <section id="id16">
-<h3>不可变引用<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>不可变引用<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="w">    </span>
@@ -558,7 +558,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id17">
-<h3>可变引用<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>可变引用<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="w">    </span>
@@ -574,7 +574,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id18">
-<h3>借用规则<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>借用规则<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <p><strong>核心规则：</strong></p>
 <ol class="arabic simple">
 <li><p><strong>同一时间，要么一个可变引用，要么任意数量不可变引用</strong></p></li>
@@ -619,10 +619,10 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="slice">
-<h2>切片（Slice）<a class="headerlink" href="#slice" title="Link to this heading"></a></h2>
+<h2>切片（Slice）<a class="headerlink" href="#slice" title="Permalink to this heading"></a></h2>
 <p>引用集合的一部分。</p>
 <section id="id19">
-<h3>字符串切片<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>字符串切片<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
 
 <span class="kd">let</span><span class="w"> </span><span class="n">hello</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">5</span><span class="p">];</span><span class="w">   </span><span class="c1">// &quot;hello&quot;</span>
@@ -658,7 +658,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id20">
-<h3>数组切片<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>数组切片<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">slice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">3</span><span class="p">];</span><span class="w">  </span><span class="c1">// &amp;[i32]类型</span>
 
@@ -668,9 +668,9 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id21">
-<h2>所有权模式总结<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>所有权模式总结<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>何时使用<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>何时使用<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>场景</p></th>
@@ -699,7 +699,7 @@ cargo<span class="w"> </span>run
 </table>
 </section>
 <section id="id23">
-<h3>常见错误<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>常见错误<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 错误1：使用已移动的值</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span>
@@ -740,9 +740,9 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id24">
-<h2>所有权的优势<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>所有权的优势<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <section id="id25">
-<h3>内存安全<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>内存安全<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// C++可能的内存问题</span>
 <span class="c1">// ❌ 悬空指针</span>
 <span class="n">int</span><span class="o">*</span><span class="w"> </span><span class="n">ptr</span><span class="p">;</span>
@@ -765,7 +765,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id26">
-<h3>并发安全<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>并发安全<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">thread</span><span class="p">;</span>
 
 <span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -798,9 +798,9 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id27">
-<h2>性能<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<h2>性能<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h2>
 <section id="id28">
-<h3>零成本抽象<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<h3>零成本抽象<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
 <p>所有权和借用在编译期检查，运行时无开销。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 高级抽象</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">i32</span><span class="p">])</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">{</span>
@@ -816,7 +816,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="c">
-<h3>与C++对比<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<h3>与C++对比<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -850,9 +850,9 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id29">
-<h2>最佳实践<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h2>
 <section id="id30">
-<h3>1. 优先借用<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>1. 优先借用<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 不必要的所有权转移</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
@@ -866,7 +866,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id31">
-<h3>2. 返回值优于可变引用<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<h3>2. 返回值优于可变引用<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 不够清晰</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">suffix</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">push_str</span><span class="p">(</span><span class="n">suffix</span><span class="p">);</span>
@@ -881,7 +881,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id32">
-<h3>3. 使用方法链<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<h3>3. 使用方法链<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 清晰的所有权转移</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="n">to_uppercase</span><span class="p">()</span>
@@ -890,7 +890,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id33">
-<h3>4. 避免克隆<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<h3>4. 避免克隆<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 不必要的克隆</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
@@ -905,9 +905,9 @@ cargo<span class="w"> </span>run
 </section>
 </section>
 <section id="id34">
-<h2>所有权高级应用<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
+<h2>所有权高级应用<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h2>
 <section id="id35">
-<h3>零拷贝字符串处理<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<h3>零拷贝字符串处理<a class="headerlink" href="#id35" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 多次拷贝</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">process_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">trimmed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">to_string</span><span class="p">();</span><span class="w">  </span><span class="c1">// 拷贝1</span>
@@ -930,7 +930,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id36">
-<h3>借用检查器工作原理<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<h3>借用检查器工作原理<a class="headerlink" href="#id36" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 编译器分析示例</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">example</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
@@ -962,7 +962,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id37">
-<h3>所有权与集合<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<h3>所有权与集合<a class="headerlink" href="#id37" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// Vec所有权</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span>
 <span class="w">    </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">),</span>
@@ -1004,7 +1004,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id38">
-<h3>内存布局对比<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
+<h3>内存布局对比<a class="headerlink" href="#id38" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 栈分配（Copy类型）</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">     </span><span class="c1">// 栈：4字节</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">          </span><span class="c1">// 复制4字节</span>
@@ -1028,7 +1028,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="cow">
-<h3>Cow（写时克隆）<a class="headerlink" href="#cow" title="Link to this heading"></a></h3>
+<h3>Cow（写时克隆）<a class="headerlink" href="#cow" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">borrow</span><span class="p">::</span><span class="n">Cow</span><span class="p">;</span>
 
 <span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Cow</span><span class="o">&lt;</span><span class="kt">str</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -1050,7 +1050,7 @@ cargo<span class="w"> </span>run
 </div>
 </section>
 <section id="id39">
-<h3>所有权转移模式<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<h3>所有权转移模式<a class="headerlink" href="#id39" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 构建器模式（消耗self）</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Config</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">host</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
@@ -1107,20 +1107,20 @@ cargo<span class="w"> </span>run
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="README.html" class="btn btn-neutral float-left" title="🦀 Rust 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Rust基础语法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="🦀 Rust 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Rust基础语法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

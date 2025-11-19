@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-Java集合框架 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>04-Java集合框架 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="05-Java多线程编程" href="05-multithreading.html" />
     <link rel="prev" title="03-Java面向对象" href="03-oop.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -113,20 +113,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Java 教程</a></li>
       <li class="breadcrumb-item active">04-Java集合框架</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/java/04-collections.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/java/04-collections.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -135,10 +135,10 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="java">
-<h1>04-Java集合框架<a class="headerlink" href="#java" title="Link to this heading"></a></h1>
+<h1>04-Java集合框架<a class="headerlink" href="#java" title="Permalink to this heading"></a></h1>
 <p>Java集合框架（JCF）提供数据结构实现，是标准库的核心。掌握集合选择和使用是高效编程的基础。</p>
 <section id="id1">
-<h2>集合框架结构<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>集合框架结构<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Collection
 ├── List（有序，可重复）
 │   ├── ArrayList
@@ -163,9 +163,9 @@ Map（键值对）
 </div>
 </section>
 <section id="list">
-<h2>List接口<a class="headerlink" href="#list" title="Link to this heading"></a></h2>
+<h2>List接口<a class="headerlink" href="#list" title="Permalink to this heading"></a></h2>
 <section id="arraylist">
-<h3>ArrayList<a class="headerlink" href="#arraylist" title="Link to this heading"></a></h3>
+<h3>ArrayList<a class="headerlink" href="#arraylist" title="Permalink to this heading"></a></h3>
 <p>基于动态数组，随机访问快，插入删除慢。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
 
@@ -212,7 +212,7 @@ Map（键值对）
 </ul>
 </section>
 <section id="linkedlist">
-<h3>LinkedList<a class="headerlink" href="#linkedlist" title="Link to this heading"></a></h3>
+<h3>LinkedList<a class="headerlink" href="#linkedlist" title="Permalink to this heading"></a></h3>
 <p>基于双向链表，插入删除快，随机访问慢。同时实现List和Deque。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.LinkedList</span><span class="p">;</span>
 
@@ -244,14 +244,14 @@ Map（键值对）
 </ul>
 </section>
 <section id="vector">
-<h3>Vector<a class="headerlink" href="#vector" title="Link to this heading"></a></h3>
+<h3>Vector<a class="headerlink" href="#vector" title="Permalink to this heading"></a></h3>
 <p>同步的ArrayList，线程安全但性能低，已过时。推荐用 <code class="docutils literal notranslate"><span class="pre">Collections.synchronizedList()</span></code> 或 <code class="docutils literal notranslate"><span class="pre">CopyOnWriteArrayList</span></code>。</p>
 </section>
 </section>
 <section id="set">
-<h2>Set接口<a class="headerlink" href="#set" title="Link to this heading"></a></h2>
+<h2>Set接口<a class="headerlink" href="#set" title="Permalink to this heading"></a></h2>
 <section id="hashset">
-<h3>HashSet<a class="headerlink" href="#hashset" title="Link to this heading"></a></h3>
+<h3>HashSet<a class="headerlink" href="#hashset" title="Permalink to this heading"></a></h3>
 <p>基于HashMap实现，无序不重复，查找O(1)。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashSet</span><span class="p">;</span>
 
@@ -278,7 +278,7 @@ Map（键值对）
 </div>
 </section>
 <section id="linkedhashset">
-<h3>LinkedHashSet<a class="headerlink" href="#linkedhashset" title="Link to this heading"></a></h3>
+<h3>LinkedHashSet<a class="headerlink" href="#linkedhashset" title="Permalink to this heading"></a></h3>
 <p>基于LinkedHashMap，维护插入顺序。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">LinkedHashSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
 <span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">);</span>
@@ -289,7 +289,7 @@ Map（键值对）
 </div>
 </section>
 <section id="treeset">
-<h3>TreeSet<a class="headerlink" href="#treeset" title="Link to this heading"></a></h3>
+<h3>TreeSet<a class="headerlink" href="#treeset" title="Permalink to this heading"></a></h3>
 <p>基于红黑树，元素自动排序。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.TreeSet</span><span class="p">;</span>
 
@@ -313,9 +313,9 @@ Map（键值对）
 </section>
 </section>
 <section id="map">
-<h2>Map接口<a class="headerlink" href="#map" title="Link to this heading"></a></h2>
+<h2>Map接口<a class="headerlink" href="#map" title="Permalink to this heading"></a></h2>
 <section id="hashmap">
-<h3>HashMap<a class="headerlink" href="#hashmap" title="Link to this heading"></a></h3>
+<h3>HashMap<a class="headerlink" href="#hashmap" title="Permalink to this heading"></a></h3>
 <p>基于哈希表，无序，查找O(1)，最常用的Map。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashMap</span><span class="p">;</span>
 
@@ -363,7 +363,7 @@ Map（键值对）
 </div>
 </section>
 <section id="linkedhashmap">
-<h3>LinkedHashMap<a class="headerlink" href="#linkedhashmap" title="Link to this heading"></a></h3>
+<h3>LinkedHashMap<a class="headerlink" href="#linkedhashmap" title="Permalink to this heading"></a></h3>
 <p>维护插入顺序或访问顺序，可实现LRU缓存。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 插入顺序</span>
 <span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
@@ -389,7 +389,7 @@ Map（键值对）
 </div>
 </section>
 <section id="treemap">
-<h3>TreeMap<a class="headerlink" href="#treemap" title="Link to this heading"></a></h3>
+<h3>TreeMap<a class="headerlink" href="#treemap" title="Permalink to this heading"></a></h3>
 <p>基于红黑树，键自动排序。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.TreeMap</span><span class="p">;</span>
 
@@ -411,7 +411,7 @@ Map（键值对）
 </div>
 </section>
 <section id="concurrenthashmap">
-<h3>ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Link to this heading"></a></h3>
+<h3>ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Permalink to this heading"></a></h3>
 <p>线程安全的HashMap，使用分段锁，性能优于Hashtable。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
 
@@ -426,9 +426,9 @@ Map（键值对）
 </section>
 </section>
 <section id="queuedeque">
-<h2>Queue和Deque<a class="headerlink" href="#queuedeque" title="Link to this heading"></a></h2>
+<h2>Queue和Deque<a class="headerlink" href="#queuedeque" title="Permalink to this heading"></a></h2>
 <section id="queue">
-<h3>Queue（队列）<a class="headerlink" href="#queue" title="Link to this heading"></a></h3>
+<h3>Queue（队列）<a class="headerlink" href="#queue" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Queue</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.LinkedList</span><span class="p">;</span>
 
@@ -453,7 +453,7 @@ Map（键值对）
 </div>
 </section>
 <section id="priorityqueue">
-<h3>PriorityQueue（优先队列）<a class="headerlink" href="#priorityqueue" title="Link to this heading"></a></h3>
+<h3>PriorityQueue（优先队列）<a class="headerlink" href="#priorityqueue" title="Permalink to this heading"></a></h3>
 <p>基于堆实现，默认小顶堆。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.PriorityQueue</span><span class="p">;</span>
 
@@ -479,7 +479,7 @@ Map（键值对）
 </div>
 </section>
 <section id="deque">
-<h3>Deque（双端队列）<a class="headerlink" href="#deque" title="Link to this heading"></a></h3>
+<h3>Deque（双端队列）<a class="headerlink" href="#deque" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Deque</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayDeque</span><span class="p">;</span>
 
@@ -505,7 +505,7 @@ Map（键值对）
 </section>
 </section>
 <section id="collections">
-<h2>Collections工具类<a class="headerlink" href="#collections" title="Link to this heading"></a></h2>
+<h2>Collections工具类<a class="headerlink" href="#collections" title="Permalink to this heading"></a></h2>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Collections</span><span class="p">;</span>
 
 <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
@@ -541,9 +541,9 @@ Map（键值对）
 </div>
 </section>
 <section id="id2">
-<h2>集合选择指南<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>集合选择指南<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>时间复杂度对比<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>时间复杂度对比<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>操作</p></th>
@@ -594,7 +594,7 @@ Map（键值对）
 **已有迭代器</p>
 </section>
 <section id="id4">
-<h3>选择决策<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>选择决策<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>需要键值对？
 ├─ 是 → 需要排序？
 │  ├─ 是 → TreeMap
@@ -613,7 +613,7 @@ Map（键值对）
 </div>
 </section>
 <section id="id5">
-<h3>场景匹配<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>场景匹配<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <p><strong>ArrayList：</strong></p>
 <ul class="simple">
 <li><p>默认List实现</p></li>
@@ -651,7 +651,7 @@ Map（键值对）
 </section>
 </section>
 <section id="id6">
-<h2>集合常见陷阱<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>集合常见陷阱<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. 遍历时修改集合</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
 
@@ -694,7 +694,7 @@ Map（键值对）
 </div>
 </section>
 <section id="id7">
-<h2>集合性能优化<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>集合性能优化<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. 预分配容量</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span><span class="w">  </span><span class="c1">// 避免扩容</span>
 
@@ -719,9 +719,9 @@ Map（键值对）
 </div>
 </section>
 <section id="id8">
-<h2>比较器<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>比较器<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="comparable">
-<h3>Comparable接口<a class="headerlink" href="#comparable" title="Link to this heading"></a></h3>
+<h3>Comparable接口<a class="headerlink" href="#comparable" title="Permalink to this heading"></a></h3>
 <p>对象自然排序。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
@@ -739,7 +739,7 @@ Map（键值对）
 </div>
 </section>
 <section id="comparator">
-<h3>Comparator接口<a class="headerlink" href="#comparator" title="Link to this heading"></a></h3>
+<h3>Comparator接口<a class="headerlink" href="#comparator" title="Permalink to this heading"></a></h3>
 <p>自定义排序规则。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 匿名类</span>
 <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -769,7 +769,7 @@ Map（键值对）
 </section>
 </section>
 <section id="id9">
-<h2>最佳实践<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>优先接口类型声明</strong>：<code class="docutils literal notranslate"><span class="pre">List&lt;String&gt;</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">ArrayList&lt;&gt;();</span></code></p></li>
 <li><p><strong>预分配容量</strong>：已知大小时避免扩容</p></li>
@@ -789,20 +789,20 @@ Map（键值对）
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-oop.html" class="btn btn-neutral float-left" title="03-Java面向对象" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="05-multithreading.html" class="btn btn-neutral float-right" title="05-Java多线程编程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-oop.html" class="btn btn-neutral float-left" title="03-Java面向对象" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05-multithreading.html" class="btn btn-neutral float-right" title="05-Java多线程编程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

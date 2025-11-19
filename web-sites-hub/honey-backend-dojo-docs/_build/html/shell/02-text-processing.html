@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02-文本处理三剑客：grep、sed、awk &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>02-文本处理三剑客：grep、sed、awk &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="03-Shell实用脚本" href="03-scripts.html" />
     <link rel="prev" title="01-Shell基础" href="01-basics.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -112,20 +112,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Shell 教程</a></li>
       <li class="breadcrumb-item active">02-文本处理三剑客：grep、sed、awk</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/shell/02-text-processing.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/shell/02-text-processing.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -134,13 +134,13 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="grepsedawk">
-<h1>02-文本处理三剑客：grep、sed、awk<a class="headerlink" href="#grepsedawk" title="Link to this heading"></a></h1>
+<h1>02-文本处理三剑客：grep、sed、awk<a class="headerlink" href="#grepsedawk" title="Permalink to this heading"></a></h1>
 <p>Linux文本处理三剑客：grep查找、sed编辑、awk分析。掌握这三个工具可解决90%的文本处理需求。</p>
 <section id="grep">
-<h2>grep - 文本搜索<a class="headerlink" href="#grep" title="Link to this heading"></a></h2>
+<h2>grep - 文本搜索<a class="headerlink" href="#grep" title="Permalink to this heading"></a></h2>
 <p>grep（Global Regular Expression Print）用于搜索文本，支持正则表达式。</p>
 <section id="id1">
-<h3>基本用法<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本搜索</span>
 grep<span class="w"> </span><span class="s2">&quot;pattern&quot;</span><span class="w"> </span>file.txt
 
@@ -176,7 +176,7 @@ grep<span class="w"> </span>-w<span class="w"> </span><span class="s2">&quot;wor
 </div>
 </section>
 <section id="id2">
-<h3>正则表达式<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>正则表达式<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本正则表达式（BRE）</span>
 grep<span class="w"> </span><span class="s2">&quot;^start&quot;</span><span class="w"> </span>file.txt<span class="w">     </span><span class="c1"># 行首</span>
 grep<span class="w"> </span><span class="s2">&quot;end</span>$<span class="s2">&quot;</span><span class="w"> </span>file.txt<span class="w">       </span><span class="c1"># 行尾</span>
@@ -206,7 +206,7 @@ grep<span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;(?&
 </div>
 </section>
 <section id="id3">
-<h3>实战案例<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>实战案例<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查找IP地址</span>
 grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;\b([0-9]{1,3}\.){3}[0-9]{1,3}\b&quot;</span><span class="w"> </span>file.txt
 
@@ -241,7 +241,7 @@ grep<span class="w"> </span>--color<span class="o">=</span>auto<span class="w"> 
 </div>
 </section>
 <section id="id4">
-<h3>grep变体<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>grep变体<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># egrep = grep -E（扩展正则）</span>
 egrep<span class="w"> </span><span class="s2">&quot;a+&quot;</span><span class="w"> </span>file.txt
 
@@ -255,10 +255,10 @@ zgrep<span class="w"> </span><span class="s2">&quot;pattern&quot;</span><span cl
 </section>
 </section>
 <section id="sed">
-<h2>sed - 流编辑器<a class="headerlink" href="#sed" title="Link to this heading"></a></h2>
+<h2>sed - 流编辑器<a class="headerlink" href="#sed" title="Permalink to this heading"></a></h2>
 <p>sed（Stream Editor）逐行处理文本，支持查找、替换、删除、插入。</p>
 <section id="id5">
-<h3>基本语法<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>基本语法<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sed<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="s1">&#39;command&#39;</span><span class="w"> </span>file
 
 <span class="c1"># -n：静默模式（只打印处理的行）</span>
@@ -269,7 +269,7 @@ zgrep<span class="w"> </span><span class="s2">&quot;pattern&quot;</span><span cl
 </div>
 </section>
 <section id="s">
-<h3>替换（s命令）<a class="headerlink" href="#s" title="Link to this heading"></a></h3>
+<h3>替换（s命令）<a class="headerlink" href="#s" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本替换（只替换每行第一个）</span>
 sed<span class="w"> </span><span class="s1">&#39;s/old/new/&#39;</span><span class="w"> </span>file.txt
 
@@ -310,7 +310,7 @@ sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/([a
 </div>
 </section>
 <section id="d">
-<h3>删除（d命令）<a class="headerlink" href="#d" title="Link to this heading"></a></h3>
+<h3>删除（d命令）<a class="headerlink" href="#d" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 删除特定行</span>
 sed<span class="w"> </span><span class="s1">&#39;3d&#39;</span><span class="w"> </span>file.txt<span class="w">           </span><span class="c1"># 第3行</span>
 sed<span class="w"> </span><span class="s1">&#39;2,5d&#39;</span><span class="w"> </span>file.txt<span class="w">         </span><span class="c1"># 2-5行</span>
@@ -332,7 +332,7 @@ sed<span class="w"> </span><span class="s1">&#39;/^$/d; /^#/d&#39;</span><span c
 </div>
 </section>
 <section id="id6">
-<h3>插入和追加<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>插入和追加<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># a：在后面追加</span>
 sed<span class="w"> </span><span class="s1">&#39;2a\new line&#39;</span><span class="w"> </span>file.txt<span class="w">        </span><span class="c1"># 第2行后</span>
 sed<span class="w"> </span><span class="s1">&#39;/pattern/a\new line&#39;</span><span class="w"> </span>file.txt<span class="w">  </span><span class="c1"># 匹配行后</span>
@@ -348,7 +348,7 @@ sed<span class="w"> </span><span class="s1">&#39;/pattern/c\new line&#39;</span>
 </div>
 </section>
 <section id="p">
-<h3>打印（p命令）<a class="headerlink" href="#p" title="Link to this heading"></a></h3>
+<h3>打印（p命令）<a class="headerlink" href="#p" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 打印特定行（-n静默模式）</span>
 sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;3p&#39;</span><span class="w"> </span>file.txt<span class="w">          </span><span class="c1"># 第3行</span>
 sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;2,5p&#39;</span><span class="w"> </span>file.txt<span class="w">        </span><span class="c1"># 2-5行</span>
@@ -361,7 +361,7 @@ sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;/patt
 </div>
 </section>
 <section id="id7">
-<h3>多命令和分支<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>多命令和分支<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># -e 多命令</span>
 sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/old/new/g&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/pattern/d&#39;</span><span class="w"> </span>file.txt
 
@@ -378,7 +378,7 @@ sed<span class="w"> </span>-f<span class="w"> </span>script.sed<span class="w"> 
 </div>
 </section>
 <section id="id8">
-<h3>实战案例<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>实战案例<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 配置文件修改</span>
 sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/^#Port 22/Port 2222/&#39;</span><span class="w"> </span>/etc/ssh/sshd_config
 
@@ -414,7 +414,7 @@ sed<span class="w"> </span><span class="s1">&#39;s/&amp;/\&amp;amp;/g; s/&lt;/\&
 </div>
 </section>
 <section id="id9">
-<h3>sed高级技巧<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>sed高级技巧<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 保持空间（h、H、g、G、x）</span>
 <span class="c1"># h：复制模式空间到保持空间</span>
 <span class="c1"># g：复制保持空间到模式空间</span>
@@ -433,10 +433,10 @@ sed<span class="w"> </span><span class="s1">&#39;N;s/\n/ /&#39;</span><span clas
 </section>
 </section>
 <section id="awk">
-<h2>awk - 文本分析<a class="headerlink" href="#awk" title="Link to this heading"></a></h2>
+<h2>awk - 文本分析<a class="headerlink" href="#awk" title="Permalink to this heading"></a></h2>
 <p>awk是强大的文本分析工具，支持变量、数组、函数，类似小型编程语言。</p>
 <section id="id10">
-<h3>基本语法<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>基本语法<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>awk<span class="w"> </span><span class="s1">&#39;pattern {action}&#39;</span><span class="w"> </span>file
 
 <span class="c1"># 内置变量</span>
@@ -454,7 +454,7 @@ FILENAME<span class="w"> </span><span class="c1"># 当前文件名</span>
 </div>
 </section>
 <section id="id11">
-<h3>基本用法<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 打印整行</span>
 awk<span class="w"> </span><span class="s1">&#39;{print}&#39;</span><span class="w"> </span>file.txt
 awk<span class="w"> </span><span class="s1">&#39;{print $0}&#39;</span><span class="w"> </span>file.txt
@@ -486,7 +486,7 @@ awk<span class="w"> </span><span class="s1">&#39;NR&gt;=2 &amp;&amp; NR&lt;=5&#3
 </div>
 </section>
 <section id="id12">
-<h3>模式匹配<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>模式匹配<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 正则匹配</span>
 awk<span class="w"> </span><span class="s1">&#39;/^[0-9]/&#39;</span><span class="w"> </span>file.txt<span class="w">          </span><span class="c1"># 数字开头</span>
 awk<span class="w"> </span><span class="s1">&#39;/error/i&#39;</span><span class="w"> </span>file.txt<span class="w">          </span><span class="c1"># 忽略大小写</span>
@@ -504,7 +504,7 @@ awk<span class="w"> </span><span class="s1">&#39;$1 == &quot;Alice&quot; || $1 =
 </div>
 </section>
 <section id="beginend">
-<h3>BEGIN和END<a class="headerlink" href="#beginend" title="Link to this heading"></a></h3>
+<h3>BEGIN和END<a class="headerlink" href="#beginend" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN：处理前执行</span>
 awk<span class="w"> </span><span class="s1">&#39;BEGIN {print &quot;Name\tAge&quot;} {print}&#39;</span><span class="w"> </span>file.txt
 
@@ -517,7 +517,7 @@ awk<span class="w"> </span><span class="s1">&#39;BEGIN {print &quot;Start&quot;}
 </div>
 </section>
 <section id="id13">
-<h3>运算和变量<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>运算和变量<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 算术运算</span>
 awk<span class="w"> </span><span class="s1">&#39;{print $1 + $2}&#39;</span><span class="w"> </span>file.txt
 awk<span class="w"> </span><span class="s1">&#39;{print $1 * 2}&#39;</span><span class="w"> </span>file.txt
@@ -537,7 +537,7 @@ awk<span class="w"> </span><span class="s1">&#39;{sum += $1; sumsq += $1*$1}</sp
 </div>
 </section>
 <section id="id14">
-<h3>格式化输出<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>格式化输出<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># printf</span>
 awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%s\t%d\n&quot;, $1, $2}&#39;</span><span class="w"> </span>file.txt
 awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%-10s %5d\n&quot;, $1, $2}&#39;</span><span class="w"> </span>file.txt<span class="w">  </span><span class="c1"># 左对齐、右对齐</span>
@@ -546,7 +546,7 @@ awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%.2f\n&quot;, $1}
 </div>
 </section>
 <section id="id15">
-<h3>条件和循环<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>条件和循环<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># if语句</span>
 awk<span class="w"> </span><span class="s1">&#39;{if ($3 &gt; 100) print $1}&#39;</span><span class="w"> </span>file.txt
 awk<span class="w"> </span><span class="s1">&#39;{if ($1 == &quot;Alice&quot;) print $0; else print &quot;Not Alice&quot;}&#39;</span><span class="w"> </span>file.txt
@@ -560,7 +560,7 @@ awk<span class="w"> </span><span class="s1">&#39;{i=1; while (i&lt;=NF) {print $
 </div>
 </section>
 <section id="id16">
-<h3>函数<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>函数<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 字符串函数</span>
 length<span class="o">(</span><span class="nv">$1</span><span class="o">)</span><span class="w">           </span><span class="c1"># 长度</span>
 substr<span class="o">(</span><span class="nv">$1</span>,<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="m">3</span><span class="o">)</span><span class="w">     </span><span class="c1"># 截取（从1开始，长度3）</span>
@@ -584,7 +584,7 @@ awk<span class="w"> </span><span class="s1">&#39;{print length($1)}&#39;</span><
 </div>
 </section>
 <section id="id17">
-<h3>实战案例<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>实战案例<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 统计文件大小</span>
 ls<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{sum += $5} END {print &quot;Total:&quot;, sum/1024/1024, &quot;MB&quot;}&#39;</span>
 
@@ -641,7 +641,7 @@ awk<span class="w"> </span><span class="s1">&#39;BEGIN {printf &quot;%-10s %-10s
 </div>
 </section>
 <section id="id18">
-<h3>awk脚本文件<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>awk脚本文件<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># script.awk</span>
 BEGIN<span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="nv">FS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;,&quot;</span>
@@ -668,9 +668,9 @@ awk<span class="w"> </span>-f<span class="w"> </span>script.awk<span class="w"> 
 </section>
 </section>
 <section id="id19">
-<h2>三剑客组合使用<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>三剑客组合使用<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="id20">
-<h3>管道组合<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>管道组合<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 统计错误日志</span>
 grep<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span>app.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
 
@@ -701,7 +701,7 @@ cat<span class="w"> </span>data.txt<span class="w"> </span><span class="p">|</sp
 </div>
 </section>
 <section id="id21">
-<h3>实战脚本<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>实战脚本<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1"># 分析Nginx访问日志</span>
 
@@ -730,7 +730,7 @@ awk<span class="w"> </span><span class="s1">&#39;{print substr($4, 14, 2)}&#39;<
 </section>
 </section>
 <section id="id22">
-<h2>性能对比<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>性能对比<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>任务</p></th>
@@ -775,9 +775,9 @@ awk<span class="w"> </span><span class="s1">&#39;{print substr($4, 14, 2)}&#39;<
 </table>
 </section>
 <section id="id23">
-<h2>最佳实践<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h2>
 <section id="id24">
-<h3>选择工具<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>选择工具<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 仅搜索：grep</span>
 grep<span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="w"> </span>app.log
 
@@ -793,7 +793,7 @@ awk<span class="w"> </span>-f<span class="w"> </span>complex.awk<span class="w">
 </div>
 </section>
 <section id="id25">
-<h3>性能优化<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>性能优化<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># grep: 使用固定字符串（-F）</span>
 grep<span class="w"> </span>-F<span class="w"> </span><span class="s2">&quot;literal string&quot;</span><span class="w"> </span>file.txt<span class="w">  </span><span class="c1"># 比正则快</span>
 
@@ -809,7 +809,7 @@ awk<span class="w"> </span><span class="s1">&#39;/pattern/ {print $1}&#39;</span
 </div>
 </section>
 <section id="id26">
-<h3>可读性<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>可读性<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 复杂命令分行</span>
 grep<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span>app.log<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{print $1, $5}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
@@ -834,20 +834,20 @@ awk<span class="w"> </span><span class="s1">&#39;</span>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="01-basics.html" class="btn btn-neutral float-left" title="01-Shell基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="03-scripts.html" class="btn btn-neutral float-right" title="03-Shell实用脚本" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01-basics.html" class="btn btn-neutral float-left" title="01-Shell基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03-scripts.html" class="btn btn-neutral float-right" title="03-Shell实用脚本" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

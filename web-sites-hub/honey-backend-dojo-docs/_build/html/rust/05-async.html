@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>05-异步编程 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>05-异步编程 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="06-Rust疑难解析" href="06-troubleshooting.html" />
     <link rel="prev" title="04-并发与智能指针" href="04-concurrency-pointers.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -127,20 +127,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Rust 教程</a></li>
       <li class="breadcrumb-item active">05-异步编程</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/rust/05-async.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/rust/05-async.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -149,12 +149,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>05-异步编程<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>05-异步编程<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <p>Rust异步编程通过async/await提供零成本异步抽象，Tokio是最流行的异步运行时。</p>
 <section id="id2">
-<h2>异步基础<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>异步基础<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="async-await">
-<h3>async/await<a class="headerlink" href="#async-await" title="Link to this heading"></a></h3>
+<h3>async/await<a class="headerlink" href="#async-await" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 异步函数</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">hello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
@@ -176,7 +176,7 @@
 </div>
 </section>
 <section id="future-trait">
-<h3>Future trait<a class="headerlink" href="#future-trait" title="Link to this heading"></a></h3>
+<h3>Future trait<a class="headerlink" href="#future-trait" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">future</span><span class="p">::</span><span class="n">Future</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">pin</span><span class="p">::</span><span class="n">Pin</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">task</span><span class="p">::{</span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="n">Poll</span><span class="p">};</span>
@@ -196,9 +196,9 @@
 </section>
 </section>
 <section id="tokio">
-<h2>Tokio运行时<a class="headerlink" href="#tokio" title="Link to this heading"></a></h2>
+<h2>Tokio运行时<a class="headerlink" href="#tokio" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>安装配置<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>安装配置<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargo.toml</span>
 <span class="k">[dependencies]</span>
 <span class="n">tokio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
@@ -206,7 +206,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>基本使用<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>基本使用<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">time</span><span class="p">::{</span><span class="n">sleep</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">};</span>
 
 <span class="cp">#[tokio::main]</span>
@@ -236,9 +236,9 @@
 </section>
 </section>
 <section id="id5">
-<h2>异步任务<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>异步任务<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="id6">
-<h3>创建任务<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>创建任务<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">task</span><span class="p">;</span>
 
 <span class="cp">#[tokio::main]</span>
@@ -269,7 +269,7 @@
 </div>
 </section>
 <section id="joinselect">
-<h3>join和select<a class="headerlink" href="#joinselect" title="Link to this heading"></a></h3>
+<h3>join和select<a class="headerlink" href="#joinselect" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">join</span><span class="p">;</span>
 
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">task1</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">u32</span><span class="w"> </span><span class="p">{</span>
@@ -313,9 +313,9 @@
 </section>
 </section>
 <section id="i-o">
-<h2>异步I/O<a class="headerlink" href="#i-o" title="Link to this heading"></a></h2>
+<h2>异步I/O<a class="headerlink" href="#i-o" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>文件I/O<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>文件I/O<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">fs</span><span class="p">::</span><span class="n">File</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">io</span><span class="p">::{</span><span class="n">AsyncReadExt</span><span class="p">,</span><span class="w"> </span><span class="n">AsyncWriteExt</span><span class="p">};</span>
 
@@ -347,7 +347,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>网络I/O<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>网络I/O<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">net</span><span class="p">::{</span><span class="n">TcpListener</span><span class="p">,</span><span class="w"> </span><span class="n">TcpStream</span><span class="p">};</span>
 <span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">io</span><span class="p">::{</span><span class="n">AsyncReadExt</span><span class="p">,</span><span class="w"> </span><span class="n">AsyncWriteExt</span><span class="p">};</span>
 
@@ -405,9 +405,9 @@
 </section>
 </section>
 <section id="id9">
-<h2>异步通道<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<h2>异步通道<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
 <section id="mpsc">
-<h3>mpsc<a class="headerlink" href="#mpsc" title="Link to this heading"></a></h3>
+<h3>mpsc<a class="headerlink" href="#mpsc" title="Permalink to this heading"></a></h3>
 <p>多生产者单消费者。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">;</span>
 
@@ -432,7 +432,7 @@
 </div>
 </section>
 <section id="oneshot">
-<h3>oneshot<a class="headerlink" href="#oneshot" title="Link to this heading"></a></h3>
+<h3>oneshot<a class="headerlink" href="#oneshot" title="Permalink to this heading"></a></h3>
 <p>单次通信。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">oneshot</span><span class="p">;</span>
 
@@ -455,7 +455,7 @@
 </div>
 </section>
 <section id="broadcast">
-<h3>broadcast<a class="headerlink" href="#broadcast" title="Link to this heading"></a></h3>
+<h3>broadcast<a class="headerlink" href="#broadcast" title="Permalink to this heading"></a></h3>
 <p>广播。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">broadcast</span><span class="p">;</span>
 
@@ -482,9 +482,9 @@
 </section>
 </section>
 <section id="id10">
-<h2>异步同步原语<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>异步同步原语<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="mutex">
-<h3>Mutex<a class="headerlink" href="#mutex" title="Link to this heading"></a></h3>
+<h3>Mutex<a class="headerlink" href="#mutex" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">Mutex</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">Arc</span><span class="p">;</span>
 
@@ -511,7 +511,7 @@
 </div>
 </section>
 <section id="rwlock">
-<h3>RwLock<a class="headerlink" href="#rwlock" title="Link to this heading"></a></h3>
+<h3>RwLock<a class="headerlink" href="#rwlock" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">RwLock</span><span class="p">;</span>
 
 <span class="cp">#[tokio::main]</span>
@@ -535,7 +535,7 @@
 </div>
 </section>
 <section id="semaphore">
-<h3>Semaphore<a class="headerlink" href="#semaphore" title="Link to this heading"></a></h3>
+<h3>Semaphore<a class="headerlink" href="#semaphore" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">Semaphore</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">Arc</span><span class="p">;</span>
 
@@ -563,7 +563,7 @@
 </section>
 </section>
 <section id="stream">
-<h2>Stream<a class="headerlink" href="#stream" title="Link to this heading"></a></h2>
+<h2>Stream<a class="headerlink" href="#stream" title="Permalink to this heading"></a></h2>
 <p>异步迭代器。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio_stream</span><span class="p">::{</span><span class="bp">self</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="n">StreamExt</span><span class="p">};</span>
 
@@ -615,7 +615,7 @@
 </div>
 </section>
 <section id="http-axum">
-<h2>HTTP服务器（Axum）<a class="headerlink" href="#http-axum" title="Link to this heading"></a></h2>
+<h2>HTTP服务器（Axum）<a class="headerlink" href="#http-axum" title="Permalink to this heading"></a></h2>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">axum</span><span class="p">::{</span>
 <span class="w">    </span><span class="n">routing</span><span class="p">::{</span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="n">post</span><span class="p">},</span>
 <span class="w">    </span><span class="n">http</span><span class="p">::</span><span class="n">StatusCode</span><span class="p">,</span>
@@ -665,7 +665,7 @@
 </div>
 </section>
 <section id="id11">
-<h2>异步与同步对比<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>异步与同步对比<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -698,9 +698,9 @@
 </table>
 </section>
 <section id="id12">
-<h2>性能优化<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>性能优化<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="id13">
-<h3>减少分配<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>减少分配<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 每次分配</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
@@ -714,7 +714,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>批量操作<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>批量操作<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 逐个发送</span>
 <span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">tx</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">item</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
@@ -726,7 +726,7 @@
 </div>
 </section>
 <section id="id15">
-<h3>使用缓冲<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>使用缓冲<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 无缓冲channel</span>
 <span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="n">rx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mpsc</span><span class="p">::</span><span class="n">channel</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
@@ -737,9 +737,9 @@
 </section>
 </section>
 <section id="id16">
-<h2>常见陷阱<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>常见陷阱<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <section id="id17">
-<h3>阻塞运行时<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>阻塞运行时<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 错误：阻塞异步运行时</span>
 <span class="cp">#[tokio::main]</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -763,7 +763,7 @@
 </div>
 </section>
 <section id="await">
-<h3>忘记await<a class="headerlink" href="#await" title="Link to this heading"></a></h3>
+<h3>忘记await<a class="headerlink" href="#await" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 错误：忘记await</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">do_something</span><span class="p">();</span><span class="w">  </span><span class="c1">// Future未执行！</span>
@@ -777,7 +777,7 @@
 </div>
 </section>
 <section id="future">
-<h3>无限Future<a class="headerlink" href="#future" title="Link to this heading"></a></h3>
+<h3>无限Future<a class="headerlink" href="#future" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 错误：无限递归</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">infinite</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">infinite</span><span class="p">().</span><span class="k">await</span><span class="p">;</span><span class="w">  </span><span class="c1">// 栈溢出</span>
@@ -794,9 +794,9 @@
 </section>
 </section>
 <section id="id18">
-<h2>最佳实践<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>选择运行时<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>选择运行时<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ I/O密集：Tokio</span>
 <span class="cp">#[tokio::main]</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -817,7 +817,7 @@
 </div>
 </section>
 <section id="id20">
-<h3>错误处理<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>错误处理<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 使用Result</span>
 <span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">fetch</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">reqwest</span><span class="p">::</span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reqwest</span><span class="p">::</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;https://example.com&quot;</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
@@ -837,7 +837,7 @@
 </div>
 </section>
 <section id="id21">
-<h3>超时和取消<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>超时和取消<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">time</span><span class="p">::{</span><span class="n">timeout</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">};</span>
 
 <span class="c1">// 超时</span>
@@ -856,7 +856,7 @@
 </div>
 </section>
 <section id="id22">
-<h3>资源清理<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>资源清理<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 使用Drop</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Connection</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
@@ -877,7 +877,7 @@
 </section>
 </section>
 <section id="pinunpin">
-<h2>Pin和Unpin<a class="headerlink" href="#pinunpin" title="Link to this heading"></a></h2>
+<h2>Pin和Unpin<a class="headerlink" href="#pinunpin" title="Permalink to this heading"></a></h2>
 <p>异步函数内部状态不能移动。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">pin</span><span class="p">::</span><span class="n">Pin</span><span class="p">;</span>
 
@@ -905,20 +905,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="04-concurrency-pointers.html" class="btn btn-neutral float-left" title="04-并发与智能指针" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="06-troubleshooting.html" class="btn btn-neutral float-right" title="06-Rust疑难解析" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="04-concurrency-pointers.html" class="btn btn-neutral float-left" title="04-并发与智能指针" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="06-troubleshooting.html" class="btn btn-neutral float-right" title="06-Rust疑难解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

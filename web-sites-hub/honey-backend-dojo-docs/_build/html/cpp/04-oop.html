@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-面向对象编程基础 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>04-面向对象编程基础 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="05-STL标准模板库" href="05-stl.html" />
     <link rel="prev" title="03-位运算详解" href="03-bitwise.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -122,20 +122,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">C++ 教程</a></li>
       <li class="breadcrumb-item active">04-面向对象编程基础</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/cpp/04-oop.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/cpp/04-oop.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -144,13 +144,13 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>04-面向对象编程基础<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>04-面向对象编程基础<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <p>面向对象编程（OOP）是C++的核心特性，通过封装、继承、多态三大特性构建复杂系统。</p>
 <section id="id2">
-<h2>类和对象<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>类和对象<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>类是对象的模板，对象是类的实例。类定义了数据（成员变量）和操作（成员函数）。</p>
 <section id="id3">
-<h3>类定义<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>类定义<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p>类使用 <code class="docutils literal notranslate"><span class="pre">class</span></code> 关键字定义，默认成员为私有。良好的类设计遵循封装原则。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -178,7 +178,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>对象创建和使用<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>对象创建和使用<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Person</span><span class="w"> </span><span class="n">p1</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span><span class="w">          </span><span class="c1">// 栈上创建</span>
 <span class="n">Person</span><span class="o">*</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w"> </span><span class="c1">// 堆上创建</span>
 <span class="n">p1</span><span class="p">.</span><span class="n">display</span><span class="p">();</span><span class="w">                    </span><span class="c1">// 调用成员函数</span>
@@ -187,7 +187,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>访问控制<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>访问控制<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>public</strong>：公开访问</p></li>
 <li><p><strong>private</strong>：私有访问（默认）</p></li>
@@ -196,10 +196,10 @@
 </section>
 </section>
 <section id="id6">
-<h2>构造函数和析构函数<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>构造函数和析构函数<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <p>构造函数负责对象初始化，析构函数负责资源清理。它们是RAII模式的基础。</p>
 <section id="id7">
-<h3>构造函数<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>构造函数<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <p>构造函数与类同名，无返回值。支持重载、默认参数、初始化列表等特性。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -226,7 +226,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>析构函数<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>析构函数<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Resource</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
@@ -243,7 +243,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>初始化列表<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>初始化列表<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
@@ -260,10 +260,10 @@
 </section>
 </section>
 <section id="id10">
-<h2>继承<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>继承<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <p>继承实现代码复用和类层次结构。派生类继承基类的属性和方法，可扩展或重写功能。</p>
 <section id="id11">
-<h3>单继承<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>单继承<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <p>单继承指一个类只继承一个基类。使用 <code class="docutils literal notranslate"><span class="pre">public</span></code>、<code class="docutils literal notranslate"><span class="pre">protected</span></code> 或 <code class="docutils literal notranslate"><span class="pre">private</span></code> 指定继承方式。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基类</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
@@ -291,7 +291,7 @@
 </div>
 </section>
 <section id="id12">
-<h3>访问修饰符<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>访问修饰符<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>public继承</strong>：保持原有访问级别</p></li>
 <li><p><strong>protected继承</strong>：public变为protected</p></li>
@@ -299,7 +299,7 @@
 </ul>
 </section>
 <section id="id13">
-<h3>多重继承<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>多重继承<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Flyable</span><span class="w"> </span><span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">fly</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -325,10 +325,10 @@
 </section>
 </section>
 <section id="id14">
-<h2>多态<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>多态<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <p>多态允许通过基类指针调用派生类方法，实现运行时决策。是面向对象三大特性之一。</p>
 <section id="id15">
-<h3>虚函数<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>虚函数<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p>虚函数通过 <code class="docutils literal notranslate"><span class="pre">virtual</span></code> 关键字声明，支持运行时动态绑定。派生类用 <code class="docutils literal notranslate"><span class="pre">override</span></code> 明确重写意图。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -358,7 +358,7 @@
 </div>
 </section>
 <section id="id16">
-<h3>虚函数表<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>虚函数表<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>vtable</strong>：存储虚函数地址的表</p></li>
 <li><p><strong>vptr</strong>：指向虚函数表的指针</p></li>
@@ -366,7 +366,7 @@
 </ul>
 </section>
 <section id="id17">
-<h3>抽象类<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>抽象类<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AbstractShape</span><span class="w"> </span><span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">area</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// 纯虚函数</span>
@@ -383,9 +383,9 @@
 </section>
 </section>
 <section id="id18">
-<h2>封装<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>封装<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>数据封装<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>数据封装<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BankAccount</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">balance</span><span class="p">;</span>
@@ -418,7 +418,7 @@
 </div>
 </section>
 <section id="id20">
-<h3>友元函数和友元类<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>友元函数和友元类<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">;</span>
@@ -441,9 +441,9 @@
 </section>
 </section>
 <section id="id21">
-<h2>运算符重载<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>运算符重载<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>基本运算符重载<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>基本运算符重载<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Vector</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
@@ -475,7 +475,7 @@
 </div>
 </section>
 <section id="id23">
-<h3>特殊运算符<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>特殊运算符<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
@@ -501,9 +501,9 @@
 </section>
 </section>
 <section id="id24">
-<h2>静态成员<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>静态成员<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <section id="id25">
-<h3>静态数据成员<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>静态数据成员<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w">  </span><span class="c1">// 静态数据成员</span>
@@ -522,7 +522,7 @@
 </div>
 </section>
 <section id="id26">
-<h3>静态成员函数<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>静态成员函数<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>属于类而不是对象</p></li>
 <li><p>不能访问非静态成员</p></li>
@@ -532,9 +532,9 @@
 </section>
 </section>
 <section id="id27">
-<h2>三法则/五法则/零法则<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<h2>三法则/五法则/零法则<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h2>
 <section id="rule-of-three">
-<h3>三法则（Rule of Three）<a class="headerlink" href="#rule-of-three" title="Link to this heading"></a></h3>
+<h3>三法则（Rule of Three）<a class="headerlink" href="#rule-of-three" title="Permalink to this heading"></a></h3>
 <p>如果类需要自定义析构函数、拷贝构造或拷贝赋值中的任何一个，通常需要同时定义全部三个。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Resource</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -562,7 +562,7 @@
 </div>
 </section>
 <section id="rule-of-five-c-11">
-<h3>五法则（Rule of Five）- C++11<a class="headerlink" href="#rule-of-five-c-11" title="Link to this heading"></a></h3>
+<h3>五法则（Rule of Five）- C++11<a class="headerlink" href="#rule-of-five-c-11" title="Permalink to this heading"></a></h3>
 <p>C++11引入移动语义，需额外定义移动构造和移动赋值。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Resource</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -601,7 +601,7 @@
 </div>
 </section>
 <section id="rule-of-zero">
-<h3>零法则（Rule of Zero）- 推荐<a class="headerlink" href="#rule-of-zero" title="Link to this heading"></a></h3>
+<h3>零法则（Rule of Zero）- 推荐<a class="headerlink" href="#rule-of-zero" title="Permalink to this heading"></a></h3>
 <p>使用智能指针和RAII类，让编译器自动生成所有特殊成员函数。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ 推荐：零法则</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">GoodResource</span><span class="w"> </span><span class="p">{</span>
@@ -621,20 +621,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-bitwise.html" class="btn btn-neutral float-left" title="03-位运算详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="05-stl.html" class="btn btn-neutral float-right" title="05-STL标准模板库" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-bitwise.html" class="btn btn-neutral float-left" title="03-位运算详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05-stl.html" class="btn btn-neutral float-right" title="05-STL标准模板库" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

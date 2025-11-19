@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>06-Go性能优化 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>06-Go性能优化 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Rust 教程" href="../rust/index.html" />
     <link rel="prev" title="05-Go微服务实践" href="05-microservices.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -133,20 +133,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Golang 教程</a></li>
       <li class="breadcrumb-item active">06-Go性能优化</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/go/06-performance.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/go/06-performance.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -155,12 +155,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="go">
-<h1>06-Go性能优化<a class="headerlink" href="#go" title="Link to this heading"></a></h1>
+<h1>06-Go性能优化<a class="headerlink" href="#go" title="Permalink to this heading"></a></h1>
 <p>Go性能已很优秀，但仍有优化空间。理解runtime、内存分配、并发模型是优化关键。</p>
 <section id="id1">
-<h2>性能分析工具<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>性能分析工具<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="pprof">
-<h3>pprof<a class="headerlink" href="#pprof" title="Link to this heading"></a></h3>
+<h3>pprof<a class="headerlink" href="#pprof" title="Permalink to this heading"></a></h3>
 <p>CPU和内存分析，定位瓶颈。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="s">&quot;net/http&quot;</span>
@@ -201,7 +201,7 @@ go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </sp
 </div>
 </section>
 <section id="benchmark">
-<h3>Benchmark<a class="headerlink" href="#benchmark" title="Link to this heading"></a></h3>
+<h3>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkAdd</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">Add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
@@ -241,7 +241,7 @@ benchcmp<span class="w"> </span>old.txt<span class="w"> </span>new.txt
 </div>
 </section>
 <section id="trace">
-<h3>trace<a class="headerlink" href="#trace" title="Link to this heading"></a></h3>
+<h3>trace<a class="headerlink" href="#trace" title="Permalink to this heading"></a></h3>
 <p>分析goroutine调度、GC、系统调用。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="s">&quot;runtime/trace&quot;</span>
 
@@ -267,9 +267,9 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </section>
 </section>
 <section id="id2">
-<h2>内存优化<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>内存优化<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>减少内存分配<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>减少内存分配<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 每次都分配</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">processItems</span><span class="p">(</span><span class="nx">items</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{}</span><span class="w">  </span><span class="c1">// 零长度slice</span>
@@ -298,7 +298,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="id4">
-<h3>字符串拼接<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>字符串拼接<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ +拼接（每次都创建新字符串）</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">concat</span><span class="p">(</span><span class="nx">strs</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
@@ -333,7 +333,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="sync-pool">
-<h3>对象池（sync.Pool）<a class="headerlink" href="#sync-pool" title="Link to this heading"></a></h3>
+<h3>对象池（sync.Pool）<a class="headerlink" href="#sync-pool" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">bufferPool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Pool</span><span class="p">{</span>
 <span class="w">    </span><span class="nx">New</span><span class="p">:</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="kd">interface</span><span class="p">{}</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
@@ -354,7 +354,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="id5">
-<h3>避免逃逸到堆<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>避免逃逸到堆<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 逃逸到堆</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">createUser</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">u</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">User</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="nx">name</span><span class="p">}</span><span class="w">  </span><span class="c1">// 逃逸</span>
@@ -373,9 +373,9 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </section>
 </section>
 <section id="id6">
-<h2>并发优化<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>并发优化<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="goroutine">
-<h3>goroutine池<a class="headerlink" href="#goroutine" title="Link to this heading"></a></h3>
+<h3>goroutine池<a class="headerlink" href="#goroutine" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 无限制创建</span>
 <span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="nx">process</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="w">  </span><span class="c1">// 创建1万个goroutine</span>
@@ -403,7 +403,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="id7">
-<h3>减少锁竞争<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>减少锁竞争<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 粗粒度锁</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">Counter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">mu</span><span class="w">    </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
@@ -443,7 +443,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="channel-vs-mutex">
-<h3>channel vs mutex<a class="headerlink" href="#channel-vs-mutex" title="Link to this heading"></a></h3>
+<h3>channel vs mutex<a class="headerlink" href="#channel-vs-mutex" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Benchmark对比</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkMutex</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">mu</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
@@ -481,9 +481,9 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </section>
 </section>
 <section id="cpu">
-<h2>CPU优化<a class="headerlink" href="#cpu" title="Link to this heading"></a></h2>
+<h2>CPU优化<a class="headerlink" href="#cpu" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>避免不必要的反射<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>避免不必要的反射<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 反射（慢10-100倍）</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">sumReflect</span><span class="p">(</span><span class="nx">slice</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">reflect</span><span class="p">.</span><span class="nx">ValueOf</span><span class="p">(</span><span class="nx">slice</span><span class="p">)</span>
@@ -506,7 +506,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="id9">
-<h3>内联优化<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>内联优化<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小函数自动内联</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span>
@@ -524,7 +524,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="id10">
-<h3>循环优化<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>循环优化<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 重复计算</span>
 <span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">);</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// len(slice)每次都调用</span>
@@ -545,9 +545,9 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </section>
 </section>
 <section id="i-o">
-<h2>I/O优化<a class="headerlink" href="#i-o" title="Link to this heading"></a></h2>
+<h2>I/O优化<a class="headerlink" href="#i-o" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>缓冲I/O<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>缓冲I/O<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 无缓冲</span>
 <span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">)</span>
 <span class="nx">scanner</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewScanner</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
@@ -564,7 +564,7 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </div>
 </section>
 <section id="id12">
-<h3>批量操作<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>批量操作<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 逐条插入</span>
 <span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;INSERT INTO table VALUES (?)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">)</span>
@@ -582,9 +582,9 @@ go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </sp
 </section>
 </section>
 <section id="id13">
-<h2>编译优化<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>编译优化<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>编译选项<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>编译选项<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 默认优化</span>
 go<span class="w"> </span>build
 
@@ -605,7 +605,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="id15">
-<h3>代码生成<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>代码生成<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">//go:generate stringer -type=Status</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">Status</span><span class="w"> </span><span class="kt">int</span>
 
@@ -622,9 +622,9 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </section>
 </section>
 <section id="gc">
-<h2>GC优化<a class="headerlink" href="#gc" title="Link to this heading"></a></h2>
+<h2>GC优化<a class="headerlink" href="#gc" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>减少GC压力<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>减少GC压力<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 频繁分配小对象</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
@@ -651,7 +651,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="id17">
-<h3>调整GC参数<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>调整GC参数<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="s">&quot;runtime/debug&quot;</span>
 
 <span class="c1">// 设置GC百分比（默认100）</span>
@@ -671,9 +671,9 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </section>
 </section>
 <section id="json">
-<h2>JSON优化<a class="headerlink" href="#json" title="Link to this heading"></a></h2>
+<h2>JSON优化<a class="headerlink" href="#json" title="Permalink to this heading"></a></h2>
 <section id="vs">
-<h3>标准库 vs 第三方<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<h3>标准库 vs 第三方<a class="headerlink" href="#vs" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 标准库encoding/json</span>
 <span class="kn">import</span><span class="w"> </span><span class="s">&quot;encoding/json&quot;</span>
 
@@ -695,7 +695,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="id18">
-<h3>流式解析<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>流式解析<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 一次性读取大JSON</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="nx">LargeData</span>
 <span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">largeJSON</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">data</span><span class="p">)</span>
@@ -714,9 +714,9 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </section>
 </section>
 <section id="id19">
-<h2>数据库优化<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>数据库优化<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="id20">
-<h3>连接池<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>连接池<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sql</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;mysql&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">dsn</span><span class="p">)</span>
 
 <span class="c1">// 配置连接池</span>
@@ -728,7 +728,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="id21">
-<h3>预编译语句<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>预编译语句<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 每次都Prepare</span>
 <span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">users</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;INSERT INTO users (name) VALUES (?)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
@@ -746,9 +746,9 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </section>
 </section>
 <section id="id22">
-<h2>网络优化<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>网络优化<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <section id="http">
-<h3>HTTP连接池<a class="headerlink" href="#http" title="Link to this heading"></a></h3>
+<h3>HTTP连接池<a class="headerlink" href="#http" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Timeout</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
 <span class="w">    </span><span class="nx">Transport</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Transport</span><span class="p">{</span>
@@ -763,7 +763,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="grpc">
-<h3>gRPC连接复用<a class="headerlink" href="#grpc" title="Link to this heading"></a></h3>
+<h3>gRPC连接复用<a class="headerlink" href="#grpc" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 复用连接</span>
 <span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">WithInsecure</span><span class="p">())</span>
 <span class="k">defer</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
@@ -779,9 +779,9 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </section>
 </section>
 <section id="id23">
-<h2>实战案例<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<h2>实战案例<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h2>
 <section id="id24">
-<h3>优化前<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>优化前<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="nx">processUsers</span><span class="p">(</span><span class="nx">userIDs</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">users</span><span class="w"> </span><span class="p">[]</span><span class="nx">User</span>
 <span class="w">    </span>
@@ -798,7 +798,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="id25">
-<h3>优化后<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>优化后<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="nx">processUsers</span><span class="p">(</span><span class="nx">userIDs</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// 1. 批量查询</span>
 <span class="w">    </span><span class="nx">placeholders</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Repeat</span><span class="p">(</span><span class="s">&quot;?,&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">userIDs</span><span class="p">))</span>
@@ -834,7 +834,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </section>
 </section>
 <section id="id26">
-<h2>性能清单<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<h2>性能清单<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h2>
 <p><strong>内存：</strong></p>
 <ul class="contains-task-list simple">
 <li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 预分配slice容量</p></li>
@@ -877,20 +877,20 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="05-microservices.html" class="btn btn-neutral float-left" title="05-Go微服务实践" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../rust/index.html" class="btn btn-neutral float-right" title="Rust 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05-microservices.html" class="btn btn-neutral float-left" title="05-Go微服务实践" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../rust/index.html" class="btn btn-neutral float-right" title="Rust 教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

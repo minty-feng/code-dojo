@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-并发与智能指针 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>04-并发与智能指针 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="05-异步编程" href="05-async.html" />
     <link rel="prev" title="03-错误处理、泛型与Trait" href="03-error-trait.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -109,20 +109,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Rust 教程</a></li>
       <li class="breadcrumb-item active">04-并发与智能指针</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/rust/04-concurrency-pointers.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/rust/04-concurrency-pointers.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -131,13 +131,13 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>04-并发与智能指针<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>04-并发与智能指针<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <p>Rust通过所有权系统实现无数据竞争的并发，智能指针提供灵活内存管理。</p>
 <section id="id2">
-<h2>智能指针<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>智能指针<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>智能指针是实现了<code class="docutils literal notranslate"><span class="pre">Deref</span></code>和<code class="docutils literal notranslate"><span class="pre">Drop</span></code> trait的数据结构，拥有所指数据。</p>
 <section id="box">
-<h3>Box<T><a class="headerlink" href="#box" title="Link to this heading"></a></h3>
+<h3>Box<T><a class="headerlink" href="#box" title="Permalink to this heading"></a></h3>
 <p>堆分配，最简单的智能指针。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基本使用</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Box</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
@@ -166,7 +166,7 @@
 </div>
 </section>
 <section id="deref-trait">
-<h3>Deref trait<a class="headerlink" href="#deref-trait" title="Link to this heading"></a></h3>
+<h3>Deref trait<a class="headerlink" href="#deref-trait" title="Permalink to this heading"></a></h3>
 <p>解引用强制转换。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">ops</span><span class="p">::</span><span class="n">Deref</span><span class="p">;</span>
 
@@ -203,7 +203,7 @@
 </div>
 </section>
 <section id="drop-trait">
-<h3>Drop trait<a class="headerlink" href="#drop-trait" title="Link to this heading"></a></h3>
+<h3>Drop trait<a class="headerlink" href="#drop-trait" title="Permalink to this heading"></a></h3>
 <p>自动清理资源。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">CustomSmartPointer</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
@@ -234,7 +234,7 @@
 </div>
 </section>
 <section id="rc">
-<h3>Rc<T><a class="headerlink" href="#rc" title="Link to this heading"></a></h3>
+<h3>Rc<T><a class="headerlink" href="#rc" title="Permalink to this heading"></a></h3>
 <p>引用计数，单线程多所有者。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">rc</span><span class="p">::</span><span class="n">Rc</span><span class="p">;</span>
 
@@ -264,7 +264,7 @@
 </div>
 </section>
 <section id="refcell">
-<h3>RefCell<T><a class="headerlink" href="#refcell" title="Link to this heading"></a></h3>
+<h3>RefCell<T><a class="headerlink" href="#refcell" title="Permalink to this heading"></a></h3>
 <p>内部可变性，运行时借用检查。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">cell</span><span class="p">::</span><span class="n">RefCell</span><span class="p">;</span>
 
@@ -281,7 +281,7 @@
 </div>
 </section>
 <section id="rc-refcell">
-<h3>Rc&lt;RefCell<T>&gt;<a class="headerlink" href="#rc-refcell" title="Link to this heading"></a></h3>
+<h3>Rc&lt;RefCell<T>&gt;<a class="headerlink" href="#rc-refcell" title="Permalink to this heading"></a></h3>
 <p>多所有者+可变性。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">cell</span><span class="p">::</span><span class="n">RefCell</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">rc</span><span class="p">::</span><span class="n">Rc</span><span class="p">;</span>
@@ -309,7 +309,7 @@
 </div>
 </section>
 <section id="weak">
-<h3>循环引用和Weak<T><a class="headerlink" href="#weak" title="Link to this heading"></a></h3>
+<h3>循环引用和Weak<T><a class="headerlink" href="#weak" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">cell</span><span class="p">::</span><span class="n">RefCell</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">rc</span><span class="p">::{</span><span class="n">Rc</span><span class="p">,</span><span class="w"> </span><span class="n">Weak</span><span class="p">};</span>
 
@@ -360,9 +360,9 @@
 </section>
 </section>
 <section id="id3">
-<h2>并发<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>并发<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>线程<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>线程<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">thread</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">time</span><span class="p">::</span><span class="n">Duration</span><span class="p">;</span>
 
@@ -393,7 +393,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>消息传递<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>消息传递<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <p>Channel：多生产者单消费者。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">thread</span><span class="p">;</span>
@@ -434,7 +434,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>共享状态<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>共享状态<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <p>Mutex：互斥锁。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">Mutex</span><span class="p">;</span>
 
@@ -472,7 +472,7 @@
 </div>
 </section>
 <section id="arc">
-<h3>Arc<T><a class="headerlink" href="#arc" title="Link to this heading"></a></h3>
+<h3>Arc<T><a class="headerlink" href="#arc" title="Permalink to this heading"></a></h3>
 <p>原子引用计数，线程安全的Rc。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">Arc</span><span class="p">;</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">thread</span><span class="p">;</span>
@@ -495,7 +495,7 @@
 </div>
 </section>
 <section id="sendsync-trait">
-<h3>Send和Sync trait<a class="headerlink" href="#sendsync-trait" title="Link to this heading"></a></h3>
+<h3>Send和Sync trait<a class="headerlink" href="#sendsync-trait" title="Permalink to this heading"></a></h3>
 <p>编译器自动实现，标记线程安全。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// Send：可以在线程间转移所有权</span>
 <span class="c1">// Sync：可以在线程间共享引用</span>
@@ -516,10 +516,10 @@
 </section>
 </section>
 <section id="id7">
-<h2>无畏并发<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>无畏并发<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <p>Rust通过类型系统在编译期消除数据竞争。</p>
 <section id="id8">
-<h3>数据竞争<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>数据竞争<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p>三个条件同时满足才会发生：</p>
 <ol class="arabic simple">
 <li><p>两个或多个指针同时访问同一数据</p></li>
@@ -551,7 +551,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>并发模式<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>并发模式<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 模式1：消息传递</span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">;</span>
 
@@ -643,7 +643,7 @@
 </section>
 </section>
 <section id="id10">
-<h2>智能指针对比<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>智能指针对比<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>类型</p></th>
@@ -694,9 +694,9 @@
 </table>
 </section>
 <section id="id11">
-<h2>常见模式<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>常见模式<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>单例模式<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>单例模式<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">OnceLock</span><span class="p">;</span>
 
 <span class="k">static</span><span class="w"> </span><span class="n">INSTANCE</span><span class="p">:</span><span class="w"> </span><span class="nc">OnceLock</span><span class="o">&lt;</span><span class="n">Config</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnceLock</span><span class="p">::</span><span class="n">new</span><span class="p">();</span>
@@ -714,7 +714,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>线程安全的计数器<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>线程安全的计数器<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">atomic</span><span class="p">::{</span><span class="n">AtomicUsize</span><span class="p">,</span><span class="w"> </span><span class="n">Ordering</span><span class="p">};</span>
 
 <span class="k">static</span><span class="w"> </span><span class="n">COUNTER</span><span class="p">:</span><span class="w"> </span><span class="nc">AtomicUsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AtomicUsize</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
@@ -730,7 +730,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>读写锁<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>读写锁<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">RwLock</span><span class="p">;</span>
 
 <span class="kd">let</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RwLock</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
@@ -752,9 +752,9 @@
 </section>
 </section>
 <section id="id15">
-<h2>最佳实践<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>智能指针选择<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>智能指针选择<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 默认用Box</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Box</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">MyStruct</span><span class="p">::</span><span class="n">new</span><span class="p">());</span>
 
@@ -773,7 +773,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>并发选择<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>并发选择<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 任务间独立：消息传递</span>
 <span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="n">rx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mpsc</span><span class="p">::</span><span class="n">channel</span><span class="p">();</span>
 
@@ -790,7 +790,7 @@
 </div>
 </section>
 <section id="id18">
-<h3>避免死锁<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>避免死锁<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 死锁：互相等待</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">mutex1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arc</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">Mutex</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">mutex2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arc</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">Mutex</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
@@ -819,7 +819,7 @@
 </div>
 </section>
 <section id="id19">
-<h3>错误处理<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>错误处理<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 处理lock失败</span>
 <span class="k">match</span><span class="w"> </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">guard</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* use guard */</span><span class="w"> </span><span class="p">},</span>
@@ -844,20 +844,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-error-trait.html" class="btn btn-neutral float-left" title="03-错误处理、泛型与Trait" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="05-async.html" class="btn btn-neutral float-right" title="05-异步编程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-error-trait.html" class="btn btn-neutral float-left" title="03-错误处理、泛型与Trait" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05-async.html" class="btn btn-neutral float-right" title="05-异步编程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

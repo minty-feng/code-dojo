@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02-Go基础语法 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>02-Go基础语法 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="03-Go并发编程" href="03-concurrency.html" />
     <link rel="prev" title="01-Go环境搭建" href="01-environment-setup.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -118,20 +118,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Golang 教程</a></li>
       <li class="breadcrumb-item active">02-Go基础语法</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/go/02-basic-syntax.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/go/02-basic-syntax.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -140,12 +140,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="go">
-<h1>02-Go基础语法<a class="headerlink" href="#go" title="Link to this heading"></a></h1>
+<h1>02-Go基础语法<a class="headerlink" href="#go" title="Permalink to this heading"></a></h1>
 <p>Go语法简洁，吸收C系语言优点，去除冗余特性。25个关键字，学习成本低。</p>
 <section id="id1">
-<h2>数据类型<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>数据类型<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>基本类型<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>基本类型<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 整型</span>
 <span class="kt">int8</span><span class="p">,</span><span class="w"> </span><span class="kt">int16</span><span class="p">,</span><span class="w"> </span><span class="kt">int32</span><span class="p">,</span><span class="w"> </span><span class="kt">int64</span>
 <span class="kt">uint8</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64</span>
@@ -169,7 +169,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>类型零值<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>类型零值<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p>Go变量声明后自动初始化为零值（无未定义行为）。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="kt">int</span><span class="w">        </span><span class="c1">// 0</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="kt">float64</span><span class="w">    </span><span class="c1">// 0.0</span>
@@ -184,7 +184,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>类型转换<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>类型转换<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 必须显式转换（无隐式转换）</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">42</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="kt">float64</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">float64</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
@@ -202,9 +202,9 @@
 </section>
 </section>
 <section id="id5">
-<h2>变量声明<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>变量声明<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="id6">
-<h3>四种方式<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>四种方式<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. var声明</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Alice&quot;</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">age</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">25</span>
@@ -226,7 +226,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>常量<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>常量<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">Pi</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">3.14159</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">MaxSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span>
 
@@ -255,9 +255,9 @@
 </section>
 </section>
 <section id="id8">
-<h2>基本语法<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>基本语法<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>控制结构<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>控制结构<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// if（无需括号）</span>
 <span class="k">if</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
@@ -355,9 +355,9 @@
 </section>
 </section>
 <section id="id10">
-<h2>函数<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>函数<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>函数定义<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>函数定义<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基本函数</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span>
@@ -401,7 +401,7 @@
 </div>
 </section>
 <section id="id12">
-<h3>函数类型和闭包<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>函数类型和闭包<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 函数类型</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">Operation</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span>
 
@@ -427,7 +427,7 @@
 </div>
 </section>
 <section id="defer">
-<h3>defer延迟执行<a class="headerlink" href="#defer" title="Link to this heading"></a></h3>
+<h3>defer延迟执行<a class="headerlink" href="#defer" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// defer按LIFO顺序执行</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">example</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">)</span>
@@ -460,9 +460,9 @@
 </section>
 </section>
 <section id="id13">
-<h2>数据结构<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>数据结构<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>数组<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>数组<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <p>固定长度，值类型。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 声明</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">arr</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span><span class="w">              </span><span class="c1">// [0, 0, 0, 0, 0]</span>
@@ -479,7 +479,7 @@
 </div>
 </section>
 <section id="slice">
-<h3>切片（slice）<a class="headerlink" href="#slice" title="Link to this heading"></a></h3>
+<h3>切片（slice）<a class="headerlink" href="#slice" title="Permalink to this heading"></a></h3>
 <p>动态数组，引用类型，最常用。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="w">                  </span><span class="c1">// nil切片</span>
@@ -509,7 +509,7 @@
 </div>
 </section>
 <section id="map">
-<h3>映射（map）<a class="headerlink" href="#map" title="Link to this heading"></a></h3>
+<h3>映射（map）<a class="headerlink" href="#map" title="Permalink to this heading"></a></h3>
 <p>哈希表，引用类型。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="w">         </span><span class="c1">// nil map（不能写入）</span>
@@ -540,7 +540,7 @@
 </div>
 </section>
 <section id="struct">
-<h3>结构体（struct）<a class="headerlink" href="#struct" title="Link to this heading"></a></h3>
+<h3>结构体（struct）<a class="headerlink" href="#struct" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 定义</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">Person</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Name</span><span class="w"> </span><span class="kt">string</span>
@@ -581,7 +581,7 @@
 </section>
 </section>
 <section id="id15">
-<h2>指针<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>指针<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <p>Go有指针但无指针运算，更安全。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 指针声明</span>
 <span class="kd">var</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="kt">int</span>
@@ -612,7 +612,7 @@
 </div>
 </section>
 <section id="id16">
-<h2>方法<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>方法<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <p>Go无类，用方法为类型添加行为。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span><span class="w"> </span><span class="nx">Rectangle</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Width</span><span class="p">,</span><span class="w"> </span><span class="nx">Height</span><span class="w"> </span><span class="kt">float64</span>
@@ -647,7 +647,7 @@
 <p><strong>选择：</strong> 需要修改或大对象用指针接收者，否则用值接收者。</p>
 </section>
 <section id="id17">
-<h2>接口<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>接口<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <p>隐式实现，鸭子类型。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 接口定义</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">Reader</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span>
@@ -702,7 +702,7 @@
 </div>
 </section>
 <section id="id18">
-<h2>错误处理<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>错误处理<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <p>Go使用多返回值处理错误，无异常机制。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="s">&quot;errors&quot;</span>
 
@@ -749,9 +749,9 @@
 </div>
 </section>
 <section id="id19">
-<h2>并发基础<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>并发基础<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="goroutine">
-<h3>goroutine<a class="headerlink" href="#goroutine" title="Link to this heading"></a></h3>
+<h3>goroutine<a class="headerlink" href="#goroutine" title="Permalink to this heading"></a></h3>
 <p>轻量级线程，栈初始2KB，可创建百万级。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 启动goroutine</span>
 <span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -785,7 +785,7 @@
 </div>
 </section>
 <section id="channel">
-<h3>channel<a class="headerlink" href="#channel" title="Link to this heading"></a></h3>
+<h3>channel<a class="headerlink" href="#channel" title="Permalink to this heading"></a></h3>
 <p>goroutine间通信，类型安全的管道。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建channel</span>
 <span class="nx">ch</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w">       </span><span class="c1">// 无缓冲</span>
@@ -827,7 +827,7 @@
 </section>
 </section>
 <section id="id20">
-<h2>包和可见性<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>包和可见性<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 包声明（每个文件）</span>
 <span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
@@ -858,7 +858,7 @@
 </div>
 </section>
 <section id="init">
-<h2>init函数<a class="headerlink" href="#init" title="Link to this heading"></a></h2>
+<h2>init函数<a class="headerlink" href="#init" title="Permalink to this heading"></a></h2>
 <p>包初始化时自动执行，可有多个。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="nx">Config</span>
 
@@ -881,9 +881,9 @@
 </div>
 </section>
 <section id="id21">
-<h2>类型系统<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>类型系统<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>类型定义<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>类型定义<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// type定义新类型</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">MyInt</span><span class="w"> </span><span class="kt">int</span>
 
@@ -901,7 +901,7 @@
 </div>
 </section>
 <section id="id23">
-<h3>类型嵌入<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>类型嵌入<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 嵌入结构体</span>
 <span class="kd">type</span><span class="w"> </span><span class="nx">Engine</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Power</span><span class="w"> </span><span class="kt">int</span>
@@ -930,7 +930,7 @@
 </section>
 </section>
 <section id="id24">
-<h2>常见陷阱<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>常见陷阱<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. range循环变量陷阱</span>
 <span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">slice</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -972,7 +972,7 @@
 </div>
 </section>
 <section id="id25">
-<h2>最佳实践<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>短变量声明</strong>：函数内优先用<code class="docutils literal notranslate"><span class="pre">:=</span></code></p></li>
 <li><p><strong>错误处理</strong>：每个error都检查</p></li>
@@ -992,20 +992,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="01-environment-setup.html" class="btn btn-neutral float-left" title="01-Go环境搭建" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="03-concurrency.html" class="btn btn-neutral float-right" title="03-Go并发编程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01-environment-setup.html" class="btn btn-neutral float-left" title="01-Go环境搭建" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03-concurrency.html" class="btn btn-neutral float-right" title="03-Go并发编程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

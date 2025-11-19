@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>05-STL标准模板库 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>05-STL标准模板库 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="06-内存管理" href="06-memory.html" />
     <link rel="prev" title="04-面向对象编程基础" href="04-oop.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -113,20 +113,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">C++ 教程</a></li>
       <li class="breadcrumb-item active">05-STL标准模板库</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/cpp/05-stl.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/cpp/05-stl.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -135,16 +135,16 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="stl">
-<h1>05-STL标准模板库<a class="headerlink" href="#stl" title="Link to this heading"></a></h1>
+<h1>05-STL标准模板库<a class="headerlink" href="#stl" title="Permalink to this heading"></a></h1>
 <p>STL（Standard Template Library）是 C++ 的核心库，提供容器、迭代器、算法和函数对象。掌握 STL 可大幅提高开发效率。</p>
 <section id="id1">
-<h2>容器<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>容器<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <p>容器管理对象集合，自动处理内存分配。根据访问模式选择合适的容器是性能优化的关键。</p>
 <section id="id2">
-<h3>序列容器<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>序列容器<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <p>序列容器按插入顺序存储元素，支持位置访问。各容器在插入、删除、随机访问上有不同时间复杂度。</p>
 <section id="vector">
-<h4>vector（动态数组）<a class="headerlink" href="#vector" title="Link to this heading"></a></h4>
+<h4>vector（动态数组）<a class="headerlink" href="#vector" title="Permalink to this heading"></a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">vector</span></code> 是最常用的容器，连续内存存储，支持快速随机访问。尾部插入 O(1) 均摊，中间插入 O(n)。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 
@@ -165,7 +165,7 @@
 </div>
 </section>
 <section id="list">
-<h4>list（双向链表）<a class="headerlink" href="#list" title="Link to this heading"></a></h4>
+<h4>list（双向链表）<a class="headerlink" href="#list" title="Permalink to this heading"></a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">list</span></code> 是双向链表，不支持随机访问但插入删除高效。任意位置插入/删除 O(1)，适合频繁插入删除场景。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;list&gt;</span>
 
@@ -184,7 +184,7 @@
 </div>
 </section>
 <section id="deque">
-<h4>deque（双端队列）<a class="headerlink" href="#deque" title="Link to this heading"></a></h4>
+<h4>deque（双端队列）<a class="headerlink" href="#deque" title="Permalink to this heading"></a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">deque</span></code> 支持两端高效插入删除和随机访问。内部分块存储，是 <code class="docutils literal notranslate"><span class="pre">vector</span></code> 和 <code class="docutils literal notranslate"><span class="pre">list</span></code> 的折中方案。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;deque&gt;</span>
 
@@ -201,10 +201,10 @@
 </section>
 </section>
 <section id="id3">
-<h3>关联容器<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>关联容器<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p>关联容器通过键快速查找，内部通常用红黑树或哈希表实现。自动排序（tree-based）或无序（hash-based）。</p>
 <section id="set">
-<h4>set（集合）<a class="headerlink" href="#set" title="Link to this heading"></a></h4>
+<h4>set（集合）<a class="headerlink" href="#set" title="Permalink to this heading"></a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">set</span></code> 存储唯一有序元素，基于红黑树实现。查找、插入、删除均为 O(log n)，适合需要去重和排序的场景。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;set&gt;</span>
 
@@ -221,7 +221,7 @@
 </div>
 </section>
 <section id="map">
-<h4>map（映射）<a class="headerlink" href="#map" title="Link to this heading"></a></h4>
+<h4>map（映射）<a class="headerlink" href="#map" title="Permalink to this heading"></a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">map</span></code> 存储键值对，键唯一且有序。基于红黑树，查找 O(log n)，适合需要按键排序的关联数据。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;map&gt;</span>
 
@@ -244,7 +244,7 @@
 </div>
 </section>
 <section id="unordered-setunordered-map">
-<h4>unordered_set和unordered_map<a class="headerlink" href="#unordered-setunordered-map" title="Link to this heading"></a></h4>
+<h4>unordered_set和unordered_map<a class="headerlink" href="#unordered-setunordered-map" title="Permalink to this heading"></a></h4>
 <p>哈希表实现的无序容器，查找 O(1) 平均，但不保证顺序。适合只关心存在性、不需排序的场景。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unordered_set&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unordered_map&gt;</span>
@@ -258,10 +258,10 @@
 </section>
 </section>
 <section id="id4">
-<h3>容器适配器<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>容器适配器<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p>容器适配器提供受限接口，底层可用其他容器实现。<code class="docutils literal notranslate"><span class="pre">stack</span></code>、<code class="docutils literal notranslate"><span class="pre">queue</span></code>、<code class="docutils literal notranslate"><span class="pre">priority_queue</span></code> 是最常用的适配器。</p>
 <section id="stack">
-<h4>stack（栈）<a class="headerlink" href="#stack" title="Link to this heading"></a></h4>
+<h4>stack（栈）<a class="headerlink" href="#stack" title="Permalink to this heading"></a></h4>
 <p>后进先出（LIFO）结构，只能访问栈顶元素。默认基于 <code class="docutils literal notranslate"><span class="pre">deque</span></code> 实现，适合回溯、括号匹配等场景。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stack&gt;</span>
 
@@ -276,7 +276,7 @@
 </div>
 </section>
 <section id="queue">
-<h4>queue（队列）<a class="headerlink" href="#queue" title="Link to this heading"></a></h4>
+<h4>queue（队列）<a class="headerlink" href="#queue" title="Permalink to this heading"></a></h4>
 <p>先进先出（FIFO）结构，只能访问队首和队尾。默认基于 <code class="docutils literal notranslate"><span class="pre">deque</span></code>，适合BFS、任务调度等场景。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;queue&gt;</span>
 
@@ -292,7 +292,7 @@
 </div>
 </section>
 <section id="priority-queue">
-<h4>priority_queue（优先队列）<a class="headerlink" href="#priority-queue" title="Link to this heading"></a></h4>
+<h4>priority_queue（优先队列）<a class="headerlink" href="#priority-queue" title="Permalink to this heading"></a></h4>
 <p>基于堆实现的优先队列，自动维护最大（或最小）元素在顶部。插入/删除 O(log n)，适合Top K、任务调度。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;queue&gt;</span>
 
@@ -310,10 +310,10 @@
 </section>
 </section>
 <section id="id5">
-<h2>迭代器<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>迭代器<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <p>迭代器是容器和算法之间的桥梁，提供统一的遍历接口。理解迭代器类别对选择算法至关重要。</p>
 <section id="id6">
-<h3>迭代器类型<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>迭代器类型<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <p>C++提供5种迭代器类别：输入、输出、前向、双向、随机访问。容器支持的迭代器类别决定了可用的算法。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
 
@@ -338,7 +338,7 @@
 </div>
 </section>
 <section id="for-c-11">
-<h3>范围for循环（C++11）<a class="headerlink" href="#for-c-11" title="Link to this heading"></a></h3>
+<h3>范围for循环（C++11）<a class="headerlink" href="#for-c-11" title="Permalink to this heading"></a></h3>
 <p>范围for是C++11引入的语法糖，简化容器遍历。编译器自动处理迭代器，代码更简洁易读。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
 
@@ -361,10 +361,10 @@
 </section>
 </section>
 <section id="id7">
-<h2>算法<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>算法<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <p>STL算法是泛型函数模板，通过迭代器操作容器。算法与容器解耦，一个算法可用于多种容器。</p>
 <section id="id8">
-<h3>查找算法<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>查找算法<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <p>查找算法定位满足条件的元素。线性查找适用于无序容器，二分查找要求有序且支持随机访问。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span>
 
@@ -386,7 +386,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>排序算法<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>排序算法<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <p>STL提供多种排序算法，默认使用快速排序的优化版本（Introsort）。<code class="docutils literal notranslate"><span class="pre">stable_sort</span></code> 保持相等元素的相对顺序。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">};</span>
 
@@ -407,7 +407,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>变换算法<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>变换算法<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <p>变换算法对容器元素进行转换、填充或生成。<code class="docutils literal notranslate"><span class="pre">transform</span></code> 是函数式编程在C++中的体现。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
 <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
@@ -424,7 +424,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>删除算法<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>删除算法<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <p>删除算法不直接删除元素，而是将要保留的元素移到前面，返回新的逻辑末尾。需配合 <code class="docutils literal notranslate"><span class="pre">erase</span></code> 真正删除。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
 
@@ -439,10 +439,10 @@
 </section>
 </section>
 <section id="lambda">
-<h2>函数对象和Lambda<a class="headerlink" href="#lambda" title="Link to this heading"></a></h2>
+<h2>函数对象和Lambda<a class="headerlink" href="#lambda" title="Permalink to this heading"></a></h2>
 <p>函数对象和Lambda表达式是STL算法的强大工具，提供灵活的自定义行为。Lambda让代码更简洁。</p>
 <section id="id12">
-<h3>函数对象<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>函数对象<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <p>函数对象（Functor）是重载了 <code class="docutils literal notranslate"><span class="pre">operator()</span></code> 的类。比普通函数更灵活，可携带状态。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Multiply</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
@@ -460,7 +460,7 @@
 </div>
 </section>
 <section id="lambda-c-11">
-<h3>Lambda表达式（C++11）<a class="headerlink" href="#lambda-c-11" title="Link to this heading"></a></h3>
+<h3>Lambda表达式（C++11）<a class="headerlink" href="#lambda-c-11" title="Permalink to this heading"></a></h3>
 <p>Lambda是匿名函数，语法：<code class="docutils literal notranslate"><span class="pre">[捕获](参数){函数体}</span></code>。捕获外部变量，常用于STL算法的谓词。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
 
@@ -484,10 +484,10 @@
 </section>
 </section>
 <section id="id13">
-<h2>智能指针<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>智能指针<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <p>智能指针自动管理动态内存，是现代C++的基石。避免手动 <code class="docutils literal notranslate"><span class="pre">new/delete</span></code>，防止内存泄漏。</p>
 <section id="unique-ptr-c-11">
-<h3>unique_ptr（C++11）<a class="headerlink" href="#unique-ptr-c-11" title="Link to this heading"></a></h3>
+<h3>unique_ptr（C++11）<a class="headerlink" href="#unique-ptr-c-11" title="Permalink to this heading"></a></h3>
 <p>独占所有权指针，不可拷贝只能移动。零开销，应优先使用。适合明确单一所有者的场景。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
 
@@ -504,7 +504,7 @@
 </div>
 </section>
 <section id="shared-ptr-c-11">
-<h3>shared_ptr（C++11）<a class="headerlink" href="#shared-ptr-c-11" title="Link to this heading"></a></h3>
+<h3>shared_ptr（C++11）<a class="headerlink" href="#shared-ptr-c-11" title="Permalink to this heading"></a></h3>
 <p>共享所有权指针，通过引用计数管理生命周期。最后一个<code class="docutils literal notranslate"><span class="pre">shared_ptr</span></code>销毁时释放资源。有一定开销。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建</span>
 <span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ptr1</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="mi">42</span><span class="p">));</span>
@@ -520,7 +520,7 @@
 </div>
 </section>
 <section id="weak-ptr-c-11">
-<h3>weak_ptr（C++11）<a class="headerlink" href="#weak-ptr-c-11" title="Link to this heading"></a></h3>
+<h3>weak_ptr（C++11）<a class="headerlink" href="#weak-ptr-c-11" title="Permalink to this heading"></a></h3>
 <p>弱引用指针，不增加引用计数，防止循环引用。使用前需 <code class="docutils literal notranslate"><span class="pre">lock()</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">shared_ptr</span></code>，可能返回空。</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_shared</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
 <span class="n">weak_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">weak</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shared</span><span class="p">;</span>
@@ -534,9 +534,9 @@
 </section>
 </section>
 <section id="id14">
-<h2>容器选择指南<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>容器选择指南<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="id15">
-<h3>时间复杂度对比表<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>时间复杂度对比表<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>操作</p></th>
@@ -594,7 +594,7 @@
 </table>
 </section>
 <section id="id16">
-<h3>选择决策树<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>选择决策树<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>需要随机访问？
 ├─ 是 → 需要两端插入？
 │  ├─ 是 → deque
@@ -614,7 +614,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>场景推荐<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>场景推荐<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <p><strong>vector（默认首选）：</strong></p>
 <ul class="simple">
 <li><p>90%的情况下最佳选择</p></li>
@@ -652,7 +652,7 @@
 </ul>
 </section>
 <section id="id18">
-<h3>性能陷阱<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>性能陷阱<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ vector频繁头部插入</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">vec</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w">  </span><span class="c1">// O(n)，总复杂度O(n²)</span>
@@ -686,20 +686,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="04-oop.html" class="btn btn-neutral float-left" title="04-面向对象编程基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="06-memory.html" class="btn btn-neutral float-right" title="06-内存管理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="04-oop.html" class="btn btn-neutral float-left" title="04-面向对象编程基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="06-memory.html" class="btn btn-neutral float-right" title="06-内存管理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

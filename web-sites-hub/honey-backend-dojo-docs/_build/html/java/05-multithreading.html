@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>05-Java多线程编程 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>05-Java多线程编程 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="06-Java IO流" href="06-io.html" />
     <link rel="prev" title="04-Java集合框架" href="04-collections.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -128,20 +128,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Java 教程</a></li>
       <li class="breadcrumb-item active">05-Java多线程编程</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/java/05-multithreading.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/java/05-multithreading.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -150,12 +150,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="java">
-<h1>05-Java多线程编程<a class="headerlink" href="#java" title="Link to this heading"></a></h1>
+<h1>05-Java多线程编程<a class="headerlink" href="#java" title="Permalink to this heading"></a></h1>
 <p>多线程是Java的核心特性，JVM级别支持，API丰富。合理使用多线程可充分利用多核CPU。</p>
 <section id="id1">
-<h2>线程创建<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>线程创建<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="thread">
-<h3>方式1：继承Thread类<a class="headerlink" href="#thread" title="Link to this heading"></a></h3>
+<h3>方式1：继承Thread类<a class="headerlink" href="#thread" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyThread</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@Override</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -170,7 +170,7 @@
 </div>
 </section>
 <section id="runnable">
-<h3>方式2：实现Runnable接口（推荐）<a class="headerlink" href="#runnable" title="Link to this heading"></a></h3>
+<h3>方式2：实现Runnable接口（推荐）<a class="headerlink" href="#runnable" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyRunnable</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@Override</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -188,7 +188,7 @@
 </div>
 </section>
 <section id="callable">
-<h3>方式3：实现Callable接口<a class="headerlink" href="#callable" title="Link to this heading"></a></h3>
+<h3>方式3：实现Callable接口<a class="headerlink" href="#callable" title="Permalink to this heading"></a></h3>
 <p>支持返回值和抛出异常。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
 
@@ -211,7 +211,7 @@
 </section>
 </section>
 <section id="id2">
-<h2>线程状态<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>线程状态<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>NEW（新建）
   ↓ start()
 RUNNABLE（可运行）
@@ -224,7 +224,7 @@ TERMINATED（终止）
 </pre></div>
 </div>
 <section id="id3">
-<h3>线程控制<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>线程控制<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Thread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">  </span><span class="c1">// 休眠1秒</span>
@@ -242,9 +242,9 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id4">
-<h2>线程同步<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h2>线程同步<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <section id="synchronized">
-<h3>synchronized关键字<a class="headerlink" href="#synchronized" title="Link to this heading"></a></h3>
+<h3>synchronized关键字<a class="headerlink" href="#synchronized" title="Permalink to this heading"></a></h3>
 <p>Java最基本的同步机制，保证互斥访问。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -276,7 +276,7 @@ TERMINATED（终止）
 </ul>
 </section>
 <section id="lock">
-<h3>Lock接口<a class="headerlink" href="#lock" title="Link to this heading"></a></h3>
+<h3>Lock接口<a class="headerlink" href="#lock" title="Permalink to this heading"></a></h3>
 <p>比synchronized更灵活，可中断、可超时、可尝试获取。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.*</span><span class="p">;</span>
 
@@ -323,7 +323,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="readwritelock">
-<h3>ReadWriteLock<a class="headerlink" href="#readwritelock" title="Link to this heading"></a></h3>
+<h3>ReadWriteLock<a class="headerlink" href="#readwritelock" title="Permalink to this heading"></a></h3>
 <p>读写分离锁，读多写少场景性能优于普通锁。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.*</span><span class="p">;</span>
 
@@ -358,9 +358,9 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id5">
-<h2>线程通信<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>线程通信<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="wait-notify">
-<h3>wait/notify<a class="headerlink" href="#wait-notify" title="Link to this heading"></a></h3>
+<h3>wait/notify<a class="headerlink" href="#wait-notify" title="Permalink to this heading"></a></h3>
 <p>Object类的方法，必须在synchronized块中使用。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProducerConsumer</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
@@ -389,7 +389,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="condition">
-<h3>Condition<a class="headerlink" href="#condition" title="Link to this heading"></a></h3>
+<h3>Condition<a class="headerlink" href="#condition" title="Permalink to this heading"></a></h3>
 <p>Lock配套的等待/通知机制，比wait/notify更灵活。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.*</span><span class="p">;</span>
 
@@ -432,10 +432,10 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id6">
-<h2>线程池<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>线程池<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <p>线程创建销毁开销大，线程池复用线程，提高性能。</p>
 <section id="executors">
-<h3>Executors工厂方法<a class="headerlink" href="#executors" title="Link to this heading"></a></h3>
+<h3>Executors工厂方法<a class="headerlink" href="#executors" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
 
 <span class="c1">// 固定线程数</span>
@@ -461,7 +461,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="threadpoolexecutor">
-<h3>ThreadPoolExecutor<a class="headerlink" href="#threadpoolexecutor" title="Link to this heading"></a></h3>
+<h3>ThreadPoolExecutor<a class="headerlink" href="#threadpoolexecutor" title="Permalink to this heading"></a></h3>
 <p>手动配置线程池参数，更灵活。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">ThreadPoolExecutor</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
 <span class="w">    </span><span class="mi">5</span><span class="p">,</span><span class="w">                      </span><span class="c1">// 核心线程数</span>
@@ -482,7 +482,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="completablefuture-java-8">
-<h3>CompletableFuture（Java 8+）<a class="headerlink" href="#completablefuture-java-8" title="Link to this heading"></a></h3>
+<h3>CompletableFuture（Java 8+）<a class="headerlink" href="#completablefuture-java-8" title="Permalink to this heading"></a></h3>
 <p>异步编程增强，支持链式调用和组合。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.CompletableFuture</span><span class="p">;</span>
 
@@ -519,9 +519,9 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id7">
-<h2>并发集合<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>并发集合<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="concurrenthashmap">
-<h3>ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Link to this heading"></a></h3>
+<h3>ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Permalink to this heading"></a></h3>
 <p>线程安全的HashMap，分段锁实现，性能优于Hashtable。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
 
@@ -537,7 +537,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="copyonwritearraylist">
-<h3>CopyOnWriteArrayList<a class="headerlink" href="#copyonwritearraylist" title="Link to this heading"></a></h3>
+<h3>CopyOnWriteArrayList<a class="headerlink" href="#copyonwritearraylist" title="Permalink to this heading"></a></h3>
 <p>写时复制，适合读多写少。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.CopyOnWriteArrayList</span><span class="p">;</span>
 
@@ -554,7 +554,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="blockingqueue">
-<h3>BlockingQueue<a class="headerlink" href="#blockingqueue" title="Link to this heading"></a></h3>
+<h3>BlockingQueue<a class="headerlink" href="#blockingqueue" title="Permalink to this heading"></a></h3>
 <p>阻塞队列，线程安全，支持阻塞操作。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
 
@@ -587,9 +587,9 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id8">
-<h2>原子类<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>原子类<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="atomicinteger">
-<h3>AtomicInteger<a class="headerlink" href="#atomicinteger" title="Link to this heading"></a></h3>
+<h3>AtomicInteger<a class="headerlink" href="#atomicinteger" title="Permalink to this heading"></a></h3>
 <p>无锁线程安全的整数，基于CAS（Compare-And-Swap）。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.atomic.AtomicInteger</span><span class="p">;</span>
 
@@ -606,7 +606,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="id9">
-<h3>其他原子类<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>其他原子类<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">AtomicLong</span><span class="w">               </span><span class="c1">// 长整型</span>
 <span class="n">AtomicBoolean</span><span class="w">            </span><span class="c1">// 布尔型</span>
 <span class="n">AtomicReference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w">       </span><span class="c1">// 引用类型</span>
@@ -618,9 +618,9 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id10">
-<h2>常见并发问题<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>常见并发问题<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>死锁<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>死锁<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 死锁示例</span>
 <span class="n">Object</span><span class="w"> </span><span class="n">lock1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
 <span class="n">Object</span><span class="w"> </span><span class="n">lock2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
@@ -653,7 +653,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="id12">
-<h3>线程安全问题<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>线程安全问题<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 非线程安全</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UnsafeCounter</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -684,7 +684,7 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="volatile">
-<h2>volatile关键字<a class="headerlink" href="#volatile" title="Link to this heading"></a></h2>
+<h2>volatile关键字<a class="headerlink" href="#volatile" title="Permalink to this heading"></a></h2>
 <p>保证可见性和有序性，但不保证原子性。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">VolatileExample</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">volatile</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
@@ -710,7 +710,7 @@ TERMINATED（终止）
 <p><strong>注意：</strong> <code class="docutils literal notranslate"><span class="pre">i++</span></code> 等复合操作即使用volatile也不是线程安全的。</p>
 </section>
 <section id="threadlocal">
-<h2>ThreadLocal<a class="headerlink" href="#threadlocal" title="Link to this heading"></a></h2>
+<h2>ThreadLocal<a class="headerlink" href="#threadlocal" title="Permalink to this heading"></a></h2>
 <p>线程局部变量，每个线程独立副本。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ThreadLocalExample</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">threadLocal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ThreadLocal</span><span class="p">.</span><span class="na">withInitial</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
@@ -746,9 +746,9 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="id13">
-<h2>最佳实践<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>线程池配置<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>线程池配置<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// CPU密集型：线程数 = CPU核心数 + 1</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">cpuCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Runtime</span><span class="p">.</span><span class="na">getRuntime</span><span class="p">().</span><span class="na">availableProcessors</span><span class="p">();</span>
 <span class="n">ExecutorService</span><span class="w"> </span><span class="n">cpuBound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="n">cpuCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
@@ -776,7 +776,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="id15">
-<h3>并发编程原则<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>并发编程原则<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p><strong>优先使用并发集合</strong>：ConcurrentHashMap &gt; Hashtable</p></li>
 <li><p><strong>优先使用线程池</strong>：复用线程，避免频繁创建</p></li>
@@ -793,9 +793,9 @@ TERMINATED（终止）
 </section>
 </section>
 <section id="id16">
-<h2>并发工具类<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>并发工具类<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <section id="countdownlatch">
-<h3>CountDownLatch<a class="headerlink" href="#countdownlatch" title="Link to this heading"></a></h3>
+<h3>CountDownLatch<a class="headerlink" href="#countdownlatch" title="Permalink to this heading"></a></h3>
 <p>等待多个线程完成。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">CountDownLatch</span><span class="w"> </span><span class="n">latch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CountDownLatch</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 
@@ -813,7 +813,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="cyclicbarrier">
-<h3>CyclicBarrier<a class="headerlink" href="#cyclicbarrier" title="Link to this heading"></a></h3>
+<h3>CyclicBarrier<a class="headerlink" href="#cyclicbarrier" title="Permalink to this heading"></a></h3>
 <p>多线程同步点，所有线程到达后一起继续。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">CyclicBarrier</span><span class="w"> </span><span class="n">barrier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CyclicBarrier</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;All threads reached barrier&quot;</span><span class="p">);</span>
@@ -830,7 +830,7 @@ TERMINATED（终止）
 </div>
 </section>
 <section id="semaphore">
-<h3>Semaphore<a class="headerlink" href="#semaphore" title="Link to this heading"></a></h3>
+<h3>Semaphore<a class="headerlink" href="#semaphore" title="Permalink to this heading"></a></h3>
 <p>信号量，控制同时访问的线程数。</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Semaphore</span><span class="w"> </span><span class="n">semaphore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w">  </span><span class="c1">// 最多3个线程</span>
 
@@ -855,20 +855,20 @@ TERMINATED（终止）
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="04-collections.html" class="btn btn-neutral float-left" title="04-Java集合框架" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="06-io.html" class="btn btn-neutral float-right" title="06-Java IO流" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="04-collections.html" class="btn btn-neutral float-left" title="04-Java集合框架" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="06-io.html" class="btn btn-neutral float-right" title="06-Java IO流" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

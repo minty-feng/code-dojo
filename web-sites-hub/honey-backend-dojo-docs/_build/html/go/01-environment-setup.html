@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>01-Go环境搭建 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>01-Go环境搭建 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="02-Go基础语法" href="02-basic-syntax.html" />
     <link rel="prev" title="🚀 Golang 开发" href="README.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -125,20 +125,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Golang 教程</a></li>
       <li class="breadcrumb-item active">01-Go环境搭建</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/go/01-environment-setup.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/go/01-environment-setup.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -147,12 +147,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="go">
-<h1>01-Go环境搭建<a class="headerlink" href="#go" title="Link to this heading"></a></h1>
+<h1>01-Go环境搭建<a class="headerlink" href="#go" title="Permalink to this heading"></a></h1>
 <section id="id1">
-<h2>Go语言简介<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>Go语言简介<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <p>Go由Google于2009年发布，Robert Griesemer、Rob Pike、Ken Thompson设计。静态类型、编译型语言，天生支持并发。</p>
 <section id="id2">
-<h3>设计目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>设计目标<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>编译速度快</strong>：大型项目秒级编译</p></li>
 <li><p><strong>并发原生支持</strong>：goroutine和channel</p></li>
@@ -162,7 +162,7 @@
 </ul>
 </section>
 <section id="id3">
-<h3>应用场景<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>应用场景<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p><strong>云原生基础设施：</strong></p>
 <ul class="simple">
 <li><p>Docker、Kubernetes容器编排</p></li>
@@ -194,7 +194,7 @@
 </ul>
 </section>
 <section id="id4">
-<h3>语言特点<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>语言特点<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><strong>优势：</strong></p>
 <ul class="simple">
 <li><p>编译快，执行快（静态链接，单一可执行文件）</p></li>
@@ -213,9 +213,9 @@
 </section>
 </section>
 <section id="id5">
-<h2>安装Go<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>安装Go<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h3>
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 下载</span>
 wget<span class="w"> </span>https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 
@@ -233,7 +233,7 @@ go<span class="w"> </span>version
 </div>
 </section>
 <section id="macos">
-<h3>macOS<a class="headerlink" href="#macos" title="Link to this heading"></a></h3>
+<h3>macOS<a class="headerlink" href="#macos" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Homebrew</span>
 brew<span class="w"> </span>install<span class="w"> </span>go
 
@@ -247,7 +247,7 @@ go<span class="w"> </span>version
 </div>
 </section>
 <section id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h3>
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>下载MSI安装包：go.dev</p></li>
 <li><p>安装（自动配置PATH）</p></li>
@@ -256,9 +256,9 @@ go<span class="w"> </span>version
 </section>
 </section>
 <section id="id6">
-<h2>环境配置<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>环境配置<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="gopath-go-1-11">
-<h3>GOPATH结构（Go 1.11之前）<a class="headerlink" href="#gopath-go-1-11" title="Link to this heading"></a></h3>
+<h3>GOPATH结构（Go 1.11之前）<a class="headerlink" href="#gopath-go-1-11" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$GOPATH/
 ├── bin/        # 可执行文件
 ├── pkg/        # 编译包缓存
@@ -270,7 +270,7 @@ go<span class="w"> </span>version
 </div>
 </section>
 <section id="go-modules-go-1-11">
-<h3>Go Modules（Go 1.11+，推荐）<a class="headerlink" href="#go-modules-go-1-11" title="Link to this heading"></a></h3>
+<h3>Go Modules（Go 1.11+，推荐）<a class="headerlink" href="#go-modules-go-1-11" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 初始化模块</span>
 go<span class="w"> </span>mod<span class="w"> </span>init<span class="w"> </span>github.com/username/project
 
@@ -302,9 +302,9 @@ go<span class="w"> </span>mod<span class="w"> </span>vendor
 </section>
 </section>
 <section id="hello-world">
-<h2>Hello World<a class="headerlink" href="#hello-world" title="Link to this heading"></a></h2>
+<h2>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>基本程序<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>基本程序<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// main.go</span>
 <span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
@@ -328,7 +328,7 @@ go<span class="w"> </span>install<span class="w"> </span>main.go
 </div>
 </section>
 <section id="id8">
-<h3>包和导入<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>包和导入<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// math/add.go</span>
 <span class="kn">package</span><span class="w"> </span><span class="nx">math</span>
 
@@ -358,9 +358,9 @@ go<span class="w"> </span>install<span class="w"> </span>main.go
 </section>
 </section>
 <section id="id9">
-<h2>开发工具<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<h2>开发工具<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
 <section id="vs-code">
-<h3>VS Code<a class="headerlink" href="#vs-code" title="Link to this heading"></a></h3>
+<h3>VS Code<a class="headerlink" href="#vs-code" title="Permalink to this heading"></a></h3>
 <p>轻量级，Go支持优秀。</p>
 <p><strong>必装插件：</strong></p>
 <ul class="simple">
@@ -380,7 +380,7 @@ go<span class="w"> </span>install<span class="w"> </span>main.go
 </div>
 </section>
 <section id="goland">
-<h3>GoLand<a class="headerlink" href="#goland" title="Link to this heading"></a></h3>
+<h3>GoLand<a class="headerlink" href="#goland" title="Permalink to this heading"></a></h3>
 <p>JetBrains专业Go IDE。</p>
 <p><strong>特性：</strong></p>
 <ul class="simple">
@@ -392,7 +392,7 @@ go<span class="w"> </span>install<span class="w"> </span>main.go
 </ul>
 </section>
 <section id="vim-neovim">
-<h3>Vim/Neovim<a class="headerlink" href="#vim-neovim" title="Link to this heading"></a></h3>
+<h3>Vim/Neovim<a class="headerlink" href="#vim-neovim" title="Permalink to this heading"></a></h3>
 <p>轻量高效，vim-go插件强大。</p>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="c">&quot; 安装vim-go</span>
 Plug <span class="s1">&#39;fatih/vim-go&#39;</span>
@@ -409,9 +409,9 @@ Plug <span class="s1">&#39;fatih/vim-go&#39;</span>
 </section>
 </section>
 <section id="id10">
-<h2>Go工具链<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>Go工具链<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>go命令<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>go命令<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行</span>
 go<span class="w"> </span>run<span class="w"> </span>main.go
 
@@ -452,7 +452,7 @@ go<span class="w"> </span>clean<span class="w"> </span>-modcache<span class="w">
 </div>
 </section>
 <section id="id12">
-<h3>第三方工具<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>第三方工具<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># goimports：自动管理导入</span>
 go<span class="w"> </span>install<span class="w"> </span>golang.org/x/tools/cmd/goimports@latest
 goimports<span class="w"> </span>-w<span class="w"> </span>main.go
@@ -477,9 +477,9 @@ godoc<span class="w"> </span>-http<span class="o">=</span>:6060
 </section>
 </section>
 <section id="id13">
-<h2>项目结构<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>项目结构<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>标准布局<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>标准布局<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>myproject/
 ├── go.mod              # 模块定义
 ├── go.sum              # 依赖校验
@@ -507,9 +507,9 @@ godoc<span class="w"> </span>-http<span class="o">=</span>:6060
 </section>
 </section>
 <section id="id15">
-<h2>编译和交叉编译<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>编译和交叉编译<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>编译选项<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>编译选项<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本编译</span>
 go<span class="w"> </span>build<span class="w"> </span>main.go
 
@@ -527,7 +527,7 @@ go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=
 </div>
 </section>
 <section id="id17">
-<h3>交叉编译<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>交叉编译<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux</span>
 <span class="nv">GOOS</span><span class="o">=</span>linux<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>main.go
 
@@ -547,9 +547,9 @@ go<span class="w"> </span>tool<span class="w"> </span>dist<span class="w"> </spa
 </section>
 </section>
 <section id="id18">
-<h2>代码规范<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>代码规范<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>命名约定<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>命名约定<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 包名：小写，单个单词</span>
 <span class="kn">package</span><span class="w"> </span><span class="nx">server</span>
 
@@ -578,7 +578,7 @@ go<span class="w"> </span>tool<span class="w"> </span>dist<span class="w"> </spa
 </div>
 </section>
 <section id="id20">
-<h3>代码风格<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>代码风格<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// gofmt自动格式化，无争议</span>
 
 <span class="c1">// 缩进：tab</span>
@@ -609,9 +609,9 @@ go<span class="w"> </span>tool<span class="w"> </span>dist<span class="w"> </spa
 </section>
 </section>
 <section id="id21">
-<h2>性能分析<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>性能分析<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="pprof">
-<h3>pprof<a class="headerlink" href="#pprof" title="Link to this heading"></a></h3>
+<h3>pprof<a class="headerlink" href="#pprof" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="s">&quot;net/http&quot;</span>
 <span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;net/http/pprof&quot;</span>
@@ -642,7 +642,7 @@ go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </sp
 </div>
 </section>
 <section id="benchmark">
-<h3>Benchmark<a class="headerlink" href="#benchmark" title="Link to this heading"></a></h3>
+<h3>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this heading"></a></h3>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// benchmark测试</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkAdd</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
@@ -658,7 +658,7 @@ go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </sp
 </section>
 </section>
 <section id="id22">
-<h2>常用命令速查<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>常用命令速查<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go<span class="w"> </span>version<span class="w">     </span><span class="c1"># Go版本</span>
 go<span class="w"> </span>env<span class="w">         </span><span class="c1"># 环境变量</span>
 
@@ -689,20 +689,20 @@ go<span class="w"> </span>list<span class="w">        </span><span class="c1"># 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="README.html" class="btn btn-neutral float-left" title="🚀 Golang 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Go基础语法" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="🚀 Golang 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02-basic-syntax.html" class="btn btn-neutral float-right" title="02-Go基础语法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

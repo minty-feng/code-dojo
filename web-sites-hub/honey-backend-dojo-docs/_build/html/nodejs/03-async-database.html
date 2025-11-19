@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>03-异步编程与数据库 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>03-异步编程与数据库 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="04-TypeScript集成" href="04-typescript.html" />
     <link rel="prev" title="02-Express框架" href="02-express-framework.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -118,20 +118,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Node.js 教程</a></li>
       <li class="breadcrumb-item active">03-异步编程与数据库</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/nodejs/03-async-database.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/nodejs/03-async-database.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -140,12 +140,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>03-异步编程与数据库<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>03-异步编程与数据库<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <p>Node.js异步编程是核心特性，从回调到Promise再到async/await，不断演进。</p>
 <section id="id2">
-<h2>异步编程演进<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>异步编程演进<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>回调函数<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>回调函数<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 回调地狱</span>
 <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;file1.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">data1</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
@@ -164,7 +164,7 @@
 </div>
 </section>
 <section id="promise">
-<h3>Promise<a class="headerlink" href="#promise" title="Link to this heading"></a></h3>
+<h3>Promise<a class="headerlink" href="#promise" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">).</span><span class="nx">promises</span><span class="p">;</span>
 
 <span class="c1">// Promise链</span>
@@ -221,7 +221,7 @@
 </div>
 </section>
 <section id="async-await">
-<h3>async/await<a class="headerlink" href="#async-await" title="Link to this heading"></a></h3>
+<h3>async/await<a class="headerlink" href="#async-await" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">).</span><span class="nx">promises</span><span class="p">;</span>
 
 <span class="c1">// async函数</span>
@@ -267,9 +267,9 @@
 </section>
 </section>
 <section id="id4">
-<h2>事件循环<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h2>事件循环<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <section id="id5">
-<h3>事件循环阶段<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>事件循环阶段<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   ┌───────────────────────────┐
 ┌─&gt;│           timers          │ // setTimeout、setInterval
 │  └─────────────┬─────────────┘
@@ -292,7 +292,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>微任务和宏任务<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>微任务和宏任务<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">);</span>
 
 <span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">),</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// 宏任务</span>
@@ -309,7 +309,7 @@
 </div>
 </section>
 <section id="setimmediate-vs-settimeout">
-<h3>setImmediate vs setTimeout<a class="headerlink" href="#setimmediate-vs-settimeout" title="Link to this heading"></a></h3>
+<h3>setImmediate vs setTimeout<a class="headerlink" href="#setimmediate-vs-settimeout" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// setImmediate：check阶段执行</span>
 <span class="nx">setImmediate</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;immediate&#39;</span><span class="p">);</span>
@@ -330,9 +330,9 @@
 </section>
 </section>
 <section id="mongodb">
-<h2>MongoDB<a class="headerlink" href="#mongodb" title="Link to this heading"></a></h2>
+<h2>MongoDB<a class="headerlink" href="#mongodb" title="Permalink to this heading"></a></h2>
 <section id="mongoose">
-<h3>Mongoose<a class="headerlink" href="#mongoose" title="Link to this heading"></a></h3>
+<h3>Mongoose<a class="headerlink" href="#mongoose" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>mongoose
 </pre></div>
 </div>
@@ -418,9 +418,9 @@
 </section>
 </section>
 <section id="mysql">
-<h2>MySQL<a class="headerlink" href="#mysql" title="Link to this heading"></a></h2>
+<h2>MySQL<a class="headerlink" href="#mysql" title="Permalink to this heading"></a></h2>
 <section id="mysql2">
-<h3>mysql2<a class="headerlink" href="#mysql2" title="Link to this heading"></a></h3>
+<h3>mysql2<a class="headerlink" href="#mysql2" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>mysql2
 </pre></div>
 </div>
@@ -471,7 +471,7 @@
 </div>
 </section>
 <section id="sequelize-orm">
-<h3>Sequelize（ORM）<a class="headerlink" href="#sequelize-orm" title="Link to this heading"></a></h3>
+<h3>Sequelize（ORM）<a class="headerlink" href="#sequelize-orm" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>sequelize<span class="w"> </span>mysql2
 </pre></div>
 </div>
@@ -532,9 +532,9 @@
 </section>
 </section>
 <section id="redis">
-<h2>Redis<a class="headerlink" href="#redis" title="Link to this heading"></a></h2>
+<h2>Redis<a class="headerlink" href="#redis" title="Permalink to this heading"></a></h2>
 <section id="ioredis">
-<h3>ioredis<a class="headerlink" href="#ioredis" title="Link to this heading"></a></h3>
+<h3>ioredis<a class="headerlink" href="#ioredis" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>ioredis
 </pre></div>
 </div>
@@ -593,9 +593,9 @@
 </section>
 </section>
 <section id="id7">
-<h2>缓存策略<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>缓存策略<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>缓存模式<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>缓存模式<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 查询缓存</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getUserById</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">cacheKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`user:</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
@@ -648,9 +648,9 @@
 </section>
 </section>
 <section id="id9">
-<h2>异步并发控制<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<h2>异步并发控制<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
 <section id="id10">
-<h3>并发限制<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>并发限制<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 问题：同时发起1000个请求</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">promises</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">urls</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">url</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">));</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">promises</span><span class="p">);</span><span class="w">  </span><span class="c1">// 可能压垮服务器</span>
@@ -690,7 +690,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>错误处理<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>错误处理<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// try-catch</span>
 <span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
@@ -720,9 +720,9 @@
 </section>
 </section>
 <section id="stream">
-<h2>Stream流<a class="headerlink" href="#stream" title="Link to this heading"></a></h2>
+<h2>Stream流<a class="headerlink" href="#stream" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>可读流<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>可读流<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
 
 <span class="c1">// 创建可读流</span>
@@ -750,7 +750,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>可写流<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>可写流<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">writeStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="s1">&#39;output.txt&#39;</span><span class="p">);</span>
 
 <span class="nx">writeStream</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;第一行\n&#39;</span><span class="p">);</span>
@@ -768,7 +768,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>管道<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>管道<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
 
 <span class="c1">// 复制文件</span>
@@ -793,7 +793,7 @@
 </div>
 </section>
 <section id="transform">
-<h3>Transform流<a class="headerlink" href="#transform" title="Link to this heading"></a></h3>
+<h3>Transform流<a class="headerlink" href="#transform" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Transform</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;stream&#39;</span><span class="p">);</span>
 
 <span class="c1">// 自定义转换流</span>
@@ -812,9 +812,9 @@
 </section>
 </section>
 <section id="id15">
-<h2>性能优化<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>性能优化<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>异步并行<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>异步并行<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 串行（慢）</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">User</span><span class="p">.</span><span class="nx">findById</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">posts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Post</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="w"> </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">});</span>
@@ -830,7 +830,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>数据库批量操作<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>数据库批量操作<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 逐条插入</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">items</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">Model</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span><span class="w">  </span><span class="c1">// N次数据库调用</span>
@@ -842,7 +842,7 @@
 </div>
 </section>
 <section id="id18">
-<h3>缓存优化<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>缓存优化<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 缓存中间件</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">cacheMiddleware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">duration</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -878,20 +878,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-express-framework.html" class="btn btn-neutral float-left" title="02-Express框架" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="04-typescript.html" class="btn btn-neutral float-right" title="04-TypeScript集成" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-express-framework.html" class="btn btn-neutral float-left" title="02-Express框架" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="04-typescript.html" class="btn btn-neutral float-right" title="04-TypeScript集成" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

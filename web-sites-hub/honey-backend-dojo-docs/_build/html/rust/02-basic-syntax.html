@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02-Rust基础语法 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>02-Rust基础语法 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="03-错误处理、泛型与Trait" href="03-error-trait.html" />
     <link rel="prev" title="01-Rust环境搭建与所有权" href="01-environment-ownership.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -144,20 +144,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Rust 教程</a></li>
       <li class="breadcrumb-item active">02-Rust基础语法</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/rust/02-basic-syntax.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/rust/02-basic-syntax.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -166,12 +166,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="rust">
-<h1>02-Rust基础语法<a class="headerlink" href="#rust" title="Link to this heading"></a></h1>
+<h1>02-Rust基础语法<a class="headerlink" href="#rust" title="Permalink to this heading"></a></h1>
 <p>Rust语法简洁现代，吸收函数式和面向对象优点。强类型系统，编译期保证安全。</p>
 <section id="id1">
-<h2>变量和可变性<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>变量和可变性<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>变量声明<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>变量声明<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 不可变变量（默认）</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
 <span class="c1">// x = 6;  // ❌ 错误：不可变</span>
@@ -190,7 +190,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>常量<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>常量<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 常量：类型必须注解，命名全大写</span>
 <span class="k">const</span><span class="w"> </span><span class="n">MAX_POINTS</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100_000</span><span class="p">;</span><span class="w">  </span><span class="c1">// 下划线提高可读性</span>
 <span class="k">const</span><span class="w"> </span><span class="n">PI</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159</span><span class="p">;</span>
@@ -204,7 +204,7 @@
 </div>
 </section>
 <section id="shadowing">
-<h3>遮蔽（Shadowing）<a class="headerlink" href="#shadowing" title="Link to this heading"></a></h3>
+<h3>遮蔽（Shadowing）<a class="headerlink" href="#shadowing" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// 遮蔽，x=6</span>
 <span class="p">{</span>
@@ -225,9 +225,9 @@
 </section>
 </section>
 <section id="id4">
-<h2>数据类型<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h2>数据类型<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <section id="id5">
-<h3>标量类型<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>标量类型<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 整数</span>
 <span class="kt">i8</span><span class="p">,</span><span class="w"> </span><span class="kt">i16</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i64</span><span class="p">,</span><span class="w"> </span><span class="kt">i128</span><span class="p">,</span><span class="w"> </span><span class="kt">isize</span><span class="w">  </span><span class="c1">// 有符号</span>
 <span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u16</span><span class="p">,</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="kt">u64</span><span class="p">,</span><span class="w"> </span><span class="kt">u128</span><span class="p">,</span><span class="w"> </span><span class="kt">usize</span><span class="w">  </span><span class="c1">// 无符号</span>
@@ -258,7 +258,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>复合类型<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>复合类型<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 元组：固定长度，不同类型</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">tup</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mf">6.4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
 
@@ -283,9 +283,9 @@
 </section>
 </section>
 <section id="id7">
-<h2>函数<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>函数<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>函数定义<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>函数定义<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基本函数</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">greet</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">);</span>
@@ -338,7 +338,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>语句和表达式<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>语句和表达式<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 语句：不返回值</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
 
@@ -363,9 +363,9 @@
 </section>
 </section>
 <section id="id10">
-<h2>控制流<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>控制流<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="if">
-<h3>if表达式<a class="headerlink" href="#if" title="Link to this heading"></a></h3>
+<h3>if表达式<a class="headerlink" href="#if" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
 
 <span class="k">if</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span>
@@ -386,7 +386,7 @@
 </div>
 </section>
 <section id="loop">
-<h3>loop循环<a class="headerlink" href="#loop" title="Link to this heading"></a></h3>
+<h3>loop循环<a class="headerlink" href="#loop" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 无限循环</span>
 <span class="k">loop</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;again!&quot;</span><span class="p">);</span>
@@ -410,7 +410,7 @@
 </div>
 </section>
 <section id="while">
-<h3>while循环<a class="headerlink" href="#while" title="Link to this heading"></a></h3>
+<h3>while循环<a class="headerlink" href="#while" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
 
 <span class="k">while</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
@@ -423,7 +423,7 @@
 </div>
 </section>
 <section id="for">
-<h3>for循环<a class="headerlink" href="#for" title="Link to this heading"></a></h3>
+<h3>for循环<a class="headerlink" href="#for" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 遍历集合</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">];</span>
 
@@ -454,9 +454,9 @@
 </section>
 </section>
 <section id="id11">
-<h2>结构体<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>结构体<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="id12">
-<h3>定义和实例化<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>定义和实例化<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 定义</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">User</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
@@ -499,7 +499,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>元组结构体<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>元组结构体<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Point</span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span>
 
@@ -512,7 +512,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>单元结构体<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>单元结构体<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">AlwaysEqual</span><span class="p">;</span>
 
 <span class="kd">let</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AlwaysEqual</span><span class="p">;</span>
@@ -520,7 +520,7 @@
 </div>
 </section>
 <section id="id15">
-<h3>方法<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>方法<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug)]</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">width</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
@@ -568,9 +568,9 @@
 </section>
 </section>
 <section id="id16">
-<h2>枚举<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>枚举<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <section id="id17">
-<h3>定义<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>定义<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基本枚举</span>
 <span class="k">enum</span><span class="w"> </span><span class="nc">IpAddrKind</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">V4</span><span class="p">,</span>
@@ -610,7 +610,7 @@
 </div>
 </section>
 <section id="option">
-<h3>Option枚举<a class="headerlink" href="#option" title="Link to this heading"></a></h3>
+<h3>Option枚举<a class="headerlink" href="#option" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 标准库定义（无需导入）</span>
 <span class="k">enum</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">T</span><span class="p">),</span>
@@ -638,9 +638,9 @@
 </section>
 </section>
 <section id="match">
-<h2>match表达式<a class="headerlink" href="#match" title="Link to this heading"></a></h2>
+<h2>match表达式<a class="headerlink" href="#match" title="Permalink to this heading"></a></h2>
 <section id="id18">
-<h3>基本用法<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">Coin</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">Penny</span><span class="p">,</span>
 <span class="w">    </span><span class="n">Nickel</span><span class="p">,</span>
@@ -686,7 +686,7 @@
 </div>
 </section>
 <section id="id19">
-<h3>匹配Option<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>匹配Option<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span><span class="w"> </span><span class="nf">plus_one</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">None</span><span class="p">,</span>
@@ -701,7 +701,7 @@
 </div>
 </section>
 <section id="id20">
-<h3>通配符和_<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>通配符和_<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">dice_roll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
 
 <span class="k">match</span><span class="w"> </span><span class="n">dice_roll</span><span class="w"> </span><span class="p">{</span>
@@ -720,7 +720,7 @@
 </section>
 </section>
 <section id="if-let">
-<h2>if let<a class="headerlink" href="#if-let" title="Link to this heading"></a></h2>
+<h2>if let<a class="headerlink" href="#if-let" title="Permalink to this heading"></a></h2>
 <p>简化只匹配一个模式的match。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">config_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mi">3</span><span class="k">u8</span><span class="p">);</span>
 
@@ -745,9 +745,9 @@
 </div>
 </section>
 <section id="id21">
-<h2>模式匹配<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>模式匹配<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>解构<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>解构<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 解构结构体</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Point</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
@@ -786,7 +786,7 @@
 </div>
 </section>
 <section id="guard">
-<h3>守卫（Guard）<a class="headerlink" href="#guard" title="Link to this heading"></a></h3>
+<h3>守卫（Guard）<a class="headerlink" href="#guard" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 
 <span class="k">match</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="p">{</span>
@@ -807,7 +807,7 @@
 </div>
 </section>
 <section id="id23">
-<h3>&#64;绑定<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>&#64;绑定<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">Message</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">Hello</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">},</span>
 <span class="p">}</span>
@@ -830,7 +830,7 @@
 </section>
 </section>
 <section id="vector">
-<h2>Vector<a class="headerlink" href="#vector" title="Link to this heading"></a></h2>
+<h2>Vector<a class="headerlink" href="#vector" title="Permalink to this heading"></a></h2>
 <p>动态数组。</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Vec</span><span class="p">::</span><span class="n">new</span><span class="p">();</span>
@@ -881,7 +881,7 @@
 </div>
 </section>
 <section id="string">
-<h2>String<a class="headerlink" href="#string" title="Link to this heading"></a></h2>
+<h2>String<a class="headerlink" href="#string" title="Permalink to this heading"></a></h2>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">new</span><span class="p">();</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;initial contents&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span>
@@ -923,7 +923,7 @@
 </div>
 </section>
 <section id="hashmap">
-<h2>HashMap<a class="headerlink" href="#hashmap" title="Link to this heading"></a></h2>
+<h2>HashMap<a class="headerlink" href="#hashmap" title="Permalink to this heading"></a></h2>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">collections</span><span class="p">::</span><span class="n">HashMap</span><span class="p">;</span>
 
 <span class="c1">// 创建</span>
@@ -970,7 +970,7 @@
 </div>
 </section>
 <section id="id24">
-<h2>类型别名<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>类型别名<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">type</span><span class="w"> </span><span class="nc">Kilometers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">i32</span><span class="p">;</span>
 
 <span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
@@ -981,9 +981,9 @@
 </div>
 </section>
 <section id="id25">
-<h2>迭代器<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>迭代器<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <section id="id26">
-<h3>基本用法<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>基本用法<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span>
 
 <span class="c1">// for循环自动调用into_iter</span>
@@ -1012,7 +1012,7 @@
 </div>
 </section>
 <section id="id27">
-<h3>迭代器适配器<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>迭代器适配器<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span>
 
 <span class="c1">// map：转换</span>
@@ -1056,7 +1056,7 @@
 </div>
 </section>
 <section id="id28">
-<h3>性能技巧<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<h3>性能技巧<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 低效：多次collect</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">doubled</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">x</span><span class="o">|</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">).</span><span class="n">collect</span><span class="p">();</span>
@@ -1082,9 +1082,9 @@
 </section>
 </section>
 <section id="id29">
-<h2>闭包<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<h2>闭包<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h2>
 <section id="id30">
-<h3>语法和捕获<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>语法和捕获<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 完整语法</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="o">|</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">};</span>
 
@@ -1123,7 +1123,7 @@
 </div>
 </section>
 <section id="id31">
-<h3>闭包作为参数<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<h3>闭包作为参数<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 接受闭包</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">apply</span><span class="o">&lt;</span><span class="n">F</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">:</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">i32</span>
 <span class="nc">where</span>
@@ -1146,9 +1146,9 @@
 </section>
 </section>
 <section id="id32">
-<h2>高级模式匹配<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<h2>高级模式匹配<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h2>
 <section id="id33">
-<h3>范围匹配<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<h3>范围匹配<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
 
 <span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">{</span>
@@ -1168,7 +1168,7 @@
 </div>
 </section>
 <section id="id34">
-<h3>解构嵌套<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<h3>解构嵌套<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">Color</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">Rgb</span><span class="p">(</span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">),</span>
 <span class="w">    </span><span class="n">Hsv</span><span class="p">(</span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">),</span>
@@ -1199,7 +1199,7 @@
 </div>
 </section>
 <section id="id35">
-<h3>模式中的引用<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<h3>模式中的引用<a class="headerlink" href="#id35" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">));</span>
 
 <span class="c1">// ❌ 所有权移动</span>
@@ -1228,7 +1228,7 @@
 </div>
 </section>
 <section id="id36">
-<h3>多模式和守卫组合<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<h3>多模式和守卫组合<a class="headerlink" href="#id36" title="Permalink to this heading"></a></h3>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 
 <span class="k">match</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="p">{</span>
@@ -1243,7 +1243,7 @@
 </section>
 </section>
 <section id="ranges">
-<h2>Ranges<a class="headerlink" href="#ranges" title="Link to this heading"></a></h2>
+<h2>Ranges<a class="headerlink" href="#ranges" title="Permalink to this heading"></a></h2>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// 范围类型</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="p">;</span><span class="w">        </span><span class="c1">// 1,2,3,4</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">..=</span><span class="mi">5</span><span class="p">;</span><span class="w">       </span><span class="c1">// 1,2,3,4,5</span>
@@ -1270,7 +1270,7 @@
 </div>
 </section>
 <section id="id37">
-<h2>宏基础<a class="headerlink" href="#id37" title="Link to this heading"></a></h2>
+<h2>宏基础<a class="headerlink" href="#id37" title="Permalink to this heading"></a></h2>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// vec! 宏展开</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">];</span>
 <span class="c1">// 等价于：</span>
@@ -1301,20 +1301,20 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="01-environment-ownership.html" class="btn btn-neutral float-left" title="01-Rust环境搭建与所有权" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="03-error-trait.html" class="btn btn-neutral float-right" title="03-错误处理、泛型与Trait" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01-environment-ownership.html" class="btn btn-neutral float-left" title="01-Rust环境搭建与所有权" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03-error-trait.html" class="btn btn-neutral float-right" title="03-错误处理、泛型与Trait" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

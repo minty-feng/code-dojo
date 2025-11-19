@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-Python高级特性 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>04-Python高级特性 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="05-文件与数据处理" href="05-file-processing.html" />
     <link rel="prev" title="03-数据结构与标准库" href="03-data-structures.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -140,20 +140,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Python 教程</a></li>
       <li class="breadcrumb-item active">04-Python高级特性</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/python/04-advanced-features.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/python/04-advanced-features.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -162,12 +162,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="python">
-<h1>04-Python高级特性<a class="headerlink" href="#python" title="Link to this heading"></a></h1>
+<h1>04-Python高级特性<a class="headerlink" href="#python" title="Permalink to this heading"></a></h1>
 <p>Python的高级特性包括装饰器、生成器、上下文管理器、元类等。掌握这些特性可编写更优雅的代码。</p>
 <section id="id1">
-<h2>装饰器深入<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>装饰器深入<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>函数装饰器<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>函数装饰器<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本装饰器</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">logger</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -195,7 +195,7 @@
 </div>
 </section>
 <section id="id3">
-<h3>带参数的装饰器<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>带参数的装饰器<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -215,7 +215,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>类装饰器<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>类装饰器<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CountCalls</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
@@ -236,7 +236,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>常用内置装饰器<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>常用内置装饰器<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="mi">0</span>
@@ -275,9 +275,9 @@
 </section>
 </section>
 <section id="id6">
-<h2>生成器高级用法<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>生成器高级用法<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>生成器函数<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>生成器函数<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fibonacci</span><span class="p">():</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -303,7 +303,7 @@
 </div>
 </section>
 <section id="yield-from">
-<h3>yield from<a class="headerlink" href="#yield-from" title="Link to this heading"></a></h3>
+<h3>yield from<a class="headerlink" href="#yield-from" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generator1</span><span class="p">():</span>
     <span class="k">yield</span> <span class="mi">1</span>
     <span class="k">yield</span> <span class="mi">2</span>
@@ -332,9 +332,9 @@
 </section>
 </section>
 <section id="id8">
-<h2>上下文管理器<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>上下文管理器<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="with">
-<h3>with语句<a class="headerlink" href="#with" title="Link to this heading"></a></h3>
+<h3>with语句<a class="headerlink" href="#with" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本用法</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -347,7 +347,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>自定义上下文管理器<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>自定义上下文管理器<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 方法1：__enter__和__exit__</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Timer</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -381,7 +381,7 @@
 </section>
 </section>
 <section id="id10">
-<h2>描述符<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>描述符<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <p>实现属性访问的底层机制。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Descriptor</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -413,7 +413,7 @@
 </div>
 </section>
 <section id="id11">
-<h2>元类<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>元类<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <p>类的类，控制类的创建。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># type创建类</span>
 <span class="n">MyClass</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;MyClass&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
@@ -437,9 +437,9 @@
 </div>
 </section>
 <section id="id12">
-<h2>函数式编程<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>函数式编程<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="map-filter-reduce">
-<h3>map/filter/reduce<a class="headerlink" href="#map-filter-reduce" title="Link to this heading"></a></h3>
+<h3>map/filter/reduce<a class="headerlink" href="#map-filter-reduce" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># map：映射</span>
 <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>  <span class="c1"># [1, 4, 9, 16]</span>
 
@@ -453,7 +453,7 @@
 </div>
 </section>
 <section id="id13">
-<h3>闭包<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>闭包<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">outer</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>  <span class="c1"># 访问外部变量</span>
@@ -473,7 +473,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>柯里化<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>柯里化<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 普通函数</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
@@ -498,9 +498,9 @@
 </section>
 </section>
 <section id="id15">
-<h2>魔法方法<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>魔法方法<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>运算符重载<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>运算符重载<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Vector</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
@@ -545,7 +545,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>容器协议<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>容器协议<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyList</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -579,9 +579,9 @@
 </section>
 </section>
 <section id="id18">
-<h2>并发编程基础<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>并发编程基础<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="threading">
-<h3>threading<a class="headerlink" href="#threading" title="Link to this heading"></a></h3>
+<h3>threading<a class="headerlink" href="#threading" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">worker</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
@@ -615,7 +615,7 @@
 </div>
 </section>
 <section id="multiprocessing">
-<h3>multiprocessing<a class="headerlink" href="#multiprocessing" title="Link to this heading"></a></h3>
+<h3>multiprocessing<a class="headerlink" href="#multiprocessing" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">Queue</span>
 
 <span class="c1"># 创建进程</span>
@@ -653,7 +653,7 @@
 </div>
 </section>
 <section id="concurrent-futures">
-<h3>concurrent.futures<a class="headerlink" href="#concurrent-futures" title="Link to this heading"></a></h3>
+<h3>concurrent.futures<a class="headerlink" href="#concurrent-futures" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
 
 <span class="c1"># 线程池</span>
@@ -678,9 +678,9 @@
 </section>
 </section>
 <section id="asyncio">
-<h2>asyncio（异步编程）<a class="headerlink" href="#asyncio" title="Link to this heading"></a></h2>
+<h2>asyncio（异步编程）<a class="headerlink" href="#asyncio" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>协程基础<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>协程基础<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
 <span class="c1"># 定义协程</span>
@@ -710,7 +710,7 @@
 </div>
 </section>
 <section id="async-await">
-<h3>async/await模式<a class="headerlink" href="#async-await" title="Link to this heading"></a></h3>
+<h3>async/await模式<a class="headerlink" href="#async-await" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 异步HTTP请求（需要aiohttp）</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">aiohttp</span>
 
@@ -745,9 +745,9 @@
 </section>
 </section>
 <section id="id20">
-<h2>性能优化<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>性能优化<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <section id="vs">
-<h3>列表vs生成器<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<h3>列表vs生成器<a class="headerlink" href="#vs" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 列表：立即计算，占用内存</span>
 <span class="n">squares_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)]</span>  <span class="c1"># ~4MB</span>
 
@@ -760,7 +760,7 @@
 </div>
 </section>
 <section id="id21">
-<h3>字符串拼接<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>字符串拼接<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
 
 <span class="c1"># 慢（每次创建新字符串）</span>
@@ -781,7 +781,7 @@
 </div>
 </section>
 <section id="id22">
-<h3>集合查找<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>集合查找<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># list查找：O(n)</span>
 <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span>
 <span class="mi">5000</span> <span class="ow">in</span> <span class="n">lst</span>  <span class="c1"># 遍历查找</span>
@@ -797,7 +797,7 @@
 </div>
 </section>
 <section id="id23">
-<h3>局部变量优化<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>局部变量优化<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 慢（每次查找全局）</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">slow</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
@@ -813,7 +813,7 @@
 </section>
 </section>
 <section id="slots">
-<h2>slots优化内存<a class="headerlink" href="#slots" title="Link to this heading"></a></h2>
+<h2>slots优化内存<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 普通类（使用__dict__）</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -839,9 +839,9 @@
 </div>
 </section>
 <section id="id24">
-<h2>内存管理<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>内存管理<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <section id="id25">
-<h3>垃圾回收<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>垃圾回收<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
 
 <span class="c1"># 手动触发GC</span>
@@ -862,7 +862,7 @@
 </div>
 </section>
 <section id="id26">
-<h3>弱引用<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>弱引用<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
@@ -884,9 +884,9 @@
 </section>
 </section>
 <section id="id27">
-<h2>实用技巧<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<h2>实用技巧<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h2>
 <section id="id28">
-<h3>解包技巧<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<h3>解包技巧<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 变量交换</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
 
@@ -911,7 +911,7 @@
 </div>
 </section>
 <section id="id29">
-<h3>链式比较<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<h3>链式比较<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 优雅的范围判断</span>
 <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span>
 <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span>
@@ -920,7 +920,7 @@
 </div>
 </section>
 <section id="enumeratezip">
-<h3>enumerate和zip<a class="headerlink" href="#enumeratezip" title="Link to this heading"></a></h3>
+<h3>enumerate和zip<a class="headerlink" href="#enumeratezip" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># enumerate（索引和值）</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>  <span class="c1"># 1 a, 2 b, 3 c</span>
@@ -938,7 +938,7 @@
 </div>
 </section>
 <section id="python-3-8">
-<h3>海象运算符（:=，Python 3.8+）<a class="headerlink" href="#python-3-8" title="Link to this heading"></a></h3>
+<h3>海象运算符（:=，Python 3.8+）<a class="headerlink" href="#python-3-8" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 赋值表达式</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Large dataset: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> items&quot;</span><span class="p">)</span>
@@ -954,9 +954,9 @@
 </section>
 </section>
 <section id="id30">
-<h2>性能分析<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<h2>性能分析<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h2>
 <section id="cprofile">
-<h3>cProfile<a class="headerlink" href="#cprofile" title="Link to this heading"></a></h3>
+<h3>cProfile<a class="headerlink" href="#cprofile" title="Permalink to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cProfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pstats</span>
 
@@ -974,7 +974,7 @@
 </div>
 </section>
 <section id="line-profiler">
-<h3>line_profiler<a class="headerlink" href="#line-profiler" title="Link to this heading"></a></h3>
+<h3>line_profiler<a class="headerlink" href="#line-profiler" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
 pip<span class="w"> </span>install<span class="w"> </span>line_profiler
 
@@ -989,7 +989,7 @@ kernprof<span class="w"> </span>-l<span class="w"> </span>-v<span class="w"> </s
 </div>
 </section>
 <section id="memory-profiler">
-<h3>memory_profiler<a class="headerlink" href="#memory-profiler" title="Link to this heading"></a></h3>
+<h3>memory_profiler<a class="headerlink" href="#memory-profiler" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
 pip<span class="w"> </span>install<span class="w"> </span>memory_profiler
 
@@ -1005,7 +1005,7 @@ python<span class="w"> </span>-m<span class="w"> </span>memory_profiler<span cla
 </section>
 </section>
 <section id="id31">
-<h2>最佳实践<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>生成器代替列表</strong>：大数据处理</p></li>
 <li><p><strong>set查找</strong>：频繁检查成员关系</p></li>
@@ -1025,20 +1025,20 @@ python<span class="w"> </span>-m<span class="w"> </span>memory_profiler<span cla
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-data-structures.html" class="btn btn-neutral float-left" title="03-数据结构与标准库" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="05-file-processing.html" class="btn btn-neutral float-right" title="05-文件与数据处理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-data-structures.html" class="btn btn-neutral float-left" title="03-数据结构与标准库" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05-file-processing.html" class="btn btn-neutral float-right" title="05-文件与数据处理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>01-Shell基础 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>01-Shell基础 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="02-文本处理三剑客：grep、sed、awk" href="02-text-processing.html" />
     <link rel="prev" title="💻 Shell 开发" href="README.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -130,20 +130,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Shell 教程</a></li>
       <li class="breadcrumb-item active">01-Shell基础</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/shell/01-basics.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/shell/01-basics.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -152,12 +152,12 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="shell">
-<h1>01-Shell基础<a class="headerlink" href="#shell" title="Link to this heading"></a></h1>
+<h1>01-Shell基础<a class="headerlink" href="#shell" title="Permalink to this heading"></a></h1>
 <p>Shell是Linux/Unix的命令解释器，既是用户界面也是编程语言。Shell脚本是运维自动化的核心工具。</p>
 <section id="id1">
-<h2>Shell简介<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>Shell简介<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>常见Shell类型<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>常见Shell类型<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看可用Shell</span>
 cat<span class="w"> </span>/etc/shells
 
@@ -177,7 +177,7 @@ ps<span class="w"> </span>-p<span class="w"> </span><span class="nv">$$</span>
 </div>
 </section>
 <section id="bash-vs-zsh">
-<h3>Bash vs Zsh<a class="headerlink" href="#bash-vs-zsh" title="Link to this heading"></a></h3>
+<h3>Bash vs Zsh<a class="headerlink" href="#bash-vs-zsh" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>特性</p></th>
@@ -211,9 +211,9 @@ ps<span class="w"> </span>-p<span class="w"> </span><span class="nv">$$</span>
 </section>
 </section>
 <section id="id3">
-<h2>第一个Shell脚本<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>第一个Shell脚本<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>基本结构<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>基本结构<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1"># 这是注释</span>
 <span class="c1"># Shebang指定解释器</span>
@@ -230,7 +230,7 @@ bash<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="shebang">
-<h3>Shebang详解<a class="headerlink" href="#shebang" title="Link to this heading"></a></h3>
+<h3>Shebang详解<a class="headerlink" href="#shebang" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash              # 使用bash</span>
 <span class="c1">#!/bin/sh                # 使用sh（可能是bash或dash）</span>
 <span class="c1">#!/usr/bin/env bash      # 推荐：自动查找bash路径</span>
@@ -240,9 +240,9 @@ bash<span class="w"> </span>script.sh
 </section>
 </section>
 <section id="id5">
-<h2>变量<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>变量<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="id6">
-<h3>变量定义和使用<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>变量定义和使用<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 定义变量（=两边无空格）</span>
 <span class="nv">name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span>
 <span class="nv">age</span><span class="o">=</span><span class="m">25</span>
@@ -263,7 +263,7 @@ bash<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id7">
-<h3>特殊变量<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>特殊变量<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$0</span><span class="w">      </span><span class="c1"># 脚本名</span>
 <span class="nv">$1</span>-<span class="nv">$9</span><span class="w">   </span><span class="c1"># 第1-9个参数</span>
 <span class="si">${</span><span class="nv">10</span><span class="si">}</span><span class="w">   </span><span class="c1"># 第10个及以上参数</span>
@@ -287,7 +287,7 @@ bash<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id8">
-<h3>变量作用域<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>变量作用域<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 局部变量（当前Shell）</span>
 <span class="nv">name</span><span class="o">=</span><span class="s2">&quot;local&quot;</span>
 
@@ -303,7 +303,7 @@ bash<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id9">
-<h3>命令替换<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>命令替换<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 反引号（旧）</span>
 <span class="nv">result</span><span class="o">=</span><span class="sb">`</span>date<span class="sb">`</span>
 
@@ -319,9 +319,9 @@ bash<span class="w"> </span>script.sh
 </section>
 </section>
 <section id="id10">
-<h2>数据类型<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>数据类型<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>字符串<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>字符串<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 单引号：原样输出</span>
 <span class="nv">str</span><span class="o">=</span><span class="s1">&#39;Hello $USER&#39;</span><span class="w">  </span><span class="c1"># 输出：Hello $USER</span>
 
@@ -356,7 +356,7 @@ bash<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id12">
-<h3>数组<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>数组<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 定义数组</span>
 <span class="nv">arr</span><span class="o">=(</span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="o">)</span>
 arr<span class="o">[</span><span class="m">0</span><span class="o">]=</span><span class="m">10</span>
@@ -391,9 +391,9 @@ map<span class="o">[</span><span class="s2">&quot;age&quot;</span><span class="o
 </section>
 </section>
 <section id="id13">
-<h2>运算符<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>运算符<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>算术运算<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>算术运算<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># let命令</span>
 <span class="nb">let</span><span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="m">5</span>+3
 <span class="nb">let</span><span class="w"> </span><span class="s2">&quot;a = 5 + 3&quot;</span>
@@ -428,7 +428,7 @@ map<span class="o">[</span><span class="s2">&quot;age&quot;</span><span class="o
 </div>
 </section>
 <section id="id15">
-<h3>比较运算<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>比较运算<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 整数比较</span>
 -eq<span class="w">   </span><span class="c1"># 等于</span>
 -ne<span class="w">   </span><span class="c1"># 不等于</span>
@@ -482,7 +482,7 @@ map<span class="o">[</span><span class="s2">&quot;age&quot;</span><span class="o
 </div>
 </section>
 <section id="id16">
-<h3>逻辑运算<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>逻辑运算<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># [ ] 中</span>
 -a<span class="w">    </span><span class="c1"># AND</span>
 -o<span class="w">    </span><span class="c1"># OR</span>
@@ -513,9 +513,9 @@ cmd1<span class="w"> </span><span class="o">||</span><span class="w"> </span>cmd
 </section>
 </section>
 <section id="id17">
-<h2>输入输出<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<h2>输入输出<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
 <section id="echo-vs-printf">
-<h3>echo vs printf<a class="headerlink" href="#echo-vs-printf" title="Link to this heading"></a></h3>
+<h3>echo vs printf<a class="headerlink" href="#echo-vs-printf" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># echo：简单输出</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello World&quot;</span>
 <span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;no newline&quot;</span><span class="w">    </span><span class="c1"># 不换行</span>
@@ -530,7 +530,7 @@ cmd1<span class="w"> </span><span class="o">||</span><span class="w"> </span>cmd
 </div>
 </section>
 <section id="id18">
-<h3>读取输入<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>读取输入<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># read命令</span>
 <span class="nb">read</span><span class="w"> </span>name
 <span class="nb">read</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;Enter name: &quot;</span><span class="w"> </span>name<span class="w">       </span><span class="c1"># 提示符</span>
@@ -550,7 +550,7 @@ cmd1<span class="w"> </span><span class="o">||</span><span class="w"> </span>cmd
 </div>
 </section>
 <section id="id19">
-<h3>重定向<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>重定向<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 输出重定向</span>
 cmd<span class="w"> </span>&gt;<span class="w"> </span>file<span class="w">      </span><span class="c1"># 覆盖写入</span>
 cmd<span class="w"> </span>&gt;&gt;<span class="w"> </span>file<span class="w">     </span><span class="c1"># 追加写入</span>
@@ -580,9 +580,9 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </section>
 </section>
 <section id="id20">
-<h2>流程控制<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>流程控制<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <section id="if">
-<h3>if语句<a class="headerlink" href="#if" title="Link to this heading"></a></h3>
+<h3>if语句<a class="headerlink" href="#if" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本语法</span>
 <span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>condition<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <span class="w">    </span>commands
@@ -618,7 +618,7 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </div>
 </section>
 <section id="case">
-<h3>case语句<a class="headerlink" href="#case" title="Link to this heading"></a></h3>
+<h3>case语句<a class="headerlink" href="#case" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="nv">$var</span><span class="w"> </span><span class="k">in</span>
 <span class="w">    </span>pattern1<span class="o">)</span>
 <span class="w">        </span>commands
@@ -664,7 +664,7 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </div>
 </section>
 <section id="for">
-<h3>for循环<a class="headerlink" href="#for" title="Link to this heading"></a></h3>
+<h3>for循环<a class="headerlink" href="#for" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 遍历列表</span>
 <span class="k">for</span><span class="w"> </span>item<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$item</span>
@@ -707,7 +707,7 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </div>
 </section>
 <section id="while">
-<h3>while循环<a class="headerlink" href="#while" title="Link to this heading"></a></h3>
+<h3>while循环<a class="headerlink" href="#while" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本语法</span>
 <span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>condition<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>commands
@@ -734,7 +734,7 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </div>
 </section>
 <section id="until">
-<h3>until循环<a class="headerlink" href="#until" title="Link to this heading"></a></h3>
+<h3>until循环<a class="headerlink" href="#until" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 直到条件为真</span>
 <span class="k">until</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>condition<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>commands
@@ -750,7 +750,7 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </div>
 </section>
 <section id="breakcontinue">
-<h3>break和continue<a class="headerlink" href="#breakcontinue" title="Link to this heading"></a></h3>
+<h3>break和continue<a class="headerlink" href="#breakcontinue" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># break：跳出循环</span>
 <span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..10<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
@@ -771,9 +771,9 @@ cmd<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </sp
 </section>
 </section>
 <section id="id21">
-<h2>函数<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>函数<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="id22">
-<h3>函数定义<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>函数定义<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 方式1</span>
 function_name<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span>commands
@@ -794,7 +794,7 @@ greet<span class="w"> </span><span class="s2">&quot;Alice&quot;</span><span clas
 </div>
 </section>
 <section id="id23">
-<h3>参数和返回值<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>参数和返回值<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 函数参数</span>
 add<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">a</span><span class="o">=</span><span class="nv">$1</span>
@@ -829,7 +829,7 @@ get_date<span class="o">()</span><span class="w"> </span><span class="o">{</span
 </div>
 </section>
 <section id="id24">
-<h3>局部变量<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>局部变量<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">global_var</span><span class="o">=</span><span class="s2">&quot;global&quot;</span>
 
 test_func<span class="o">()</span><span class="w"> </span><span class="o">{</span>
@@ -846,9 +846,9 @@ test_func
 </section>
 </section>
 <section id="id25">
-<h2>调试<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>调试<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <section id="id26">
-<h3>调试选项<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>调试选项<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># -x：打印执行的命令</span>
 bash<span class="w"> </span>-x<span class="w"> </span>script.sh
 
@@ -871,7 +871,7 @@ commands
 </div>
 </section>
 <section id="id27">
-<h3>常用调试技巧<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>常用调试技巧<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查语法</span>
 bash<span class="w"> </span>-n<span class="w"> </span>script.sh
 
@@ -889,9 +889,9 @@ bash<span class="w"> </span>-n<span class="w"> </span>script.sh
 </section>
 </section>
 <section id="id28">
-<h2>最佳实践<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
 <section id="id29">
-<h3>Shebang和选项<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<h3>Shebang和选项<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="c1"># 严格模式</span>
@@ -903,7 +903,7 @@ bash<span class="w"> </span>-n<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id30">
-<h3>变量命名<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>变量命名<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 小写：局部变量</span>
 <span class="nv">local_var</span><span class="o">=</span><span class="s2">&quot;value&quot;</span>
 
@@ -919,7 +919,7 @@ bash<span class="w"> </span>-n<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id31">
-<h3>错误处理<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<h3>错误处理<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查命令是否存在</span>
 <span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>git<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;git not found&quot;</span>
@@ -941,7 +941,7 @@ bash<span class="w"> </span>-n<span class="w"> </span>script.sh
 </div>
 </section>
 <section id="id32">
-<h3>代码组织<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<h3>代码组织<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 <span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
 
@@ -978,20 +978,20 @@ main<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</s
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="README.html" class="btn btn-neutral float-left" title="💻 Shell 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02-text-processing.html" class="btn btn-neutral float-right" title="02-文本处理三剑客：grep、sed、awk" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="💻 Shell 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02-text-processing.html" class="btn btn-neutral float-right" title="02-文本处理三剑客：grep、sed、awk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

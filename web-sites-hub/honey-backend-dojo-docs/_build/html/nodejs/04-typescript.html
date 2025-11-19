@@ -1,27 +1,27 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>04-TypeScript集成 &mdash; Backend Tutorial 1.0.0 文档</title>
+  <title>04-TypeScript集成 &mdash; Backend Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=2d0851c8" />
 
   
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=34088549"></script>
-      <script src="../_static/doctools.js?v=9a2dae69"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../_static/copy-code.js?v=caf91246"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="05-WebSocket与性能优化" href="05-websocket-performance.html" />
     <link rel="prev" title="03-异步编程与数据库" href="03-async-database.html" /> 
 </head>
@@ -39,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
@@ -105,20 +105,20 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Backend Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Node.js 教程</a></li>
       <li class="breadcrumb-item active">04-TypeScript集成</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/nodejs/04-typescript.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../_sources/nodejs/04-typescript.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -127,19 +127,19 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="typescript">
-<h1>04-TypeScript集成<a class="headerlink" href="#typescript" title="Link to this heading"></a></h1>
+<h1>04-TypeScript集成<a class="headerlink" href="#typescript" title="Permalink to this heading"></a></h1>
 <p>TypeScript是JavaScript的超集，添加静态类型系统。编译期错误检查，提升代码质量和开发效率。</p>
 <section id="id1">
-<h2>TypeScript基础<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>TypeScript基础<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <section id="id2">
-<h3>安装配置<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<h3>安装配置<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>typescript<span class="w"> </span>@types/node<span class="w"> </span>@types/express
 npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </pre></div>
 </div>
 </section>
 <section id="tsconfig-json">
-<h3>tsconfig.json<a class="headerlink" href="#tsconfig-json" title="Link to this heading"></a></h3>
+<h3>tsconfig.json<a class="headerlink" href="#tsconfig-json" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;compilerOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ES2022&quot;</span><span class="p">,</span>
@@ -163,7 +163,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id3">
-<h3>基本类型<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>基本类型<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 基础类型</span>
 <span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="p">;</span>
 <span class="kd">let</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">25</span><span class="p">;</span>
@@ -213,7 +213,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id4">
-<h3>接口和类型别名<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>接口和类型别名<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 接口</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
@@ -261,9 +261,9 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </section>
 </section>
 <section id="express-typescript">
-<h2>Express + TypeScript<a class="headerlink" href="#express-typescript" title="Link to this heading"></a></h2>
+<h2>Express + TypeScript<a class="headerlink" href="#express-typescript" title="Permalink to this heading"></a></h2>
 <section id="id5">
-<h3>类型定义<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>类型定义<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nx">express</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="nx">Response</span><span class="p">,</span><span class="w"> </span><span class="nx">NextFunction</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;express&#39;</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">();</span>
@@ -308,7 +308,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id6">
-<h3>控制器<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>控制器<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// controllers/userController.ts</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="nx">Response</span><span class="p">,</span><span class="w"> </span><span class="nx">NextFunction</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;express&#39;</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="nx">IUser</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../models/User&#39;</span><span class="p">;</span>
@@ -342,7 +342,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id7">
-<h3>模型定义<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>模型定义<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// models/User.ts</span>
 <span class="k">import</span><span class="w"> </span><span class="nx">mongoose</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Document</span><span class="p">,</span><span class="w"> </span><span class="nx">Schema</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;mongoose&#39;</span><span class="p">;</span>
 
@@ -366,9 +366,9 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </section>
 </section>
 <section id="id8">
-<h2>类型守卫<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>类型守卫<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>类型断言<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>类型断言<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// as断言</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">unknown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hello&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">strLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">value</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="kt">string</span><span class="p">).</span><span class="nx">length</span><span class="p">;</span>
@@ -417,9 +417,9 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </section>
 </section>
 <section id="id10">
-<h2>装饰器<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>装饰器<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>启用装饰器<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>启用装饰器<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// tsconfig.json</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;compilerOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -431,7 +431,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id12">
-<h3>常用装饰器<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>常用装饰器<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 类装饰器</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">Controller</span><span class="p">(</span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">function</span><span class="o">&lt;</span><span class="nx">T</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ow">new</span><span class="p">(</span><span class="nx">...args</span><span class="o">:</span><span class="w"> </span><span class="kt">any</span><span class="p">[])</span><span class="o">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">}</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">constructor</span><span class="o">:</span><span class="w"> </span><span class="kt">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -482,7 +482,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </section>
 </section>
 <section id="id13">
-<h2>常用工具类型<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>常用工具类型<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Partial：所有属性可选</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
@@ -531,9 +531,9 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id14">
-<h2>配置开发环境<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<h2>配置开发环境<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
 <section id="ts-node">
-<h3>ts-node开发<a class="headerlink" href="#ts-node" title="Link to this heading"></a></h3>
+<h3>ts-node开发<a class="headerlink" href="#ts-node" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>ts-node<span class="w"> </span>nodemon
 
 <span class="c1"># nodemon.json</span>
@@ -555,7 +555,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="eslint-typescript">
-<h3>ESLint + TypeScript<a class="headerlink" href="#eslint-typescript" title="Link to this heading"></a></h3>
+<h3>ESLint + TypeScript<a class="headerlink" href="#eslint-typescript" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>@typescript-eslint/parser<span class="w"> </span>@typescript-eslint/eslint-plugin
 </pre></div>
 </div>
@@ -577,9 +577,9 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </section>
 </section>
 <section id="id15">
-<h2>最佳实践<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>最佳实践<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>类型定义<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>类型定义<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✓ 明确类型</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
@@ -605,7 +605,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id17">
-<h3>类型收窄<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>类型收窄<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">printValue</span><span class="p">(</span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kt">number</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">());</span><span class="w">  </span><span class="c1">// value是string</span>
@@ -634,7 +634,7 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 </div>
 </section>
 <section id="id18">
-<h3>严格模式<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>严格模式<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// tsconfig.json</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;compilerOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -658,20 +658,20 @@ npx<span class="w"> </span>tsc<span class="w"> </span>--init
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-async-database.html" class="btn btn-neutral float-left" title="03-异步编程与数据库" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="05-websocket-performance.html" class="btn btn-neutral float-right" title="05-WebSocket与性能优化" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-async-database.html" class="btn btn-neutral float-left" title="03-异步编程与数据库" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05-websocket-performance.html" class="btn btn-neutral float-right" title="05-WebSocket与性能优化" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
