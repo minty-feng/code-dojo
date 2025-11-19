@@ -36,6 +36,7 @@ declare -a SERVICES=(
     "/ds:/var/www/html/apple-ds-core:Data Structures Tutorial"
     "/algo:/var/www/html/banana-algo-core:Algorithms Tutorial"
     "/os:/var/www/html/cookie-os-network:OS & Network Tutorial"
+    "/miniprogram:/var/www/html/jam-miniprogram-dojo:Mini Program Tutorial"
 )
 
 # HTTPS 配置

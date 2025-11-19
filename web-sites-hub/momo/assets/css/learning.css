@@ -177,6 +177,10 @@
     background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }
 
+.learning-site-card.miniprogram::before {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+}
+
 .site-card-icon {
     flex-shrink: 0;
     width: 56px;
@@ -217,6 +221,11 @@
 .site-card-icon.os {
     background: linear-gradient(135deg, rgba(250, 112, 154, 0.2) 0%, rgba(254, 225, 64, 0.2) 100%);
     color: #fa709a;
+}
+
+.site-card-icon.miniprogram {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 111, 0.2) 100%);
+    color: #ff6b6b;
 }
 
 .learning-site-card:hover .site-card-icon {
