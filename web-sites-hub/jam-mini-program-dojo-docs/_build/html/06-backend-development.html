@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>后端开发与集成 &mdash; Mini Program Tutorial 1.0.0 文档</title>
+  <title>后端开发与集成 &mdash; Mini Program Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d25bc049" />
@@ -15,14 +15,13 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=34088549"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="_static/translations.js?v=beaddf03"></script>
-      <script src="_static/copy-code.js?v=37526288"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/copy-code.js?v=caf91246"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="测试与调试" href="05-testing-and-debugging.html" /> 
 </head>
 
@@ -39,12 +38,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">WeChat Mini Program Tutorial</a></li>
@@ -114,19 +113,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #07c160" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #07c160" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Mini Program Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">后端开发与集成</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/06-backend-development.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/06-backend-development.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -135,9 +134,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>后端开发与集成<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>后端开发与集成<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>小程序后端需要处理用户登录、数据存储、业务逻辑等</strong></p></li>
 <li><p><strong>RESTful API设计要遵循REST规范，返回统一格式</strong></p></li>
@@ -148,9 +147,9 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 后端架构设计<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 后端架构设计<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>1.1 技术选型<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.1 技术选型<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><strong>Node.js + Express</strong>：</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 适合快速开发，生态丰富</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">express</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">)</span>
@@ -198,7 +197,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>1.2 项目结构<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>1.2 项目结构<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>backend/
 ├── src/
 │   ├── controllers/     # 控制器
@@ -230,9 +229,9 @@
 </section>
 <hr class="docutils" />
 <section id="id6">
-<h2>2. 用户登录与认证<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>2. 用户登录与认证<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="id7">
-<h3>2.1 微信登录流程<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>2.1 微信登录流程<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// controllers/auth.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">axios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;axios&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">jwt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">)</span>
@@ -375,7 +374,7 @@
 </div>
 </section>
 <section id="jwt">
-<h3>2.2 JWT认证中间件<a class="headerlink" href="#jwt" title="Link to this heading"></a></h3>
+<h3>2.2 JWT认证中间件<a class="headerlink" href="#jwt" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// middleware/auth.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">jwt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../models/user&#39;</span><span class="p">)</span>
@@ -432,7 +431,7 @@
 </div>
 </section>
 <section id="id8">
-<h3>2.3 路由配置<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>2.3 路由配置<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// routes/api.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">express</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">.</span><span class="nx">Router</span><span class="p">()</span>
@@ -453,9 +452,9 @@
 </section>
 <hr class="docutils" />
 <section id="api">
-<h2>3. API设计<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<h2>3. API设计<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <section id="restful">
-<h3>3.1 RESTful规范<a class="headerlink" href="#restful" title="Link to this heading"></a></h3>
+<h3>3.1 RESTful规范<a class="headerlink" href="#restful" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// GET    /api/products          # 获取商品列表</span>
 <span class="c1">// GET    /api/products/:id      # 获取商品详情</span>
 <span class="c1">// POST   /api/products          # 创建商品</span>
@@ -465,7 +464,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>3.2 统一响应格式<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.2 统一响应格式<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/response.js</span>
 <span class="kd">class</span><span class="w"> </span><span class="nx">Response</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">success</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;成功&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -506,7 +505,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>3.3 商品API示例<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>3.3 商品API示例<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// controllers/product.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">Product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../models/product&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">Response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../utils/response&#39;</span><span class="p">)</span>
@@ -615,9 +614,9 @@
 </section>
 <hr class="docutils" />
 <section id="id11">
-<h2>4. 数据库设计<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<h2>4. 数据库设计<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
 <section id="mongodb">
-<h3>4.1 MongoDB模型设计<a class="headerlink" href="#mongodb" title="Link to this heading"></a></h3>
+<h3>4.1 MongoDB模型设计<a class="headerlink" href="#mongodb" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// models/user.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">mongoose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">)</span>
 
@@ -775,7 +774,7 @@
 </div>
 </section>
 <section id="id12">
-<h3>4.2 数据库连接<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>4.2 数据库连接<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// config/database.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">mongoose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mongoose&#39;</span><span class="p">)</span>
 
@@ -800,9 +799,9 @@
 </section>
 <hr class="docutils" />
 <section id="id13">
-<h2>5. 业务逻辑<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<h2>5. 业务逻辑<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <section id="id14">
-<h3>5.1 订单服务<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>5.1 订单服务<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// services/order.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">Order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../models/order&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">Product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../models/product&#39;</span><span class="p">)</span>
@@ -931,9 +930,9 @@
 </section>
 <hr class="docutils" />
 <section id="id15">
-<h2>6. 安全措施<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>6. 安全措施<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>6.1 参数校验<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>6.1 参数校验<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/validator.js</span>
 <span class="kd">class</span><span class="w"> </span><span class="nx">Validator</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">validateRequired</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">field</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1020,7 +1019,7 @@
 </div>
 </section>
 <section id="sql">
-<h3>6.2 SQL注入防护<a class="headerlink" href="#sql" title="Link to this heading"></a></h3>
+<h3>6.2 SQL注入防护<a class="headerlink" href="#sql" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用参数化查询（MongoDB天然防护）</span>
 <span class="c1">// ❌ 错误：字符串拼接</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`SELECT * FROM users WHERE name = &#39;</span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">&#39;`</span>
@@ -1035,7 +1034,7 @@
 </div>
 </section>
 <section id="xss">
-<h3>6.3 XSS防护<a class="headerlink" href="#xss" title="Link to this heading"></a></h3>
+<h3>6.3 XSS防护<a class="headerlink" href="#xss" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用xss库过滤用户输入</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">xss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xss&#39;</span><span class="p">)</span>
 
@@ -1052,7 +1051,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>6.4 限流<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>6.4 限流<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// middleware/rateLimit.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">rateLimit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express-rate-limit&#39;</span><span class="p">)</span>
 
@@ -1070,7 +1069,7 @@
 </div>
 </section>
 <section id="https">
-<h3>6.5 HTTPS<a class="headerlink" href="#https" title="Link to this heading"></a></h3>
+<h3>6.5 HTTPS<a class="headerlink" href="#https" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 生产环境必须使用HTTPS</span>
 <span class="c1">// 小程序要求所有请求必须使用HTTPS</span>
 
@@ -1090,9 +1089,9 @@
 </section>
 <hr class="docutils" />
 <section id="id18">
-<h2>7. 错误处理<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>7. 错误处理<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>7.1 全局错误处理<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>7.1 全局错误处理<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// middleware/error.js</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">errorHandler</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;错误:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
@@ -1124,7 +1123,7 @@
 </div>
 </section>
 <section id="id20">
-<h3>7.2 异步错误处理<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>7.2 异步错误处理<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用async/await</span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/products&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
@@ -1149,9 +1148,9 @@
 </section>
 <hr class="docutils" />
 <section id="id21">
-<h2>8. 部署<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<h2>8. 部署<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
 <section id="docker">
-<h3>8.1 Docker部署<a class="headerlink" href="#docker" title="Link to this heading"></a></h3>
+<h3>8.1 Docker部署<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h3>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c"># Dockerfile</span>
 <span class="k">FROM</span><span class="w"> </span><span class="s">node:16-alpine</span>
 
@@ -1191,7 +1190,7 @@
 </div>
 </section>
 <section id="pm2">
-<h3>8.2 PM2部署<a class="headerlink" href="#pm2" title="Link to this heading"></a></h3>
+<h3>8.2 PM2部署<a class="headerlink" href="#pm2" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ecosystem.config.js</span>
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">apps</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
@@ -1227,9 +1226,9 @@ pm2<span class="w"> </span>restart<span class="w"> </span>miniprogram-api
 </section>
 <hr class="docutils" />
 <section id="id22">
-<h2>9. 常见问题<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>9. 常见问题<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <section id="q1">
-<h3>Q1: 如何处理高并发？<a class="headerlink" href="#q1" title="Link to this heading"></a></h3>
+<h3>Q1: 如何处理高并发？<a class="headerlink" href="#q1" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>使用Redis缓存热点数据</p></li>
@@ -1239,7 +1238,7 @@ pm2<span class="w"> </span>restart<span class="w"> </span>miniprogram-api
 </ol>
 </section>
 <section id="q2">
-<h3>Q2: 如何保证数据一致性？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<h3>Q2: 如何保证数据一致性？<a class="headerlink" href="#q2" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>使用数据库事务</p></li>
@@ -1248,7 +1247,7 @@ pm2<span class="w"> </span>restart<span class="w"> </span>miniprogram-api
 </ol>
 </section>
 <section id="q3-api">
-<h3>Q3: 如何优化API性能？<a class="headerlink" href="#q3-api" title="Link to this heading"></a></h3>
+<h3>Q3: 如何优化API性能？<a class="headerlink" href="#q3-api" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>数据库索引优化</p></li>
@@ -1260,7 +1259,7 @@ pm2<span class="w"> </span>restart<span class="w"> </span>miniprogram-api
 </section>
 <hr class="docutils" />
 <section id="id23">
-<h2>参考资源<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Node.js最佳实践</p></li>
 <li><p>RESTful API设计指南</p></li>
@@ -1273,19 +1272,19 @@ pm2<span class="w"> </span>restart<span class="w"> </span>miniprogram-api
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="05-testing-and-debugging.html" class="btn btn-neutral float-left" title="测试与调试" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05-testing-and-debugging.html" class="btn btn-neutral float-left" title="测试与调试" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

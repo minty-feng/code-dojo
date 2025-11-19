@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>部署与发布 &mdash; Mini Program Tutorial 1.0.0 文档</title>
+  <title>部署与发布 &mdash; Mini Program Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d25bc049" />
@@ -15,14 +15,13 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=34088549"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="_static/translations.js?v=beaddf03"></script>
-      <script src="_static/copy-code.js?v=37526288"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/copy-code.js?v=caf91246"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="测试与调试" href="05-testing-and-debugging.html" />
     <link rel="prev" title="性能优化与最佳实践" href="03-performance-optimization.html" /> 
 </head>
@@ -40,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">WeChat Mini Program Tutorial</a></li>
@@ -119,19 +118,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #07c160" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #07c160" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Mini Program Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">部署与发布</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/04-deployment-and-release.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/04-deployment-and-release.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -140,9 +139,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>部署与发布<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>部署与发布<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>小程序发布需要经过开发版本→体验版本→审核版本→正式版本的流程</strong></p></li>
 <li><p><strong>版本号遵循语义化版本规范，主版本号.次版本号.修订号</strong></p></li>
@@ -153,9 +152,9 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 开发环境配置<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 开发环境配置<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>1.1 项目配置<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.1 项目配置<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// project.config.json</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;项目配置文件&quot;</span><span class="p">,</span>
@@ -210,7 +209,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>1.2 环境变量管理<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>1.2 环境变量管理<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// config/env.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// 开发环境</span>
@@ -256,7 +255,7 @@
 </div>
 </section>
 <section id="id6">
-<h3>1.3 构建脚本<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>1.3 构建脚本<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// package.json</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;scripts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -273,9 +272,9 @@
 </section>
 <hr class="docutils" />
 <section id="id7">
-<h2>2. 版本管理<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>2. 版本管理<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>2.1 版本号规范<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>2.1 版本号规范<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 语义化版本：主版本号.次版本号.修订号</span>
 <span class="c1">// 1.0.0 → 1.0.1 (修复bug)</span>
 <span class="c1">// 1.0.1 → 1.1.0 (新功能)</span>
@@ -290,7 +289,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>2.2 版本发布流程<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>2.2 版本发布流程<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>开发版本 (开发工具上传)
     ↓
 体验版本 (后台设置为体验版)
@@ -305,7 +304,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>2.3 开发版本管理<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>2.3 开发版本管理<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 在开发者工具中上传代码</span>
 <span class="c1"># 工具 → 上传 → 填写版本号和项目备注</span>
 
@@ -318,7 +317,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>2.4 版本回退<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>2.4 版本回退<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小程序后台 → 版本管理 → 版本回退</span>
 <span class="c1">// 可以回退到之前的任意版本</span>
 <span class="c1">// 注意：回退后需要重新提交审核</span>
@@ -328,9 +327,9 @@
 </section>
 <hr class="docutils" />
 <section id="id12">
-<h2>3. 域名配置<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>3. 域名配置<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="id13">
-<h3>3.1 服务器域名配置<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>3.1 服务器域名配置<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 小程序后台 → 开发 → 开发管理 → 开发设置 → 服务器域名</span>
 
 <span class="c1"># request合法域名</span>
@@ -349,7 +348,7 @@ wss://ws.example.com
 </div>
 </section>
 <section id="id14">
-<h3>3.2 业务域名配置<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>3.2 业务域名配置<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 小程序后台 → 开发 → 开发管理 → 开发设置 → 业务域名</span>
 
 <span class="c1"># web-view组件使用的域名</span>
@@ -358,7 +357,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id15">
-<h3>3.3 域名校验<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>3.3 域名校验<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 开发环境关闭域名校验</span>
 <span class="c1">// project.config.json</span>
 <span class="p">{</span>
@@ -375,9 +374,9 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="id16">
-<h2>4. 代码上传与审核<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<h2>4. 代码上传与审核<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
 <section id="id17">
-<h3>4.1 上传代码<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>4.1 上传代码<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 方式1：开发者工具上传</span>
 <span class="c1"># 工具 → 上传 → 填写版本号和备注</span>
 
@@ -399,7 +398,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id18">
-<h3>4.2 提交审核<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>4.2 提交审核<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <p><strong>审核前检查清单</strong>：</p>
 <div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="k">- [ ]</span> 功能完整性测试
 <span class="k">- [ ]</span> 真机调试通过
@@ -425,7 +424,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id19">
-<h3>4.3 审核要点<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>4.3 审核要点<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <p><strong>常见拒绝原因</strong>：</p>
 <ol class="arabic simple">
 <li><p><strong>功能不完整</strong></p>
@@ -477,9 +476,9 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="id20">
-<h2>5. 发布上线<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>5. 发布上线<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <section id="id21">
-<h3>5.1 全量发布<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>5.1 全量发布<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 小程序后台 → 版本管理 → 审核版本</span>
 <span class="c1"># 点击&quot;发布&quot; → 确认发布</span>
 
@@ -490,7 +489,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id22">
-<h3>5.2 灰度发布<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<h3>5.2 灰度发布<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小程序后台 → 版本管理 → 审核版本 → 灰度发布</span>
 
 <span class="c1">// 灰度比例设置：</span>
@@ -507,7 +506,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id23">
-<h3>5.3 分阶段发布<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>5.3 分阶段发布<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 阶段1：灰度10%用户，观察1-2天</span>
 <span class="c1">// 阶段2：灰度50%用户，观察1天</span>
 <span class="c1">// 阶段3：全量发布</span>
@@ -522,9 +521,9 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="id24">
-<h2>6. 监控与日志<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<h2>6. 监控与日志<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
 <section id="id25">
-<h3>6.1 错误监控<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<h3>6.1 错误监控<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/monitor.js</span>
 <span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">monitor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// 上报错误</span>
@@ -590,7 +589,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id26">
-<h3>6.2 日志收集<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>6.2 日志收集<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/logger.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">LOG_LEVELS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">DEBUG</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
@@ -698,7 +697,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id27">
-<h3>6.3 性能监控<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>6.3 性能监控<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/performance.js</span>
 <span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">performance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// 页面加载时间</span>
@@ -765,9 +764,9 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="id28">
-<h2>7. 热更新与版本控制<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<h2>7. 热更新与版本控制<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
 <section id="id29">
-<h3>7.1 检查更新<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<h3>7.1 检查更新<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// app.js</span>
 <span class="nx">App</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">onLaunch</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -819,7 +818,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="id30">
-<h3>7.2 版本对比<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<h3>7.2 版本对比<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/version.js</span>
 <span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">compareVersion</span><span class="p">(</span><span class="nx">v1</span><span class="p">,</span><span class="w"> </span><span class="nx">v2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">v1</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
@@ -860,9 +859,9 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="ci-cd">
-<h2>8. CI/CD自动化<a class="headerlink" href="#ci-cd" title="Link to this heading"></a></h2>
+<h2>8. CI/CD自动化<a class="headerlink" href="#ci-cd" title="Permalink to this heading"></a></h2>
 <section id="github-actions">
-<h3>8.1 GitHub Actions<a class="headerlink" href="#github-actions" title="Link to this heading"></a></h3>
+<h3>8.1 GitHub Actions<a class="headerlink" href="#github-actions" title="Permalink to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># .github/workflows/deploy.yml</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy MiniProgram</span>
 
@@ -902,7 +901,7 @@ https://h5.example.com
 </div>
 </section>
 <section id="jenkins-pipeline">
-<h3>8.2 Jenkins Pipeline<a class="headerlink" href="#jenkins-pipeline" title="Link to this heading"></a></h3>
+<h3>8.2 Jenkins Pipeline<a class="headerlink" href="#jenkins-pipeline" title="Permalink to this heading"></a></h3>
 <div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="c1">// Jenkinsfile</span>
 <span class="n">pipeline</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="n">agent</span><span class="w"> </span><span class="n">any</span>
@@ -933,9 +932,9 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="id31">
-<h2>9. 常见问题<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<h2>9. 常见问题<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h2>
 <section id="q1">
-<h3>Q1: 如何快速定位线上问题？<a class="headerlink" href="#q1" title="Link to this heading"></a></h3>
+<h3>Q1: 如何快速定位线上问题？<a class="headerlink" href="#q1" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>查看小程序后台错误日志</p></li>
@@ -945,7 +944,7 @@ https://h5.example.com
 </ol>
 </section>
 <section id="q2">
-<h3>Q2: 审核被拒怎么办？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<h3>Q2: 审核被拒怎么办？<a class="headerlink" href="#q2" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>查看拒绝原因</p></li>
@@ -955,7 +954,7 @@ https://h5.example.com
 </ol>
 </section>
 <section id="q3">
-<h3>Q3: 如何实现灰度发布？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<h3>Q3: 如何实现灰度发布？<a class="headerlink" href="#q3" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>小程序后台 → 版本管理 → 审核版本</p></li>
@@ -965,7 +964,7 @@ https://h5.example.com
 </ol>
 </section>
 <section id="q4">
-<h3>Q4: 如何回退版本？<a class="headerlink" href="#q4" title="Link to this heading"></a></h3>
+<h3>Q4: 如何回退版本？<a class="headerlink" href="#q4" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>小程序后台 → 版本管理 → 版本回退</p></li>
@@ -977,7 +976,7 @@ https://h5.example.com
 </section>
 <hr class="docutils" />
 <section id="id32">
-<h2>参考资源<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>微信小程序发布流程文档</p></li>
 <li><p>小程序审核规范</p></li>
@@ -990,20 +989,20 @@ https://h5.example.com
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="03-performance-optimization.html" class="btn btn-neutral float-left" title="性能优化与最佳实践" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="05-testing-and-debugging.html" class="btn btn-neutral float-right" title="测试与调试" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03-performance-optimization.html" class="btn btn-neutral float-left" title="性能优化与最佳实践" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05-testing-and-debugging.html" class="btn btn-neutral float-right" title="测试与调试" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

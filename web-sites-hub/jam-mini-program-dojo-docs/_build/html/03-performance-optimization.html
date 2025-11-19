@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>性能优化与最佳实践 &mdash; Mini Program Tutorial 1.0.0 文档</title>
+  <title>性能优化与最佳实践 &mdash; Mini Program Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d25bc049" />
@@ -15,14 +15,13 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=34088549"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="_static/translations.js?v=beaddf03"></script>
-      <script src="_static/copy-code.js?v=37526288"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/copy-code.js?v=caf91246"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="部署与发布" href="04-deployment-and-release.html" />
     <link rel="prev" title="网络请求与云开发" href="02-network-request-and-cloud.html" /> 
 </head>
@@ -40,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">WeChat Mini Program Tutorial</a></li>
@@ -114,19 +113,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #07c160" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #07c160" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Mini Program Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">性能优化与最佳实践</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/03-performance-optimization.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/03-performance-optimization.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -135,9 +134,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>性能优化与最佳实践<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>性能优化与最佳实践<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>setData是性能瓶颈，需控制频率和数据量</strong></p></li>
 <li><p><strong>图片懒加载和预加载可显著提升体验</strong></p></li>
@@ -148,9 +147,9 @@
 </section>
 <hr class="docutils" />
 <section id="setdata">
-<h2>1. setData优化<a class="headerlink" href="#setdata" title="Link to this heading"></a></h2>
+<h2>1. setData优化<a class="headerlink" href="#setdata" title="Permalink to this heading"></a></h2>
 <section id="id3">
-<h3>1.1 setData原理<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>1.1 setData原理<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>逻辑层(JS)  →  序列化数据  →  WebView线程  →  重新渲染
          ↑                             ↓
          └─────────── 耗时过程 ─────────┘
@@ -164,7 +163,7 @@
 </ul>
 </section>
 <section id="id4">
-<h3>1.2 优化策略<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.2 优化策略<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <p><strong>1. 只更新必要的数据</strong>：</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 错误：更新整个对象</span>
 <span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
@@ -258,9 +257,9 @@
 </section>
 <hr class="docutils" />
 <section id="id5">
-<h2>2. 长列表优化<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>2. 长列表优化<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <section id="id6">
-<h3>2.1 虚拟列表<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<h3>2.1 虚拟列表<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// components/virtual-list/virtual-list.js</span>
 <span class="nx">Component</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">properties</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
@@ -319,7 +318,7 @@
 </div>
 </section>
 <section id="id7">
-<h3>2.2 分页加载<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h3>2.2 分页加载<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
@@ -385,9 +384,9 @@
 </section>
 <hr class="docutils" />
 <section id="id8">
-<h2>3. 图片优化<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>3. 图片优化<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
 <section id="id9">
-<h3>3.1 图片懒加载<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.1 图片懒加载<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- pages/list/list.wxml --&gt;</span>
 <span class="p">&lt;</span><span class="nt">scroll-view</span> <span class="na">scroll-y</span> <span class="na">bindscroll</span><span class="o">=</span><span class="s">&quot;onScroll&quot;</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">view</span> <span class="na">wx:for</span><span class="o">=</span><span class="s">&quot;{{list}}&quot;</span> <span class="na">wx:key</span><span class="o">=</span><span class="s">&quot;id&quot;</span><span class="p">&gt;</span>
@@ -427,7 +426,7 @@
 </div>
 </section>
 <section id="id10">
-<h3>3.2 图片预加载<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<h3>3.2 图片预加载<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">preloadImages</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">images</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
@@ -445,7 +444,7 @@
 </div>
 </section>
 <section id="id11">
-<h3>3.3 图片压缩<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>3.3 图片压缩<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
 <span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">compressImage</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">compressImage</span><span class="p">({</span>
@@ -474,9 +473,9 @@
 </section>
 <hr class="docutils" />
 <section id="id12">
-<h2>4. 分包加载<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<h2>4. 分包加载<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
 <section id="id13">
-<h3>4.1 分包配置<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>4.1 分包配置<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// app.json</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -515,7 +514,7 @@
 </div>
 </section>
 <section id="id14">
-<h3>4.2 分包跳转<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>4.2 分包跳转<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 跳转到分包页面</span>
 <span class="nx">wx</span><span class="p">.</span><span class="nx">navigateTo</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/packageA/pages/products/products&#39;</span>
@@ -534,9 +533,9 @@
 </section>
 <hr class="docutils" />
 <section id="id15">
-<h2>5. 缓存策略<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<h2>5. 缓存策略<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>5.1 数据缓存<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>5.1 数据缓存<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/cache.js</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">CACHE_EXPIRE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="w">  </span><span class="c1">// 5分钟</span>
 
@@ -597,7 +596,7 @@
 </div>
 </section>
 <section id="id17">
-<h3>5.2 图片缓存<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>5.2 图片缓存<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小程序会自动缓存图片</span>
 <span class="c1">// 使用相同的URL会从缓存读取</span>
 
@@ -613,9 +612,9 @@
 </section>
 <hr class="docutils" />
 <section id="id18">
-<h2>6. 代码优化<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<h2>6. 代码优化<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
 <section id="id19">
-<h3>6.1 减少包体积<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<h3>6.1 减少包体积<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
 <p><strong>1. 清理无用代码</strong>：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用构建工具</span>
 npm<span class="w"> </span>run<span class="w"> </span>build
@@ -642,7 +641,7 @@ tinypng、imagemin
 </div>
 </section>
 <section id="id20">
-<h3>6.2 避免不必要的渲染<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<h3>6.2 避免不必要的渲染<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- ❌ 错误：wx:if频繁切换 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">view</span> <span class="na">wx:if</span><span class="o">=</span><span class="s">&quot;{{show}}&quot;</span><span class="p">&gt;</span>内容<span class="p">&lt;/</span><span class="nt">view</span><span class="p">&gt;</span>
 
@@ -657,7 +656,7 @@ tinypng、imagemin
 </div>
 </section>
 <section id="id21">
-<h3>6.3 使用自定义组件<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<h3>6.3 使用自定义组件<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// components/product-item/product-item.js</span>
 <span class="nx">Component</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">properties</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
@@ -685,9 +684,9 @@ tinypng、imagemin
 </section>
 <hr class="docutils" />
 <section id="id22">
-<h2>7. 性能监控<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<h2>7. 性能监控<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
 <section id="id23">
-<h3>7.1 性能数据上报<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<h3>7.1 性能数据上报<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// app.js</span>
 <span class="nx">App</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">onLaunch</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -717,7 +716,7 @@ tinypng、imagemin
 </div>
 </section>
 <section id="id24">
-<h3>7.2 体验评分<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<h3>7.2 体验评分<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小程序后台 → 运维中心 → 性能监控</span>
 <span class="c1">// 可以看到：</span>
 <span class="c1">// - 启动耗时</span>
@@ -731,9 +730,9 @@ tinypng、imagemin
 </section>
 <hr class="docutils" />
 <section id="id25">
-<h2>8. 最佳实践<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<h2>8. 最佳实践<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
 <section id="id26">
-<h3>8.1 代码规范<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<h3>8.1 代码规范<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. 使用ES6+语法</span>
 <span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">data</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">newList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...</span><span class="nx">list</span><span class="p">,</span><span class="w"> </span><span class="nx">newItem</span><span class="p">]</span>
@@ -768,7 +767,7 @@ tinypng、imagemin
 </div>
 </section>
 <section id="id27">
-<h3>8.2 目录结构<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<h3>8.2 目录结构<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>miniprogram/
 ├── pages/               # 页面
 │   ├── index/
@@ -793,7 +792,7 @@ tinypng、imagemin
 </div>
 </section>
 <section id="id28">
-<h3>8.3 用户体验<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<h3>8.3 用户体验<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. 加载提示</span>
 <span class="nx">wx</span><span class="p">.</span><span class="nx">showLoading</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;加载中&#39;</span><span class="w"> </span><span class="p">})</span>
 <span class="k">await</span><span class="w"> </span><span class="nx">loadData</span><span class="p">()</span>
@@ -823,9 +822,9 @@ tinypng、imagemin
 </section>
 <hr class="docutils" />
 <section id="id29">
-<h2>9. 常见问题<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<h2>9. 常见问题<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h2>
 <section id="q1">
-<h3>Q1: 如何调试性能问题？<a class="headerlink" href="#q1" title="Link to this heading"></a></h3>
+<h3>Q1: 如何调试性能问题？<a class="headerlink" href="#q1" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>开发者工具 → 调试器 → Performance</p></li>
@@ -834,7 +833,7 @@ tinypng、imagemin
 </ol>
 </section>
 <section id="q2">
-<h3>Q2: 如何优化首屏加载速度？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<h3>Q2: 如何优化首屏加载速度？<a class="headerlink" href="#q2" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>减少首屏请求数量</p></li>
@@ -844,7 +843,7 @@ tinypng、imagemin
 </ol>
 </section>
 <section id="q3">
-<h3>Q3: 如何减少包体积？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<h3>Q3: 如何减少包体积？<a class="headerlink" href="#q3" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>压缩图片资源</p></li>
@@ -856,7 +855,7 @@ tinypng、imagemin
 </section>
 <hr class="docutils" />
 <section id="id30">
-<h2>参考资源<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>小程序性能优化指南</p></li>
 <li><p>小程序体验评分规则</p></li>
@@ -868,20 +867,20 @@ tinypng、imagemin
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="02-network-request-and-cloud.html" class="btn btn-neutral float-left" title="网络请求与云开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="04-deployment-and-release.html" class="btn btn-neutral float-right" title="部署与发布" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="02-network-request-and-cloud.html" class="btn btn-neutral float-left" title="网络请求与云开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="04-deployment-and-release.html" class="btn btn-neutral float-right" title="部署与发布" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

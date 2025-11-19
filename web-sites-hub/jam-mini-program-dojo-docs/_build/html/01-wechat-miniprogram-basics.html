@@ -1,12 +1,12 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>基础 &mdash; Mini Program Tutorial 1.0.0 文档</title>
+  <title>基础 &mdash; Mini Program Tutorial 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d25bc049" />
@@ -15,14 +15,13 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=34088549"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="_static/translations.js?v=beaddf03"></script>
-      <script src="_static/copy-code.js?v=37526288"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/copy-code.js?v=caf91246"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="网络请求与云开发" href="02-network-request-and-cloud.html" />
     <link rel="prev" title="WeChat Mini Program Tutorial" href="introduction.html" /> 
 </head>
@@ -40,12 +39,12 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">WeChat Mini Program Tutorial</a></li>
@@ -102,19 +101,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #07c160" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #07c160" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Mini Program Tutorial</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">基础</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/01-wechat-miniprogram-basics.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/01-wechat-miniprogram-basics.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -123,9 +122,9 @@
            <div itemprop="articleBody">
              
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>基础<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<h1>基础<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <section id="id2">
-<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>小程序采用双线程架构：逻辑层(JSCore)和视图层(WebView)分离</strong></p></li>
 <li><p><strong>WXML是类HTML语法，WXSS是类CSS语法，支持rpx响应式单位</strong></p></li>
@@ -136,9 +135,9 @@
 </section>
 <hr class="docutils" />
 <section id="id3">
-<h2>1. 快速开始<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>1. 快速开始<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>1.1 注册与配置<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<h3>1.1 注册与配置<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. 注册小程序账号</span>
 https://mp.weixin.qq.com/
 
@@ -151,7 +150,7 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </div>
 </section>
 <section id="id5">
-<h3>1.2 项目结构<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h3>1.2 项目结构<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>my-miniprogram/
 ├── pages/                  # 页面目录
 │   ├── index/
@@ -175,7 +174,7 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </div>
 </section>
 <section id="app-json">
-<h3>1.3 全局配置 (app.json)<a class="headerlink" href="#app-json" title="Link to this heading"></a></h3>
+<h3>1.3 全局配置 (app.json)<a class="headerlink" href="#app-json" title="Permalink to this heading"></a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="s2">&quot;pages/index/index&quot;</span><span class="p">,</span>
@@ -221,9 +220,9 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </section>
 <hr class="docutils" />
 <section id="id6">
-<h2>2. 页面开发<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>2. 页面开发<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
 <section id="wxml">
-<h3>2.1 WXML 语法<a class="headerlink" href="#wxml" title="Link to this heading"></a></h3>
+<h3>2.1 WXML 语法<a class="headerlink" href="#wxml" title="Permalink to this heading"></a></h3>
 <p><strong>数据绑定</strong>：</p>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- pages/index/index.wxml --&gt;</span>
 <span class="p">&lt;</span><span class="nt">view</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
@@ -293,7 +292,7 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </div>
 </section>
 <section id="wxss">
-<h3>2.2 WXSS 样式<a class="headerlink" href="#wxss" title="Link to this heading"></a></h3>
+<h3>2.2 WXSS 样式<a class="headerlink" href="#wxss" title="Permalink to this heading"></a></h3>
 <div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="c">/* pages/index/index.wxss */</span>
 
 <span class="c">/* rpx：响应式单位（750rpx = 屏幕宽度） */</span>
@@ -339,7 +338,7 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </div>
 </section>
 <section id="js">
-<h3>2.3 页面逻辑 (JS)<a class="headerlink" href="#js" title="Link to this heading"></a></h3>
+<h3>2.3 页面逻辑 (JS)<a class="headerlink" href="#js" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// pages/index/index.js</span>
 <span class="nx">Page</span><span class="p">({</span>
 <span class="w">  </span><span class="c1">// 页面数据</span>
@@ -429,9 +428,9 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </section>
 <hr class="docutils" />
 <section id="id7">
-<h2>3. 生命周期<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<h2>3. 生命周期<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <section id="id8">
-<h3>3.1 应用生命周期<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<h3>3.1 应用生命周期<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// app.js</span>
 <span class="nx">App</span><span class="p">({</span>
 <span class="w">  </span><span class="c1">// 全局数据</span>
@@ -502,7 +501,7 @@ https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
 </div>
 </section>
 <section id="id9">
-<h3>3.2 页面生命周期流程<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>3.2 页面生命周期流程<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>小程序启动
     ↓
 App.onLaunch
@@ -526,9 +525,9 @@ Page.onUnload ──→ 页面卸载
 </section>
 <hr class="docutils" />
 <section id="id10">
-<h2>4. 组件<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<h2>4. 组件<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
 <section id="id11">
-<h3>4.1 视图容器<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<h3>4.1 视图容器<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- view：块级容器 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">view</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">view</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;item&quot;</span><span class="p">&gt;</span>Item 1<span class="p">&lt;/</span><span class="nt">view</span><span class="p">&gt;</span>
@@ -561,7 +560,7 @@ Page.onUnload ──→ 页面卸载
 </div>
 </section>
 <section id="id12">
-<h3>4.2 基础组件<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<h3>4.2 基础组件<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- text：文本 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">text</span> <span class="na">selectable</span> <span class="na">user-select</span><span class="p">&gt;</span>可选择的文本<span class="p">&lt;/</span><span class="nt">text</span><span class="p">&gt;</span>
 
@@ -586,7 +585,7 @@ Page.onUnload ──→ 页面卸载
 </div>
 </section>
 <section id="id13">
-<h3>4.3 表单组件<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<h3>4.3 表单组件<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">bindsubmit</span><span class="o">=</span><span class="s">&quot;onSubmit&quot;</span> <span class="na">bindreset</span><span class="o">=</span><span class="s">&quot;onReset&quot;</span><span class="p">&gt;</span>
   <span class="cm">&lt;!-- input：输入框 --&gt;</span>
   <span class="p">&lt;</span><span class="nt">input</span> 
@@ -637,7 +636,7 @@ Page.onUnload ──→ 页面卸载
 </div>
 </section>
 <section id="id14">
-<h3>4.4 导航组件<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<h3>4.4 导航组件<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- navigator：页面跳转 --&gt;</span>
 <span class="p">&lt;</span><span class="nt">navigator</span> <span class="na">url</span><span class="o">=</span><span class="s">&quot;/pages/detail/detail?id=1&quot;</span><span class="p">&gt;</span>跳转到详情<span class="p">&lt;/</span><span class="nt">navigator</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">navigator</span> <span class="na">url</span><span class="o">=</span><span class="s">&quot;/pages/list/list&quot;</span> <span class="na">open-type</span><span class="o">=</span><span class="s">&quot;redirect&quot;</span><span class="p">&gt;</span>重定向<span class="p">&lt;/</span><span class="nt">navigator</span><span class="p">&gt;</span>
@@ -646,7 +645,7 @@ Page.onUnload ──→ 页面卸载
 </div>
 </section>
 <section id="id15">
-<h3>4.5 自定义组件<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<h3>4.5 自定义组件<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <p><strong>创建组件</strong>：</p>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// components/product-item/product-item.js</span>
 <span class="nx">Component</span><span class="p">({</span>
@@ -815,9 +814,9 @@ Page.onUnload ──→ 页面卸载
 </section>
 <hr class="docutils" />
 <section id="api">
-<h2>5. API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<h2>5. API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
 <section id="id16">
-<h3>5.1 路由跳转<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<h3>5.1 路由跳转<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 保留当前页面，跳转</span>
 <span class="nx">wx</span><span class="p">.</span><span class="nx">navigateTo</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/pages/detail/detail?id=1&#39;</span>
@@ -846,7 +845,7 @@ Page.onUnload ──→ 页面卸载
 </div>
 </section>
 <section id="id17">
-<h3>5.2 交互反馈<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<h3>5.2 交互反馈<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 显示提示</span>
 <span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
 <span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;操作成功&#39;</span><span class="p">,</span>
@@ -885,7 +884,7 @@ Page.onUnload ──→ 页面卸载
 </div>
 </section>
 <section id="id18">
-<h3>5.3 数据缓存<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<h3>5.3 数据缓存<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
 <div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 同步存储</span>
 <span class="nx">wx</span><span class="p">.</span><span class="nx">setStorageSync</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">)</span>
@@ -922,9 +921,9 @@ Page.onUnload ──→ 页面卸载
 </section>
 <hr class="docutils" />
 <section id="id19">
-<h2>6. 常见问题<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<h2>6. 常见问题<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
 <section id="q1-rpxpx">
-<h3>Q1: rpx和px的区别？<a class="headerlink" href="#q1-rpxpx" title="Link to this heading"></a></h3>
+<h3>Q1: rpx和px的区别？<a class="headerlink" href="#q1-rpxpx" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">rpx</span></code>：响应式像素，750rpx = 屏幕宽度</p></li>
@@ -933,7 +932,7 @@ Page.onUnload ──→ 页面卸载
 </ul>
 </section>
 <section id="q2-setdata">
-<h3>Q2: setData的注意事项？<a class="headerlink" href="#q2-setdata" title="Link to this heading"></a></h3>
+<h3>Q2: setData的注意事项？<a class="headerlink" href="#q2-setdata" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ol class="arabic simple">
 <li><p>单次setData数据不超过1MB</p></li>
@@ -943,7 +942,7 @@ Page.onUnload ──→ 页面卸载
 </ol>
 </section>
 <section id="q3">
-<h3>Q3: 小程序包体积限制？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<h3>Q3: 小程序包体积限制？<a class="headerlink" href="#q3" title="Permalink to this heading"></a></h3>
 <p><strong>A</strong>:</p>
 <ul class="simple">
 <li><p>整个小程序：不超过20MB</p></li>
@@ -954,7 +953,7 @@ Page.onUnload ──→ 页面卸载
 </section>
 <hr class="docutils" />
 <section id="id20">
-<h2>参考资源<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<h2>参考资源<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>微信小程序官方文档</p></li>
 <li><p>微信开放社区</p></li>
@@ -966,20 +965,20 @@ Page.onUnload ──→ 页面卸载
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="introduction.html" class="btn btn-neutral float-left" title="WeChat Mini Program Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02-network-request-and-cloud.html" class="btn btn-neutral float-right" title="网络请求与云开发" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="WeChat Mini Program Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02-network-request-and-cloud.html" class="btn btn-neutral float-right" title="网络请求与云开发" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2025, Code Dojo。</p>
+    <p>&#169; Copyright 2025, Code Dojo.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
