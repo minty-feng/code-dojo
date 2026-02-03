@@ -1,0 +1,582 @@
+# 11-模板编程
+
+模板是C++泛型编程的基础，实现类型无关的代码。模板在编译期展开，零运行时开销但增加编译时间。
+
+## 函数模板
+
+函数模板定义通用算法，适用于多种类型。编译器根据实参自动推导模板参数类型。
+
+### 基本语法
+
+函数模板用 `template<typename T>` 声明。`T` 是类型参数，可用于参数类型、返回类型、局部变量类型。
+
+
+```cpp
+// 函数模板定义
+template<typename T>
+T maximum(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+// 使用
+int result1 = maximum(10, 20);           // T推导为int
+double result2 = maximum(3.14, 2.71);    // T推导为double
+string result3 = maximum(string("hello"), string("world")); // T推导为string
+```
+
+### 多参数模板
+
+模板可以有多个类型参数或非类型参数。不同类型参数间可以互相操作，结果类型用 `decltype` 或 `auto` 推导。
+
+```cpp
+template<typename T, typename U>
+auto add(T a, U b) -> decltype(a + b) {
+    return a + b;
+}
+
+// 使用
+auto result = add(10, 3.14);  // 返回double
+```
+
+### 模板特化
+
+模板特化为特定类型提供定制实现。全特化指定所有模板参数，偏特化指定部分参数。特化优先于通用模板。
+
+```cpp
+// 主模板
+template<typename T>
+void print(T value) {
+    cout << "Generic: " << value << endl;
+}
+
+// 特化版本
+template<>
+void print<string>(string value) {
+    cout << "String: " << value << endl;
+}
+
+// 使用
+print(42);           // 调用主模板
+print(string("hi")); // 调用特化版本
+```
+
+### 非类型模板参数
+```cpp
+template<int N>
+class Array {
+private:
+    int data[N];
+public:
+    int& operator[](int index) {
+        return data[index];
+    }
+    int size() const { return N; }
+};
+
+// 使用
+Array<10> arr;  // 编译时确定大小
+```
+
+## 类模板
+
+类模板定义通用数据结构。STL容器都是类模板，如 `vector<T>`、`map<K,V>`。类模板需要显式指定模板参数。
+
+### 基本类模板
+
+类模板在类名后用 `<T>` 声明模板参数。成员函数定义需要重复模板声明。模板定义通常放在头文件中。
+
+
+```cpp
+template<typename T>
+class Stack {
+private:
+    vector<T> elements;
+    
+public:
+    void push(const T& element) {
+        elements.push_back(element);
+    }
+    
+    void pop() {
+        if (!elements.empty()) {
+            elements.pop_back();
+        }
+    }
+    
+    T& top() {
+        return elements.back();
+    }
+    
+    bool empty() const {
+        return elements.empty();
+    }
+    
+    size_t size() const {
+        return elements.size();
+    }
+};
+
+// 使用
+Stack<int> intStack;
+Stack<string> stringStack;
+```
+
+### 模板成员函数
+```cpp
+class Container {
+public:
+    template<typename T>
+    void process(T value) {
+        cout << "Processing: " << value << endl;
+    }
+    
+    template<typename T, typename U>
+    void combine(T a, U b) {
+        cout << "Combined: " << a << " + " << b << endl;
+    }
+};
+
+// 使用
+Container c;
+c.process(42);
+c.process(string("hello"));
+c.combine(10, 3.14);
+```
+
+### 类模板特化
+```cpp
+// 主模板
+template<typename T>
+class Vector {
+private:
+    T* data;
+    size_t size;
+public:
+    Vector(size_t s) : size(s), data(new T[s]) {}
+    ~Vector() { delete[] data; }
+};
+
+// 特化版本
+template<>
+class Vector<bool> {
+private:
+    unsigned char* data;
+    size_t size;
+public:
+    Vector(size_t s) : size(s), data(new unsigned char[(s + 7) / 8]) {}
+    ~Vector() { delete[] data; }
+    
+    bool operator[](size_t index) const {
+        return (data[index / 8] >> (index % 8)) & 1;
+    }
+    
+    void set(size_t index, bool value) {
+        if (value) {
+            data[index / 8] |= (1 << (index % 8));
+        } else {
+            data[index / 8] &= ~(1 << (index % 8));
+        }
+    }
+};
+```
+
+## 模板元编程
+
+### 编译时计算
+```cpp
+// 编译时阶乘
+template<int N>
+struct Factorial {
+    static const int value = N * Factorial<N - 1>::value;
+};
+
+template<>
+struct Factorial<0> {
+    static const int value = 1;
+};
+
+// 使用
+const int fact5 = Factorial<5>::value;  // 编译时计算为120
+```
+
+### SFINAE（替换失败不是错误）
+```cpp
+#include <type_traits>
+
+// 检查类型是否有size()成员函数
+template<typename T>
+class has_size {
+private:
+    template<typename U>
+    static auto test(int) -> decltype(std::declval<U>().size(), std::true_type{});
+    
+    template<typename>
+    static std::false_type test(...);
+    
+public:
+    static const bool value = decltype(test<T>(0))::value;
+};
+
+// 使用
+cout << has_size<vector<int>>::value << endl;  // true
+cout << has_size<int>::value << endl;          // false
+```
+
+### 类型萃取
+```cpp
+#include <type_traits>
+
+// 移除引用
+template<typename T>
+using remove_reference_t = typename std::remove_reference<T>::type;
+
+// 条件类型
+template<bool B, typename T, typename F>
+using conditional_t = typename std::conditional<B, T, F>::type;
+
+// 使用
+remove_reference_t<int&> a = 42;  // a的类型是int
+conditional_t<true, int, double> b = 10;  // b的类型是int
+```
+
+## 变参模板（C++11）
+
+### 基本语法
+```cpp
+// 变参函数模板
+template<typename... Args>
+void print(Args... args) {
+    ((cout << args << " "), ...);  // C++17折叠表达式
+    cout << endl;
+}
+
+// 使用
+print(1, 2.5, "hello", 'c');  // 输出: 1 2.5 hello c
+```
+
+### 变参类模板
+```cpp
+template<typename... Types>
+class Tuple;
+
+// 特化：空元组
+template<>
+class Tuple<> {};
+
+// 特化：非空元组
+template<typename Head, typename... Tail>
+class Tuple<Head, Tail...> {
+private:
+    Head head;
+    Tuple<Tail...> tail;
+    
+public:
+    Tuple(Head h, Tail... t) : head(h), tail(t...) {}
+    
+    Head& getHead() { return head; }
+    Tuple<Tail...>& getTail() { return tail; }
+};
+```
+
+### 完美转发
+```cpp
+template<typename T>
+void forwardValue(T&& value) {
+    process(std::forward<T>(value));
+}
+
+template<typename T>
+void process(T&& value) {
+    cout << "Processing: " << value << endl;
+}
+
+// 使用
+int x = 42;
+forwardValue(x);        // 左值
+forwardValue(42);       // 右值
+forwardValue(std::move(x)); // 右值
+```
+
+## 概念（C++20）
+
+### 基本概念
+```cpp
+#include <concepts>
+
+// 定义概念
+template<typename T>
+concept Addable = requires(T a, T b) {
+    a + b;  // 必须支持加法
+};
+
+template<typename T>
+concept Printable = requires(T t) {
+    std::cout << t;  // 必须可打印
+};
+
+// 使用概念
+template<Addable T>
+T add(T a, T b) {
+    return a + b;
+}
+
+template<Printable T>
+void print(T value) {
+    std::cout << value << std::endl;
+}
+```
+
+### 约束模板
+```cpp
+#include <concepts>
+
+// 约束函数模板
+template<std::integral T>
+T multiply(T a, T b) {
+    return a * b;
+}
+
+// 约束类模板
+template<std::copyable T>
+class Container {
+private:
+    T value;
+public:
+    Container(const T& v) : value(v) {}
+    T get() const { return value; }
+};
+
+// 使用
+auto result = multiply(5, 3);        // OK
+// auto result2 = multiply(5.0, 3.0); // 错误：不满足integral约束
+```
+
+## 模板实例化
+
+### 显式实例化
+```cpp
+// 头文件中的模板定义
+template<typename T>
+void process(T value) {
+    cout << "Processing: " << value << endl;
+}
+
+// 源文件中的显式实例化
+template void process<int>(int);
+template void process<double>(double);
+template void process<string>(string);
+```
+
+### 实例化控制
+```cpp
+// 防止隐式实例化
+extern template void process<int>(int);
+
+// 显式实例化声明
+template void process<double>(double);
+```
+
+## 模板调试
+
+### 编译错误诊断
+```cpp
+// 使用static_assert进行编译时检查
+template<typename T>
+void process(T value) {
+    static_assert(std::is_arithmetic_v<T>, "T must be arithmetic type");
+    cout << "Processing: " << value << endl;
+}
+```
+
+### 模板元编程调试
+```cpp
+// 使用typeid获取类型信息
+template<typename T>
+void debugType() {
+    cout << "Type: " << typeid(T).name() << endl;
+}
+
+// 使用decltype进行类型推导
+template<typename T>
+void debugDecltype(T value) {
+    using type = decltype(value);
+    cout << "Decltype: " << typeid(type).name() << endl;
+}
+```
+
+## SFINAE 与编译期编程
+
+### SFINAE（替换失败不是错误）
+
+SFINAE是C++模板的强大特性：模板参数替换失败时不报错，而是尝试其他重载。
+
+```cpp
+#include <type_traits>
+
+// 示例1：根据类型特性启用不同函数
+// 只对整数类型启用
+template<typename T>
+typename std::enable_if<std::is_integral<T>::value, T>::type
+processInteger(T value) {
+    return value * 2;
+}
+
+// 只对浮点类型启用
+template<typename T>
+typename std::enable_if<std::is_floating_point<T>::value, T>::type
+processFloat(T value) {
+    return value * 1.5;
+}
+
+// 使用
+int x = processInteger(10);      // OK，T=int
+double y = processFloat(3.14);   // OK，T=double
+// processInteger(3.14);          // 编译错误，没有匹配的重载
+
+// C++17简化写法：std::enable_if_t
+template<typename T>
+std::enable_if_t<std::is_integral_v<T>, T>
+processInteger(T value) {
+    return value * 2;
+}
+```
+
+### if constexpr（C++17）
+
+编译期条件判断，未选中分支不编译，比SFINAE更清晰。
+
+```cpp
+// C++17之前：需要函数重载
+template<typename T>
+std::enable_if_t<std::is_integral_v<T>, T>
+process(T value) {
+    return value * 2;
+}
+
+template<typename T>
+std::enable_if_t<std::is_floating_point_v<T>, T>
+process(T value) {
+    return value * 1.5;
+}
+
+// C++17：if constexpr
+template<typename T>
+T process(T value) {
+    if constexpr (std::is_integral_v<T>) {
+        return value * 2;
+    } else if constexpr (std::is_floating_point_v<T>) {
+        return value * 1.5;
+    } else {
+        return value;
+    }
+}
+```
+
+### 编译期计算
+
+模板可在编译期执行复杂计算，零运行时开销。
+
+```cpp
+// 编译期计算阶乘
+template<int N>
+struct Factorial {
+    static constexpr int value = N * Factorial<N - 1>::value;
+};
+
+template<>
+struct Factorial<0> {
+    static constexpr int value = 1;
+};
+
+// 使用
+constexpr int result = Factorial<5>::value;  // 编译期计算得120
+
+// C++14：constexpr函数（更简洁）
+constexpr int factorial(int n) {
+    return n <= 1 ? 1 : n * factorial(n - 1);
+}
+
+constexpr int result2 = factorial(5);  // 编译期计算
+
+// 编译期检查数组大小
+template<size_t N>
+constexpr bool isPowerOfTwo() {
+    return N > 0 && (N & (N - 1)) == 0;
+}
+
+static_assert(isPowerOfTwo<8>(), "Size must be power of 2");
+// static_assert(isPowerOfTwo<7>(), "");  // 编译错误！
+```
+
+### Concepts（C++20）
+
+取代SFINAE，提供更清晰的约束表达。
+
+```cpp
+#include <concepts>
+
+// 定义concept
+template<typename T>
+concept Numeric = std::is_arithmetic_v<T>;
+
+// 使用concept约束模板
+template<Numeric T>  // 只接受数值类型
+T add(T a, T b) {
+    return a + b;
+}
+
+// 更复杂的concept
+template<typename T>
+concept Container = requires(T t) {
+    t.begin();
+    t.end();
+    t.size();
+};
+
+template<Container C>
+void printContainer(const C& container) {
+    for (const auto& item : container) {
+        std::cout << item << " ";
+    }
+}
+
+// concept比SFINAE的优势：
+// 1. 错误信息更清晰
+// 2. 语法更简洁
+// 3. 可以组合和复用
+```
+
+### 模板编程最佳实践
+
+```cpp
+// ✅ 1. 优先使用concept（C++20）或enable_if约束模板
+template<typename T>
+requires std::is_integral_v<T>  // C++20
+T square(T x) { return x * x; }
+
+// ✅ 2. 使用if constexpr简化代码
+template<typename T>
+void print(T value) {
+    if constexpr (std::is_pointer_v<T>) {
+        std::cout << "Pointer: " << *value;
+    } else {
+        std::cout << "Value: " << value;
+    }
+}
+
+// ✅ 3. 模板定义放头文件（或用extern template）
+// header.h
+template<typename T>
+class MyClass { /* ... */ };
+
+// ✅ 4. 用constexpr代替模板元编程
+constexpr int factorial(int n) {  // 简单清晰
+    return n <= 1 ? 1 : n * factorial(n - 1);
+}
+
+// ❌ 复杂的模板元编程（难读）
+template<int N>
+struct Fact { static const int value = N * Fact<N-1>::value; };
+```
+
+**原则：模板是工具而非目的，优先可读性和简洁性。**

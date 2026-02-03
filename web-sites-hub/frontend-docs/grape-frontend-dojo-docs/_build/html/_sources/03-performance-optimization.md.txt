@@ -1,0 +1,563 @@
+# 03-性能优化
+
+## 📋 学习目标
+- 掌握性能分析方法
+- 学习代码层面优化
+- 理解资源加载优化
+- 掌握运行时性能优化
+
+## 📊 性能指标
+
+### Core Web Vitals
+```javascript
+// LCP (Largest Contentful Paint) - 最大内容绘制
+// 目标：< 2.5s
+
+// FID (First Input Delay) - 首次输入延迟
+// 目标：< 100ms
+
+// CLS (Cumulative Layout Shift) - 累计布局偏移
+// 目标：< 0.1
+
+// 测量性能
+const observer = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+        console.log('LCP:', entry.renderTime || entry.loadTime);
+    }
+});
+observer.observe({entryTypes: ['largest-contentful-paint']});
+```
+
+### 性能API
+```javascript
+// Navigation Timing
+const perfData = performance.getEntriesByType('navigation')[0];
+console.log('DOM加载时间:', perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart);
+console.log('页面加载时间:', perfData.loadEventEnd - perfData.loadEventStart);
+
+// Resource Timing
+const resources = performance.getEntriesByType('resource');
+resources.forEach(resource => {
+    console.log(`${resource.name}: ${resource.duration}ms`);
+});
+
+// 自定义标记
+performance.mark('start');
+// 执行代码
+performance.mark('end');
+performance.measure('operation', 'start', 'end');
+```
+
+## 🎨 代码优化
+
+### JavaScript优化
+```javascript
+// ❌ 避免：频繁操作DOM
+for (let i = 0; i < 1000; i++) {
+    document.body.innerHTML += `<div>${i}</div>`;
+}
+
+// ✅ 推荐：批量操作
+const fragment = document.createDocumentFragment();
+for (let i = 0; i < 1000; i++) {
+    const div = document.createElement('div');
+    div.textContent = i;
+    fragment.appendChild(div);
+}
+document.body.appendChild(fragment);
+
+// ❌ 避免：在循环中查询DOM
+for (let i = 0; i < items.length; i++) {
+    document.getElementById('container').appendChild(items[i]);
+}
+
+// ✅ 推荐：缓存DOM引用
+const container = document.getElementById('container');
+for (let i = 0; i < items.length; i++) {
+    container.appendChild(items[i]);
+}
+
+// ❌ 避免：强制同步布局
+const width = element.offsetWidth;
+element.style.width = width + 10 + 'px';
+const height = element.offsetHeight; // 触发回流
+
+// ✅ 推荐：批量读写
+const width = element.offsetWidth;
+const height = element.offsetHeight;
+element.style.width = width + 10 + 'px';
+```
+
+### 防抖和节流
+```javascript
+// 防抖（Debounce）
+function debounce(fn, delay) {
+    let timer = null;
+    return function(...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
+}
+
+// 使用
+const handleSearch = debounce((query) => {
+    console.log('Searching:', query);
+}, 500);
+
+input.addEventListener('input', (e) => {
+    handleSearch(e.target.value);
+});
+
+// 节流（Throttle）
+function throttle(fn, delay) {
+    let lastCall = 0;
+    return function(...args) {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+            lastCall = now;
+            fn.apply(this, args);
+        }
+    };
+}
+
+// 使用
+const handleScroll = throttle(() => {
+    console.log('Scrolled');
+}, 200);
+
+window.addEventListener('scroll', handleScroll);
+```
+
+### 虚拟滚动
+```jsx
+import {FixedSizeList} from 'react-window';
+
+function VirtualList({items}) {
+    const Row = ({index, style}) => (
+        <div style={style}>
+            {items[index].name}
+        </div>
+    );
+    
+    return (
+        <FixedSizeList
+            height={600}
+            itemCount={items.length}
+            itemSize={35}
+            width="100%"
+        >
+            {Row}
+        </FixedSizeList>
+    );
+}
+```
+
+## ⚛️ React性能优化
+
+### memo和useMemo
+```jsx
+// React.memo：避免不必要的重渲染
+const ExpensiveComponent = React.memo(({data}) => {
+    console.log('Rendering ExpensiveComponent');
+    return <div>{data}</div>;
+});
+
+// useMemo：缓存计算结果
+function Component({items}) {
+    const expensiveValue = useMemo(() => {
+        return items.reduce((sum, item) => sum + item.value, 0);
+    }, [items]);
+    
+    return <div>{expensiveValue}</div>;
+}
+
+// useCallback：缓存函数
+function Parent() {
+    const [count, setCount] = useState(0);
+    
+    const handleClick = useCallback(() => {
+        console.log('Clicked');
+    }, []);
+    
+    return <Child onClick={handleClick} />;
+}
+
+const Child = React.memo(({onClick}) => {
+    console.log('Child rendered');
+    return <button onClick={onClick}>Click</button>;
+});
+```
+
+### 代码分割
+```jsx
+// 路由级别分割
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+
+function App() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+            </Routes>
+        </Suspense>
+    );
+}
+
+// 组件级别分割
+const HeavyComponent = lazy(() => import('./HeavyComponent'));
+
+function Page() {
+    const [show, setShow] = useState(false);
+    
+    return (
+        <div>
+            <button onClick={() => setShow(true)}>Show</button>
+            {show && (
+                <Suspense fallback={<div>Loading...</div>}>
+                    <HeavyComponent />
+                </Suspense>
+            )}
+        </div>
+    );
+}
+```
+
+### 列表优化
+```jsx
+// ❌ 避免：使用index作为key
+{items.map((item, index) => (
+    <Item key={index} data={item} />
+))}
+
+// ✅ 推荐：使用唯一ID
+{items.map(item => (
+    <Item key={item.id} data={item} />
+))}
+
+// 虚拟化长列表
+import {Virtuoso} from 'react-virtuoso';
+
+function LongList({items}) {
+    return (
+        <Virtuoso
+            style={{height: '600px'}}
+            data={items}
+            itemContent={(index, item) => (
+                <div>{item.name}</div>
+            )}
+        />
+    );
+}
+```
+
+## 💚 Vue性能优化
+
+### v-memo和v-once
+```vue
+<template>
+    <!-- v-once：只渲染一次 -->
+    <div v-once>
+        {{ staticContent }}
+    </div>
+    
+    <!-- v-memo：条件性跳过更新 -->
+    <div v-memo="[user.id, user.name]">
+        {{ user.name }} - {{ user.email }}
+    </div>
+</template>
+```
+
+### 计算属性缓存
+```vue
+<script setup>
+import {ref, computed} from 'vue';
+
+const items = ref([...]);
+
+// ✅ 使用computed（有缓存）
+const filteredItems = computed(() => {
+    console.log('Computing...');
+    return items.value.filter(item => item.active);
+});
+
+// ❌ 避免：使用method（无缓存）
+function getFilteredItems() {
+    console.log('Computing...');
+    return items.value.filter(item => item.active);
+}
+</script>
+```
+
+### 异步组件
+```vue
+<script setup>
+import {defineAsyncComponent} from 'vue';
+
+const AsyncComponent = defineAsyncComponent({
+    loader: () => import('./HeavyComponent.vue'),
+    loadingComponent: LoadingComponent,
+    delay: 200,
+    timeout: 3000
+});
+</script>
+
+<template>
+    <Suspense>
+        <AsyncComponent />
+        <template v-slot:fallback>
+            <Loading />
+        </template>
+    </Suspense>
+</template>
+```
+
+## 📦 资源优化
+
+### 图片优化
+```html
+<!-- 响应式图片 -->
+<picture>
+    <source srcset="image.webp" type="image/webp">
+    <source srcset="image.jpg" type="image/jpeg">
+    <img src="image.jpg" alt="Description">
+</picture>
+
+<!-- 懒加载 -->
+<img src="image.jpg" loading="lazy" alt="Description">
+
+<!-- srcset和sizes -->
+<img
+    srcset="small.jpg 480w, medium.jpg 800w, large.jpg 1200w"
+    sizes="(max-width: 600px) 480px, (max-width: 900px) 800px, 1200px"
+    src="medium.jpg"
+    alt="Responsive image"
+>
+```
+
+### 字体优化
+```css
+/* 字体预加载 */
+<link rel="preload" href="font.woff2" as="font" type="font/woff2" crossorigin>
+
+/* font-display */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('font.woff2') format('woff2');
+    font-display: swap; /* swap, fallback, optional */
+}
+
+/* 子集化 */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('font-subset.woff2') format('woff2');
+    unicode-range: U+0000-00FF; /* 拉丁字符 */
+}
+```
+
+### CSS优化
+```css
+/* 避免昂贵的选择器 */
+/* ❌ 避免 */
+/* 通用选择器 */
+* {
+    margin: 0;
+}
+
+/* 深层嵌套 */
+div div div div {
+    color: red;
+}
+
+/* 属性选择器 */
+[type="text"] {
+    border: 1px solid;
+}
+
+/* ✅ 推荐 */
+.specific-class {
+    color: blue;
+}
+
+/* 使用contain */
+.component {
+    contain: layout style paint;
+}
+
+/* 使用will-change（谨慎使用） */
+.element {
+    will-change: transform;
+}
+
+.element:hover {
+    transform: scale(1.1);
+}
+```
+
+## 🌐 网络优化
+
+### 资源预加载
+```html
+<!-- DNS预解析 -->
+<link rel="dns-prefetch" href="https://api.example.com">
+
+<!-- 预连接 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<!-- 预加载关键资源 -->
+<link rel="preload" href="critical.css" as="style">
+<link rel="preload" href="critical.js" as="script">
+
+<!-- 预获取下一页资源 -->
+<link rel="prefetch" href="next-page.js">
+
+<!-- 预渲染 -->
+<link rel="prerender" href="next-page.html">
+```
+
+### 代码分割
+```javascript
+// Vite配置
+export default {
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'vendor': ['react', 'react-dom'],
+                    'ui': ['@mui/material'],
+                    'utils': ['lodash', 'axios']
+                }
+            }
+        }
+    }
+};
+
+// 动态导入
+button.addEventListener('click', async () => {
+    const {default: module} = await import('./heavy-module.js');
+    module.init();
+});
+```
+
+### HTTP缓存
+```javascript
+// Service Worker缓存
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
+        })
+    );
+});
+
+// HTTP缓存头（服务端配置）
+Cache-Control: public, max-age=31536000, immutable
+```
+
+## 🔍 性能监控
+
+### 性能监控工具
+```javascript
+// Web Vitals
+import {getCLS, getFID, getLCP} from 'web-vitals';
+
+getCLS(console.log);
+getFID(console.log);
+getLCP(console.log);
+
+// 自定义监控
+class PerformanceMonitor {
+    constructor() {
+        this.metrics = {};
+    }
+    
+    mark(name) {
+        performance.mark(name);
+    }
+    
+    measure(name, startMark, endMark) {
+        performance.measure(name, startMark, endMark);
+        const measure = performance.getEntriesByName(name)[0];
+        this.metrics[name] = measure.duration;
+    }
+    
+    report() {
+        // 发送到分析服务
+        console.log('Performance Metrics:', this.metrics);
+    }
+}
+```
+
+### Lighthouse CI
+```yaml
+# .github/workflows/lighthouse.yml
+name: Lighthouse CI
+
+on: [push]
+
+jobs:
+    lighthouse:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Run Lighthouse CI
+              uses: treosh/lighthouse-ci-action@v9
+              with:
+                  urls: |
+                      https://example.com
+                  uploadArtifacts: true
+```
+
+## 💡 性能优化检查清单
+
+### JavaScript
+- [ ] 使用代码分割
+- [ ] 懒加载非关键组件
+- [ ] 避免不必要的重渲染
+- [ ] 使用Web Workers处理密集计算
+- [ ] 使用防抖/节流
+
+### CSS
+- [ ] 使用CSS contain
+- [ ] 避免复杂选择器
+- [ ] 移除未使用的CSS
+- [ ] 使用CSS动画而非JS动画
+- [ ] 优化关键渲染路径
+
+### 资源
+- [ ] 压缩图片
+- [ ] 使用WebP格式
+- [ ] 图片懒加载
+- [ ] 字体子集化
+- [ ] 使用CDN
+
+### 网络
+- [ ] 启用HTTP/2
+- [ ] 使用Gzip/Brotli压缩
+- [ ] 设置缓存策略
+- [ ] 减少HTTP请求
+- [ ] 使用资源预加载
+
+## 📚 工具推荐
+
+### 分析工具
+- Lighthouse
+- WebPageTest
+- Chrome DevTools Performance
+- Bundle Analyzer
+
+### 优化工具
+- ImageOptim（图片压缩）
+- SVGO（SVG优化）
+- PurgeCSS（移除未使用CSS）
+- Terser（JS压缩）
+
+## 📚 参考资料
+- [Web.dev Performance](https://web.dev/performance/)
+- [MDN Performance](https://developer.mozilla.org/zh-CN/docs/Web/Performance)
+- [React性能优化](https://react.dev/learn/render-and-commit)
+- [Vue性能优化](https://cn.vuejs.org/guide/best-practices/performance.html)
+

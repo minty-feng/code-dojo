@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>06-Go性能优化 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Rust 教程" href="../rust/index.html" />
+    <link rel="prev" title="05-Go微服务实践" href="05-microservices.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Golang 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Golang 开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-environment-setup.html">01-Go环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-Go基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-concurrency.html">03-Go并发编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-web-development.html">04-Go Web开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-microservices.html">05-Go微服务实践</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">06-Go性能优化</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">性能分析工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pprof">pprof</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#benchmark">Benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#trace">trace</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">内存优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">减少内存分配</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">字符串拼接</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sync-pool">对象池（sync.Pool）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">避免逃逸到堆</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">并发优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#goroutine">goroutine池</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">减少锁竞争</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#channel-vs-mutex">channel vs mutex</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cpu">CPU优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">避免不必要的反射</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">内联优化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">循环优化</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#i-o">I/O优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">缓冲I/O</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">批量操作</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">编译优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">编译选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">代码生成</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gc">GC优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">减少GC压力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">调整GC参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vs">标准库 vs 第三方</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">流式解析</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">数据库优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id20">连接池</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">预编译语句</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">网络优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#http">HTTP连接池</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#grpc">gRPC连接复用</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">实战案例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id24">优化前</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">优化后</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">性能清单</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Golang 教程</a></li>
+      <li class="breadcrumb-item active">06-Go性能优化</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/go/06-performance.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="go">
+<h1>06-Go性能优化<a class="headerlink" href="#go" title="Link to this heading"></a></h1>
+<p>Go性能已很优秀，但仍有优化空间。理解runtime、内存分配、并发模型是优化关键。</p>
+<section id="id1">
+<h2>性能分析工具<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="pprof">
+<h3>pprof<a class="headerlink" href="#pprof" title="Link to this heading"></a></h3>
+<p>CPU和内存分析，定位瓶颈。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;net/http/pprof&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 启动pprof HTTP服务</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;localhost:6060&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 程序逻辑</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>使用：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPU profile（采样30秒）</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/profile?seconds<span class="o">=</span><span class="m">30</span>
+
+<span class="c1"># 内存profile</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/heap
+
+<span class="c1"># goroutine</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/goroutine
+
+<span class="c1"># 阻塞profile</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/block
+
+<span class="c1"># 互斥锁profile</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/mutex
+
+<span class="c1"># 交互式命令</span>
+<span class="o">(</span>pprof<span class="o">)</span><span class="w"> </span>top<span class="w">          </span><span class="c1"># 前10个耗时函数</span>
+<span class="o">(</span>pprof<span class="o">)</span><span class="w"> </span>list<span class="w"> </span>funcName<span class="w"> </span><span class="c1"># 查看函数代码</span>
+<span class="o">(</span>pprof<span class="o">)</span><span class="w"> </span>web<span class="w">          </span><span class="c1"># 生成调用图（需graphviz）</span>
+</pre></div>
+</div>
+</section>
+<section id="benchmark">
+<h3>Benchmark<a class="headerlink" href="#benchmark" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkAdd</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkConcat</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">b</span><span class="p">.</span><span class="nx">ResetTimer</span><span class="p">()</span><span class="w">  </span><span class="c1">// 重置计时器（排除初始化）</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">concat</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkWithSetup</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">setupData</span><span class="p">()</span><span class="w">  </span><span class="c1">// 准备数据</span>
+<span class="w">    </span><span class="nx">b</span><span class="p">.</span><span class="nx">ResetTimer</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">N</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">process</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行benchmark</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-bench<span class="o">=</span>.<span class="w"> </span>-benchmem
+
+<span class="c1"># 输出示例</span>
+BenchmarkAdd-8<span class="w">      </span><span class="m">1000000000</span><span class="w">    </span><span class="m">0</span>.25<span class="w"> </span>ns/op<span class="w">    </span><span class="m">0</span><span class="w"> </span>B/op<span class="w">    </span><span class="m">0</span><span class="w"> </span>allocs/op
+<span class="c1"># 8核，10亿次，每次0.25ns，0字节分配，0次分配</span>
+
+<span class="c1"># 比较优化前后</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-bench<span class="o">=</span>.<span class="w"> </span>-benchmem<span class="w"> </span>&gt;<span class="w"> </span>old.txt
+<span class="c1"># 修改代码</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-bench<span class="o">=</span>.<span class="w"> </span>-benchmem<span class="w"> </span>&gt;<span class="w"> </span>new.txt
+benchcmp<span class="w"> </span>old.txt<span class="w"> </span>new.txt
+</pre></div>
+</div>
+</section>
+<section id="trace">
+<h3>trace<a class="headerlink" href="#trace" title="Link to this heading"></a></h3>
+<p>分析goroutine调度、GC、系统调用。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="s">&quot;runtime/trace&quot;</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;trace.out&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Stop</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 程序逻辑</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 生成trace</span>
+go<span class="w"> </span>run<span class="w"> </span>main.go
+
+<span class="c1"># 查看trace</span>
+go<span class="w"> </span>tool<span class="w"> </span>trace<span class="w"> </span>trace.out
+<span class="c1"># 浏览器打开，查看goroutine、GC、系统调用时间线</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>内存优化<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>减少内存分配<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 每次都分配</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">processItems</span><span class="p">(</span><span class="nx">items</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{}</span><span class="w">  </span><span class="c1">// 零长度slice</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="c1">// 可能多次扩容</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 预分配容量</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">processItems</span><span class="p">(</span><span class="nx">items</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">items</span><span class="p">))</span><span class="w">  </span><span class="c1">// 预分配</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 原地修改（无需新slice）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">processItems</span><span class="p">(</span><span class="nx">items</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>字符串拼接<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ +拼接（每次都创建新字符串）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">concat</span><span class="p">(</span><span class="nx">strs</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">strs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">result</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">s</span><span class="w">  </span><span class="c1">// O(n²)时间，大量分配</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ strings.Builder</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">concat</span><span class="p">(</span><span class="nx">strs</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">builder</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Builder</span>
+<span class="w">    </span><span class="nx">builder</span><span class="p">.</span><span class="nx">Grow</span><span class="p">(</span><span class="nx">estimatedSize</span><span class="p">)</span><span class="w">  </span><span class="c1">// 预分配</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">strs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">builder</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">builder</span><span class="p">.</span><span class="nx">String</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ bytes.Buffer（类似）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">concat</span><span class="p">(</span><span class="nx">strs</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">strs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">buf</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">buf</span><span class="p">.</span><span class="nx">String</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ strings.Join（简单场景）</span>
+<span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sync-pool">
+<h3>对象池（sync.Pool）<a class="headerlink" href="#sync-pool" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">bufferPool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Pool</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">New</span><span class="p">:</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="kd">interface</span><span class="p">{}</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">new</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">processData</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufferPool</span><span class="p">.</span><span class="nx">Get</span><span class="p">().(</span><span class="o">*</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">)</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">buf</span><span class="p">.</span><span class="nx">Reset</span><span class="p">()</span><span class="w">  </span><span class="c1">// 重置</span>
+<span class="w">        </span><span class="nx">bufferPool</span><span class="p">.</span><span class="nx">Put</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span><span class="w">  </span><span class="c1">// 归还</span>
+<span class="w">    </span><span class="p">}()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">buf</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// 使用buf</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>避免逃逸到堆<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 逃逸到堆</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createUser</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">u</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">User</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="nx">name</span><span class="p">}</span><span class="w">  </span><span class="c1">// 逃逸</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">u</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 栈分配（值返回）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createUser</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">User</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="nx">name</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 查看逃逸分析</span>
+<span class="c1">// go build -gcflags=&quot;-m&quot; main.go</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>并发优化<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="goroutine">
+<h3>goroutine池<a class="headerlink" href="#goroutine" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 无限制创建</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="nx">process</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="w">  </span><span class="c1">// 创建1万个goroutine</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ worker pool</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">workerPool</span><span class="p">(</span><span class="nx">jobs</span><span class="w"> </span><span class="o">&lt;-</span><span class="kd">chan</span><span class="w"> </span><span class="nx">Job</span><span class="p">,</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="kd">chan</span><span class="o">&lt;-</span><span class="w"> </span><span class="nx">Result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">numWorkers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">wg</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">numWorkers</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">defer</span><span class="w"> </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Done</span><span class="p">()</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="nx">job</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">jobs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nx">process</span><span class="p">(</span><span class="nx">job</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
+<span class="w">    </span><span class="nb">close</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>减少锁竞争<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 粗粒度锁</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Counter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">mu</span><span class="w">    </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+<span class="w">    </span><span class="nx">count</span><span class="w"> </span><span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Counter</span><span class="p">)</span><span class="w"> </span><span class="nx">Inc</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span>
+<span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 原子操作（无锁）</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Counter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">count</span><span class="w"> </span><span class="kt">int64</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Counter</span><span class="p">)</span><span class="w"> </span><span class="nx">Inc</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">AddInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">c</span><span class="p">.</span><span class="nx">count</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 分段锁（高并发）</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">ShardedMap</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">shards</span><span class="w"> </span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">mu</span><span class="w">   </span><span class="nx">sync</span><span class="p">.</span><span class="nx">RWMutex</span>
+<span class="w">        </span><span class="nx">data</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><span class="nx">ShardedMap</span><span class="p">)</span><span class="w"> </span><span class="nx">Set</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">shard</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">m</span><span class="p">.</span><span class="nx">shards</span><span class="p">[</span><span class="nx">hash</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span><span class="o">%</span><span class="mi">16</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">shard</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">shard</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">value</span>
+<span class="w">    </span><span class="nx">shard</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="channel-vs-mutex">
+<h3>channel vs mutex<a class="headerlink" href="#channel-vs-mutex" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Benchmark对比</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkMutex</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">mu</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+<span class="w">    </span><span class="nx">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">b</span><span class="p">.</span><span class="nx">RunParallel</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">pb</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">PB</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">pb</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">mu</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">            </span><span class="nx">counter</span><span class="o">++</span>
+<span class="w">            </span><span class="nx">mu</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">BenchmarkChannel</span><span class="p">(</span><span class="nx">b</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ch</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">counter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">ch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">counter</span><span class="o">++</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">b</span><span class="p">.</span><span class="nx">RunParallel</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">pb</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">PB</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">pb</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">ch</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// 结果：mutex通常快2-5倍（简单场景）</span>
+<span class="c1">// channel优势：解耦、更清晰</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cpu">
+<h2>CPU优化<a class="headerlink" href="#cpu" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>避免不必要的反射<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 反射（慢10-100倍）</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">sumReflect</span><span class="p">(</span><span class="nx">slice</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">reflect</span><span class="p">.</span><span class="nx">ValueOf</span><span class="p">(</span><span class="nx">slice</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">v</span><span class="p">.</span><span class="nx">Len</span><span class="p">();</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">Int</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">sum</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 直接类型断言</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">sumDirect</span><span class="p">(</span><span class="nx">slice</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">slice</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">v</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">sum</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>内联优化<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 小函数自动内联</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="c1">// 查看内联决策</span>
+<span class="c1">// go build -gcflags=&quot;-m=2&quot; main.go</span>
+
+<span class="c1">// 禁止内联（调试用）</span>
+<span class="c1">//go:noinline</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">noInline</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>循环优化<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 重复计算</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">);</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// len(slice)每次都调用</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 缓存长度</span>
+<span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">n</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ range（编译器优化）</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">slice</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="i-o">
+<h2>I/O优化<a class="headerlink" href="#i-o" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>缓冲I/O<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 无缓冲</span>
+<span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">)</span>
+<span class="nx">scanner</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewScanner</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">scanner</span><span class="p">.</span><span class="nx">Scan</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">line</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">scanner</span><span class="p">.</span><span class="nx">Text</span><span class="p">()</span>
+<span class="w">    </span><span class="c1">// 处理每行</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 指定缓冲大小</span>
+<span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">)</span>
+<span class="nx">reader</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewReaderSize</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span><span class="w">  </span><span class="c1">// 1MB缓冲</span>
+<span class="nx">scanner</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewScanner</span><span class="p">(</span><span class="nx">reader</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>批量操作<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 逐条插入</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;INSERT INTO table VALUES (?)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 批量插入</span>
+<span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+<span class="nx">stmt</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tx</span><span class="p">.</span><span class="nx">Prepare</span><span class="p">(</span><span class="s">&quot;INSERT INTO table VALUES (?)&quot;</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">stmt</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>编译优化<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>编译选项<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 默认优化</span>
+go<span class="w"> </span>build
+
+<span class="c1"># 禁用优化（调试）</span>
+go<span class="w"> </span>build<span class="w"> </span>-gcflags<span class="o">=</span><span class="s2">&quot;-N -l&quot;</span>
+
+<span class="c1"># 内联级别</span>
+go<span class="w"> </span>build<span class="w"> </span>-gcflags<span class="o">=</span><span class="s2">&quot;-l=4&quot;</span><span class="w">  </span><span class="c1"># 更激进的内联</span>
+
+<span class="c1"># 逃逸分析详情</span>
+go<span class="w"> </span>build<span class="w"> </span>-gcflags<span class="o">=</span><span class="s2">&quot;-m -m&quot;</span>
+
+<span class="c1"># 减小二进制大小</span>
+go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">&quot;-s -w&quot;</span>
+<span class="c1"># -s: 去除符号表</span>
+<span class="c1"># -w: 去除调试信息</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>代码生成<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">//go:generate stringer -type=Status</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Status</span><span class="w"> </span><span class="kt">int</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">Pending</span><span class="w"> </span><span class="nx">Status</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">iota</span>
+<span class="w">    </span><span class="nx">Running</span>
+<span class="w">    </span><span class="nx">Completed</span>
+<span class="p">)</span>
+
+<span class="c1">// 生成String()方法</span>
+<span class="c1">// go generate</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gc">
+<h2>GC优化<a class="headerlink" href="#gc" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>减少GC压力<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 频繁分配小对象</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">obj</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">MyStruct</span><span class="p">{}</span><span class="w">  </span><span class="c1">// 100万次分配</span>
+<span class="w">        </span><span class="nx">use</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 复用对象</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">pool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Pool</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">New</span><span class="p">:</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="kd">interface</span><span class="p">{}</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">MyStruct</span><span class="p">{}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">obj</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Get</span><span class="p">().(</span><span class="o">*</span><span class="nx">MyStruct</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">use</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Put</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>调整GC参数<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="s">&quot;runtime/debug&quot;</span>
+
+<span class="c1">// 设置GC百分比（默认100）</span>
+<span class="nx">debug</span><span class="p">.</span><span class="nx">SetGCPercent</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="w">  </span><span class="c1">// 降低GC频率，增加内存占用</span>
+
+<span class="c1">// 手动触发GC（少用）</span>
+<span class="nx">runtime</span><span class="p">.</span><span class="nx">GC</span><span class="p">()</span>
+
+<span class="c1">// 查看GC统计</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">MemStats</span>
+<span class="nx">runtime</span><span class="p">.</span><span class="nx">ReadMemStats</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">m</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Alloc = %v MB&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">Alloc</span><span class="o">/</span><span class="mi">1024</span><span class="o">/</span><span class="mi">1024</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;TotalAlloc = %v MB&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">TotalAlloc</span><span class="o">/</span><span class="mi">1024</span><span class="o">/</span><span class="mi">1024</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;NumGC = %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">NumGC</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="json">
+<h2>JSON优化<a class="headerlink" href="#json" title="Link to this heading"></a></h2>
+<section id="vs">
+<h3>标准库 vs 第三方<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 标准库encoding/json</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;encoding/json&quot;</span>
+
+<span class="c1">// jsoniter（兼容，快2-3倍）</span>
+<span class="kn">import</span><span class="w"> </span><span class="nx">jsoniter</span><span class="w"> </span><span class="s">&quot;github.com/json-iterator/go&quot;</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">json</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">jsoniter</span><span class="p">.</span><span class="nx">ConfigCompatibleWithStandardLibrary</span>
+
+<span class="c1">// easyjson（代码生成，快5-10倍）</span>
+<span class="c1">//go:generate easyjson -all user.go</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Name</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;name&quot;`</span>
+<span class="w">    </span><span class="nx">Age</span><span class="w">  </span><span class="kt">int</span><span class="w">    </span><span class="s">`json:&quot;age&quot;`</span>
+<span class="p">}</span>
+<span class="c1">// 自动生成MarshalJSON/UnmarshalJSON</span>
+
+<span class="c1">// sonic（字节跳动，AVX2加速）</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/bytedance/sonic&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>流式解析<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 一次性读取大JSON</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="nx">LargeData</span>
+<span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">largeJSON</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">data</span><span class="p">)</span>
+
+<span class="c1">// ✅ 流式解析</span>
+<span class="nx">decoder</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">NewDecoder</span><span class="p">(</span><span class="nx">reader</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="nx">Item</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">decoder</span><span class="p">.</span><span class="nx">Decode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">item</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">process</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>数据库优化<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="id20">
+<h3>连接池<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sql</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;mysql&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">dsn</span><span class="p">)</span>
+
+<span class="c1">// 配置连接池</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">SetMaxOpenConns</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w">              </span><span class="c1">// 最大连接数</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">SetMaxIdleConns</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w">               </span><span class="c1">// 最大空闲连接</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">SetConnMaxLifetime</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">)</span><span class="c1">// 连接最大生命周期</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">SetConnMaxIdleTime</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">)</span><span class="c1">// 空闲连接最大时间</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>预编译语句<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 每次都Prepare</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">users</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;INSERT INTO users (name) VALUES (?)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 复用Prepare</span>
+<span class="nx">stmt</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Prepare</span><span class="p">(</span><span class="s">&quot;INSERT INTO users (name) VALUES (?)&quot;</span><span class="p">)</span>
+<span class="k">defer</span><span class="w"> </span><span class="nx">stmt</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">users</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">stmt</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>网络优化<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<section id="http">
+<h3>HTTP连接池<a class="headerlink" href="#http" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Timeout</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Transport</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Transport</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">MaxIdleConns</span><span class="p">:</span><span class="w">        </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">MaxIdleConnsPerHost</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">IdleConnTimeout</span><span class="p">:</span><span class="w">     </span><span class="mi">90</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+<span class="w">        </span><span class="c1">// 启用HTTP/2</span>
+<span class="w">        </span><span class="nx">ForceAttemptHTTP2</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="grpc">
+<h3>gRPC连接复用<a class="headerlink" href="#grpc" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// 复用连接</span>
+<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">WithInsecure</span><span class="p">())</span>
+<span class="k">defer</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="nx">client</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pb</span><span class="p">.</span><span class="nx">NewServiceClient</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+
+<span class="c1">// 多次调用复用同一连接</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">client</span><span class="p">.</span><span class="nx">Call</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id23">
+<h2>实战案例<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="id24">
+<h3>优化前<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="nx">processUsers</span><span class="p">(</span><span class="nx">userIDs</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">users</span><span class="w"> </span><span class="p">[]</span><span class="nx">User</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">userIDs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 逐个查询数据库</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="nx">User</span>
+<span class="w">        </span><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT * FROM users WHERE id = ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">user</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">users</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id25">
+<h3>优化后<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="nx">processUsers</span><span class="p">(</span><span class="nx">userIDs</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. 批量查询</span>
+<span class="w">    </span><span class="nx">placeholders</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Repeat</span><span class="p">(</span><span class="s">&quot;?,&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">userIDs</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">placeholders</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">placeholders</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="nx">placeholders</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">query</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;SELECT * FROM users WHERE id IN (%s)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">placeholders</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">args</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kd">interface</span><span class="p">{},</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">userIDs</span><span class="p">))</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">userIDs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">args</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">id</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">query</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="o">...</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 2. 预分配容量</span>
+<span class="w">    </span><span class="nx">users</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">userIDs</span><span class="p">))</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="nx">User</span>
+<span class="w">        </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">user</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">users</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>性能提升：10-100倍（取决于网络延迟）</strong></p>
+</section>
+</section>
+<section id="id26">
+<h2>性能清单<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<p><strong>内存：</strong></p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 预分配slice容量</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 使用sync.Pool复用对象</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 字符串拼接用strings.Builder</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 减少堆分配（避免逃逸）</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 大对象传指针，小对象传值</p></li>
+</ul>
+<p><strong>并发：</strong></p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 限制goroutine数量（worker pool）</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 简单计数用atomic</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 读多写少用sync.RWMutex</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 减少锁粒度（分段锁）</p></li>
+</ul>
+<p><strong>CPU：</strong></p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 避免反射（热路径）</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 缓存重复计算</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 批量处理代替逐个</p></li>
+</ul>
+<p><strong>I/O：</strong></p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 缓冲I/O</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 批量数据库操作</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 连接池复用</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> HTTP keep-alive</p></li>
+</ul>
+<p><strong>其他：</strong></p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 用benchmark验证</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> pprof定位瓶颈</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 选择快速JSON库</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> 启用编译优化</p></li>
+</ul>
+<p><strong>核心：</strong> 先测量，后优化。过早优化是万恶之源。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="05-microservices.html" class="btn btn-neutral float-left" title="05-Go微服务实践" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../rust/index.html" class="btn btn-neutral float-right" title="Rust 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

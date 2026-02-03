@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>03-Shell实用脚本 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="prev" title="02-文本处理三剑客：grep、sed、awk" href="02-text-processing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Shell 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Shell 开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-basics.html">01-Shell基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-text-processing.html">02-文本处理三剑客：grep、sed、awk</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">03-Shell实用脚本</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">系统管理脚本</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">系统监控</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">服务监控和自动重启</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">磁盘空间告警</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">日志分析脚本</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nginx">Nginx访问日志分析</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">错误日志监控</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">备份脚本</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mysql">MySQL备份</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">文件同步备份</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">批量处理脚本</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">批量重命名</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">批量转换格式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">批量下载</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">部署脚本</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">应用部署</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#docker">Docker部署</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">工具函数库</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">通用工具函数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">定时任务配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#crontab">Crontab示例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#systemd-timer">systemd timer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">调试和优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Shell脚本性能分析</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">错误处理最佳实践</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Shell 教程</a></li>
+      <li class="breadcrumb-item active">03-Shell实用脚本</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/shell/03-scripts.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="shell">
+<h1>03-Shell实用脚本<a class="headerlink" href="#shell" title="Link to this heading"></a></h1>
+<p>Shell脚本在运维自动化、日志分析、批量处理等场景中不可或缺。掌握常用脚本模式可快速解决实际问题。</p>
+<section id="id1">
+<h2>系统管理脚本<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>系统监控<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 系统资源监控</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== CPU使用率 ===&quot;</span>
+top<span class="w"> </span>-bn1<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Cpu(s)&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print &quot;CPU使用:&quot;, 100-$8&quot;%&quot;}&#39;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 内存使用 ===&quot;</span>
+free<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==2{printf &quot;使用: %s/%s (%.2f%%)\n&quot;, $3, $2, $3*100/$2}&#39;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 磁盘使用 ===&quot;</span>
+df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$NF==&quot;/&quot;{printf &quot;使用: %s/%s (%s)\n&quot;, $3, $2, $5}&#39;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Top 5进程（CPU） ===&quot;</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span>-k3<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-6<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR&gt;1{printf &quot;%-10s %5s%% %s\n&quot;, $1, $3, $11}&#39;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Top 5进程（内存） ===&quot;</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span>-k4<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-6<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR&gt;1{printf &quot;%-10s %5s%% %s\n&quot;, $1, $4, $11}&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>服务监控和自动重启<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 监控服务，挂了就重启</span>
+
+<span class="nv">SERVICE</span><span class="o">=</span><span class="s2">&quot;nginx&quot;</span>
+<span class="nv">RESTART_CMD</span><span class="o">=</span><span class="s2">&quot;systemctl start nginx&quot;</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/service_monitor.log&quot;</span>
+
+log<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">] </span><span class="nv">$*</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span>systemctl<span class="w"> </span>is-active<span class="w"> </span>--quiet<span class="w"> </span><span class="nv">$SERVICE</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;ERROR: </span><span class="nv">$SERVICE</span><span class="s2"> is down, restarting...&quot;</span>
+<span class="w">    </span><span class="nv">$RESTART_CMD</span>
+<span class="w">    </span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">3</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>systemctl<span class="w"> </span>is-active<span class="w"> </span>--quiet<span class="w"> </span><span class="nv">$SERVICE</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>log<span class="w"> </span><span class="s2">&quot;SUCCESS: </span><span class="nv">$SERVICE</span><span class="s2"> restarted&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span>log<span class="w"> </span><span class="s2">&quot;FAILED: </span><span class="nv">$SERVICE</span><span class="s2"> restart failed&quot;</span>
+<span class="w">        </span><span class="c1"># 发送告警</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SERVICE</span><span class="s2"> restart failed&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Alert&quot;</span><span class="w"> </span>admin@example.com
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">else</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;OK: </span><span class="nv">$SERVICE</span><span class="s2"> is running&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>磁盘空间告警<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 磁盘使用率超过阈值告警</span>
+
+<span class="nv">THRESHOLD</span><span class="o">=</span><span class="m">80</span>
+<span class="nv">EMAIL</span><span class="o">=</span><span class="s2">&quot;admin@example.com&quot;</span>
+
+df<span class="w"> </span>-H<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-vE<span class="w"> </span><span class="s1">&#39;^Filesystem|tmpfs|cdrom&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $5 &quot; &quot; $1}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>output<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">usage</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$output</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/%//g&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="nv">partition</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$output</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$usage</span><span class="w"> </span>-ge<span class="w"> </span><span class="nv">$THRESHOLD</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;WARNING: </span><span class="nv">$partition</span><span class="s2"> 使用率 </span><span class="nv">$usage</span><span class="s2">%&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;磁盘空间告警&quot;</span><span class="w"> </span><span class="nv">$EMAIL</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>日志分析脚本<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="nginx">
+<h3>Nginx访问日志分析<a class="headerlink" href="#nginx" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 分析Nginx访问日志</span>
+
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="p">/var/log/nginx/access.log</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;日志文件不存在: </span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;====== Nginx日志分析 ======&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;日志文件: </span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;日志行数: </span><span class="k">$(</span>wc<span class="w"> </span>-l<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$LOG_FILE</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># Top 10 IP</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Top 10 IP地址 ===&quot;</span>
+awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="w"> </span><span class="nv">$LOG_FILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%15s  %8d 次\n&quot;, $2, $1}&#39;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># Top 10 URL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Top 10 访问URL ===&quot;</span>
+awk<span class="w"> </span><span class="s1">&#39;{print $7}&#39;</span><span class="w"> </span><span class="nv">$LOG_FILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%8d  %s\n&quot;, $1, $2}&#39;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># 状态码统计</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== HTTP状态码统计 ===&quot;</span>
+awk<span class="w"> </span><span class="s1">&#39;{print $9}&#39;</span><span class="w"> </span><span class="nv">$LOG_FILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%3s: %8d 次\n&quot;, $2, $1}&#39;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># 每小时流量</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 每小时请求数 ===&quot;</span>
+awk<span class="w"> </span><span class="s1">&#39;{print substr($4, 14, 2)}&#39;</span><span class="w"> </span><span class="nv">$LOG_FILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{printf &quot;%s时: %8d 次\n&quot;, $2, $1}&#39;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># 流量带宽（假设日志格式包含字节数）</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 总流量 ===&quot;</span>
+<span class="nv">total_bytes</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span><span class="s1">&#39;{sum += $10} END {print sum}&#39;</span><span class="w"> </span><span class="nv">$LOG_FILE</span><span class="k">)</span>
+<span class="nv">total_mb</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;scale=2; </span><span class="nv">$total_bytes</span><span class="s2">/1024/1024&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bc<span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">total_mb</span><span class="si">}</span><span class="s2"> MB&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>错误日志监控<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 监控应用错误日志</span>
+
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/app/error.log&quot;</span>
+<span class="nv">LAST_CHECK</span><span class="o">=</span><span class="s2">&quot;/tmp/last_error_check&quot;</span>
+<span class="nv">ALERT_EMAIL</span><span class="o">=</span><span class="s2">&quot;admin@example.com&quot;</span>
+
+<span class="c1"># 记录上次检查时间</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LAST_CHECK</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">last_time</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LAST_CHECK</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nv">last_time</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;1 hour ago&quot;</span><span class="w"> </span>+%s<span class="k">)</span>
+<span class="k">fi</span>
+
+<span class="nv">current_time</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$current_time</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LAST_CHECK</span><span class="s2">&quot;</span>
+
+<span class="c1"># 提取时间范围内的错误</span>
+<span class="nv">new_errors</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span>-v<span class="w"> </span><span class="nv">start</span><span class="o">=</span><span class="nv">$last_time</span><span class="w"> </span>-v<span class="w"> </span><span class="nv">end</span><span class="o">=</span><span class="nv">$current_time</span><span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">    {</span>
+<span class="s1">        # 解析日志时间戳（格式需调整）</span>
+<span class="s1">        if ($0 ~ /ERROR|FATAL/) print</span>
+<span class="s1">    }</span>
+<span class="s1">&#39;</span><span class="w"> </span><span class="nv">$LOG_FILE</span><span class="k">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_errors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">error_count</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_errors</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;发现 </span><span class="nv">$error_count</span><span class="s2"> 条新错误:&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$new_errors</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;应用错误告警&quot;</span><span class="w"> </span><span class="nv">$ALERT_EMAIL</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>备份脚本<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="mysql">
+<h3>MySQL备份<a class="headerlink" href="#mysql" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># MySQL数据库备份</span>
+
+<span class="nv">DB_USER</span><span class="o">=</span><span class="s2">&quot;backup_user&quot;</span>
+<span class="nv">DB_PASS</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+<span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">&quot;/backup/mysql&quot;</span>
+<span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>
+<span class="nv">RETENTION_DAYS</span><span class="o">=</span><span class="m">7</span>
+
+<span class="c1"># 创建备份目录</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$BACKUP_DIR</span>
+
+<span class="c1"># 获取所有数据库</span>
+<span class="nv">databases</span><span class="o">=</span><span class="k">$(</span>mysql<span class="w"> </span>-u<span class="nv">$DB_USER</span><span class="w"> </span>-p<span class="nv">$DB_PASS</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SHOW DATABASES;&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-Ev<span class="w"> </span><span class="s2">&quot;(Database|information_schema|performance_schema|mysql)&quot;</span><span class="k">)</span>
+
+<span class="c1"># 备份每个数据库</span>
+<span class="k">for</span><span class="w"> </span>db<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$databases</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;备份数据库: </span><span class="nv">$db</span><span class="s2">&quot;</span>
+<span class="w">    </span>mysqldump<span class="w"> </span>-u<span class="nv">$DB_USER</span><span class="w"> </span>-p<span class="nv">$DB_PASS</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--single-transaction<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--routines<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--triggers<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span><span class="nv">$db</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$BACKUP_DIR</span>/<span class="si">${</span><span class="nv">db</span><span class="si">}</span>_<span class="si">${</span><span class="nv">DATE</span><span class="si">}</span>.sql.gz
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ </span><span class="nv">$db</span><span class="s2"> 备份成功&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ </span><span class="nv">$db</span><span class="s2"> 备份失败&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1"># 删除旧备份</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;清理 </span><span class="nv">$RETENTION_DAYS</span><span class="s2"> 天前的备份...&quot;</span>
+find<span class="w"> </span><span class="nv">$BACKUP_DIR</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.sql.gz&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+<span class="nv">$RETENTION_DAYS</span><span class="w"> </span>-delete
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;备份完成: </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>文件同步备份<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 使用rsync同步备份</span>
+
+<span class="nv">SOURCE</span><span class="o">=</span><span class="s2">&quot;/var/www/html&quot;</span>
+<span class="nv">DEST</span><span class="o">=</span><span class="s2">&quot;/backup/www&quot;</span>
+<span class="nv">REMOTE_HOST</span><span class="o">=</span><span class="s2">&quot;backup-server&quot;</span>
+<span class="nv">REMOTE_USER</span><span class="o">=</span><span class="s2">&quot;backup&quot;</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/backup.log&quot;</span>
+
+log<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">] </span><span class="nv">$*</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+log<span class="w"> </span><span class="s2">&quot;开始备份...&quot;</span>
+
+<span class="c1"># 本地备份</span>
+rsync<span class="w"> </span>-avz<span class="w"> </span>--delete<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--exclude<span class="o">=</span><span class="s1">&#39;*.log&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--exclude<span class="o">=</span><span class="s1">&#39;cache/&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$SOURCE</span>/<span class="w"> </span><span class="nv">$DEST</span>/
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;本地备份成功&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;本地备份失败&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># 远程备份</span>
+rsync<span class="w"> </span>-avz<span class="w"> </span>--delete<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span><span class="s2">&quot;ssh -p 22&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$SOURCE</span>/<span class="w"> </span><span class="si">${</span><span class="nv">REMOTE_USER</span><span class="si">}</span>@<span class="si">${</span><span class="nv">REMOTE_HOST</span><span class="si">}</span>:/backup/www/
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;远程备份成功&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;远程备份失败&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+log<span class="w"> </span><span class="s2">&quot;备份完成&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>批量处理脚本<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h3>批量重命名<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 批量重命名文件</span>
+
+<span class="c1"># 示例：将所有.txt改为.bak</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.txt<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.txt</span><span class="si">}</span><span class="s2">.bak&quot;</span>
+<span class="k">done</span>
+
+<span class="c1"># 添加前缀</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;prefix_</span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+
+<span class="c1"># 替换字符</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">newname</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/old/new/g&#39;</span><span class="k">)</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$newname</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+
+<span class="c1"># 按日期重命名图片</span>
+<span class="nv">counter</span><span class="o">=</span><span class="m">1</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.jpg<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">date</span><span class="o">=</span><span class="k">$(</span>stat<span class="w"> </span>-c<span class="w"> </span>%y<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">&#39; &#39;</span><span class="w"> </span>-f1<span class="k">)</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">date</span><span class="si">}</span><span class="s2">_</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span>%03d<span class="w"> </span><span class="nv">$counter</span><span class="k">)</span><span class="s2">.jpg&quot;</span>
+<span class="w">    </span><span class="o">((</span>counter++<span class="o">))</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>批量转换格式<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 批量转换图片格式</span>
+
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>convert<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;需要安装ImageMagick: apt install imagemagick&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># PNG转JPG</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.png<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>convert<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.png</span><span class="si">}</span><span class="s2">.jpg&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;转换: </span><span class="nv">$file</span><span class="s2"> → </span><span class="si">${</span><span class="nv">file</span><span class="p">%.png</span><span class="si">}</span><span class="s2">.jpg&quot;</span>
+<span class="k">done</span>
+
+<span class="c1"># 调整大小</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.jpg<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>convert<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>-resize<span class="w"> </span>800x600<span class="w"> </span><span class="s2">&quot;resized_</span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+
+<span class="c1"># 批量压缩</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.jpg<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>convert<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>-quality<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="s2">&quot;compressed_</span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>批量下载<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 批量下载文件</span>
+
+<span class="nv">URLS_FILE</span><span class="o">=</span><span class="s2">&quot;urls.txt&quot;</span>
+<span class="nv">DOWNLOAD_DIR</span><span class="o">=</span><span class="s2">&quot;downloads&quot;</span>
+
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$DOWNLOAD_DIR</span>
+
+<span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>url<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="c1"># 跳过空行和注释</span>
+<span class="w">    </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^#<span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">continue</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nv">filename</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;下载: </span><span class="nv">$filename</span><span class="s2">&quot;</span>
+<span class="w">    </span>
+<span class="w">    </span>wget<span class="w"> </span>-q<span class="w"> </span>-P<span class="w"> </span><span class="nv">$DOWNLOAD_DIR</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ </span><span class="nv">$filename</span><span class="s2"> 下载成功&quot;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ </span><span class="nv">$filename</span><span class="s2"> 下载失败&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">    </span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span><span class="w">  </span><span class="c1"># 避免请求过快</span>
+<span class="k">done</span><span class="w"> </span>&lt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$URLS_FILE</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>部署脚本<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>应用部署<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># 简单的应用部署脚本</span>
+
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+
+<span class="nv">APP_NAME</span><span class="o">=</span><span class="s2">&quot;myapp&quot;</span>
+<span class="nv">DEPLOY_DIR</span><span class="o">=</span><span class="s2">&quot;/opt/</span><span class="nv">$APP_NAME</span><span class="s2">&quot;</span>
+<span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">&quot;/backup/</span><span class="nv">$APP_NAME</span><span class="s2">&quot;</span>
+<span class="nv">GIT_REPO</span><span class="o">=</span><span class="s2">&quot;https://github.com/user/myapp.git&quot;</span>
+<span class="nv">BRANCH</span><span class="o">=</span><span class="s2">&quot;main&quot;</span>
+
+log<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">] </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># 备份当前版本</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;备份当前版本...&quot;</span>
+<span class="w">    </span><span class="nv">timestamp</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>
+<span class="w">    </span>tar<span class="w"> </span>czf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_DIR</span><span class="s2">/</span><span class="si">${</span><span class="nv">APP_NAME</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">timestamp</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span><span class="w"> </span>-C<span class="w"> </span><span class="k">$(</span>dirname<span class="w"> </span><span class="nv">$DEPLOY_DIR</span><span class="k">)</span><span class="w"> </span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$DEPLOY_DIR</span><span class="k">)</span>
+<span class="k">fi</span>
+
+<span class="c1"># 拉取最新代码</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">/.git&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;更新代码...&quot;</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$DEPLOY_DIR</span>
+<span class="w">    </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span><span class="nv">$BRANCH</span>
+<span class="k">else</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;克隆代码...&quot;</span>
+<span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span><span class="nv">$BRANCH</span><span class="w"> </span><span class="nv">$GIT_REPO</span><span class="w"> </span><span class="nv">$DEPLOY_DIR</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$DEPLOY_DIR</span>
+<span class="k">fi</span>
+
+<span class="c1"># 安装依赖</span>
+log<span class="w"> </span><span class="s2">&quot;安装依赖...&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;package.json&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>npm<span class="w"> </span>install<span class="w"> </span>--production
+<span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;requirements.txt&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="k">fi</span>
+
+<span class="c1"># 构建</span>
+log<span class="w"> </span><span class="s2">&quot;构建应用...&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;Makefile&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>make<span class="w"> </span>build
+<span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;package.json&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>npm<span class="w"> </span>run<span class="w"> </span>build
+<span class="k">fi</span>
+
+<span class="c1"># 重启服务</span>
+log<span class="w"> </span><span class="s2">&quot;重启服务...&quot;</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span><span class="nv">$APP_NAME</span>
+
+<span class="c1"># 健康检查</span>
+sleep<span class="w"> </span><span class="m">3</span>
+<span class="k">if</span><span class="w"> </span>systemctl<span class="w"> </span>is-active<span class="w"> </span>--quiet<span class="w"> </span><span class="nv">$APP_NAME</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;✓ 部署成功&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;✗ 服务启动失败，回滚...&quot;</span>
+<span class="w">    </span><span class="c1"># 回滚逻辑</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</section>
+<section id="docker">
+<h3>Docker部署<a class="headerlink" href="#docker" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Docker容器部署</span>
+
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+
+<span class="nv">IMAGE_NAME</span><span class="o">=</span><span class="s2">&quot;myapp&quot;</span>
+<span class="nv">CONTAINER_NAME</span><span class="o">=</span><span class="s2">&quot;myapp-container&quot;</span>
+<span class="nv">TAG</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span>
+
+log<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">] </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># 拉取最新镜像</span>
+log<span class="w"> </span><span class="s2">&quot;拉取镜像: </span><span class="nv">$IMAGE_NAME</span><span class="s2">:</span><span class="nv">$TAG</span><span class="s2">&quot;</span>
+docker<span class="w"> </span>pull<span class="w"> </span><span class="nv">$IMAGE_NAME</span>:<span class="nv">$TAG</span>
+
+<span class="c1"># 停止旧容器</span>
+<span class="k">if</span><span class="w"> </span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="nv">$CONTAINER_NAME</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;停止旧容器...&quot;</span>
+<span class="w">    </span>docker<span class="w"> </span>stop<span class="w"> </span><span class="nv">$CONTAINER_NAME</span>
+<span class="w">    </span>docker<span class="w"> </span>rm<span class="w"> </span><span class="nv">$CONTAINER_NAME</span>
+<span class="k">fi</span>
+
+<span class="c1"># 启动新容器</span>
+log<span class="w"> </span><span class="s2">&quot;启动容器...&quot;</span>
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--name<span class="w"> </span><span class="nv">$CONTAINER_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--restart<span class="o">=</span>always<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span>/data:/app/data<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span><span class="nv">ENV</span><span class="o">=</span>production<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$IMAGE_NAME</span>:<span class="nv">$TAG</span>
+
+<span class="c1"># 健康检查</span>
+sleep<span class="w"> </span><span class="m">3</span>
+<span class="k">if</span><span class="w"> </span>docker<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="nv">$CONTAINER_NAME</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;✓ 容器启动成功&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;✗ 容器启动失败&quot;</span>
+<span class="w">    </span>docker<span class="w"> </span>logs<span class="w"> </span><span class="nv">$CONTAINER_NAME</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># 清理旧镜像</span>
+log<span class="w"> </span><span class="s2">&quot;清理未使用的镜像...&quot;</span>
+docker<span class="w"> </span>image<span class="w"> </span>prune<span class="w"> </span>-f
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>工具函数库<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>通用工具函数<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># utils.sh - 通用工具函数库</span>
+
+<span class="c1"># 颜色输出</span>
+<span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;\033[0;31m&#39;</span>
+<span class="nv">GREEN</span><span class="o">=</span><span class="s1">&#39;\033[0;32m&#39;</span>
+<span class="nv">YELLOW</span><span class="o">=</span><span class="s1">&#39;\033[1;33m&#39;</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span><span class="w">  </span><span class="c1"># No Color</span>
+
+print_info<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">GREEN</span><span class="si">}</span><span class="s2">[INFO]</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2"> </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+print_warn<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">YELLOW</span><span class="si">}</span><span class="s2">[WARN]</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2"> </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+print_error<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">[ERROR]</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2"> </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># 日志函数</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/var/log/script.log&quot;</span>
+
+log<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="nb">shift</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="k">)</span><span class="s2">] [</span><span class="nv">$level</span><span class="s2">] </span><span class="nv">$*</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+log_info<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+log_error<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>log<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># 检查命令是否存在</span>
+require_command<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>print_error<span class="w"> </span><span class="s2">&quot;需要安装 </span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># 检查是否root</span>
+require_root<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$EUID</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>print_error<span class="w"> </span><span class="s2">&quot;需要root权限&quot;</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># 确认提示</span>
+confirm<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">read</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2"> [y/N]: &quot;</span><span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>-r
+<span class="w">    </span><span class="nb">echo</span>
+<span class="w">    </span><span class="o">[[</span><span class="w"> </span><span class="nv">$REPLY</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">[</span>Yy<span class="o">]</span>$<span class="w"> </span><span class="o">]]</span>
+<span class="o">}</span>
+
+<span class="c1"># 重试函数</span>
+retry<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">max_attempts</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="nb">shift</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">attempt</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">until</span><span class="w"> </span><span class="nv">$cmd</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$attempt</span><span class="w"> </span>-ge<span class="w"> </span><span class="nv">$max_attempts</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span>print_error<span class="w"> </span><span class="s2">&quot;重试 </span><span class="nv">$max_attempts</span><span class="s2"> 次后失败&quot;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">        </span>print_warn<span class="w"> </span><span class="s2">&quot;失败，</span><span class="nv">$attempt</span><span class="s2">/</span><span class="nv">$max_attempts</span><span class="s2">，5秒后重试...&quot;</span>
+<span class="w">        </span>sleep<span class="w"> </span><span class="m">5</span>
+<span class="w">        </span><span class="o">((</span>attempt++<span class="o">))</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># 进度条</span>
+progress_bar<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">current</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">total</span><span class="o">=</span><span class="nv">$2</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="m">50</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">percent</span><span class="o">=</span><span class="k">$((</span><span class="nv">current</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nv">total</span><span class="k">))</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">completed</span><span class="o">=</span><span class="k">$((</span><span class="nv">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nv">current</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nv">total</span><span class="k">))</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\r[&quot;</span>
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%</span><span class="si">${</span><span class="nv">completed</span><span class="si">}</span><span class="s2">s&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="s1">&#39;=&#39;</span>
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%</span><span class="k">$((</span><span class="nv">width</span><span class="o">-</span><span class="nv">completed</span><span class="k">))</span><span class="s2">s&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="s1">&#39;-&#39;</span>
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;] %d%%&quot;</span><span class="w"> </span><span class="nv">$percent</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$current</span><span class="w"> </span>-eq<span class="w"> </span><span class="nv">$total</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c1"># 使用示例</span>
+<span class="c1"># source utils.sh</span>
+<span class="c1"># require_command git</span>
+<span class="c1"># if confirm &quot;继续吗?&quot;; then</span>
+<span class="c1">#     log_info &quot;用户确认&quot;</span>
+<span class="c1"># fi</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>定时任务配置<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="crontab">
+<h3>Crontab示例<a class="headerlink" href="#crontab" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 编辑crontab</span>
+crontab<span class="w"> </span>-e
+
+<span class="c1"># 每天凌晨2点备份</span>
+<span class="m">0</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/scripts/backup.sh
+
+<span class="c1"># 每小时检查服务</span>
+<span class="m">0</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/scripts/monitor.sh
+
+<span class="c1"># 每5分钟清理日志</span>
+*/5<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/scripts/cleanup.sh
+
+<span class="c1"># 每周日凌晨3点重启</span>
+<span class="m">0</span><span class="w"> </span><span class="m">3</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">0</span><span class="w"> </span>/sbin/reboot
+
+<span class="c1"># 每月1号执行</span>
+<span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/scripts/monthly.sh
+
+<span class="c1"># 工作日每天9点</span>
+<span class="m">0</span><span class="w"> </span><span class="m">9</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">1</span>-5<span class="w"> </span>/scripts/workday.sh
+</pre></div>
+</div>
+</section>
+<section id="systemd-timer">
+<h3>systemd timer<a class="headerlink" href="#systemd-timer" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/systemd/system/backup.service</span>
+<span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>Backup<span class="w"> </span>Service
+
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">Type</span><span class="o">=</span>oneshot
+<span class="nv">ExecStart</span><span class="o">=</span>/scripts/backup.sh
+
+<span class="c1"># /etc/systemd/system/backup.timer</span>
+<span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>Backup<span class="w"> </span>Timer
+
+<span class="o">[</span>Timer<span class="o">]</span>
+<span class="nv">OnCalendar</span><span class="o">=</span>daily
+<span class="nv">OnCalendar</span><span class="o">=</span><span class="m">02</span>:00
+<span class="nv">Persistent</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="o">[</span>Install<span class="o">]</span>
+<span class="nv">WantedBy</span><span class="o">=</span>timers.target
+
+<span class="c1"># 启用</span>
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>backup.timer
+systemctl<span class="w"> </span>start<span class="w"> </span>backup.timer
+
+<span class="c1"># 查看状态</span>
+systemctl<span class="w"> </span>list-timers
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>调试和优化<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>Shell脚本性能分析<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># time命令</span>
+<span class="nb">time</span><span class="w"> </span>./script.sh
+
+<span class="c1"># 详细统计</span>
+/usr/bin/time<span class="w"> </span>-v<span class="w"> </span>./script.sh
+
+<span class="c1"># 逐行计时</span>
+<span class="nv">PS4</span><span class="o">=</span><span class="s1">&#39;+ $(date &quot;+%s.%N&quot;)\011 &#39;</span>
+<span class="nb">set</span><span class="w"> </span>-x
+commands
+<span class="nb">set</span><span class="w"> </span>+x
+
+<span class="c1"># 查找慢命令</span>
+bash<span class="w"> </span>-x<span class="w"> </span>script.sh<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^\+.*[0-9]{2}\.[0-9]+&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k2<span class="w"> </span>-rn
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h3>错误处理最佳实践<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail<span class="w">  </span><span class="c1"># 严格模式</span>
+
+<span class="c1"># 捕获错误</span>
+<span class="nb">trap</span><span class="w"> </span><span class="s1">&#39;echo &quot;错误发生在第 $LINENO 行&quot;&#39;</span><span class="w"> </span>ERR
+
+<span class="c1"># 清理函数</span>
+cleanup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;清理临时文件...&quot;</span>
+<span class="w">    </span>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/tempfile.*
+<span class="o">}</span>
+
+<span class="nb">trap</span><span class="w"> </span>cleanup<span class="w"> </span>EXIT<span class="w">  </span><span class="c1"># 退出时清理</span>
+
+<span class="c1"># 检查依赖</span>
+<span class="k">for</span><span class="w"> </span>cmd<span class="w"> </span><span class="k">in</span><span class="w"> </span>git<span class="w"> </span>wget<span class="w"> </span>curl<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span><span class="nv">$cmd</span><span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;缺少命令: </span><span class="nv">$cmd</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1"># 主逻辑</span>
+main<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># ...</span>
+<span class="o">}</span>
+
+main<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>核心：</strong> Shell脚本重在实用和可维护，清晰的日志、完善的错误处理比追求技巧更重要。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="02-text-processing.html" class="btn btn-neutral float-left" title="02-文本处理三剑客：grep、sed、awk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

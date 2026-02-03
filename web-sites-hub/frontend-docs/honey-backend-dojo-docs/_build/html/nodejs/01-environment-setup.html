@@ -1,0 +1,971 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>01-Node.js环境搭建 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="02-Express框架" href="02-express-framework.html" />
+    <link rel="prev" title="📦 Node.js 开发" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Node.js 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Node.js 开发</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">01-Node.js环境搭建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Node.js简介</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">设计特点</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">应用场景</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">技术优势</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">环境安装</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">版本选择</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">安装方式</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#npm">npm包管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">基本命令</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#package-json">package.json</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">语义化版本</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">模块系统</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#commonjs">CommonJS（默认）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#es-modules">ES Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">开发工具</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vs-code">VS Code配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eslint">ESLint配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prettier">Prettier配置</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello World</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">基本程序</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#http">HTTP服务器</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">项目结构</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">标准布局</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">常用内置模块</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fs">fs（文件系统）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#path">path（路径）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#process">process（进程）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">环境变量管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dotenv">dotenv</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">调试</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#console">console调试</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">调试器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nodemon">nodemon热重载</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">性能监控</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#profiler">内置profiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clinic-js">clinic.js</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">包管理器对比</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#npm-vs-yarn-vs-pnpm">npm vs yarn vs pnpm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">项目配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gitignore">.gitignore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#npmrc">.npmrc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#editorconfig">EditorConfig</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-express-framework.html">02-Express框架</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-async-database.html">03-异步编程与数据库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-typescript.html">04-TypeScript集成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-websocket-performance.html">05-WebSocket与性能优化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Node.js 教程</a></li>
+      <li class="breadcrumb-item active">01-Node.js环境搭建</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/nodejs/01-environment-setup.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="node-js">
+<h1>01-Node.js环境搭建<a class="headerlink" href="#node-js" title="Link to this heading"></a></h1>
+<p>Node.js是基于Chrome V8引擎的JavaScript运行时，2009年由Ryan Dahl创建。事件驱动、非阻塞I/O，适合高并发场景。</p>
+<section id="id1">
+<h2>Node.js简介<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>设计特点<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>事件驱动</strong>：基于事件循环处理I/O</p></li>
+<li><p><strong>非阻塞I/O</strong>：异步操作，高并发</p></li>
+<li><p><strong>单线程</strong>：主线程单一，Worker Threads可多线程</p></li>
+<li><p><strong>V8引擎</strong>：JIT编译，性能优秀</p></li>
+<li><p><strong>跨平台</strong>：Linux/Windows/macOS</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>应用场景<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p><strong>Web后端：</strong></p>
+<ul class="simple">
+<li><p>RESTful API服务</p></li>
+<li><p>微服务架构</p></li>
+<li><p>实时应用（聊天、协作）</p></li>
+<li><p>BFF（Backend For Frontend）</p></li>
+</ul>
+<p><strong>工具链：</strong></p>
+<ul class="simple">
+<li><p>Webpack、Vite构建工具</p></li>
+<li><p>ESLint、Prettier代码工具</p></li>
+<li><p>npm、yarn包管理</p></li>
+</ul>
+<p><strong>桌面应用：</strong></p>
+<ul class="simple">
+<li><p>Electron（VS Code、Slack）</p></li>
+</ul>
+<p><strong>其他：</strong></p>
+<ul class="simple">
+<li><p>服务端渲染（Next.js、Nuxt.js）</p></li>
+<li><p>Serverless函数</p></li>
+<li><p>IoT设备</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>技术优势<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p><strong>优势：</strong></p>
+<ul class="simple">
+<li><p>JavaScript全栈开发</p></li>
+<li><p>npm生态丰富（200万+包）</p></li>
+<li><p>异步I/O高并发</p></li>
+<li><p>快速开发迭代</p></li>
+<li><p>活跃社区</p></li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul class="simple">
+<li><p>CPU密集型任务性能差</p></li>
+<li><p>回调地狱（已被Promise/async解决）</p></li>
+<li><p>单线程限制（Worker Threads补充）</p></li>
+<li><p>类型安全弱（TypeScript补充）</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>环境安装<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3>版本选择<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看版本</span>
+node<span class="w"> </span>--version
+npm<span class="w"> </span>--version
+
+<span class="c1"># LTS版本（推荐生产环境）</span>
+<span class="c1"># Node.js 18 LTS（2022-10到2025-04）</span>
+<span class="c1"># Node.js 20 LTS（2023-10到2026-04）</span>
+
+<span class="c1"># Current版本（最新特性）</span>
+<span class="c1"># Node.js 21（2023-10发布）</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>安装方式<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p><strong>1. 官方安装包</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 下载：https://nodejs.org</span>
+<span class="c1"># LTS: 稳定版</span>
+<span class="c1"># Current: 最新版</span>
+
+<span class="c1"># 验证</span>
+node<span class="w"> </span>-v
+npm<span class="w"> </span>-v
+</pre></div>
+</div>
+<p><strong>2. nvm（推荐）</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装nvm</span>
+curl<span class="w"> </span>-o-<span class="w"> </span>https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+
+<span class="c1"># macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>nvm
+
+<span class="c1"># 安装Node.js</span>
+nvm<span class="w"> </span>install<span class="w"> </span><span class="m">18</span><span class="w">        </span><span class="c1"># 安装v18</span>
+nvm<span class="w"> </span>install<span class="w"> </span><span class="m">20</span><span class="w">        </span><span class="c1"># 安装v20</span>
+nvm<span class="w"> </span>install<span class="w"> </span>--lts<span class="w">    </span><span class="c1"># 安装最新LTS</span>
+
+<span class="c1"># 切换版本</span>
+nvm<span class="w"> </span>use<span class="w"> </span><span class="m">18</span>
+nvm<span class="w"> </span>use<span class="w"> </span><span class="m">20</span>
+
+<span class="c1"># 设置默认版本</span>
+nvm<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>default<span class="w"> </span><span class="m">18</span>
+
+<span class="c1"># 查看已安装版本</span>
+nvm<span class="w"> </span>list
+
+<span class="c1"># 查看可用版本</span>
+nvm<span class="w"> </span>list-remote
+</pre></div>
+</div>
+<p><strong>3. 包管理器</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ubuntu/Debian</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://deb.nodesource.com/setup_18.x<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>-E<span class="w"> </span>bash<span class="w"> </span>-
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nodejs
+
+<span class="c1"># macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>node@18
+
+<span class="c1"># Windows</span>
+choco<span class="w"> </span>install<span class="w"> </span>nodejs-lts
+</pre></div>
+</div>
+</section>
+</section>
+<section id="npm">
+<h2>npm包管理<a class="headerlink" href="#npm" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>基本命令<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 初始化项目</span>
+npm<span class="w"> </span>init
+npm<span class="w"> </span>init<span class="w"> </span>-y<span class="w">  </span><span class="c1"># 默认配置</span>
+
+<span class="c1"># 安装依赖</span>
+npm<span class="w"> </span>install<span class="w"> </span>express<span class="w">           </span><span class="c1"># 生产依赖</span>
+npm<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>jest<span class="w">           </span><span class="c1"># 开发依赖</span>
+npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>nodemon<span class="w">        </span><span class="c1"># 全局安装</span>
+
+<span class="c1"># 简写</span>
+npm<span class="w"> </span>i<span class="w"> </span>express
+npm<span class="w"> </span>i<span class="w"> </span>-D<span class="w"> </span>jest
+npm<span class="w"> </span>i<span class="w"> </span>-g<span class="w"> </span>nodemon
+
+<span class="c1"># 安装特定版本</span>
+npm<span class="w"> </span>install<span class="w"> </span>express@4.18.0
+npm<span class="w"> </span>install<span class="w"> </span>express@latest
+
+<span class="c1"># 卸载</span>
+npm<span class="w"> </span>uninstall<span class="w"> </span>express
+npm<span class="w"> </span>uninstall<span class="w"> </span>-g<span class="w"> </span>nodemon
+
+<span class="c1"># 更新</span>
+npm<span class="w"> </span>update
+npm<span class="w"> </span>update<span class="w"> </span>express
+
+<span class="c1"># 查看过期包</span>
+npm<span class="w"> </span>outdated
+
+<span class="c1"># 审计安全漏洞</span>
+npm<span class="w"> </span>audit
+npm<span class="w"> </span>audit<span class="w"> </span>fix
+
+<span class="c1"># 查看依赖树</span>
+npm<span class="w"> </span>list
+npm<span class="w"> </span>list<span class="w"> </span>--depth<span class="o">=</span><span class="m">0</span>
+
+<span class="c1"># 清理缓存</span>
+npm<span class="w"> </span>cache<span class="w"> </span>clean<span class="w"> </span>--force
+</pre></div>
+</div>
+</section>
+<section id="package-json">
+<h3>package.json<a class="headerlink" href="#package-json" title="Link to this heading"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;myapp&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Node.js app&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;main&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;index.js&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scripts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;node index.js&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dev&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nodemon index.js&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;test&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jest&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;build&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;webpack&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;api&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;rest&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your Name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;license&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;express&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^4.18.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;mongoose&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^7.0.0&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;jest&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^29.0.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nodemon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^3.0.0&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;engines&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;node&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&gt;=18.0.0&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>语义化版本<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;dependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;express&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.18.2&quot;</span><span class="p">,</span><span class="w">      </span><span class="c1">// 精确版本</span>
+<span class="w">    </span><span class="nt">&quot;mongoose&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^7.0.0&quot;</span><span class="p">,</span><span class="w">     </span><span class="c1">// 兼容版本（7.x.x）</span>
+<span class="w">    </span><span class="nt">&quot;axios&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~1.4.0&quot;</span><span class="p">,</span><span class="w">        </span><span class="c1">// 补丁版本（1.4.x）</span>
+<span class="w">    </span><span class="nt">&quot;lodash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="w">            </span><span class="c1">// 任意版本（不推荐）</span>
+<span class="w">    </span><span class="nt">&quot;dotenv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="w">        </span><span class="c1">// 最新版本（不推荐）</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>模块系统<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="commonjs">
+<h3>CommonJS（默认）<a class="headerlink" href="#commonjs" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 导出</span>
+<span class="c1">// math.js</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">subtract</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">add</span><span class="p">,</span><span class="w"> </span><span class="nx">subtract</span><span class="w"> </span><span class="p">};</span>
+
+<span class="c1">// 或</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">add</span><span class="p">;</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">subtract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">subtract</span><span class="p">;</span>
+
+<span class="c1">// 导入</span>
+<span class="c1">// main.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">math</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./math&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">math</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">));</span>
+
+<span class="c1">// 解构导入</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">add</span><span class="p">,</span><span class="w"> </span><span class="nx">subtract</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./math&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">add</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">));</span>
+
+<span class="c1">// 内置模块</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="es-modules">
+<h3>ES Modules<a class="headerlink" href="#es-modules" title="Link to this heading"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// package.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;module&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 导出</span>
+<span class="c1">// math.mjs 或 math.js（如果package.json设置了&quot;type&quot;: &quot;module&quot;）</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">subtract</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 默认导出</span>
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 导入</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">add</span><span class="p">,</span><span class="w"> </span><span class="nx">subtract</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./math.mjs&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">multiply</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./math.mjs&#39;</span><span class="p">;</span>
+
+<span class="c1">// 全部导入</span>
+<span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">math</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./math.mjs&#39;</span><span class="p">;</span>
+
+<span class="c1">// 内置模块</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;fs&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;path&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>开发工具<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="vs-code">
+<h3>VS Code配置<a class="headerlink" href="#vs-code" title="Link to this heading"></a></h3>
+<p><strong>必装插件：</strong></p>
+<ul class="simple">
+<li><p>ESLint</p></li>
+<li><p>Prettier</p></li>
+<li><p>JavaScript (ES6) code snippets</p></li>
+<li><p>REST Client</p></li>
+<li><p>npm Intellisense</p></li>
+</ul>
+<p><strong>配置（.vscode/settings.json）：</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;editor.formatOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;editor.defaultFormatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;esbenp.prettier-vscode&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;eslint.validate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;javascriptreact&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;editor.codeActionsOnSave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;source.fixAll.eslint&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>调试配置（.vscode/launch.json）：</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;node&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;launch&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Launch Program&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;skipFiles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;&lt;node_internals&gt;/**&quot;</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;program&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${workspaceFolder}/index.js&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;node&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;attach&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Attach&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9229</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="eslint">
+<h3>ESLint配置<a class="headerlink" href="#eslint" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+npm<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>eslint
+
+<span class="c1"># 初始化</span>
+npx<span class="w"> </span>eslint<span class="w"> </span>--init
+
+<span class="c1"># .eslintrc.json</span>
+<span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;env&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;node&quot;</span>:<span class="w"> </span>true,
+<span class="w">        </span><span class="s2">&quot;es2021&quot;</span>:<span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;extends&quot;</span>:<span class="w"> </span><span class="s2">&quot;eslint:recommended&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;parserOptions&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;ecmaVersion&quot;</span>:<span class="w"> </span><span class="s2">&quot;latest&quot;</span>
+<span class="w">    </span><span class="o">}</span>,
+<span class="w">    </span><span class="s2">&quot;rules&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="s2">&quot;indent&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;error&quot;</span>,<span class="w"> </span><span class="m">2</span><span class="o">]</span>,
+<span class="w">        </span><span class="s2">&quot;quotes&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;error&quot;</span>,<span class="w"> </span><span class="s2">&quot;single&quot;</span><span class="o">]</span>,
+<span class="w">        </span><span class="s2">&quot;semi&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;error&quot;</span>,<span class="w"> </span><span class="s2">&quot;always&quot;</span><span class="o">]</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="prettier">
+<h3>Prettier配置<a class="headerlink" href="#prettier" title="Link to this heading"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// .prettierrc</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;semi&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;singleQuote&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tabWidth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;trailingComma&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;es5&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;printWidth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="hello-world">
+<h2>Hello World<a class="headerlink" href="#hello-world" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>基本程序<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// index.js</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Hello, Node.js!&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行</span>
+node<span class="w"> </span>index.js
+</pre></div>
+</div>
+</section>
+<section id="http">
+<h3>HTTP服务器<a class="headerlink" href="#http" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// server.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">200</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;text/plain&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello, World!\n&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3000</span><span class="p">;</span>
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">PORT</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Server running at http://localhost:</span><span class="si">${</span><span class="nx">PORT</span><span class="si">}</span><span class="sb">/`</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 运行</span>
+node<span class="w"> </span>server.js
+
+<span class="c1"># 访问</span>
+curl<span class="w"> </span>http://localhost:3000
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>项目结构<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>标准布局<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>myproject/
+├── package.json          # 项目配置
+├── package-lock.json     # 依赖锁定
+├── node_modules/         # 依赖包（.gitignore）
+├── .env                  # 环境变量（.gitignore）
+├── .gitignore
+├── README.md
+├── src/
+│   ├── app.js           # 应用入口
+│   ├── routes/          # 路由
+│   ├── controllers/     # 控制器
+│   ├── models/          # 数据模型
+│   ├── middlewares/     # 中间件
+│   ├── services/        # 业务逻辑
+│   ├── utils/           # 工具函数
+│   └── config/          # 配置
+├── tests/               # 测试
+└── public/              # 静态文件
+    ├── css/
+    ├── js/
+    └── images/
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>常用内置模块<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="fs">
+<h3>fs（文件系统）<a class="headerlink" href="#fs" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="c1">// 同步读取</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+
+<span class="c1">// 异步读取</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="nx">err</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// Promise版本</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">).</span><span class="nx">promises</span><span class="p">;</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">readFile</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 写入</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="s1">&#39;output.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Hello&#39;</span><span class="p">);</span>
+
+<span class="c1">// 追加</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">appendFile</span><span class="p">(</span><span class="s1">&#39;log.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;New line\n&#39;</span><span class="p">);</span>
+
+<span class="c1">// 检查文件</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;文件存在&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 目录操作</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="s1">&#39;newdir&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">recursive</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">rmdir</span><span class="p">(</span><span class="s1">&#39;olddir&#39;</span><span class="p">);</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readdir</span><span class="p">(</span><span class="s1">&#39;dir&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="path">
+<h3>path（路径）<a class="headerlink" href="#path" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span>
+
+<span class="c1">// 拼接路径</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">filePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;public&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;index.html&#39;</span><span class="p">);</span>
+
+<span class="c1">// 解析路径</span>
+<span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="s1">&#39;/home/user/file.txt&#39;</span><span class="p">);</span><span class="w">   </span><span class="c1">// &#39;/home/user&#39;</span>
+<span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="s1">&#39;/home/user/file.txt&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// &#39;file.txt&#39;</span>
+<span class="nx">path</span><span class="p">.</span><span class="nx">extname</span><span class="p">(</span><span class="s1">&#39;/home/user/file.txt&#39;</span><span class="p">);</span><span class="w">   </span><span class="c1">// &#39;.txt&#39;</span>
+
+<span class="c1">// 绝对路径</span>
+<span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// &#39;/current/dir/file.txt&#39;</span>
+
+<span class="c1">// 规范化</span>
+<span class="nx">path</span><span class="p">.</span><span class="nx">normalize</span><span class="p">(</span><span class="s1">&#39;/foo/bar//baz/asdf/quux/..&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// &#39;/foo/bar/baz/asdf&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="process">
+<h3>process（进程）<a class="headerlink" href="#process" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 环境变量</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="p">);</span>
+
+<span class="c1">// 命令行参数</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">);</span>
+<span class="c1">// node app.js arg1 arg2</span>
+<span class="c1">// [&#39;node&#39;, &#39;/path/to/app.js&#39;, &#39;arg1&#39;, &#39;arg2&#39;]</span>
+
+<span class="c1">// 当前目录</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">());</span>
+
+<span class="c1">// 进程ID</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">pid</span><span class="p">);</span>
+
+<span class="c1">// 退出</span>
+<span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// 成功</span>
+<span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w">  </span><span class="c1">// 失败</span>
+
+<span class="c1">// 监听退出</span>
+<span class="nx">process</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;exit&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">code</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`退出码: </span><span class="si">${</span><span class="nx">code</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 监听未捕获异常</span>
+<span class="nx">process</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;uncaughtException&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;未捕获异常:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>环境变量管理<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="dotenv">
+<h3>dotenv<a class="headerlink" href="#dotenv" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install<span class="w"> </span>dotenv
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// .env文件</span>
+<span class="nx">PORT</span><span class="o">=</span><span class="mf">3000</span>
+<span class="nx">DB_HOST</span><span class="o">=</span><span class="nx">localhost</span>
+<span class="nx">DB_USER</span><span class="o">=</span><span class="nx">admin</span>
+<span class="nx">DB_PASS</span><span class="o">=</span><span class="nx">secret</span>
+<span class="nx">NODE_ENV</span><span class="o">=</span><span class="nx">development</span>
+
+<span class="c1">// 加载</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dotenv&#39;</span><span class="p">).</span><span class="nx">config</span><span class="p">();</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="p">);</span><span class="w">  </span><span class="c1">// &#39;3000&#39;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DB_HOST</span><span class="p">);</span><span class="w">  </span><span class="c1">// &#39;localhost&#39;</span>
+
+<span class="c1">// 不同环境</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dotenv&#39;</span><span class="p">).</span><span class="nx">config</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="sb">`.env.</span><span class="si">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="si">}</span><span class="sb">`</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>调试<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="console">
+<h3>console调试<a class="headerlink" href="#console" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;普通日志&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;错误日志&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;警告日志&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;信息日志&#39;</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">table</span><span class="p">([{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">25</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="w"> </span><span class="p">}]);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;操作&#39;</span><span class="p">);</span>
+<span class="c1">// 耗时操作</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s1">&#39;操作&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 操作: 123.456ms</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">trace</span><span class="p">(</span><span class="s1">&#39;调用栈&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>调试器<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Node.js内置调试器</span>
+node<span class="w"> </span>inspect<span class="w"> </span>index.js
+
+<span class="c1"># Chrome DevTools</span>
+node<span class="w"> </span>--inspect<span class="w"> </span>index.js
+<span class="c1"># 打开 chrome://inspect</span>
+
+<span class="c1"># VS Code调试</span>
+<span class="c1"># F5启动调试</span>
+<span class="c1"># 断点、单步执行、变量查看</span>
+</pre></div>
+</div>
+</section>
+<section id="nodemon">
+<h3>nodemon热重载<a class="headerlink" href="#nodemon" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+npm<span class="w"> </span>install<span class="w"> </span>-D<span class="w"> </span>nodemon
+
+<span class="c1"># package.json</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;scripts&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;dev&quot;</span>:<span class="w"> </span><span class="s2">&quot;nodemon index.js&quot;</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1"># 运行</span>
+npm<span class="w"> </span>run<span class="w"> </span>dev
+
+<span class="c1"># nodemon.json配置</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;watch&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;src&quot;</span><span class="o">]</span>,
+<span class="w">  </span><span class="s2">&quot;ext&quot;</span>:<span class="w"> </span><span class="s2">&quot;js,json&quot;</span>,
+<span class="w">  </span><span class="s2">&quot;ignore&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;node_modules&quot;</span>,<span class="w"> </span><span class="s2">&quot;tests&quot;</span><span class="o">]</span>,
+<span class="w">  </span><span class="s2">&quot;exec&quot;</span>:<span class="w"> </span><span class="s2">&quot;node src/index.js&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>性能监控<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="profiler">
+<h3>内置profiler<a class="headerlink" href="#profiler" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPU profile</span>
+node<span class="w"> </span>--prof<span class="w"> </span>app.js
+
+<span class="c1"># 生成报告</span>
+node<span class="w"> </span>--prof-process<span class="w"> </span>isolate-0x*.log<span class="w"> </span>&gt;<span class="w"> </span>profile.txt
+
+<span class="c1"># 内存快照</span>
+node<span class="w"> </span>--heapsnapshot-signal<span class="o">=</span>SIGUSR2<span class="w"> </span>app.js
+
+<span class="c1"># 发送信号</span>
+<span class="nb">kill</span><span class="w"> </span>-USR2<span class="w"> </span>&lt;pid&gt;
+</pre></div>
+</div>
+</section>
+<section id="clinic-js">
+<h3>clinic.js<a class="headerlink" href="#clinic-js" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>clinic
+
+<span class="c1"># CPU分析</span>
+clinic<span class="w"> </span>doctor<span class="w"> </span>--<span class="w"> </span>node<span class="w"> </span>app.js
+
+<span class="c1"># 火焰图</span>
+clinic<span class="w"> </span>flame<span class="w"> </span>--<span class="w"> </span>node<span class="w"> </span>app.js
+
+<span class="c1"># 气泡图</span>
+clinic<span class="w"> </span>bubbleprof<span class="w"> </span>--<span class="w"> </span>node<span class="w"> </span>app.js
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id20">
+<h2>包管理器对比<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="npm-vs-yarn-vs-pnpm">
+<h3>npm vs yarn vs pnpm<a class="headerlink" href="#npm-vs-yarn-vs-pnpm" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>特性</p></th>
+<th class="head"><p>npm</p></th>
+<th class="head"><p>yarn</p></th>
+<th class="head"><p>pnpm</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>速度</p></td>
+<td><p>中等</p></td>
+<td><p>快</p></td>
+<td><p>最快</p></td>
+</tr>
+<tr class="row-odd"><td><p>磁盘占用</p></td>
+<td><p>大</p></td>
+<td><p>大</p></td>
+<td><p>小（硬链接）</p></td>
+</tr>
+<tr class="row-even"><td><p>lock文件</p></td>
+<td><p>package-lock.json</p></td>
+<td><p>yarn.lock</p></td>
+<td><p>pnpm-lock.yaml</p></td>
+</tr>
+<tr class="row-odd"><td><p>离线缓存</p></td>
+<td><p>有</p></td>
+<td><p>有</p></td>
+<td><p>有</p></td>
+</tr>
+<tr class="row-even"><td><p>Workspaces</p></td>
+<td><p>支持</p></td>
+<td><p>支持</p></td>
+<td><p>支持</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>yarn基本命令：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yarn<span class="w"> </span>init
+yarn<span class="w"> </span>add<span class="w"> </span>express
+yarn<span class="w"> </span>add<span class="w"> </span>-D<span class="w"> </span>jest
+yarn<span class="w"> </span>remove<span class="w"> </span>express
+yarn<span class="w"> </span>install
+yarn<span class="w"> </span>upgrade
+</pre></div>
+</div>
+<p><strong>pnpm基本命令：</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pnpm<span class="w"> </span>init
+pnpm<span class="w"> </span>add<span class="w"> </span>express
+pnpm<span class="w"> </span>add<span class="w"> </span>-D<span class="w"> </span>jest
+pnpm<span class="w"> </span>remove<span class="w"> </span>express
+pnpm<span class="w"> </span>install
+pnpm<span class="w"> </span>update
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id21">
+<h2>项目配置<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<section id="gitignore">
+<h3>.gitignore<a class="headerlink" href="#gitignore" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">node_modules</span><span class="o">/</span>
+<span class="o">.</span><span class="n">env</span>
+<span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">local</span>
+<span class="n">dist</span><span class="o">/</span>
+<span class="n">build</span><span class="o">/</span>
+<span class="o">*.</span><span class="n">log</span>
+<span class="o">.</span><span class="n">DS_Store</span>
+<span class="n">coverage</span><span class="o">/</span>
+<span class="o">.</span><span class="n">vscode</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="npmrc">
+<h3>.npmrc<a class="headerlink" href="#npmrc" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">registry</span><span class="o">=</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">registry</span><span class="o">.</span><span class="n">npmmirror</span><span class="o">.</span><span class="n">com</span>
+<span class="n">save</span><span class="o">-</span><span class="n">exact</span><span class="o">=</span><span class="n">true</span>
+<span class="n">engine</span><span class="o">-</span><span class="n">strict</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+</section>
+<section id="editorconfig">
+<h3>EditorConfig<a class="headerlink" href="#editorconfig" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># .editorconfig</span>
+<span class="n">root</span> <span class="o">=</span> <span class="n">true</span>
+
+<span class="p">[</span><span class="o">*</span><span class="p">]</span>
+<span class="n">charset</span> <span class="o">=</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span>
+<span class="n">end_of_line</span> <span class="o">=</span> <span class="n">lf</span>
+<span class="n">indent_style</span> <span class="o">=</span> <span class="n">space</span>
+<span class="n">indent_size</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">trim_trailing_whitespace</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">insert_final_newline</span> <span class="o">=</span> <span class="n">true</span>
+</pre></div>
+</div>
+<p><strong>核心：</strong> Node.js基于V8引擎和事件循环，非阻塞I/O实现高并发。npm生态丰富，工具链完善。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="README.html" class="btn btn-neutral float-left" title="📦 Node.js 开发" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02-express-framework.html" class="btn btn-neutral float-right" title="02-Express框架" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

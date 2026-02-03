@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>03-React Router路由与导航 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Vue 教程" href="../vue/index.html" />
+    <link rel="prev" title="02-React状态管理" href="02-state-management.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html/index.html">HTML 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javascript/index.html">JavaScript 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">React 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">React 核心技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-hooks-core.html">01-Hooks核心</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-state-management.html">02-状态管理</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">03-路由与导航</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">📋 学习目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">🛣️ React Router基础</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">安装</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">基本配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">路由模式</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">🔗 导航</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#link">Link组件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">编程式导航</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">📍 动态路由</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">路径参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">查询参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">🗂️ 嵌套路由</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">基本嵌套</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">相对路径</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">🔐 路由守卫</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id15">受保护路由</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">角色权限控制</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">⚡ 代码分割</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">路由级懒加载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">预加载</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">🔄 数据加载</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loader-react-router-v6-4">Loader（React Router v6.4+）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#action">Action（表单处理）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">🎯 实战案例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id22">完整的路由配置</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">💡 最佳实践</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id24">1. 路由配置集中管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">2. 404处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">3. 面包屑导航</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">📚 实践练习</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id28">练习1：博客系统路由</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29">练习2：权限管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">练习3：嵌套布局</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">📚 参考资料</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vue/index.html">Vue 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">React 教程</a></li>
+      <li class="breadcrumb-item active">03-React Router路由与导航</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/react/03-routing-and-navigation.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="react-router">
+<h1>03-React Router路由与导航<a class="headerlink" href="#react-router" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>掌握React Router v6核心概念</p></li>
+<li><p>学习路由配置和导航</p></li>
+<li><p>理解路由守卫和权限控制</p></li>
+<li><p>掌握代码分割和懒加载</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>🛣️ React Router基础<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>安装<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pnpm<span class="w"> </span>add<span class="w"> </span>react-router-dom
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>基本配置<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">BrowserRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">Routes</span><span class="p">,</span><span class="w"> </span><span class="nx">Route</span><span class="p">,</span><span class="w"> </span><span class="nx">Link</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">BrowserRouter</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span><span class="nx">首页</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="p">&gt;</span><span class="nx">关于</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/users&quot;</span><span class="p">&gt;</span><span class="nx">用户</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/users&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Users</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;*&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">NotFound</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">BrowserRouter</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>路由模式<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// BrowserRouter - HTML5 History API</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">BrowserRouter</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+<span class="c1">// URL: /about</span>
+
+<span class="c1">// HashRouter - Hash模式</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">HashRouter</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+<span class="c1">// URL: /#/about</span>
+
+<span class="c1">// MemoryRouter - 内存模式（测试用）</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">MemoryRouter</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>🔗 导航<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="link">
+<h3>Link组件<a class="headerlink" href="#link" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Link</span><span class="p">,</span><span class="w"> </span><span class="nx">NavLink</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Navigation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">{</span><span class="cm">/* 基本链接 */</span><span class="p">}</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/home&quot;</span><span class="p">&gt;</span><span class="nx">首页</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="p">{</span><span class="cm">/* 带state的链接 */</span><span class="p">}</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/profile&quot;</span><span class="w"> </span><span class="na">state</span><span class="o">=</span><span class="p">{{</span><span class="kr">from</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;home&#39;</span><span class="p">}}&gt;</span>
+<span class="w">                </span><span class="nx">个人资料</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="p">{</span><span class="cm">/* NavLink - 支持active样式 */</span><span class="p">}</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">NavLink</span><span class="w"> </span>
+<span class="w">                </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/about&quot;</span>
+<span class="w">                </span><span class="na">className</span><span class="o">=</span><span class="p">{({</span><span class="nx">isActive</span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span>
+<span class="w">                    </span><span class="nx">isActive</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;active&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">&gt;</span>
+<span class="w">                </span><span class="nx">关于</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">NavLink</span><span class="p">&gt;</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="p">{</span><span class="cm">/* 自定义active样式 */</span><span class="p">}</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">NavLink</span>
+<span class="w">                </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/users&quot;</span>
+<span class="w">                </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="nx">isActive</span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<span class="w">                    </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="nx">isActive</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;red&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="nx">isActive</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;bold&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;normal&#39;</span>
+<span class="w">                </span><span class="p">})}</span>
+<span class="w">            </span><span class="p">&gt;</span>
+<span class="w">                </span><span class="nx">用户</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">NavLink</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>编程式导航<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useNavigate</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">LoginForm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">navigate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useNavigate</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">handleSubmit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="nx">login</span><span class="p">();</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 导航到首页</span>
+<span class="w">        </span><span class="nx">navigate</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 带参数导航</span>
+<span class="w">        </span><span class="nx">navigate</span><span class="p">(</span><span class="s1">&#39;/profile&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="kr">from</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;login&#39;</span><span class="p">}});</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 替换当前历史记录</span>
+<span class="w">        </span><span class="nx">navigate</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">replace</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">});</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 后退</span>
+<span class="w">        </span><span class="nx">navigate</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 前进</span>
+<span class="w">        </span><span class="nx">navigate</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">form</span><span class="w"> </span><span class="na">onSubmit</span><span class="o">=</span><span class="p">{</span><span class="nx">handleSubmit</span><span class="p">}&gt;...&lt;/</span><span class="nt">form</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>📍 动态路由<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h3>路径参数<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// 路由配置</span>
+<span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/users/:id&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">UserDetail</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/posts/:postId/comments/:commentId&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Comment</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="c1">// 组件中获取参数</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useParams</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">UserDetail</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="nx">id</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useParams</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span><span class="nx">User</span><span class="w"> </span><span class="nx">ID</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">id</span><span class="p">}&lt;/</span><span class="nt">div</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Comment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="nx">postId</span><span class="p">,</span><span class="w"> </span><span class="nx">commentId</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useParams</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="nx">Post</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">postId</span><span class="p">},</span><span class="w"> </span><span class="nx">Comment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">commentId</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>查询参数<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useSearchParams</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">SearchPage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">searchParams</span><span class="p">,</span><span class="w"> </span><span class="nx">setSearchParams</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useSearchParams</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 获取参数</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;page&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 设置参数</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">handleSearch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">newQuery</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">setSearchParams</span><span class="p">({</span><span class="nx">q</span><span class="o">:</span><span class="w"> </span><span class="nx">newQuery</span><span class="p">,</span><span class="w"> </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="p">});</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">nextPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">setSearchParams</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">q</span><span class="o">:</span><span class="w"> </span><span class="nx">query</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">page</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Search</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">query</span><span class="p">},</span><span class="w"> </span><span class="nx">Page</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">page</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">nextPage</span><span class="p">}&gt;</span><span class="nx">Next</span><span class="w"> </span><span class="nx">Page</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// URL: /search?q=react&amp;page=2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>🗂️ 嵌套路由<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>基本嵌套<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Layout</span><span class="w"> </span><span class="p">/&gt;}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">index</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;about&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;users&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Users</span><span class="w"> </span><span class="p">/&gt;}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">index</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">UserList</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;:id&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">UserDetail</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;new&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">NewUser</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Route</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">Route</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">Routes</span><span class="p">&gt;</span>
+
+<span class="c1">// Layout组件</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Outlet</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Layout</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span><span class="nx">Header</span><span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Outlet</span><span class="w"> </span><span class="p">/&gt;</span><span class="w"> </span><span class="p">{</span><span class="cm">/* 子路由渲染位置 */</span><span class="p">}</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span><span class="nx">Footer</span><span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Users组件</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">Users</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Users</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Outlet</span><span class="w"> </span><span class="p">/&gt;</span><span class="w"> </span><span class="p">{</span><span class="cm">/* UserList或UserDetail渲染这里 */</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>相对路径<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">Users</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">{</span><span class="cm">/* 相对路径 */</span><span class="p">}</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span><span class="nx">All</span><span class="w"> </span><span class="nx">Users</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;new&quot;</span><span class="p">&gt;</span><span class="nx">New</span><span class="w"> </span><span class="nx">User</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">                </span>
+<span class="w">                </span><span class="p">{</span><span class="cm">/* 绝对路径 */</span><span class="p">}</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/users&quot;</span><span class="p">&gt;</span><span class="nx">Users</span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Outlet</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2>🔐 路由守卫<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<section id="id15">
+<h3>受保护路由<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Navigate</span><span class="p">,</span><span class="w"> </span><span class="nx">useLocation</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">PrivateRoute</span><span class="p">({</span><span class="nx">children</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">isAuthenticated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useAuth</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useLocation</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">isAuthenticated</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 跳转到登录，保存当前位置</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Navigate</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/login&quot;</span><span class="w"> </span><span class="na">state</span><span class="o">=</span><span class="p">{{</span><span class="kr">from</span><span class="o">:</span><span class="w"> </span><span class="nx">location</span><span class="p">}}</span><span class="w"> </span><span class="na">replace</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">children</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/login&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Login</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span>
+<span class="w">        </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/dashboard&quot;</span><span class="w"> </span>
+<span class="w">        </span><span class="na">element</span><span class="o">=</span><span class="p">{</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">PrivateRoute</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Dashboard</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">PrivateRoute</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">Routes</span><span class="p">&gt;</span>
+
+<span class="c1">// 或者使用Layout包裹</span>
+<span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">PrivateRoute</span><span class="p">&gt;&lt;</span><span class="nt">Layout</span><span class="w"> </span><span class="p">/&gt;&lt;/</span><span class="nt">PrivateRoute</span><span class="p">&gt;}&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/dashboard&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Dashboard</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/profile&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Profile</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">Route</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>角色权限控制<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">RoleRoute</span><span class="p">({</span><span class="nx">children</span><span class="p">,</span><span class="w"> </span><span class="nx">allowedRoles</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useAuth</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useLocation</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Navigate</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/login&quot;</span><span class="w"> </span><span class="na">state</span><span class="o">=</span><span class="p">{{</span><span class="kr">from</span><span class="o">:</span><span class="w"> </span><span class="nx">location</span><span class="p">}}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">allowedRoles</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">role</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Navigate</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/unauthorized&quot;</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">children</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span>
+<span class="w">    </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/admin&quot;</span><span class="w"> </span>
+<span class="w">    </span><span class="na">element</span><span class="o">=</span><span class="p">{</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">RoleRoute</span><span class="w"> </span><span class="na">allowedRoles</span><span class="o">=</span><span class="p">{[</span><span class="s1">&#39;admin&#39;</span><span class="p">]}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">AdminPanel</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">RoleRoute</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="p">/&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>⚡ 代码分割<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>路由级懒加载<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">lazy</span><span class="p">,</span><span class="w"> </span><span class="nx">Suspense</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Routes</span><span class="p">,</span><span class="w"> </span><span class="nx">Route</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="c1">// 懒加载组件</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">Home</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/Home&#39;</span><span class="p">));</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">About</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/About&#39;</span><span class="p">));</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">Users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/Users&#39;</span><span class="p">));</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Suspense</span><span class="w"> </span><span class="na">fallback</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Loading</span><span class="w"> </span><span class="p">/&gt;}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/users/*&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Users</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Suspense</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Loading组件</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">Loading</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span><span class="nx">Loading</span><span class="p">...&lt;/</span><span class="nt">div</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id19">
+<h3>预加载<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">lazy</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">About</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lazy</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/About&#39;</span><span class="p">));</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Navigation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 鼠标悬停时预加载</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">handleMouseEnter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">import</span><span class="p">(</span><span class="s1">&#39;./pages/About&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span>
+<span class="w">            </span><span class="na">to</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="w"> </span>
+<span class="w">            </span><span class="na">onMouseEnter</span><span class="o">=</span><span class="p">{</span><span class="nx">handleMouseEnter</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&gt;</span>
+<span class="w">            </span><span class="nx">About</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id20">
+<h2>🔄 数据加载<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="loader-react-router-v6-4">
+<h3>Loader（React Router v6.4+）<a class="headerlink" href="#loader-react-router-v6-4" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createBrowserRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">RouterProvider</span><span class="p">,</span><span class="w"> </span><span class="nx">useLoaderData</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="c1">// 定义loader</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">userLoader</span><span class="p">({</span><span class="nx">params</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`/api/users/</span><span class="si">${</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Not Found&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="mf">404</span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// 创建路由</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createBrowserRouter</span><span class="p">([</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/users/:id&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">UserDetail</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">        </span><span class="nx">loader</span><span class="o">:</span><span class="w"> </span><span class="nx">userLoader</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">errorElement</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">ErrorPage</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]);</span>
+
+<span class="c1">// 组件中使用</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">UserDetail</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useLoaderData</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;{</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">div</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="c1">// App</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">RouterProvider</span><span class="w"> </span><span class="na">router</span><span class="o">=</span><span class="p">{</span><span class="nx">router</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="action">
+<h3>Action（表单处理）<a class="headerlink" href="#action" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createUserAction</span><span class="p">({</span><span class="nx">request</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">formData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">formData</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">formData</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="nx">formData</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/users&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">redirect</span><span class="p">(</span><span class="s1">&#39;/users&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createBrowserRouter</span><span class="p">([</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/users/new&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">NewUser</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">        </span><span class="nx">action</span><span class="o">:</span><span class="w"> </span><span class="nx">createUserAction</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]);</span>
+
+<span class="c1">// 组件中使用</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">Form</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">NewUser</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Form</span><span class="w"> </span><span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">input</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">&quot;name&quot;</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">input</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">&quot;email&quot;</span><span class="w"> </span><span class="na">type</span><span class="o">=</span><span class="s">&quot;email&quot;</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span><span class="nx">Create</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Form</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id21">
+<h2>🎯 实战案例<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<section id="id22">
+<h3>完整的路由配置<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">createBrowserRouter</span><span class="p">,</span><span class="w"> </span><span class="nx">RouterProvider</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createBrowserRouter</span><span class="p">([</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Layout</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">        </span><span class="nx">errorElement</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">ErrorPage</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">        </span><span class="nx">children</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">index</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;about&#39;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;users&#39;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">children</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">index</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">                        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">UserList</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">                        </span><span class="nx">loader</span><span class="o">:</span><span class="w"> </span><span class="nx">usersLoader</span>
+<span class="w">                    </span><span class="p">},</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;:id&#39;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">UserDetail</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">                        </span><span class="nx">loader</span><span class="o">:</span><span class="w"> </span><span class="nx">userLoader</span>
+<span class="w">                    </span><span class="p">},</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;new&#39;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">NewUser</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">                        </span><span class="nx">action</span><span class="o">:</span><span class="w"> </span><span class="nx">createUserAction</span>
+<span class="w">                    </span><span class="p">},</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;:id/edit&#39;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">EditUser</span><span class="w"> </span><span class="p">/&gt;,</span>
+<span class="w">                        </span><span class="nx">loader</span><span class="o">:</span><span class="w"> </span><span class="nx">userLoader</span><span class="p">,</span>
+<span class="w">                        </span><span class="nx">action</span><span class="o">:</span><span class="w"> </span><span class="nx">updateUserAction</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">]</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;dashboard&#39;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">(</span>
+<span class="w">                    </span><span class="p">&lt;</span><span class="nt">PrivateRoute</span><span class="p">&gt;</span>
+<span class="w">                        </span><span class="p">&lt;</span><span class="nt">Dashboard</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">                    </span><span class="p">&lt;/</span><span class="nt">PrivateRoute</span><span class="p">&gt;</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">]);</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">RouterProvider</span><span class="w"> </span><span class="na">router</span><span class="o">=</span><span class="p">{</span><span class="nx">router</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id23">
+<h2>💡 最佳实践<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="id24">
+<h3>1. 路由配置集中管理<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// routes.jsx</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;},</span>
+<span class="w">    </span><span class="p">{</span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/about&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;},</span>
+<span class="w">    </span><span class="p">{</span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/users/:id&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">element</span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">UserDetail</span><span class="w"> </span><span class="p">/&gt;}</span>
+<span class="p">];</span>
+
+<span class="c1">// App.jsx</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">routes</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./routes&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">{</span><span class="nx">routes</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">route</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">route</span><span class="p">.</span><span class="nx">path</span><span class="p">}</span><span class="w"> </span><span class="p">{</span><span class="na">...route</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">            </span><span class="p">))}</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id25">
+<h3>2. 404处理<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">Routes</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Home</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">About</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Route</span><span class="w"> </span><span class="na">path</span><span class="o">=</span><span class="s">&quot;*&quot;</span><span class="w"> </span><span class="na">element</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">NotFound</span><span class="w"> </span><span class="p">/&gt;}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">Routes</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id26">
+<h3>3. 面包屑导航<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="nx">useMatches</span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Breadcrumbs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">matches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useMatches</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">{</span><span class="nx">matches</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">match</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">                </span><span class="p">&lt;</span><span class="nt">span</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">match</span><span class="p">.</span><span class="nx">pathname</span><span class="p">}&gt;</span>
+<span class="w">                    </span><span class="p">&lt;</span><span class="nt">Link</span><span class="w"> </span><span class="na">to</span><span class="o">=</span><span class="p">{</span><span class="nx">match</span><span class="p">.</span><span class="nx">pathname</span><span class="p">}&gt;</span>
+<span class="w">                        </span><span class="p">{</span><span class="nx">match</span><span class="p">.</span><span class="nx">handle</span><span class="o">?</span><span class="p">.</span><span class="nx">crumb</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">match</span><span class="p">.</span><span class="nx">pathname</span><span class="p">}</span>
+<span class="w">                    </span><span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span>
+<span class="w">                    </span><span class="p">{</span><span class="nx">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">matches</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s1">&#39; &gt; &#39;</span><span class="p">}</span>
+<span class="w">                </span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">))}</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id27">
+<h2>📚 实践练习<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<section id="id28">
+<h3>练习1：博客系统路由<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<p>实现以下路由：</p>
+<ul class="simple">
+<li><p>文章列表：<code class="docutils literal notranslate"><span class="pre">/posts</span></code></p></li>
+<li><p>文章详情：<code class="docutils literal notranslate"><span class="pre">/posts/:id</span></code></p></li>
+<li><p>新建文章：<code class="docutils literal notranslate"><span class="pre">/posts/new</span></code></p></li>
+<li><p>编辑文章：<code class="docutils literal notranslate"><span class="pre">/posts/:id/edit</span></code></p></li>
+</ul>
+</section>
+<section id="id29">
+<h3>练习2：权限管理<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<p>实现：</p>
+<ul class="simple">
+<li><p>登录保护</p></li>
+<li><p>角色权限控制</p></li>
+<li><p>未授权页面</p></li>
+</ul>
+</section>
+<section id="id30">
+<h3>练习3：嵌套布局<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<p>实现：</p>
+<ul class="simple">
+<li><p>多层嵌套路由</p></li>
+<li><p>共享布局</p></li>
+<li><p>面包屑导航</p></li>
+</ul>
+</section>
+</section>
+<section id="id31">
+<h2>📚 参考资料<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://reactrouter.com/">React Router官方文档</a></p></li>
+<li><p><a class="reference external" href="https://reactrouter.com/en/main/upgrading/v5">React Router v6迁移指南</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="02-state-management.html" class="btn btn-neutral float-left" title="02-React状态管理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../vue/index.html" class="btn btn-neutral float-right" title="Vue 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

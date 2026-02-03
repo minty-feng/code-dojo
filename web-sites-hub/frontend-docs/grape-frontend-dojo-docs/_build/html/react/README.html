@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚛️ React 核心技术 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="01-React Hooks核心" href="01-hooks-core.html" />
+    <link rel="prev" title="React 教程" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html/index.html">HTML 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javascript/index.html">JavaScript 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">React 教程</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">React 核心技术</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">🎯 学习目标</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">核心能力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">技术深度</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">📚 核心内容</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">1. 组件基础</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hooks">2. Hooks详解</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">3. 状态管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">4. 路由与导航</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">5. 性能优化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-hooks-core.html">01-Hooks核心</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-state-management.html">02-状态管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-routing-and-navigation.html">03-路由与导航</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vue/index.html">Vue 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">React 教程</a></li>
+      <li class="breadcrumb-item active">⚛️ React 核心技术</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/react/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="react">
+<h1>⚛️ React 核心技术<a class="headerlink" href="#react" title="Link to this heading"></a></h1>
+<p>React是构建用户界面的JavaScript库，通过组件化、声明式编程和虚拟DOM实现高效的UI开发。</p>
+<section id="id1">
+<h2>🎯 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>核心能力<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>组件开发</strong>：函数组件、类组件、组件通信</p></li>
+<li><p><strong>Hooks</strong>：useState、useEffect、useContext、自定义Hook</p></li>
+<li><p><strong>状态管理</strong>：Redux、Zustand、Jotai、Context API</p></li>
+<li><p><strong>路由</strong>：React Router、嵌套路由、路由守卫</p></li>
+<li><p><strong>性能优化</strong>：memo、useCallback、useMemo、lazy、Suspense</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>技术深度<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>虚拟DOM</strong>：Diff算法、Fiber架构、调和过程</p></li>
+<li><p><strong>生命周期</strong>：组件生命周期、Effect清理</p></li>
+<li><p><strong>高阶组件</strong>：HOC模式、Render Props、自定义Hook</p></li>
+<li><p><strong>TypeScript集成</strong>：类型定义、泛型组件、Props类型</p></li>
+</ul>
+</section>
+</section>
+<section id="id4">
+<h2>📚 核心内容<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h3>1. 组件基础<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>JSX语法</p></li>
+<li><p>Props和State</p></li>
+<li><p>事件处理</p></li>
+<li><p>条件渲染</p></li>
+<li><p>列表渲染</p></li>
+</ul>
+</section>
+<section id="hooks">
+<h3>2. Hooks详解<a class="headerlink" href="#hooks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>useState：状态管理</p></li>
+<li><p>useEffect：副作用</p></li>
+<li><p>useContext：跨组件通信</p></li>
+<li><p>useReducer：复杂状态</p></li>
+<li><p>useMemo/useCallback：性能优化</p></li>
+<li><p>useRef：DOM引用</p></li>
+<li><p>自定义Hook</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>3. 状态管理<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Context API</p></li>
+<li><p>Redux Toolkit</p></li>
+<li><p>Zustand</p></li>
+<li><p>Jotai/Recoil</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>4. 路由与导航<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>React Router v6</p></li>
+<li><p>动态路由</p></li>
+<li><p>路由守卫</p></li>
+<li><p>代码分割</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>5. 性能优化<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>React.memo</p></li>
+<li><p>useCallback/useMemo</p></li>
+<li><p>Code Splitting</p></li>
+<li><p>Lazy Loading</p></li>
+<li><p>Virtualization</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="React 教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="01-hooks-core.html" class="btn btn-neutral float-right" title="01-React Hooks核心" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

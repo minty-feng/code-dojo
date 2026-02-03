@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>06-堆（Heap） &mdash; Data Structures Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="AVL树" href="../07-avl-tree/index.html" />
+    <link rel="prev" title="堆" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Data Structures Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Data Structures Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-array-and-linked-list/index.html">数组与链表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-stack-and-queue/index.html">栈与队列</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-hash-table/index.html">哈希表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-binary-tree/index.html">二叉树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-binary-search-tree/index.html">二叉搜索树</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">堆</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">堆</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">💡 核心结论</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">堆本质</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">数组索引公式（从0开始）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">关键操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vs">堆 vs 其他结构</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">应用场景（重要）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">🔺 最大堆操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#swim-heapify-up">上浮（Swim/Heapify Up）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sink-heapify-down">下沉（Sink/Heapify Down）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">🏗️ 建堆</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">方法1：逐个插入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">方法2：自底向上（推荐）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">🎯 堆排序</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">算法步骤</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#top-k">💡 Top K问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#k">最大的K个元素</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">最小的K个元素</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#leetcode">📚 LeetCode练习</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">💻 完整代码实现</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python">Python 实现</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c">C++ 实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../07-avl-tree/index.html">AVL树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-red-black-tree/index.html">红黑树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-graph/index.html">图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-union-find/index.html">并查集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-trie/index.html">字典树</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Data Structures Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">堆</a></li>
+      <li class="breadcrumb-item active">06-堆（Heap）</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/06-heap/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="heap">
+<h1>06-堆（Heap）<a class="headerlink" href="#heap" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>💡 核心结论<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>堆本质<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>定义</strong>：完全二叉树，满足堆性质（父节点≥/≤所有子节点）</p></li>
+<li><p><strong>类型</strong>：最大堆（父≥子）、最小堆（父≤子）</p></li>
+<li><p><strong>核心</strong>：快速找到最大/最小值O(1)，插入删除O(log n)</p></li>
+<li><p><strong>实现</strong>：用数组存储，利用完全二叉树性质计算索引</p></li>
+<li><p><strong>应用</strong>：优先队列、Top K问题、堆排序</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>数组索引公式（从0开始）<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">父节点</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">左子节点</span><span class="p">:</span> <span class="mi">2</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">右子节点</span><span class="p">:</span> <span class="mi">2</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>关键操作<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>操作</p></th>
+<th class="head"><p>复杂度</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>找最大/最小</p></td>
+<td><p>O(1)</p></td>
+<td><p>堆顶元素</p></td>
+</tr>
+<tr class="row-odd"><td><p>插入</p></td>
+<td><p>O(log n)</p></td>
+<td><p>上浮调整</p></td>
+</tr>
+<tr class="row-even"><td><p>删除堆顶</p></td>
+<td><p>O(log n)</p></td>
+<td><p>下沉调整</p></td>
+</tr>
+<tr class="row-odd"><td><p>建堆</p></td>
+<td><p>O(n)</p></td>
+<td><p>从底向上调整</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="vs">
+<h3>堆 vs 其他结构<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>数据结构</p></th>
+<th class="head"><p>找最大</p></th>
+<th class="head"><p>插入</p></th>
+<th class="head"><p>删除最大</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>无序数组</p></td>
+<td><p>O(n)</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(n)</p></td>
+</tr>
+<tr class="row-odd"><td><p>有序数组</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(n)</p></td>
+<td><p>O(1)</p></td>
+</tr>
+<tr class="row-even"><td><p>BST</p></td>
+<td><p>O(log n)</p></td>
+<td><p>O(log n)</p></td>
+<td><p>O(log n)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>堆</strong></p></td>
+<td><p><strong>O(1)</strong></p></td>
+<td><p><strong>O(log n)</strong></p></td>
+<td><p><strong>O(log n)</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id5">
+<h3>应用场景（重要）<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>优先队列</strong>：任务调度、事件驱动</p></li>
+<li><p><strong>Top K问题</strong>：最大/最小的K个元素</p></li>
+<li><p><strong>堆排序</strong>：O(n log n)原地排序</p></li>
+<li><p><strong>中位数维护</strong>：双堆结构</p></li>
+<li><p><strong>定时器</strong>：最小堆管理定时任务</p></li>
+</ol>
+</section>
+</section>
+<section id="id6">
+<h2>🔺 最大堆操作<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="swim-heapify-up">
+<h3>上浮（Swim/Heapify Up）<a class="headerlink" href="#swim-heapify-up" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>插入新元素后，从底向上调整
+如果子节点 &gt; 父节点，交换
+重复直到满足堆性质
+</pre></div>
+</div>
+</section>
+<section id="sink-heapify-down">
+<h3>下沉（Sink/Heapify Down）<a class="headerlink" href="#sink-heapify-down" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>删除堆顶后，将末尾元素放到堆顶
+从上向下调整
+与较大的子节点交换
+重复直到满足堆性质
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>🏗️ 建堆<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>方法1：逐个插入<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 时间复杂度：O(n log n)</span>
+<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+    <span class="n">heap</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>方法2：自底向上（推荐）<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 时间复杂度：O(n)</span>
+<span class="c1"># 从最后一个非叶子节点开始下沉</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">heapify_down</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>为什么O(n)</strong>：</p>
+<ul class="simple">
+<li><p>叶子节点占一半，不需要调整</p></li>
+<li><p>倒数第二层最多下沉1次</p></li>
+<li><p>倒数第三层最多下沉2次</p></li>
+<li><p>总和：n/2×0 + n/4×1 + n/8×2 + … = O(n)</p></li>
+</ul>
+</section>
+</section>
+<section id="id10">
+<h2>🎯 堆排序<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>算法步骤<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>建立最大堆：O(n)</p></li>
+<li><p>交换堆顶和末尾：O(1)</p></li>
+<li><p>减小堆大小，下沉新堆顶：O(log n)</p></li>
+<li><p>重复步骤2-3：n次</p></li>
+</ol>
+<p>总时间复杂度：O(n log n)
+空间复杂度：O(1)（原地排序）</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">heap_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="c1"># 建堆</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">heapify_down</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
+    
+    <span class="c1"># 排序</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">heapify_down</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="top-k">
+<h2>💡 Top K问题<a class="headerlink" href="#top-k" title="Link to this heading"></a></h2>
+<section id="k">
+<h3>最大的K个元素<a class="headerlink" href="#k" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用最小堆，维护K个元素</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">heapq</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">top_k_largest</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">heap</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[:</span><span class="n">k</span><span class="p">]</span>
+    <span class="n">heapq</span><span class="o">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">heap</span><span class="p">)</span>  <span class="c1"># 最小堆</span>
+    
+    <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">heapq</span><span class="o">.</span><span class="n">heapreplace</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">heap</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>最小的K个元素<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用最大堆</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">top_k_smallest</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="c1"># Python heapq是最小堆，取负数实现最大堆</span>
+    <span class="n">heap</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">[:</span><span class="n">k</span><span class="p">]]</span>
+    <span class="n">heapq</span><span class="o">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">heap</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">heapq</span><span class="o">.</span><span class="n">heapreplace</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="o">-</span><span class="n">num</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">heap</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="leetcode">
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://leetcode.com/problems/kth-largest-element-in-an-array/">215. Kth Largest Element</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/top-k-frequent-elements/">347. Top K Frequent Elements</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/find-median-from-data-stream/">295. Find Median from Data Stream</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></p></li>
+</ul>
+</section>
+<section id="id13">
+<h2>💻 完整代码实现<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="python">
+<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">最大堆和最小堆实现</span>
+<span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="k">class</span><span class="w"> </span><span class="nc">MaxHeap</span><span class="p">:</span>
+<span class="linenos">  6</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;最大堆实现&quot;&quot;&quot;</span>
+<span class="linenos">  7</span>    
+<span class="linenos">  8</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">  9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 10</span>    
+<span class="linenos"> 11</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos"> 12</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;父节点索引&quot;&quot;&quot;</span>
+<span class="linenos"> 13</span>        <span class="k">return</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="linenos"> 14</span>    
+<span class="linenos"> 15</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_left_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos"> 16</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;左子节点索引&quot;&quot;&quot;</span>
+<span class="linenos"> 17</span>        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos"> 18</span>    
+<span class="linenos"> 19</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_right_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos"> 20</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;右子节点索引&quot;&quot;&quot;</span>
+<span class="linenos"> 21</span>        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="linenos"> 22</span>    
+<span class="linenos"> 23</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_swap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="linenos"> 24</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;交换两个元素&quot;&quot;&quot;</span>
+<span class="linenos"> 25</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos"> 26</span>    
+<span class="linenos"> 27</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_swim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos"> 28</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;上浮&quot;&quot;&quot;</span>
+<span class="linenos"> 29</span>        <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">i</span><span class="p">)]:</span>
+<span class="linenos"> 30</span>            <span class="bp">self</span><span class="o">.</span><span class="n">_swap</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="linenos"> 31</span>            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos"> 32</span>    
+<span class="linenos"> 33</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_sink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos"> 34</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;下沉&quot;&quot;&quot;</span>
+<span class="linenos"> 35</span>        <span class="n">max_index</span> <span class="o">=</span> <span class="n">i</span>
+<span class="linenos"> 36</span>        <span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_child</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos"> 37</span>        <span class="n">right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_child</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos"> 38</span>        
+<span class="linenos"> 39</span>        <span class="c1"># 找出最大值的索引</span>
+<span class="linenos"> 40</span>        <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">max_index</span><span class="p">]:</span>
+<span class="linenos"> 41</span>            <span class="n">max_index</span> <span class="o">=</span> <span class="n">left</span>
+<span class="linenos"> 42</span>        <span class="k">if</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">max_index</span><span class="p">]:</span>
+<span class="linenos"> 43</span>            <span class="n">max_index</span> <span class="o">=</span> <span class="n">right</span>
+<span class="linenos"> 44</span>        
+<span class="linenos"> 45</span>        <span class="c1"># 如果最大值不是当前节点，交换并继续下沉</span>
+<span class="linenos"> 46</span>        <span class="k">if</span> <span class="n">max_index</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+<span class="linenos"> 47</span>            <span class="bp">self</span><span class="o">.</span><span class="n">_swap</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">max_index</span><span class="p">)</span>
+<span class="linenos"> 48</span>            <span class="bp">self</span><span class="o">.</span><span class="n">_sink</span><span class="p">(</span><span class="n">max_index</span><span class="p">)</span>
+<span class="linenos"> 49</span>    
+<span class="linenos"> 50</span>    <span class="k">def</span><span class="w"> </span><span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;插入元素&quot;&quot;&quot;</span>
+<span class="linenos"> 52</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<span class="linenos"> 53</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_swim</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 54</span>    
+<span class="linenos"> 55</span>    <span class="k">def</span><span class="w"> </span><span class="nf">extract_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 56</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;删除并返回最大值&quot;&quot;&quot;</span>
+<span class="linenos"> 57</span>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">:</span>
+<span class="linenos"> 58</span>            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;extract from empty heap&#39;</span><span class="p">)</span>
+<span class="linenos"> 59</span>        
+<span class="linenos"> 60</span>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="linenos"> 61</span>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="linenos"> 62</span>        
+<span class="linenos"> 63</span>        <span class="c1"># 交换堆顶和末尾</span>
+<span class="linenos"> 64</span>        <span class="n">max_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 65</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="linenos"> 66</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_sink</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos"> 67</span>        <span class="k">return</span> <span class="n">max_val</span>
+<span class="linenos"> 68</span>    
+<span class="linenos"> 69</span>    <span class="k">def</span><span class="w"> </span><span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 70</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;查看最大值&quot;&quot;&quot;</span>
+<span class="linenos"> 71</span>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">:</span>
+<span class="linenos"> 72</span>            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;peek from empty heap&#39;</span><span class="p">)</span>
+<span class="linenos"> 73</span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 74</span>    
+<span class="linenos"> 75</span>    <span class="k">def</span><span class="w"> </span><span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 76</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;堆大小&quot;&quot;&quot;</span>
+<span class="linenos"> 77</span>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span>
+<span class="linenos"> 78</span>    
+<span class="linenos"> 79</span>    <span class="k">def</span><span class="w"> </span><span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 80</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;是否为空&quot;&quot;&quot;</span>
+<span class="linenos"> 81</span>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="linenos"> 82</span>    
+<span class="linenos"> 83</span>    <span class="nd">@staticmethod</span>
+<span class="linenos"> 84</span>    <span class="k">def</span><span class="w"> </span><span class="nf">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="linenos"> 85</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;建堆（O(n)）&quot;&quot;&quot;</span>
+<span class="linenos"> 86</span>        <span class="n">heap</span> <span class="o">=</span> <span class="n">MaxHeap</span><span class="p">()</span>
+<span class="linenos"> 87</span>        <span class="n">heap</span><span class="o">.</span><span class="n">heap</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:]</span>
+<span class="linenos"> 88</span>        
+<span class="linenos"> 89</span>        <span class="c1"># 从最后一个非叶子节点开始下沉</span>
+<span class="linenos"> 90</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 91</span>            <span class="n">heap</span><span class="o">.</span><span class="n">_sink</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos"> 92</span>        
+<span class="linenos"> 93</span>        <span class="k">return</span> <span class="n">heap</span>
+<span class="linenos"> 94</span>    
+<span class="linenos"> 95</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 96</span>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span>
+<span class="linenos"> 97</span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span><span class="k">class</span><span class="w"> </span><span class="nc">MinHeap</span><span class="p">:</span>
+<span class="linenos">100</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;最小堆（只修改比较符号）&quot;&quot;&quot;</span>
+<span class="linenos">101</span>    
+<span class="linenos">102</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">103</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">104</span>    
+<span class="linenos">105</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos">106</span>        <span class="k">return</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="linenos">107</span>    
+<span class="linenos">108</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_left_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos">109</span>        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos">110</span>    
+<span class="linenos">111</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_right_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos">112</span>        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="linenos">113</span>    
+<span class="linenos">114</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_swap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="linenos">115</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos">116</span>    
+<span class="linenos">117</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_swim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos">118</span>        <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">i</span><span class="p">)]:</span>
+<span class="linenos">119</span>            <span class="bp">self</span><span class="o">.</span><span class="n">_swap</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="linenos">120</span>            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos">121</span>    
+<span class="linenos">122</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_sink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<span class="linenos">123</span>        <span class="n">min_index</span> <span class="o">=</span> <span class="n">i</span>
+<span class="linenos">124</span>        <span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_child</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos">125</span>        <span class="n">right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_child</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos">126</span>        
+<span class="linenos">127</span>        <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">min_index</span><span class="p">]:</span>
+<span class="linenos">128</span>            <span class="n">min_index</span> <span class="o">=</span> <span class="n">left</span>
+<span class="linenos">129</span>        <span class="k">if</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="n">min_index</span><span class="p">]:</span>
+<span class="linenos">130</span>            <span class="n">min_index</span> <span class="o">=</span> <span class="n">right</span>
+<span class="linenos">131</span>        
+<span class="linenos">132</span>        <span class="k">if</span> <span class="n">min_index</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+<span class="linenos">133</span>            <span class="bp">self</span><span class="o">.</span><span class="n">_swap</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">min_index</span><span class="p">)</span>
+<span class="linenos">134</span>            <span class="bp">self</span><span class="o">.</span><span class="n">_sink</span><span class="p">(</span><span class="n">min_index</span><span class="p">)</span>
+<span class="linenos">135</span>    
+<span class="linenos">136</span>    <span class="k">def</span><span class="w"> </span><span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="linenos">137</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<span class="linenos">138</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_swim</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">139</span>    
+<span class="linenos">140</span>    <span class="k">def</span><span class="w"> </span><span class="nf">extract_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">141</span>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">:</span>
+<span class="linenos">142</span>            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;extract from empty heap&#39;</span><span class="p">)</span>
+<span class="linenos">143</span>        
+<span class="linenos">144</span>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="linenos">145</span>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="linenos">146</span>        
+<span class="linenos">147</span>        <span class="n">min_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">148</span>        <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="linenos">149</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_sink</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">150</span>        <span class="k">return</span> <span class="n">min_val</span>
+<span class="linenos">151</span>    
+<span class="linenos">152</span>    <span class="k">def</span><span class="w"> </span><span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">153</span>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">:</span>
+<span class="linenos">154</span>            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;peek from empty heap&#39;</span><span class="p">)</span>
+<span class="linenos">155</span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">156</span>
+<span class="linenos">157</span>
+<span class="linenos">158</span><span class="k">def</span><span class="w"> </span><span class="nf">heap_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="linenos">159</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;堆排序&quot;&quot;&quot;</span>
+<span class="linenos">160</span>    <span class="c1"># 建立最大堆</span>
+<span class="linenos">161</span>    <span class="n">heap</span> <span class="o">=</span> <span class="n">MaxHeap</span><span class="o">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="linenos">162</span>    
+<span class="linenos">163</span>    <span class="c1"># 依次取出最大值</span>
+<span class="linenos">164</span>    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">165</span>    <span class="k">while</span> <span class="ow">not</span> <span class="n">heap</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+<span class="linenos">166</span>        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">heap</span><span class="o">.</span><span class="n">extract_max</span><span class="p">())</span>
+<span class="linenos">167</span>    
+<span class="linenos">168</span>    <span class="k">return</span> <span class="n">result</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 反转得到升序</span>
+<span class="linenos">169</span>
+<span class="linenos">170</span>
+<span class="linenos">171</span><span class="k">def</span><span class="w"> </span><span class="nf">top_k_largest</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="linenos">172</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;最大的K个元素（使用最小堆）&quot;&quot;&quot;</span>
+<span class="linenos">173</span>    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+<span class="linenos">174</span>        <span class="k">return</span> <span class="n">nums</span>
+<span class="linenos">175</span>    
+<span class="linenos">176</span>    <span class="n">heap</span> <span class="o">=</span> <span class="n">MinHeap</span><span class="p">()</span>
+<span class="linenos">177</span>    
+<span class="linenos">178</span>    <span class="c1"># 先放入K个元素</span>
+<span class="linenos">179</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+<span class="linenos">180</span>        <span class="n">heap</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos">181</span>    
+<span class="linenos">182</span>    <span class="c1"># 遍历剩余元素</span>
+<span class="linenos">183</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+<span class="linenos">184</span>        <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">heap</span><span class="o">.</span><span class="n">peek</span><span class="p">():</span>
+<span class="linenos">185</span>            <span class="n">heap</span><span class="o">.</span><span class="n">extract_min</span><span class="p">()</span>
+<span class="linenos">186</span>            <span class="n">heap</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos">187</span>    
+<span class="linenos">188</span>    <span class="k">return</span> <span class="n">heap</span><span class="o">.</span><span class="n">heap</span>
+<span class="linenos">189</span>
+<span class="linenos">190</span>
+<span class="linenos">191</span><span class="k">def</span><span class="w"> </span><span class="nf">demo</span><span class="p">():</span>
+<span class="linenos">192</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;演示堆操作&quot;&quot;&quot;</span>
+<span class="linenos">193</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== 最大堆演示 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">194</span>    
+<span class="linenos">195</span>    <span class="n">heap</span> <span class="o">=</span> <span class="n">MaxHeap</span><span class="p">()</span>
+<span class="linenos">196</span>    
+<span class="linenos">197</span>    <span class="c1"># 插入</span>
+<span class="linenos">198</span>    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="linenos">199</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;插入: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">200</span>    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+<span class="linenos">201</span>        <span class="n">heap</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<span class="linenos">202</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;插入 </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">heap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">203</span>    
+<span class="linenos">204</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">堆顶（最大值）: </span><span class="si">{</span><span class="n">heap</span><span class="o">.</span><span class="n">peek</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">205</span>    
+<span class="linenos">206</span>    <span class="c1"># 删除</span>
+<span class="linenos">207</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">依次删除最大值:&quot;</span><span class="p">)</span>
+<span class="linenos">208</span>    <span class="k">while</span> <span class="ow">not</span> <span class="n">heap</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+<span class="linenos">209</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;删除: </span><span class="si">{</span><span class="n">heap</span><span class="o">.</span><span class="n">extract_max</span><span class="p">()</span><span class="si">}</span><span class="s2">, 堆: </span><span class="si">{</span><span class="n">heap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">210</span>    
+<span class="linenos">211</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== 建堆演示 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">212</span>    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="linenos">213</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;原数组: </span><span class="si">{</span><span class="n">arr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">214</span>    <span class="n">heap2</span> <span class="o">=</span> <span class="n">MaxHeap</span><span class="o">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="linenos">215</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;建堆后: </span><span class="si">{</span><span class="n">heap2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">216</span>    
+<span class="linenos">217</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== 堆排序演示 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">218</span>    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="linenos">219</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;原数组: </span><span class="si">{</span><span class="n">arr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">220</span>    <span class="n">sorted_arr</span> <span class="o">=</span> <span class="n">heap_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="linenos">221</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;排序后: </span><span class="si">{</span><span class="n">sorted_arr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">222</span>    
+<span class="linenos">223</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Top K问题 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">224</span>    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="linenos">225</span>    <span class="n">k</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="linenos">226</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;数组: </span><span class="si">{</span><span class="n">nums</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">227</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最大的</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">个元素: </span><span class="si">{</span><span class="n">top_k_largest</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">228</span>
+<span class="linenos">229</span>
+<span class="linenos">230</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">231</span>    <span class="n">demo</span><span class="p">()</span>
+<span class="linenos">232</span>
+</pre></div>
+</div>
+</section>
+<section id="c">
+<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
+<span class="linenos">  2</span><span class="cm"> * 最大堆实现</span>
+<span class="linenos">  3</span><span class="cm"> */</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="linenos">  6</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdexcept&gt;</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="k">class</span><span class="w"> </span><span class="nc">MaxHeap</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 10</span><span class="k">private</span><span class="o">:</span>
+<span class="linenos"> 11</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">heap</span><span class="p">;</span>
+<span class="linenos"> 12</span><span class="w">    </span>
+<span class="linenos"> 13</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">parent</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 14</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 15</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 16</span><span class="w">    </span>
+<span class="linenos"> 17</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">leftChild</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 18</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 19</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 20</span><span class="w">    </span>
+<span class="linenos"> 21</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">rightChild</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 22</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 23</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 24</span><span class="w">    </span>
+<span class="linenos"> 25</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">swim</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 26</span><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">parent</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 27</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">parent</span><span class="p">(</span><span class="n">i</span><span class="p">)]);</span>
+<span class="linenos"> 28</span><span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parent</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="linenos"> 29</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 30</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 31</span><span class="w">    </span>
+<span class="linenos"> 32</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sink</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 33</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">maxIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="linenos"> 34</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">leftChild</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="linenos"> 35</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rightChild</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="linenos"> 36</span><span class="w">        </span>
+<span class="linenos"> 37</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">left</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">maxIndex</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 38</span><span class="w">            </span><span class="n">maxIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">;</span>
+<span class="linenos"> 39</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 40</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">right</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">maxIndex</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 41</span><span class="w">            </span><span class="n">maxIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right</span><span class="p">;</span>
+<span class="linenos"> 42</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 43</span><span class="w">        </span>
+<span class="linenos"> 44</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">maxIndex</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 45</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">maxIndex</span><span class="p">]);</span>
+<span class="linenos"> 46</span><span class="w">            </span><span class="n">sink</span><span class="p">(</span><span class="n">maxIndex</span><span class="p">);</span>
+<span class="linenos"> 47</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span><span class="k">public</span><span class="o">:</span>
+<span class="linenos"> 51</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 52</span><span class="w">        </span><span class="n">heap</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+<span class="linenos"> 53</span><span class="w">        </span><span class="n">swim</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 55</span><span class="w">    </span>
+<span class="linenos"> 56</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">extractMax</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 57</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 58</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Extract from empty heap&quot;</span><span class="p">);</span>
+<span class="linenos"> 59</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 60</span><span class="w">        </span>
+<span class="linenos"> 61</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 62</span><span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+<span class="linenos"> 63</span><span class="w">            </span><span class="n">heap</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+<span class="linenos"> 64</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<span class="linenos"> 65</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 66</span><span class="w">        </span>
+<span class="linenos"> 67</span><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">maxVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="linenos"> 68</span><span class="w">        </span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+<span class="linenos"> 69</span><span class="w">        </span><span class="n">heap</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+<span class="linenos"> 70</span><span class="w">        </span><span class="n">sink</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 71</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">maxVal</span><span class="p">;</span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 73</span><span class="w">    </span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">peek</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 75</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 76</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Peek from empty heap&quot;</span><span class="p">);</span>
+<span class="linenos"> 77</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 78</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 80</span><span class="w">    </span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 82</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="linenos"> 83</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 84</span><span class="w">    </span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 86</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 88</span><span class="w">    </span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">MaxHeap</span><span class="w"> </span><span class="n">heapify</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 90</span><span class="w">        </span><span class="n">MaxHeap</span><span class="w"> </span><span class="n">h</span><span class="p">;</span>
+<span class="linenos"> 91</span><span class="w">        </span><span class="n">h</span><span class="p">.</span><span class="n">heap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">;</span>
+<span class="linenos"> 92</span><span class="w">        </span>
+<span class="linenos"> 93</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 94</span><span class="w">            </span><span class="n">h</span><span class="p">.</span><span class="n">sink</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="linenos"> 95</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 96</span><span class="w">        </span>
+<span class="linenos"> 97</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">h</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 99</span><span class="w">    </span>
+<span class="linenos">100</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">101</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;[&quot;</span><span class="p">;</span>
+<span class="linenos">102</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">103</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos">104</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">;</span>
+<span class="linenos">105</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">106</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;]&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">107</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">108</span><span class="p">};</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span>
+<span class="linenos">111</span><span class="c1">// 堆排序</span>
+<span class="linenos">112</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">heapSort</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">113</span><span class="w">    </span><span class="n">MaxHeap</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaxHeap</span><span class="o">::</span><span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="linenos">114</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="linenos">115</span><span class="w">    </span>
+<span class="linenos">116</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">heap</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">117</span><span class="w">        </span><span class="n">result</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">extractMax</span><span class="p">());</span>
+<span class="linenos">118</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">119</span><span class="w">    </span>
+<span class="linenos">120</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">reverse</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="linenos">121</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="linenos">122</span><span class="p">}</span>
+<span class="linenos">123</span>
+<span class="linenos">124</span>
+<span class="linenos">125</span><span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">126</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;=== 最大堆演示 ===&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">127</span><span class="w">    </span>
+<span class="linenos">128</span><span class="w">    </span><span class="n">MaxHeap</span><span class="w"> </span><span class="n">heap</span><span class="p">;</span>
+<span class="linenos">129</span><span class="w">    </span>
+<span class="linenos">130</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span>
+<span class="linenos">131</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;插入: &quot;</span><span class="p">;</span>
+<span class="linenos">132</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">values</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">133</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="linenos">134</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">135</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">136</span><span class="w">    </span>
+<span class="linenos">137</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">values</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">138</span><span class="w">        </span><span class="n">heap</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+<span class="linenos">139</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;插入 &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="p">;</span>
+<span class="linenos">140</span><span class="w">        </span><span class="n">heap</span><span class="p">.</span><span class="n">print</span><span class="p">();</span>
+<span class="linenos">141</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">142</span><span class="w">    </span>
+<span class="linenos">143</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">堆顶（最大值）: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">peek</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">144</span><span class="w">    </span>
+<span class="linenos">145</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">依次删除最大值:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">146</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">heap</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">147</span><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;删除: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">heap</span><span class="p">.</span><span class="n">extractMax</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, 堆: &quot;</span><span class="p">;</span>
+<span class="linenos">148</span><span class="w">        </span><span class="n">heap</span><span class="p">.</span><span class="n">print</span><span class="p">();</span>
+<span class="linenos">149</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">150</span><span class="w">    </span>
+<span class="linenos">151</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">=== 建堆演示 ===&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">152</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span>
+<span class="linenos">153</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;原数组: &quot;</span><span class="p">;</span>
+<span class="linenos">154</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="linenos">155</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">156</span><span class="w">    </span>
+<span class="linenos">157</span><span class="w">    </span><span class="n">MaxHeap</span><span class="w"> </span><span class="n">heap2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaxHeap</span><span class="o">::</span><span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="linenos">158</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;建堆后: &quot;</span><span class="p">;</span>
+<span class="linenos">159</span><span class="w">    </span><span class="n">heap2</span><span class="p">.</span><span class="n">print</span><span class="p">();</span>
+<span class="linenos">160</span><span class="w">    </span>
+<span class="linenos">161</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">=== 堆排序演示 ===&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">162</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sorted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heapSort</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="linenos">163</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;排序后: &quot;</span><span class="p">;</span>
+<span class="linenos">164</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">sorted</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="linenos">165</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">166</span><span class="w">    </span>
+<span class="linenos">167</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">168</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="堆" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../07-avl-tree/index.html" class="btn btn-neutral float-right" title="AVL树" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

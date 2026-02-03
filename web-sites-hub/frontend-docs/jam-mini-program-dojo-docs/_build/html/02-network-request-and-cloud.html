@@ -1,0 +1,1164 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>网络请求与云开发 &mdash; Mini Program Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d25bc049" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=34088549"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+      <script src="_static/copy-code.js?v=37526288"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="性能优化与最佳实践" href="03-performance-optimization.html" />
+    <link rel="prev" title="基础" href="01-wechat-miniprogram-basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #07c160" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mini Program Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">WeChat Mini Program Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-wechat-miniprogram-basics.html">基础</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">网络请求与云开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">💡 核心结论</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1. 网络请求</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wx-request">1.1 wx.request基础</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#promise">1.2 Promise封装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#async-await">1.3 使用async/await</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">1.4 请求拦截器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">1.5 错误处理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">1.6 API接口管理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2. 用户登录</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.1 微信登录流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#node-js">2.2 后端接口（Node.js示例）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">3. 云开发</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">3.1 初始化云开发</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">3.2 云数据库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">3.3 云存储</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">3.4 云函数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#websocket">4. WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">5. 文件操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">5.1 图片选择和上传</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">5.2 图片预览</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">6. 常见问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#q1">Q1: 如何配置合法域名？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q2">Q2: 云开发和传统后端的区别？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q3">Q3: 如何处理并发请求？</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">参考资源</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-performance-optimization.html">性能优化与最佳实践</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-deployment-and-release.html">部署与发布</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-testing-and-debugging.html">测试与调试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-backend-development.html">后端开发与集成</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #07c160" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mini Program Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">网络请求与云开发</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/02-network-request-and-cloud.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>网络请求与云开发<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>wx.request发送HTTP请求，域名需要在后台配置白名单</strong></p></li>
+<li><p><strong>Promise封装wx.request可以使用async/await简化异步代码</strong></p></li>
+<li><p><strong>云开发提供数据库、存储、云函数，无需搭建服务器</strong></p></li>
+<li><p><strong>云数据库支持权限控制和实时推送</strong></p></li>
+<li><p><strong>小程序登录通过code换取openid和session_key</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>1. 网络请求<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="wx-request">
+<h3>1.1 wx.request基础<a class="headerlink" href="#wx-request" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">//pages/index/index.js</span>
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">onLoad</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">loadData</span><span class="p">()</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">loadData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showLoading</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;加载中&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://api.example.com/products&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">size</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;content-type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bearer &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">timeout</span><span class="o">:</span><span class="w"> </span><span class="mf">10000</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">list</span>
+<span class="w">          </span><span class="p">})</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;请求失败&#39;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">          </span><span class="p">})</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">fail</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;请求失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;网络错误&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">complete</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">hideLoading</span><span class="p">()</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="promise">
+<h3>1.2 Promise封装<a class="headerlink" href="#promise" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/request.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">baseURL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://api.example.com&#39;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="nx">baseURL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">method</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">      </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;content-type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bearer &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">...</span><span class="nx">options</span><span class="p">.</span><span class="nx">header</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">300</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">reject</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">fail</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// 封装常用方法</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">request</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">request</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">put</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">request</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="ow">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">request</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="async-await">
+<h3>1.3 使用async/await<a class="headerlink" href="#async-await" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// pages/index/index.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../../utils/request.js&#39;</span>
+
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">onLoad</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">loadProducts</span><span class="p">()</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">loadProducts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showLoading</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;加载中&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/products&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">page</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">size</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">list</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;加载失败&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">hideLoading</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 上拉加载更多</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">onReachBottom</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">page</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/products&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">page</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">size</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="p">[...</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">products</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">data</span><span class="p">.</span><span class="nx">list</span><span class="p">]</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>1.4 请求拦截器<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/request.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">baseURL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://api.example.com&#39;</span>
+
+<span class="c1">// 请求拦截器</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">requestInterceptor</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 添加token</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">token</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">options</span><span class="p">.</span><span class="nx">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">...</span><span class="nx">options</span><span class="p">.</span><span class="nx">header</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bearer &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">token</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 添加时间戳（防止缓存）</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">method</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">options</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">...</span><span class="nx">options</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">_t</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">options</span>
+<span class="p">}</span>
+
+<span class="c1">// 响应拦截器</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">responseInterceptor</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 统一处理响应</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 业务成功</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">code</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// 业务失败</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// token过期，重新登录</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">code</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">401</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">removeStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">reLaunch</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/pages/login/login&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;登录已过期&#39;</span><span class="p">))</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 其他业务错误</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;请求失败&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1">// HTTP错误</span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;网络错误&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;网络错误&#39;</span><span class="p">))</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 应用请求拦截器</span>
+<span class="w">  </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">requestInterceptor</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="nx">baseURL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">method</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">      </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;content-type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="p">...</span><span class="nx">options</span><span class="p">.</span><span class="nx">header</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 应用响应拦截器</span>
+<span class="w">        </span><span class="nx">responseInterceptor</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="w">          </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">resolve</span><span class="p">)</span>
+<span class="w">          </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">reject</span><span class="p">)</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">fail</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;网络错误&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">request</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">request</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>1.5 错误处理<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// utils/errorHandler.js</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">errorHandler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 处理网络错误</span>
+<span class="w">  </span><span class="nx">handleNetworkError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">errMsg</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;请求超时&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">errMsg</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;fail&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;网络连接失败&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;网络错误&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 处理业务错误</span>
+<span class="w">  </span><span class="nx">handleBusinessError</span><span class="p">(</span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="nx">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="mf">400</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;请求参数错误&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="mf">401</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;登录已过期，请重新登录&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">wx</span><span class="p">.</span><span class="nx">reLaunch</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/pages/login/login&#39;</span>
+<span class="w">          </span><span class="p">})</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">1500</span><span class="p">)</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="mf">403</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;没有权限&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="mf">404</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;资源不存在&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="mf">500</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;服务器错误&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">      </span><span class="k">default</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;操作失败&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">errorHandler</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../../utils/errorHandler.js&#39;</span>
+
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">loadData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/products&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">list</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">errMsg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">errorHandler</span><span class="p">.</span><span class="nx">handleNetworkError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">errorHandler</span><span class="p">.</span><span class="nx">handleBusinessError</span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h3>1.6 API接口管理<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// api/product.js</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../utils/request.js&#39;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">productAPI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 获取商品列表</span>
+<span class="w">  </span><span class="nx">getList</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/products&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 获取商品详情</span>
+<span class="w">  </span><span class="nx">getDetail</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="sb">`/products/</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 创建商品</span>
+<span class="w">  </span><span class="nx">create</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/products&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 更新商品</span>
+<span class="w">  </span><span class="nx">update</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="sb">`/products/</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 删除商品</span>
+<span class="w">  </span><span class="ow">delete</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="sb">`/products/</span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">productAPI</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../../api/product.js&#39;</span>
+
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">loadProducts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">productAPI</span><span class="p">.</span><span class="nx">getList</span><span class="p">({</span><span class="w"> </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">size</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">})</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">list</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;加载商品失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h2>2. 用户登录<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>2.1 微信登录流程<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// app.js</span>
+<span class="nx">App</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">globalData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">userInfo</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">token</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">onLaunch</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">login</span><span class="p">()</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 登录</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">login</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// 1. 获取code</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">loginRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">login</span><span class="p">()</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loginRes</span><span class="p">.</span><span class="nx">code</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 2. 发送code到后端</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://api.example.com/login&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 3. 保存token</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">globalData</span><span class="p">.</span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">token</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">setStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">token</span><span class="p">)</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 4. 获取用户信息</span>
+<span class="w">      </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getUserProfile</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;登录失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 获取用户信息（需要用户授权）</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">getUserProfile</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getUserProfile</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">desc</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;用于完善会员资料&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">globalData</span><span class="p">.</span><span class="nx">userInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">userInfo</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">setStorageSync</span><span class="p">(</span><span class="s1">&#39;userInfo&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">userInfo</span><span class="p">)</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 发送到后端</span>
+<span class="w">      </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://api.example.com/user/profile&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">userInfo</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bearer &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">globalData</span><span class="p">.</span><span class="nx">token</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;获取用户信息失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="node-js">
+<h3>2.2 后端接口（Node.js示例）<a class="headerlink" href="#node-js" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 后端：login接口</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">axios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;axios&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">jwt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">)</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 1. 用code换取openid和session_key</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">wechatRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;https://api.weixin.qq.com/sns/jscode2session&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">params</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">appid</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;your_appid&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">secret</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;your_secret&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">js_code</span><span class="o">:</span><span class="w"> </span><span class="nx">code</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">grant_type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;authorization_code&#39;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">openid</span><span class="p">,</span><span class="w"> </span><span class="nx">session_key</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wechatRes</span><span class="p">.</span><span class="nx">data</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 2. 查询或创建用户</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="w"> </span><span class="nx">openid</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">User</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span><span class="w"> </span><span class="nx">openid</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 3. 生成JWT token</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">openid</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="s1">&#39;your_secret_key&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">expiresIn</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;7d&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">token</span><span class="p">,</span><span class="w"> </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h2>3. 云开发<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h3>3.1 初始化云开发<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// app.js</span>
+<span class="nx">App</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">onLaunch</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 初始化云开发</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;your-env-id&#39;</span><span class="p">,</span><span class="w">  </span><span class="c1">// 云开发环境ID</span>
+<span class="w">      </span><span class="nx">traceUser</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>3.2 云数据库<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<p><strong>创建数据</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// pages/add/add.js</span>
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">onAdd</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">database</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">).</span><span class="nx">add</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;学习小程序&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">done</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">createTime</span><span class="o">:</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">serverDate</span><span class="p">()</span><span class="w">  </span><span class="c1">// 服务器时间</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;添加成功&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">_id</span><span class="p">)</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;添加成功&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;添加失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>查询数据</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">database</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">command</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// 简单查询</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">where</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">done</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">orderBy</span><span class="p">(</span><span class="s1">&#39;createTime&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;desc&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="mf">20</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">todos</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 条件查询</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">where</span><span class="p">({</span>
+<span class="w">          </span><span class="c1">// 等于</span>
+<span class="w">          </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;active&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="c1">// 大于</span>
+<span class="w">          </span><span class="nx">score</span><span class="o">:</span><span class="w"> </span><span class="nx">_</span><span class="p">.</span><span class="nx">gt</span><span class="p">(</span><span class="mf">60</span><span class="p">),</span>
+<span class="w">          </span><span class="c1">// 包含</span>
+<span class="w">          </span><span class="nx">tags</span><span class="o">:</span><span class="w"> </span><span class="nx">_</span><span class="p">.</span><span class="ow">in</span><span class="p">([</span><span class="s1">&#39;work&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;study&#39;</span><span class="p">])</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 正则匹配</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">where</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nb">RegExp</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">regexp</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;学习&#39;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">options</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;i&#39;</span><span class="w">  </span><span class="c1">// 不区分大小写</span>
+<span class="w">          </span><span class="p">})</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;查询失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>更新数据</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">updateTodo</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">database</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">).</span><span class="nx">doc</span><span class="p">(</span><span class="nx">id</span><span class="p">).</span><span class="nx">update</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">done</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">updateTime</span><span class="o">:</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">serverDate</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;更新成功&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;更新失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 数组操作</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">addTag</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">database</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">command</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">).</span><span class="nx">doc</span><span class="p">(</span><span class="nx">id</span><span class="p">).</span><span class="nx">update</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">tags</span><span class="o">:</span><span class="w"> </span><span class="nx">_</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="s1">&#39;new-tag&#39;</span><span class="p">])</span><span class="w">  </span><span class="c1">// 添加到数组</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>删除数据</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">deleteTodo</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">database</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;todos&#39;</span><span class="p">).</span><span class="nx">doc</span><span class="p">(</span><span class="nx">id</span><span class="p">).</span><span class="nx">remove</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;删除成功&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;删除失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>3.3 云存储<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="c1">// 上传图片</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">uploadImage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// 选择图片</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">chooseRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">chooseImage</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">sizeType</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;compressed&#39;</span><span class="p">],</span>
+<span class="w">        </span><span class="nx">sourceType</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;album&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;camera&#39;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">filePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">chooseRes</span><span class="p">.</span><span class="nx">tempFilePaths</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 上传到云存储</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">uploadRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">uploadFile</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">cloudPath</span><span class="o">:</span><span class="w"> </span><span class="sb">`images/</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="si">}</span><span class="sb">.png`</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">filePath</span><span class="o">:</span><span class="w"> </span><span class="nx">filePath</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;上传成功&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">uploadRes</span><span class="p">.</span><span class="nx">fileID</span><span class="p">)</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 获取临时链接</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">tempURLRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">getTempFileURL</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">fileList</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">uploadRes</span><span class="p">.</span><span class="nx">fileID</span><span class="p">]</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">imageURL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">tempURLRes</span><span class="p">.</span><span class="nx">fileList</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">tempFileURL</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">imageURL</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;上传失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 下载文件</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">downloadFile</span><span class="p">(</span><span class="nx">fileID</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">downloadFile</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">fileID</span><span class="o">:</span><span class="w"> </span><span class="nx">fileID</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;临时文件路径&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">tempFilePath</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;下载失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 删除文件</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">deleteFile</span><span class="p">(</span><span class="nx">fileID</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">deleteFile</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">fileList</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">fileID</span><span class="p">]</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;删除成功&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;删除失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>3.4 云函数<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<p><strong>创建云函数</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// cloudfunctions/getProducts/index.js</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">cloud</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;wx-server-sdk&#39;</span><span class="p">)</span>
+<span class="nx">cloud</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span><span class="w"> </span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="nx">cloud</span><span class="p">.</span><span class="nx">DYNAMIC_CURRENT_ENV</span><span class="w"> </span><span class="p">})</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cloud</span><span class="p">.</span><span class="nx">database</span><span class="p">()</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">,</span><span class="w"> </span><span class="nx">context</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 可以突破小程序端20条的限制</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">&#39;products&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">skip</span><span class="p">((</span><span class="nx">page</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">size</span><span class="p">)</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="nx">size</span><span class="p">)</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">orderBy</span><span class="p">(</span><span class="s1">&#39;createTime&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;desc&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">total</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>调用云函数</strong>：</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// pages/index/index.js</span>
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">loadProducts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showLoading</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;加载中&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">cloud</span><span class="p">.</span><span class="nx">callFunction</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;getProducts&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">size</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">result</span><span class="p">.</span><span class="nx">code</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">products</span><span class="o">:</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;调用失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">hideLoading</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="websocket">
+<h2>4. WebSocket<a class="headerlink" href="#websocket" title="Link to this heading"></a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// pages/chat/chat.js</span>
+<span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">messages</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nx">socketOpen</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">onLoad</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">connectWebSocket</span><span class="p">()</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nx">onUnload</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">closeWebSocket</span><span class="p">()</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 连接WebSocket</span>
+<span class="w">  </span><span class="nx">connectWebSocket</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">connectSocket</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;wss://example.com/ws&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bearer &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 连接成功</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">onSocketOpen</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;WebSocket连接已打开&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">socketOpen</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 发送心跳</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">startHeartbeat</span><span class="p">()</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 接收消息</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">onSocketMessage</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">messages</span><span class="o">:</span><span class="w"> </span><span class="p">[...</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">messages</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="p">]</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 连接关闭</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">onSocketClose</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;WebSocket连接已关闭&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">socketOpen</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 重连</span>
+<span class="w">      </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">connectWebSocket</span><span class="p">()</span>
+<span class="w">      </span><span class="p">},</span><span class="w"> </span><span class="mf">3000</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 错误</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">onSocketError</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;WebSocket错误&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 发送消息</span>
+<span class="w">  </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">content</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">socketOpen</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;连接已断开&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;none&#39;</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">sendSocketMessage</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;message&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="nx">content</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 心跳</span>
+<span class="w">  </span><span class="nx">startHeartbeat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">heartbeatTimer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setInterval</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">socketOpen</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">wx</span><span class="p">.</span><span class="nx">sendSocketMessage</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ping&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="mf">30000</span><span class="p">)</span><span class="w">  </span><span class="c1">// 30秒</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1">// 关闭连接</span>
+<span class="w">  </span><span class="nx">closeWebSocket</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">heartbeatTimer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">clearInterval</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">heartbeatTimer</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">closeSocket</span><span class="p">()</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id13">
+<h2>5. 文件操作<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>5.1 图片选择和上传<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">chooseAndUpload</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// 选择图片</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">chooseRes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">chooseImage</span><span class="p">({</span>
+<span class="w">        </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="mf">9</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">sizeType</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;compressed&#39;</span><span class="p">],</span>
+<span class="w">        </span><span class="nx">sourceType</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;album&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;camera&#39;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">tempFilePaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">chooseRes</span><span class="p">.</span><span class="nx">tempFilePaths</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="c1">// 批量上传</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">uploadPromises</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">tempFilePaths</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">filePath</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">uploadFile</span><span class="p">({</span>
+<span class="w">          </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://api.example.com/upload&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">filePath</span><span class="o">:</span><span class="w"> </span><span class="nx">filePath</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;file&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Bearer &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">wx</span><span class="p">.</span><span class="nx">getStorageSync</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">uploadPromises</span><span class="p">)</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">imageUrls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">results</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">res</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">url</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">setData</span><span class="p">({</span><span class="w"> </span><span class="nx">images</span><span class="o">:</span><span class="w"> </span><span class="nx">imageUrls</span><span class="w"> </span><span class="p">})</span>
+<span class="w">      </span><span class="nx">wx</span><span class="p">.</span><span class="nx">showToast</span><span class="p">({</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;上传成功&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;上传失败&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>5.2 图片预览<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">Page</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">previewImage</span><span class="p">(</span><span class="nx">current</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">wx</span><span class="p">.</span><span class="nx">previewImage</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">current</span><span class="o">:</span><span class="w"> </span><span class="nx">current</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">urls</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">images</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id16">
+<h2>6. 常见问题<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="q1">
+<h3>Q1: 如何配置合法域名？<a class="headerlink" href="#q1" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ol class="arabic simple">
+<li><p>登录小程序后台</p></li>
+<li><p>开发 → 开发管理 → 开发设置 → 服务器域名</p></li>
+<li><p>配置request、uploadFile、downloadFile、socket域名</p></li>
+</ol>
+</section>
+<section id="q2">
+<h3>Q2: 云开发和传统后端的区别？<a class="headerlink" href="#q2" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<ul class="simple">
+<li><p><strong>云开发</strong>：无需搭建服务器，按量付费，快速开发</p></li>
+<li><p><strong>传统后端</strong>：自己搭建，成本高，灵活性强</p></li>
+</ul>
+</section>
+<section id="q3">
+<h3>Q3: 如何处理并发请求？<a class="headerlink" href="#q3" title="Link to this heading"></a></h3>
+<p><strong>A</strong>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">  </span><span class="nx">request1</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">request2</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">request3</span><span class="p">()</span>
+<span class="p">]).</span><span class="nx">then</span><span class="p">(</span><span class="nx">results</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 所有请求完成</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id17">
+<h2>参考资源<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>微信小程序网络API文档</p></li>
+<li><p>云开发官方文档</p></li>
+<li><p>WebSocket协议规范</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01-wechat-miniprogram-basics.html" class="btn btn-neutral float-left" title="基础" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="03-performance-optimization.html" class="btn btn-neutral float-right" title="性能优化与最佳实践" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

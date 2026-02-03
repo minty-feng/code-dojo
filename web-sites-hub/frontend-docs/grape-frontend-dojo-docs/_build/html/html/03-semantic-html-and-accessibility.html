@@ -1,0 +1,1086 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>03-语义化与可访问性 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="04-Canvas与SVG" href="04-canvas-and-svg.html" />
+    <link rel="prev" title="02-表单元素详解" href="02-form-elements.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">HTML 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">HTML 核心技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-basic-tags-and-document-structure.html">01-基础标签与文档结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-form-elements.html">02-表单元素详解</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">03-语义化与可访问性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">📋 学习目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#html5">🏷️ HTML5语义化标签</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">页面结构标签</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">语义化标签详解</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">其他语义化标签</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#web-a11y">♿ Web可访问性（A11y）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#aria">ARIA属性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">键盘可访问性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">焦点管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">图片替代文本</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#seo">🔍 SEO优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">结构化数据</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#htmlseo">语义化HTML与SEO</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">🎯 完整示例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">可访问的模态框</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">📚 实践练习</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">练习1：语义化博客页面</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">练习2：可访问的下拉菜单</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">练习3：SEO优化页面</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">💡 最佳实践</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">1. 优先使用语义化标签</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">2. 提供多种访问方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">3. 测试工具</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">📚 参考资料</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04-canvas-and-svg.html">04-Canvas与SVG</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javascript/index.html">JavaScript 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../react/index.html">React 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vue/index.html">Vue 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">HTML 教程</a></li>
+      <li class="breadcrumb-item active">03-语义化与可访问性</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/html/03-semantic-html-and-accessibility.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>03-语义化与可访问性<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>📋 学习目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>理解HTML5语义化标签的重要性</p></li>
+<li><p>掌握ARIA属性的使用</p></li>
+<li><p>学习Web可访问性最佳实践</p></li>
+<li><p>提升SEO优化能力</p></li>
+</ul>
+</section>
+<section id="html5">
+<h2>🏷️ HTML5语义化标签<a class="headerlink" href="#html5" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>页面结构标签<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;zh-CN&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>语义化页面示例<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="cm">&lt;!-- 页眉 --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>网站名称<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span>首页<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="p">&gt;</span>关于<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/contact&quot;</span><span class="p">&gt;</span>联系<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+    
+    <span class="cm">&lt;!-- 主要内容 --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
+        <span class="cm">&lt;!-- 文章 --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>文章标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21&quot;</span><span class="p">&gt;</span>2025年10月21日<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+                    作者：<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>张三<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+            
+            <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>章节标题<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>章节内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+            
+            <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>标签：<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/tag/html&quot;</span><span class="p">&gt;</span>HTML<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+        
+        <span class="cm">&lt;!-- 侧边栏 --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">aside</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>相关文章<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">&gt;</span>文章1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">&gt;</span>文章2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">aside</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+    
+    <span class="cm">&lt;!-- 页脚 --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="ni">&amp;copy;</span> 2025 网站名称. All rights reserved.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>语义化标签详解<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="header">
+<h4>header - 页眉<a class="headerlink" href="#header" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 页面级header --&gt;</span>
+<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>网站标题<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>导航菜单<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 文章级header --&gt;</span>
+<span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>文章标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>发布时间和作者信息<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- section级header --&gt;</span>
+<span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>章节标题<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="nav">
+<h4>nav - 导航<a class="headerlink" href="#nav" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 主导航 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;主导航&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span>首页<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/products&quot;</span><span class="p">&gt;</span>产品<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="p">&gt;</span>关于<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 面包屑导航 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;面包屑&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span>首页<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/category&quot;</span><span class="p">&gt;</span>分类<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span> <span class="na">aria-current</span><span class="o">=</span><span class="s">&quot;page&quot;</span><span class="p">&gt;</span>当前页<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 目录导航 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;目录&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>文章目录<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#section1&quot;</span><span class="p">&gt;</span>第一节<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#section2&quot;</span><span class="p">&gt;</span>第二节<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="main">
+<h4>main - 主要内容<a class="headerlink" href="#main" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 每个页面只能有一个main标签 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>页面主要内容<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>这是页面的核心内容区域<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 错误：多个main --&gt;</span>
+<span class="cm">&lt;!-- &lt;main&gt;内容1&lt;/main&gt; --&gt;</span>
+<span class="cm">&lt;!-- &lt;main&gt;内容2&lt;/main&gt; --&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="article">
+<h4>article - 独立文章<a class="headerlink" href="#article" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 博客文章 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>文章标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21T14:30:00&quot;</span><span class="p">&gt;</span>2025年10月21日 14:30<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+            作者：<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/author/zhangsan&quot;</span><span class="p">&gt;</span>张三<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>文章正文内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>分类：<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/category/tech&quot;</span><span class="p">&gt;</span>技术<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>标签：
+            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/tag/html&quot;</span><span class="p">&gt;</span>HTML<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/tag/css&quot;</span><span class="p">&gt;</span>CSS<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 用户评论 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">article</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;comment&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>用户名<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21&quot;</span><span class="p">&gt;</span>2025年10月21日<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>评论内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="section">
+<h4>section - 章节<a class="headerlink" href="#section" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>完整教程<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>第一章：基础知识<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>基础内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>第二章：进阶技巧<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>进阶内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="aside">
+<h4>aside - 侧边内容<a class="headerlink" href="#aside" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 侧边栏 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">aside</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>热门文章<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">&gt;</span>文章1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">&gt;</span>文章2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>标签云<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/tag/html&quot;</span><span class="p">&gt;</span>HTML<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/tag/css&quot;</span><span class="p">&gt;</span>CSS<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">aside</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 文章中的补充说明 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>主要内容<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>正文...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">aside</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>小贴士<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>这是一个相关的补充说明<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">aside</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="footer">
+<h4>footer - 页脚<a class="headerlink" href="#footer" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 页面页脚 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;页脚导航&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/about&quot;</span><span class="p">&gt;</span>关于我们<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/privacy&quot;</span><span class="p">&gt;</span>隐私政策<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/terms&quot;</span><span class="p">&gt;</span>服务条款<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="ni">&amp;copy;</span> 2025 公司名称<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 文章页脚 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>文章标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>文章内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>最后更新：<span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21&quot;</span><span class="p">&gt;</span>2025年10月21日<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h3>其他语义化标签<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="figurefigcaption">
+<h4>figure和figcaption<a class="headerlink" href="#figurefigcaption" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 图片及说明 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;chart.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;销售数据图表&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span>图1：2025年第一季度销售数据<span class="p">&lt;/</span><span class="nt">figcaption</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">figure</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 代码示例 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;&lt;</span><span class="nt">code</span><span class="p">&gt;</span>
+function hello() {
+    console.log(&#39;Hello World&#39;);
+}
+    <span class="p">&lt;/</span><span class="nt">code</span><span class="p">&gt;&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span>示例1：Hello World函数<span class="p">&lt;/</span><span class="nt">figcaption</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">figure</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 引用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>生存还是毁灭，这是一个问题。<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span>—— 莎士比亚，《哈姆雷特》<span class="p">&lt;/</span><span class="nt">figcaption</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">figure</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="detailssummary">
+<h4>details和summary<a class="headerlink" href="#detailssummary" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 可折叠内容 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>点击查看详情<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>这是隐藏的详细内容<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>列表项1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>列表项2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 默认展开 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">details</span> <span class="na">open</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>FAQ问题<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>答案内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 嵌套使用 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>第一章<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>1.1 节<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>1.2 节<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="mark">
+<h4>mark - 高亮<a class="headerlink" href="#mark" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>搜索结果中的<span class="p">&lt;</span><span class="nt">mark</span><span class="p">&gt;</span>关键词<span class="p">&lt;/</span><span class="nt">mark</span><span class="p">&gt;</span>会被高亮显示<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="time">
+<h4>time - 时间<a class="headerlink" href="#time" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 日期 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21&quot;</span><span class="p">&gt;</span>2025年10月21日<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 日期时间 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;2025-10-21T14:30:00+08:00&quot;</span><span class="p">&gt;</span>
+    2025年10月21日 14:30
+<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 持续时间 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">&quot;PT2H30M&quot;</span><span class="p">&gt;</span>2小时30分钟<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="web-a11y">
+<h2>♿ Web可访问性（A11y）<a class="headerlink" href="#web-a11y" title="Link to this heading"></a></h2>
+<section id="aria">
+<h3>ARIA属性<a class="headerlink" href="#aria" title="Link to this heading"></a></h3>
+<section id="role">
+<h4>role属性<a class="headerlink" href="#role" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Landmark Roles --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;banner&quot;</span><span class="p">&gt;</span>页眉内容（等同于header）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;navigation&quot;</span><span class="p">&gt;</span>导航菜单（等同于nav）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;main&quot;</span><span class="p">&gt;</span>主要内容（等同于main）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;complementary&quot;</span><span class="p">&gt;</span>补充内容（等同于aside）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;contentinfo&quot;</span><span class="p">&gt;</span>页脚信息（等同于footer）<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;search&quot;</span><span class="p">&gt;</span>搜索区域<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Widget Roles --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;0&quot;</span><span class="p">&gt;</span>自定义按钮<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tab&quot;</span><span class="p">&gt;</span>标签页<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tabpanel&quot;</span><span class="p">&gt;</span>标签面板<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;dialog&quot;</span><span class="p">&gt;</span>对话框<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;alert&quot;</span><span class="p">&gt;</span>警告信息<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tooltip&quot;</span><span class="p">&gt;</span>工具提示<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Document Structure Roles --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;article&quot;</span><span class="p">&gt;</span>文章<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;list&quot;</span><span class="p">&gt;</span>列表<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;listitem&quot;</span><span class="p">&gt;</span>列表项<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p><strong>注意</strong>：优先使用HTML5语义化标签，只有在必要时才使用role属性。</p>
+</section>
+<section id="aria-labelaria-labelledby">
+<h4>aria-label和aria-labelledby<a class="headerlink" href="#aria-labelaria-labelledby" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- aria-label：直接提供标签文本 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;关闭对话框&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">svg</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span> <span class="cm">&lt;!-- 图标 --&gt;</span>
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;主导航&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- aria-labelledby：引用其他元素作为标签 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;section-title&quot;</span><span class="p">&gt;</span>用户信息<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">aria-labelledby</span><span class="o">=</span><span class="s">&quot;section-title&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>用户详细信息...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 多个元素组合 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">aria-labelledby</span><span class="o">=</span><span class="s">&quot;title description&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h3</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;title&quot;</span><span class="p">&gt;</span>商品名称<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;description&quot;</span><span class="p">&gt;</span>商品描述<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="aria-describedby">
+<h4>aria-describedby<a class="headerlink" href="#aria-describedby" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 为元素提供描述 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;email&quot;</span> 
+       <span class="na">id</span><span class="o">=</span><span class="s">&quot;email&quot;</span>
+       <span class="na">aria-describedby</span><span class="o">=</span><span class="s">&quot;email-hint&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;email-hint&quot;</span><span class="p">&gt;</span>请输入有效的邮箱地址<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 表单验证 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;password&quot;</span> 
+       <span class="na">id</span><span class="o">=</span><span class="s">&quot;password&quot;</span>
+       <span class="na">aria-describedby</span><span class="o">=</span><span class="s">&quot;password-requirement password-error&quot;</span>
+       <span class="na">aria-invalid</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;password-requirement&quot;</span><span class="p">&gt;</span>密码至少8位<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;password-error&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;alert&quot;</span><span class="p">&gt;</span>密码过于简单<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="aria-hidden">
+<h4>aria-hidden<a class="headerlink" href="#aria-hidden" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 对屏幕阅读器隐藏装饰性内容 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">aria-hidden</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>🔍<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    搜索
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 隐藏重复内容 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/article/123&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>文章标题<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>文章摘要...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">aria-hidden</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>阅读更多 →<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="aria-live">
+<h4>aria-live<a class="headerlink" href="#aria-live" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 实时更新区域 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">aria-live</span><span class="o">=</span><span class="s">&quot;polite&quot;</span> <span class="na">aria-atomic</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>新消息：您有3条未读消息<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- aria-live取值 --&gt;</span>
+<span class="cm">&lt;!-- off: 默认，不通知 --&gt;</span>
+<span class="cm">&lt;!-- polite: 礼貌通知（等待用户操作完成） --&gt;</span>
+<span class="cm">&lt;!-- assertive: 立即通知（打断用户） --&gt;</span>
+
+<span class="cm">&lt;!-- 加载状态 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">aria-live</span><span class="o">=</span><span class="s">&quot;polite&quot;</span> <span class="na">aria-busy</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>正在加载...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="aria-expanded">
+<h4>aria-expanded<a class="headerlink" href="#aria-expanded" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 展开/折叠状态 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">aria-expanded</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="na">aria-controls</span><span class="o">=</span><span class="s">&quot;menu&quot;</span><span class="p">&gt;</span>
+    菜单
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">ul</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;menu&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>选项1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>选项2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;[aria-expanded]&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">menu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;menu&#39;</span><span class="p">);</span>
+
+<span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">isExpanded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">button</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;aria-expanded&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">button</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;aria-expanded&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="nx">isExpanded</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">menu</span><span class="p">.</span><span class="nx">hidden</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">isExpanded</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="aria-selectedaria-current">
+<h4>aria-selected和aria-current<a class="headerlink" href="#aria-selectedaria-current" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 标签页 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tablist&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tab&quot;</span> <span class="na">aria-selected</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>标签1<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tab&quot;</span> <span class="na">aria-selected</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">&gt;</span>标签2<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;tab&quot;</span> <span class="na">aria-selected</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">&gt;</span>标签3<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 当前页 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span>首页<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/products&quot;</span><span class="p">&gt;</span>产品<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/about&quot;</span> <span class="na">aria-current</span><span class="o">=</span><span class="s">&quot;page&quot;</span><span class="p">&gt;</span>关于<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- aria-current取值 --&gt;</span>
+<span class="cm">&lt;!-- page: 当前页面 --&gt;</span>
+<span class="cm">&lt;!-- step: 当前步骤 --&gt;</span>
+<span class="cm">&lt;!-- location: 当前位置 --&gt;</span>
+<span class="cm">&lt;!-- date: 当前日期 --&gt;</span>
+<span class="cm">&lt;!-- time: 当前时间 --&gt;</span>
+<span class="cm">&lt;!-- true: 当前项 --&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h3>键盘可访问性<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="tabindex">
+<h4>tabindex<a class="headerlink" href="#tabindex" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- tabindex=&quot;0&quot;: 自然顺序 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;button&quot;</span><span class="p">&gt;</span>可聚焦的div<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- tabindex=&quot;-1&quot;: 不在Tab顺序中，但可通过JavaScript聚焦 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;-1&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;modal-content&quot;</span><span class="p">&gt;</span>
+    模态框内容
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- tabindex=&quot;1+&quot;: 指定顺序（不推荐，会破坏自然顺序） --&gt;</span>
+<span class="p">&lt;</span><span class="nt">input</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;3&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">input</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;1&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">input</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h4>键盘事件处理<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 自定义按钮 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;button&quot;</span> 
+     <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;0&quot;</span>
+     <span class="na">onclick</span><span class="o">=</span><span class="s">&quot;handleClick()&quot;</span>
+     <span class="na">onkeydown</span><span class="o">=</span><span class="s">&quot;handleKeyDown(event)&quot;</span><span class="p">&gt;</span>
+    点击我
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Clicked&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleKeyDown</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Enter或Space键触发</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;Enter&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">handleClick</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 可关闭的对话框 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;dialog&quot;</span> 
+     <span class="na">aria-modal</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+     <span class="na">aria-labelledby</span><span class="o">=</span><span class="s">&quot;dialog-title&quot;</span>
+     <span class="na">onkeydown</span><span class="o">=</span><span class="s">&quot;handleDialogKeyDown(event)&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;dialog-title&quot;</span><span class="p">&gt;</span>对话框标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>内容...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onclick</span><span class="o">=</span><span class="s">&quot;closeDialog()&quot;</span><span class="p">&gt;</span>关闭<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleDialogKeyDown</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;Escape&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">closeDialog</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h3>焦点管理<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 焦点陷阱（模态框中）</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">modal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">focusableElements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">modal</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span>
+<span class="w">    </span><span class="s1">&#39;a[href], button, textarea, input, select, [tabindex]:not([tabindex=&quot;-1&quot;])&#39;</span>
+<span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">firstElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">focusableElements</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">lastElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">focusableElements</span><span class="p">[</span><span class="nx">focusableElements</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">];</span>
+
+<span class="nx">modal</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keydown&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;Tab&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">activeElement</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">firstElement</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">            </span><span class="nx">lastElement</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">activeElement</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">lastElement</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">            </span><span class="nx">firstElement</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// 打开模态框时设置焦点</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">openModal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">modal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">firstElement</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// 关闭模态框时恢复焦点</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">previousFocus</span><span class="p">;</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">openModal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">previousFocus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">activeElement</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">modal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">firstElement</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">closeModal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">modal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">previousFocus</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>图片替代文本<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 内容性图片 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;chart.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;2025年Q1销售额同比增长25%&quot;</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 装饰性图片 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;decoration.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 链接中的图片 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/home&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;logo.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;公司名称 - 首页&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 复杂图表 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;complex-chart.png&quot;</span> 
+         <span class="na">alt</span><span class="o">=</span><span class="s">&quot;销售数据图表&quot;</span>
+         <span class="na">aria-describedby</span><span class="o">=</span><span class="s">&quot;chart-description&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">figcaption</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;chart-description&quot;</span><span class="p">&gt;</span>
+        该图表展示了2025年第一季度各产品线的销售数据。
+        产品A销售额为100万，产品B为80万，产品C为60万。
+    <span class="p">&lt;/</span><span class="nt">figcaption</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">figure</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- SVG图标 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">svg</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;img&quot;</span> <span class="na">aria-labelledby</span><span class="o">=</span><span class="s">&quot;icon-title&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;icon-title&quot;</span><span class="p">&gt;</span>搜索<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">path</span> <span class="na">d</span><span class="o">=</span><span class="s">&quot;...&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">path</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="seo">
+<h2>🔍 SEO优化<a class="headerlink" href="#seo" title="Link to this heading"></a></h2>
+<section id="id10">
+<h3>结构化数据<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- JSON-LD格式 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;application/ld+json&quot;</span><span class="p">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;@context&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://schema.org&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Article&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;headline&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;HTML语义化详解&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;author&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;张三&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="s2">&quot;datePublished&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2025-10-21&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;image&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/image.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;publisher&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Organization&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;技术博客&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;logo&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ImageObject&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/logo.png&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 面包屑 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;application/ld+json&quot;</span><span class="p">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;@context&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://schema.org&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;BreadcrumbList&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;itemListElement&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ListItem&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;position&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;首页&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;item&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://example.com&quot;</span>
+<span class="w">  </span><span class="p">},{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ListItem&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;position&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;技术文章&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;item&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/tech&quot;</span>
+<span class="w">  </span><span class="p">},{</span>
+<span class="w">    </span><span class="s2">&quot;@type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ListItem&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;position&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;HTML教程&quot;</span>
+<span class="w">  </span><span class="p">}]</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="htmlseo">
+<h3>语义化HTML与SEO<a class="headerlink" href="#htmlseo" title="Link to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 良好的标题层级 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>网站主标题<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>文章标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>章节标题<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>小节标题<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 使用strong和em --&gt;</span>
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>这是<span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>重要内容<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>，这是<span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>强调内容<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>。<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 链接文本要有意义 --&gt;</span>
+<span class="cm">&lt;!-- 不好 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/article&quot;</span><span class="p">&gt;</span>点击这里<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 好 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/article&quot;</span><span class="p">&gt;</span>阅读完整文章：HTML语义化详解<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>🎯 完整示例<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>可访问的模态框<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;zh-CN&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>可访问的模态框示例<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">modal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+<span class="w">            </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">fixed</span><span class="p">;</span>
+<span class="w">            </span><span class="k">top</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">            </span><span class="k">left</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="p">.</span><span class="nc">modal-content</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">relative</span><span class="p">;</span>
+<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">%</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
+<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="p">.</span><span class="nc">modal</span><span class="p">.</span><span class="nc">open</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;openModal&quot;</span><span class="p">&gt;</span>打开模态框<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;modal&quot;</span> 
+         <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal&quot;</span> 
+         <span class="na">role</span><span class="o">=</span><span class="s">&quot;dialog&quot;</span> 
+         <span class="na">aria-modal</span><span class="o">=</span><span class="s">&quot;true&quot;</span>
+         <span class="na">aria-labelledby</span><span class="o">=</span><span class="s">&quot;modal-title&quot;</span>
+         <span class="na">aria-describedby</span><span class="o">=</span><span class="s">&quot;modal-description&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;modal-content&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;modal-title&quot;</span><span class="p">&gt;</span>模态框标题<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">p</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;modal-description&quot;</span><span class="p">&gt;</span>这是模态框的描述内容<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+            
+            <span class="p">&lt;</span><span class="nt">form</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;name&quot;</span><span class="p">&gt;</span>姓名：<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;name&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+                
+                <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;email&quot;</span><span class="p">&gt;</span>邮箱：<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;email&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;email&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+                
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>提交<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;closeModal&quot;</span><span class="p">&gt;</span>取消<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    
+    <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">openBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;openModal&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">closeBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;closeModal&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">modal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">previousFocus</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 获取可聚焦元素</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">focusableElements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">modal</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span>
+<span class="w">            </span><span class="s1">&#39;a[href], button, input, textarea, select, [tabindex]:not([tabindex=&quot;-1&quot;])&#39;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">firstFocusable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">focusableElements</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">lastFocusable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">focusableElements</span><span class="p">[</span><span class="nx">focusableElements</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">];</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 打开模态框</span>
+<span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">openModal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">previousFocus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">activeElement</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">modal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;open&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">firstFocusable</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="w">            </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">overflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hidden&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 关闭模态框</span>
+<span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">closeModal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">modal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">&#39;open&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">overflow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">previousFocus</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 焦点陷阱</span>
+<span class="w">        </span><span class="nx">modal</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keydown&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;Escape&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">closeModal</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;Tab&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">activeElement</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">firstFocusable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">                    </span><span class="nx">lastFocusable</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">activeElement</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">lastFocusable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">                    </span><span class="nx">firstFocusable</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="nx">openBtn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">openModal</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">closeBtn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">closeModal</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// 点击背景关闭</span>
+<span class="w">        </span><span class="nx">modal</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">modal</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">closeModal</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>📚 实践练习<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>练习1：语义化博客页面<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<p>创建一个语义化的博客文章页面，包含：</p>
+<ul class="simple">
+<li><p>正确的文档结构</p></li>
+<li><p>面包屑导航</p></li>
+<li><p>文章元信息（作者、时间、分类）</p></li>
+<li><p>相关文章侧边栏</p></li>
+<li><p>评论区</p></li>
+</ul>
+</section>
+<section id="id15">
+<h3>练习2：可访问的下拉菜单<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>实现一个完全可访问的下拉菜单，要求：</p>
+<ul class="simple">
+<li><p>键盘可操作（Tab、Enter、Escape、方向键）</p></li>
+<li><p>正确的ARIA属性</p></li>
+<li><p>焦点管理</p></li>
+<li><p>屏幕阅读器友好</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>练习3：SEO优化页面<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<p>创建一个SEO优化的产品页面，包含：</p>
+<ul class="simple">
+<li><p>完整的meta标签</p></li>
+<li><p>结构化数据（Product schema）</p></li>
+<li><p>语义化HTML</p></li>
+<li><p>图片优化</p></li>
+</ul>
+</section>
+</section>
+<section id="id17">
+<h2>💡 最佳实践<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>1. 优先使用语义化标签<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- 不推荐 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;header&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav&quot;</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- 推荐 --&gt;</span>
+<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id19">
+<h3>2. 提供多种访问方式<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>键盘导航</p></li>
+<li><p>屏幕阅读器支持</p></li>
+<li><p>触摸操作</p></li>
+<li><p>语音控制</p></li>
+</ul>
+</section>
+<section id="id20">
+<h3>3. 测试工具<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>axe DevTools</strong>：自动化可访问性测试</p></li>
+<li><p><strong>WAVE</strong>：网页可访问性评估工具</p></li>
+<li><p><strong>Lighthouse</strong>：综合评分（包含可访问性）</p></li>
+<li><p><strong>NVDA/JAWS</strong>：屏幕阅读器测试</p></li>
+</ul>
+</section>
+</section>
+<section id="id21">
+<h2>📚 参考资料<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1指南</a></p></li>
+<li><p><a class="reference external" href="https://www.w3.org/WAI/ARIA/apg/">WAI-ARIA最佳实践</a></p></li>
+<li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/Accessibility">MDN可访问性</a></p></li>
+<li><p><a class="reference external" href="https://schema.org/">Schema.org结构化数据</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="02-form-elements.html" class="btn btn-neutral float-left" title="02-表单元素详解" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="04-canvas-and-svg.html" class="btn btn-neutral float-right" title="04-Canvas与SVG" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

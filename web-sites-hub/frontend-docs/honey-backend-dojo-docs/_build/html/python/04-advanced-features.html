@@ -1,0 +1,1056 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>04-Python高级特性 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="05-文件与数据处理" href="05-file-processing.html" />
+    <link rel="prev" title="03-数据结构与标准库" href="03-data-structures.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Python 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Python 后端开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-environment-setup.html">01-Python环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-Python基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-data-structures.html">03-数据结构与标准库</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">04-Python高级特性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">装饰器深入</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">函数装饰器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">带参数的装饰器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">类装饰器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">常用内置装饰器</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">生成器高级用法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">生成器函数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yield-from">yield from</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">上下文管理器</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#with">with语句</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">自定义上下文管理器</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">描述符</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">元类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">函数式编程</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#map-filter-reduce">map/filter/reduce</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">闭包</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">柯里化</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">魔法方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">运算符重载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">容器协议</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">并发编程基础</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#threading">threading</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiprocessing">multiprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concurrent-futures">concurrent.futures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#asyncio">asyncio（异步编程）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">协程基础</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#async-await">async/await模式</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">性能优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vs">列表vs生成器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">字符串拼接</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">集合查找</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">局部变量优化</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#slots">slots优化内存</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">内存管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id25">垃圾回收</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">弱引用</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">实用技巧</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id28">解包技巧</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29">链式比较</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enumeratezip">enumerate和zip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-3-8">海象运算符（:=，Python 3.8+）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">性能分析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cprofile">cProfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#line-profiler">line_profiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-profiler">memory_profiler</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">最佳实践</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-file-processing.html">05-文件与数据处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-web-development.html">06-Python Web开发</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Python 教程</a></li>
+      <li class="breadcrumb-item active">04-Python高级特性</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/python/04-advanced-features.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="python">
+<h1>04-Python高级特性<a class="headerlink" href="#python" title="Link to this heading"></a></h1>
+<p>Python的高级特性包括装饰器、生成器、上下文管理器、元类等。掌握这些特性可编写更优雅的代码。</p>
+<section id="id1">
+<h2>装饰器深入<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>函数装饰器<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本装饰器</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logger</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@logger</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="c1"># 等价于：add = logger(add)</span>
+
+<span class="c1"># 保留元数据</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logger</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>  <span class="c1"># 保留func的__name__、__doc__等</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>带参数的装饰器<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="nd">@repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>  <span class="c1"># 打印3次</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>类装饰器<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CountCalls</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Call </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nd">@CountCalls</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">say_hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+
+<span class="n">say_hello</span><span class="p">()</span>  <span class="c1"># Call 1...</span>
+<span class="n">say_hello</span><span class="p">()</span>  <span class="c1"># Call 2...</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>常用内置装饰器<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># property：将方法变为属性</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+    
+    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value must be positive&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">val</span>
+    
+    <span class="nd">@value</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+    
+    <span class="c1"># classmethod：类方法</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span>
+    
+    <span class="c1"># staticmethod：静态方法</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+<span class="c1"># 使用</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># 调用setter</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># 调用getter</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>生成器高级用法<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>生成器函数<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fibonacci</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">a</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="c1"># 使用</span>
+<span class="n">gen</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">()</span>
+<span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>  <span class="c1"># [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</span>
+
+<span class="c1"># send方法（协程）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">coroutine</span><span class="p">():</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">value</span>  <span class="c1"># 接收发送的值</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="mi">0</span>
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">coroutine</span><span class="p">()</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>      <span class="c1"># 启动生成器</span>
+<span class="n">gen</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>    <span class="c1"># 10</span>
+<span class="n">gen</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>   <span class="c1"># 20</span>
+</pre></div>
+</div>
+</section>
+<section id="yield-from">
+<h3>yield from<a class="headerlink" href="#yield-from" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generator1</span><span class="p">():</span>
+    <span class="k">yield</span> <span class="mi">1</span>
+    <span class="k">yield</span> <span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generator2</span><span class="p">():</span>
+    <span class="k">yield</span> <span class="mi">3</span>
+    <span class="k">yield</span> <span class="mi">4</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">generator1</span><span class="p">()</span>  <span class="c1"># 委托</span>
+    <span class="k">yield from</span> <span class="n">generator2</span><span class="p">()</span>
+
+<span class="nb">list</span><span class="p">(</span><span class="n">combined</span><span class="p">())</span>  <span class="c1"># [1, 2, 3, 4]</span>
+
+<span class="c1"># 递归生成器</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">flatten</span><span class="p">(</span><span class="n">nested</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">nested</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">yield from</span> <span class="n">flatten</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>  <span class="c1"># 递归展开</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">item</span>
+
+<span class="nb">list</span><span class="p">(</span><span class="n">flatten</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span> <span class="mi">5</span><span class="p">]))</span>  <span class="c1"># [1, 2, 3, 4, 5]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>上下文管理器<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="with">
+<h3>with语句<a class="headerlink" href="#with" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 基本用法</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c1"># 自动调用f.close()</span>
+
+<span class="c1"># 多个资源</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;in.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;out.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+    <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fin</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>自定义上下文管理器<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 方法1：__enter__和__exit__</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Timer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elapsed: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># 不抑制异常</span>
+
+<span class="k">with</span> <span class="n">Timer</span><span class="p">():</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 方法2：contextmanager装饰器</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">timer</span><span class="p">():</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elapsed: </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">timer</span><span class="p">():</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>描述符<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<p>实现属性访问的底层机制。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Descriptor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must be positive&quot;</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">:</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">Descriptor</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">)</span>  <span class="c1"># 描述符</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># 调用__set__</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>  <span class="c1"># 调用__get__</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h2>元类<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<p>类的类，控制类的创建。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># type创建类</span>
+<span class="n">MyClass</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;MyClass&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+
+<span class="c1"># 自定义元类</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SingletonMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="n">_instances</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instances</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instances</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Singleton</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">SingletonMeta</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="n">Singleton</span><span class="p">()</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">Singleton</span><span class="p">()</span>
+<span class="n">s1</span> <span class="ow">is</span> <span class="n">s2</span>  <span class="c1"># True（单例）</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h2>函数式编程<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="map-filter-reduce">
+<h3>map/filter/reduce<a class="headerlink" href="#map-filter-reduce" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># map：映射</span>
+<span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>  <span class="c1"># [1, 4, 9, 16]</span>
+
+<span class="c1"># filter：过滤</span>
+<span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>  <span class="c1"># [2, 4]</span>
+
+<span class="c1"># reduce：归约</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+<span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>  <span class="c1"># 10</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>闭包<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">outer</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>  <span class="c1"># 访问外部变量</span>
+    <span class="k">return</span> <span class="n">inner</span>
+
+<span class="n">add5</span> <span class="o">=</span> <span class="n">outer</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">add5</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 8</span>
+<span class="n">add5</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 15</span>
+
+<span class="c1"># 工厂函数</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_multiplier</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">n</span>
+
+<span class="n">times3</span> <span class="o">=</span> <span class="n">make_multiplier</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">times3</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 30</span>
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>柯里化<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 普通函数</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+
+<span class="c1"># 柯里化</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">curry_add</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_y</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">add_z</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+        <span class="k">return</span> <span class="n">add_z</span>
+    <span class="k">return</span> <span class="n">add_y</span>
+
+<span class="n">curry_add</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">2</span><span class="p">)(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 6</span>
+
+<span class="c1"># 使用partial部分应用</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+
+<span class="n">add3</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">add3</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 6</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>魔法方法<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>运算符重载<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Vector</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">scalar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">scalar</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Vector(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">)&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="n">v1</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span>      <span class="c1"># Vector(4, 6)</span>
+<span class="n">v3</span> <span class="o">*</span> <span class="mi">2</span>            <span class="c1"># Vector(8, 12)</span>
+<span class="n">v3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>             <span class="c1"># 8</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>容器协议<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyList</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">lst</span> <span class="o">=</span> <span class="n">MyList</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="mi">0</span> <span class="ow">in</span> <span class="n">lst</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>并发编程基础<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="threading">
+<h3>threading<a class="headerlink" href="#threading" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">worker</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> started&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> finished&quot;</span><span class="p">)</span>
+
+<span class="c1"># 创建线程</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,))</span>
+<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>  <span class="c1"># 等待结束</span>
+
+<span class="c1"># 线程锁</span>
+<span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">safe_increment</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">lock</span><span class="p">:</span>  <span class="c1"># 自动获取和释放锁</span>
+        <span class="k">global</span> <span class="n">count</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># 多个线程</span>
+<span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,))</span>
+    <span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="multiprocessing">
+<h3>multiprocessing<a class="headerlink" href="#multiprocessing" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">Queue</span>
+
+<span class="c1"># 创建进程</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">worker</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Process </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,))</span>
+<span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="c1"># 进程池</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="c1"># 进程间通信</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">producer</span><span class="p">(</span><span class="n">queue</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">consumer</span><span class="p">(</span><span class="n">queue</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="p">,))</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="p">,))</span>
+</pre></div>
+</div>
+</section>
+<section id="concurrent-futures">
+<h3>concurrent.futures<a class="headerlink" href="#concurrent-futures" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+
+<span class="c1"># 线程池</span>
+<span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="c1"># submit提交单个任务</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># 1024</span>
+    
+    <span class="c1"># map批量处理</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    
+    <span class="c1"># as_completed（完成即处理）</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+
+<span class="c1"># 进程池（CPU密集型）</span>
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">cpu_intensive_task</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="asyncio">
+<h2>asyncio（异步编程）<a class="headerlink" href="#asyncio" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>协程基础<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="c1"># 定义协程</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 异步等待</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;World&quot;</span><span class="p">)</span>
+
+<span class="c1"># 运行协程</span>
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">hello</span><span class="p">())</span>
+
+<span class="c1"># 并发执行</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">task</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">delay</span><span class="p">):</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> done&quot;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># 并发3个任务</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+        <span class="n">task</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">task</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">task</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="async-await">
+<h3>async/await模式<a class="headerlink" href="#async-await" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 异步HTTP请求（需要aiohttp）</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">aiohttp</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+<span class="c1"># 异步文件操作（需要aiofiles）</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">aiofiles</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">aiofiles</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># 创建任务</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">task1</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">fetch</span><span class="p">(</span><span class="n">url1</span><span class="p">))</span>
+    <span class="n">task2</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">fetch</span><span class="p">(</span><span class="n">url2</span><span class="p">))</span>
+    
+    <span class="n">result1</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task1</span>
+    <span class="n">result2</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task2</span>
+
+<span class="c1"># 超时控制</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">with_timeout</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">slow_task</span><span class="p">(),</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Timeout!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id20">
+<h2>性能优化<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="vs">
+<h3>列表vs生成器<a class="headerlink" href="#vs" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 列表：立即计算，占用内存</span>
+<span class="n">squares_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)]</span>  <span class="c1"># ~4MB</span>
+
+<span class="c1"># 生成器：惰性求值，节省内存</span>
+<span class="n">squares_gen</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span>   <span class="c1"># ~200字节</span>
+
+<span class="c1"># 仅需遍历一次，用生成器</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>字符串拼接<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+
+<span class="c1"># 慢（每次创建新字符串）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">slow_concat</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span>
+
+<span class="c1"># 快（一次性分配）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fast_concat</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="c1"># 性能对比（n=10000）</span>
+<span class="c1"># slow: ~50ms</span>
+<span class="c1"># fast: ~2ms（25倍提升）</span>
+</pre></div>
+</div>
+</section>
+<section id="id22">
+<h3>集合查找<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># list查找：O(n)</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span>
+<span class="mi">5000</span> <span class="ow">in</span> <span class="n">lst</span>  <span class="c1"># 遍历查找</span>
+
+<span class="c1"># set查找：O(1)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span>
+<span class="mi">5000</span> <span class="ow">in</span> <span class="n">s</span>    <span class="c1"># 哈希查找</span>
+
+<span class="c1"># 频繁查找，list转set</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id23">
+<h3>局部变量优化<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 慢（每次查找全局）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">slow</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># 快（局部变量查找更快）</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fast</span><span class="p">():</span>
+    <span class="n">sqrt</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span>  <span class="c1"># 局部化</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="slots">
+<h2>slots优化内存<a class="headerlink" href="#slots" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 普通类（使用__dict__）</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="c1"># 1000000个对象约占用~300MB</span>
+
+<span class="c1"># 使用__slots__</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PointSlots</span><span class="p">:</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]</span>  <span class="c1"># 固定属性</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="c1"># 1000000个对象约占用~150MB（节省50%）</span>
+
+<span class="c1"># 缺点：不能动态添加属性</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">PointSlots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># p.z = 3  # AttributeError</span>
+</pre></div>
+</div>
+</section>
+<section id="id24">
+<h2>内存管理<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<section id="id25">
+<h3>垃圾回收<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
+
+<span class="c1"># 手动触发GC</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="c1"># 禁用/启用GC</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+
+<span class="c1"># 查看引用计数</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 引用计数</span>
+
+<span class="c1"># 查看内存占用</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>    <span class="c1"># 字节数</span>
+</pre></div>
+</div>
+</section>
+<section id="id26">
+<h3>弱引用<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">obj</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># 弱引用</span>
+
+<span class="n">ref</span><span class="p">()</span> <span class="ow">is</span> <span class="n">obj</span>    <span class="c1"># True</span>
+<span class="k">del</span> <span class="n">obj</span>
+<span class="n">ref</span><span class="p">()</span>           <span class="c1"># None（对象已被回收）</span>
+
+<span class="c1"># WeakValueDictionary（缓存）</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">cache</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>  <span class="c1"># 对象可被GC回收</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id27">
+<h2>实用技巧<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<section id="id28">
+<h3>解包技巧<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 变量交换</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+
+<span class="c1"># 多值返回</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stats</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="n">stats</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+
+<span class="c1"># 扩展解包</span>
+<span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">middle</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>  <span class="c1"># a=1, middle=[2,3,4], b=5</span>
+
+<span class="c1"># 字典解包</span>
+<span class="n">d1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">d1</span><span class="p">}</span>  <span class="c1"># {&#39;c&#39;: 3, &#39;a&#39;: 1, &#39;b&#39;: 2}</span>
+
+<span class="c1"># 函数参数解包</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id29">
+<h3>链式比较<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 优雅的范围判断</span>
+<span class="mi">1</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span>
+<span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span>
+<span class="n">x</span> <span class="o">!=</span> <span class="n">y</span> <span class="o">!=</span> <span class="n">z</span>
+</pre></div>
+</div>
+</section>
+<section id="enumeratezip">
+<h3>enumerate和zip<a class="headerlink" href="#enumeratezip" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># enumerate（索引和值）</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>  <span class="c1"># 1 a, 2 b, 3 c</span>
+
+<span class="c1"># zip（并行迭代）</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">]</span>
+<span class="n">ages</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">ages</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+
+<span class="c1"># 转置矩阵</span>
+<span class="n">matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+<span class="n">transposed</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">matrix</span><span class="p">))</span>  <span class="c1"># [(1, 4), (2, 5), (3, 6)]</span>
+</pre></div>
+</div>
+</section>
+<section id="python-3-8">
+<h3>海象运算符（:=，Python 3.8+）<a class="headerlink" href="#python-3-8" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 赋值表达式</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Large dataset: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> items&quot;</span><span class="p">)</span>
+
+<span class="c1"># 避免重复计算</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">line</span> <span class="o">:=</span> <span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()):</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="c1"># 列表推导式</span>
+<span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">:=</span> <span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id30">
+<h2>性能分析<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
+<section id="cprofile">
+<h3>cProfile<a class="headerlink" href="#cprofile" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cProfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pstats</span>
+
+<span class="c1"># 分析函数</span>
+<span class="n">cProfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;slow_function()&#39;</span><span class="p">)</span>
+
+<span class="c1"># 保存结果</span>
+<span class="n">cProfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;slow_function()&#39;</span><span class="p">,</span> <span class="s1">&#39;profile.stats&#39;</span><span class="p">)</span>
+
+<span class="c1"># 分析结果</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">pstats</span><span class="o">.</span><span class="n">Stats</span><span class="p">(</span><span class="s1">&#39;profile.stats&#39;</span><span class="p">)</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">sort_stats</span><span class="p">(</span><span class="s1">&#39;cumulative&#39;</span><span class="p">)</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">print_stats</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 打印前10项</span>
+</pre></div>
+</div>
+</section>
+<section id="line-profiler">
+<h3>line_profiler<a class="headerlink" href="#line-profiler" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>line_profiler
+
+<span class="c1"># 使用</span>
+@profile
+def<span class="w"> </span>slow_function<span class="o">()</span>:
+<span class="w">    </span><span class="c1"># ...</span>
+
+<span class="c1"># 运行</span>
+kernprof<span class="w"> </span>-l<span class="w"> </span>-v<span class="w"> </span>script.py
+</pre></div>
+</div>
+</section>
+<section id="memory-profiler">
+<h3>memory_profiler<a class="headerlink" href="#memory-profiler" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>memory_profiler
+
+<span class="c1"># 使用</span>
+@profile
+def<span class="w"> </span>memory_intensive<span class="o">()</span>:
+<span class="w">    </span><span class="c1"># ...</span>
+
+<span class="c1"># 运行</span>
+python<span class="w"> </span>-m<span class="w"> </span>memory_profiler<span class="w"> </span>script.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id31">
+<h2>最佳实践<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>生成器代替列表</strong>：大数据处理</p></li>
+<li><p><strong>set查找</strong>：频繁检查成员关系</p></li>
+<li><p><strong>局部化全局变量</strong>：循环内部</p></li>
+<li><p><strong>join拼接字符串</strong>：替代+=</p></li>
+<li><p><strong>__slots__节省内存</strong>：大量小对象</p></li>
+<li><p><strong>lru_cache缓存</strong>：重复计算</p></li>
+<li><p><strong>with管理资源</strong>：文件、锁、数据库连接</p></li>
+<li><p><strong>类型提示</strong>：提高可维护性</p></li>
+<li><p><strong>asyncio异步</strong>：IO密集型任务</p></li>
+<li><p><strong>profile指导优化</strong>：测量后优化</p></li>
+</ol>
+<p><strong>核心：</strong> Python强调简洁和可读性，性能优化基于profiling数据。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="03-data-structures.html" class="btn btn-neutral float-left" title="03-数据结构与标准库" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="05-file-processing.html" class="btn btn-neutral float-right" title="05-文件与数据处理" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

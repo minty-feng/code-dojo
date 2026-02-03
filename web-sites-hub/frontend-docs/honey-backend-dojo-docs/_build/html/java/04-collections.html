@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>04-Java集合框架 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="05-Java多线程编程" href="05-multithreading.html" />
+    <link rel="prev" title="03-Java面向对象" href="03-oop.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Java 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Java 后端开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-environment-setup.html">01-环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-oop.html">03-面向对象</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">04-集合框架</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">集合框架结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#list">List接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#arraylist">ArrayList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linkedlist">LinkedList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vector">Vector</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#set">Set接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hashset">HashSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linkedhashset">LinkedHashSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#treeset">TreeSet</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#map">Map接口</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hashmap">HashMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linkedhashmap">LinkedHashMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#treemap">TreeMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concurrenthashmap">ConcurrentHashMap</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#queuedeque">Queue和Deque</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#queue">Queue（队列）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#priorityqueue">PriorityQueue（优先队列）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deque">Deque（双端队列）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#collections">Collections工具类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">集合选择指南</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">时间复杂度对比</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">选择决策</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">场景匹配</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">集合常见陷阱</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">集合性能优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">比较器</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#comparable">Comparable接口</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#comparator">Comparator接口</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">最佳实践</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05-multithreading.html">05-多线程编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-io.html">06-IO流</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Java 教程</a></li>
+      <li class="breadcrumb-item active">04-Java集合框架</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/java/04-collections.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="java">
+<h1>04-Java集合框架<a class="headerlink" href="#java" title="Link to this heading"></a></h1>
+<p>Java集合框架（JCF）提供数据结构实现，是标准库的核心。掌握集合选择和使用是高效编程的基础。</p>
+<section id="id1">
+<h2>集合框架结构<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Collection
+├── List（有序，可重复）
+│   ├── ArrayList
+│   ├── LinkedList
+│   └── Vector（同步，少用）
+├── Set（无序，不重复）
+│   ├── HashSet
+│   ├── LinkedHashSet
+│   └── TreeSet
+└── Queue（队列）
+    ├── LinkedList
+    ├── PriorityQueue
+    └── Deque
+
+Map（键值对）
+├── HashMap
+├── LinkedHashMap
+├── TreeMap
+├── Hashtable（同步，少用）
+└── ConcurrentHashMap（并发）
+</pre></div>
+</div>
+</section>
+<section id="list">
+<h2>List接口<a class="headerlink" href="#list" title="Link to this heading"></a></h2>
+<section id="arraylist">
+<h3>ArrayList<a class="headerlink" href="#arraylist" title="Link to this heading"></a></h3>
+<p>基于动态数组，随机访问快，插入删除慢。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
+
+<span class="c1">// 创建</span>
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">));</span>
+
+<span class="c1">// 添加</span>
+<span class="n">list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="n">list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">);</span><span class="w">           </span><span class="c1">// 指定位置插入</span>
+
+<span class="c1">// 访问</span>
+<span class="n">String</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">list</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cherry&quot;</span><span class="p">);</span><span class="w">           </span><span class="c1">// 修改</span>
+
+<span class="c1">// 删除</span>
+<span class="n">list</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w">                  </span><span class="c1">// 按索引删除</span>
+<span class="n">list</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span><span class="w">            </span><span class="c1">// 按对象删除</span>
+
+<span class="c1">// 查询</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">();</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">();</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">contains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">indexOf</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+
+<span class="c1">// 遍历</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">list</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span><span class="w">  </span><span class="c1">// Lambda</span>
+</pre></div>
+</div>
+<p><strong>时间复杂度：</strong></p>
+<ul class="simple">
+<li><p>随机访问：O(1)</p></li>
+<li><p>尾部添加：O(1)均摊</p></li>
+<li><p>中间插入/删除：O(n)</p></li>
+<li><p>查找：O(n)</p></li>
+</ul>
+</section>
+<section id="linkedlist">
+<h3>LinkedList<a class="headerlink" href="#linkedlist" title="Link to this heading"></a></h3>
+<p>基于双向链表，插入删除快，随机访问慢。同时实现List和Deque。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.LinkedList</span><span class="p">;</span>
+
+<span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// List操作</span>
+<span class="n">list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="n">list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">);</span>
+
+<span class="c1">// Deque操作</span>
+<span class="n">list</span><span class="p">.</span><span class="na">addFirst</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">);</span>
+<span class="n">list</span><span class="p">.</span><span class="na">addLast</span><span class="p">(</span><span class="s">&quot;last&quot;</span><span class="p">);</span>
+<span class="n">list</span><span class="p">.</span><span class="na">removeFirst</span><span class="p">();</span>
+<span class="n">list</span><span class="p">.</span><span class="na">removeLast</span><span class="p">();</span>
+<span class="n">list</span><span class="p">.</span><span class="na">getFirst</span><span class="p">();</span>
+<span class="n">list</span><span class="p">.</span><span class="na">getLast</span><span class="p">();</span>
+
+<span class="c1">// 队列操作</span>
+<span class="n">list</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="s">&quot;item&quot;</span><span class="p">);</span><span class="w">   </span><span class="c1">// 入队</span>
+<span class="n">list</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span><span class="w">          </span><span class="c1">// 出队</span>
+<span class="n">list</span><span class="p">.</span><span class="na">peek</span><span class="p">();</span><span class="w">          </span><span class="c1">// 查看队首</span>
+</pre></div>
+</div>
+<p><strong>时间复杂度：</strong></p>
+<ul class="simple">
+<li><p>随机访问：O(n)</p></li>
+<li><p>头尾插入/删除：O(1)</p></li>
+<li><p>中间插入/删除：O(1)（已有迭代器）</p></li>
+</ul>
+</section>
+<section id="vector">
+<h3>Vector<a class="headerlink" href="#vector" title="Link to this heading"></a></h3>
+<p>同步的ArrayList，线程安全但性能低，已过时。推荐用 <code class="docutils literal notranslate"><span class="pre">Collections.synchronizedList()</span></code> 或 <code class="docutils literal notranslate"><span class="pre">CopyOnWriteArrayList</span></code>。</p>
+</section>
+</section>
+<section id="set">
+<h2>Set接口<a class="headerlink" href="#set" title="Link to this heading"></a></h2>
+<section id="hashset">
+<h3>HashSet<a class="headerlink" href="#hashset" title="Link to this heading"></a></h3>
+<p>基于HashMap实现，无序不重复，查找O(1)。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashSet</span><span class="p">;</span>
+
+<span class="n">HashSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 添加</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 重复，不会添加</span>
+
+<span class="c1">// 查询</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">contains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">set</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">set</span><span class="p">.</span><span class="na">size</span><span class="p">();</span>
+
+<span class="c1">// 删除</span>
+<span class="n">set</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+
+<span class="c1">// 遍历（无序）</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">set</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="linkedhashset">
+<h3>LinkedHashSet<a class="headerlink" href="#linkedhashset" title="Link to this heading"></a></h3>
+<p>基于LinkedHashMap，维护插入顺序。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">LinkedHashSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">);</span>
+<span class="c1">// 遍历顺序：c, a, b</span>
+</pre></div>
+</div>
+</section>
+<section id="treeset">
+<h3>TreeSet<a class="headerlink" href="#treeset" title="Link to this heading"></a></h3>
+<p>基于红黑树，元素自动排序。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.TreeSet</span><span class="p">;</span>
+
+<span class="n">TreeSet</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="c1">// 遍历顺序：1, 2, 3（自动排序）</span>
+
+<span class="c1">// 范围查询</span>
+<span class="n">set</span><span class="p">.</span><span class="na">first</span><span class="p">();</span><span class="w">             </span><span class="c1">// 最小元素</span>
+<span class="n">set</span><span class="p">.</span><span class="na">last</span><span class="p">();</span><span class="w">              </span><span class="c1">// 最大元素</span>
+<span class="n">set</span><span class="p">.</span><span class="na">lower</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">            </span><span class="c1">// &lt; 2的最大元素</span>
+<span class="n">set</span><span class="p">.</span><span class="na">higher</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">           </span><span class="c1">// &gt; 2的最小元素</span>
+<span class="n">set</span><span class="p">.</span><span class="na">headSet</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">          </span><span class="c1">// &lt; 5的元素集合</span>
+<span class="n">set</span><span class="p">.</span><span class="na">tailSet</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">          </span><span class="c1">// &gt;= 5的元素集合</span>
+<span class="n">set</span><span class="p">.</span><span class="na">subSet</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span><span class="w">        </span><span class="c1">// [2, 5)的元素集合</span>
+</pre></div>
+</div>
+<p><strong>时间复杂度：</strong> O(log n)</p>
+</section>
+</section>
+<section id="map">
+<h2>Map接口<a class="headerlink" href="#map" title="Link to this heading"></a></h2>
+<section id="hashmap">
+<h3>HashMap<a class="headerlink" href="#hashmap" title="Link to this heading"></a></h3>
+<p>基于哈希表，无序，查找O(1)，最常用的Map。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashMap</span><span class="p">;</span>
+
+<span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 添加</span>
+<span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w">            </span><span class="c1">// 覆盖旧值</span>
+
+<span class="c1">// 访问</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 10</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">def</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">getOrDefault</span><span class="p">(</span><span class="s">&quot;orange&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// 不存在返回默认值</span>
+
+<span class="c1">// 删除</span>
+<span class="n">map</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+
+<span class="c1">// 查询</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">hasKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">containsKey</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">hasValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">containsValue</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">size</span><span class="p">();</span>
+
+<span class="c1">// 遍历</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">keySet</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">entrySet</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="na">getKey</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">entry</span><span class="p">.</span><span class="na">getValue</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="n">map</span><span class="p">.</span><span class="na">forEach</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">));</span><span class="w">  </span><span class="c1">// Lambda</span>
+</pre></div>
+</div>
+<p><strong>Java 8增强：</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// computeIfAbsent：不存在时计算并添加</span>
+<span class="n">map</span><span class="p">.</span><span class="na">computeIfAbsent</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">expensiveComputation</span><span class="p">(</span><span class="n">k</span><span class="p">));</span>
+
+<span class="c1">// merge：合并值</span>
+<span class="n">map</span><span class="p">.</span><span class="na">merge</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">newVal</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">oldVal</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">newVal</span><span class="p">);</span><span class="w">  </span><span class="c1">// 计数</span>
+
+<span class="c1">// putIfAbsent：不存在时才添加</span>
+<span class="n">map</span><span class="p">.</span><span class="na">putIfAbsent</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="linkedhashmap">
+<h3>LinkedHashMap<a class="headerlink" href="#linkedhashmap" title="Link to this heading"></a></h3>
+<p>维护插入顺序或访问顺序，可实现LRU缓存。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 插入顺序</span>
+<span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 访问顺序（LRU）</span>
+<span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lruMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mf">0.75f</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+
+<span class="c1">// LRU缓存实现</span>
+<span class="kd">class</span> <span class="nc">LRUCache</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">LRUCache</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span><span class="w"> </span><span class="mf">0.75f</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">removeEldestEntry</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="n">eldest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span><span class="w">  </span><span class="c1">// 超过容量删除最老的</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="treemap">
+<h3>TreeMap<a class="headerlink" href="#treemap" title="Link to this heading"></a></h3>
+<p>基于红黑树，键自动排序。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.TreeMap</span><span class="p">;</span>
+
+<span class="n">TreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="c1">// 遍历顺序：a, b, c（按键排序）</span>
+
+<span class="c1">// 范围操作</span>
+<span class="n">map</span><span class="p">.</span><span class="na">firstKey</span><span class="p">();</span><span class="w">          </span><span class="c1">// 最小键</span>
+<span class="n">map</span><span class="p">.</span><span class="na">lastKey</span><span class="p">();</span><span class="w">           </span><span class="c1">// 最大键</span>
+<span class="n">map</span><span class="p">.</span><span class="na">lowerKey</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">);</span><span class="w">       </span><span class="c1">// &lt; b的最大键</span>
+<span class="n">map</span><span class="p">.</span><span class="na">higherKey</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// &gt; b的最小键</span>
+<span class="n">map</span><span class="p">.</span><span class="na">headMap</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">);</span><span class="w">        </span><span class="c1">// &lt; c的映射</span>
+<span class="n">map</span><span class="p">.</span><span class="na">tailMap</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">);</span><span class="w">        </span><span class="c1">// &gt;= b的映射</span>
+<span class="n">map</span><span class="p">.</span><span class="na">subMap</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p">);</span><span class="w">    </span><span class="c1">// [a, c)的映射</span>
+</pre></div>
+</div>
+</section>
+<section id="concurrenthashmap">
+<h3>ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Link to this heading"></a></h3>
+<p>线程安全的HashMap，使用分段锁，性能优于Hashtable。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
+
+<span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 原子操作</span>
+<span class="n">map</span><span class="p">.</span><span class="na">putIfAbsent</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">compute</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">merge</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="p">::</span><span class="n">sum</span><span class="p">);</span><span class="w">  </span><span class="c1">// 计数</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="queuedeque">
+<h2>Queue和Deque<a class="headerlink" href="#queuedeque" title="Link to this heading"></a></h2>
+<section id="queue">
+<h3>Queue（队列）<a class="headerlink" href="#queue" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Queue</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.LinkedList</span><span class="p">;</span>
+
+<span class="n">Queue</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 添加（失败抛异常）</span>
+<span class="n">queue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">);</span>
+
+<span class="c1">// 添加（失败返回false）</span>
+<span class="n">queue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="s">&quot;second&quot;</span><span class="p">);</span>
+
+<span class="c1">// 删除并返回队首（失败抛异常）</span>
+<span class="n">String</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span>
+
+<span class="c1">// 删除并返回队首（失败返回null）</span>
+<span class="n">String</span><span class="w"> </span><span class="n">head2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+
+<span class="c1">// 查看队首（不删除）</span>
+<span class="n">String</span><span class="w"> </span><span class="n">peek1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">element</span><span class="p">();</span><span class="w">  </span><span class="c1">// 失败抛异常</span>
+<span class="n">String</span><span class="w"> </span><span class="n">peek2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">peek</span><span class="p">();</span><span class="w">     </span><span class="c1">// 失败返回null</span>
+</pre></div>
+</div>
+</section>
+<section id="priorityqueue">
+<h3>PriorityQueue（优先队列）<a class="headerlink" href="#priorityqueue" title="Link to this heading"></a></h3>
+<p>基于堆实现，默认小顶堆。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.PriorityQueue</span><span class="p">;</span>
+
+<span class="c1">// 小顶堆（默认）</span>
+<span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">minHeap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">minHeap</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">minHeap</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">minHeap</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">minHeap</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span><span class="w">  </span><span class="c1">// 1（最小元素）</span>
+
+<span class="c1">// 大顶堆</span>
+<span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxHeap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">);</span>
+<span class="n">maxHeap</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">maxHeap</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">maxHeap</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">maxHeap</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span><span class="w">  </span><span class="c1">// 3（最大元素）</span>
+
+<span class="c1">// 自定义比较器</span>
+<span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Task</span><span class="o">&gt;</span><span class="w"> </span><span class="n">taskQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Comparator</span><span class="p">.</span><span class="na">comparingInt</span><span class="p">(</span><span class="n">Task</span><span class="p">::</span><span class="n">getPriority</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="deque">
+<h3>Deque（双端队列）<a class="headerlink" href="#deque" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Deque</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayDeque</span><span class="p">;</span>
+
+<span class="n">Deque</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">deque</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayDeque</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 作为栈使用</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">push</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">);</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">push</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">);</span>
+<span class="n">String</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deque</span><span class="p">.</span><span class="na">pop</span><span class="p">();</span><span class="w">  </span><span class="c1">// LIFO</span>
+
+<span class="c1">// 作为队列使用</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">);</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">);</span>
+<span class="n">String</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deque</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span><span class="w">  </span><span class="c1">// FIFO</span>
+
+<span class="c1">// 双端操作</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">offerFirst</span><span class="p">(</span><span class="s">&quot;first&quot;</span><span class="p">);</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">offerLast</span><span class="p">(</span><span class="s">&quot;last&quot;</span><span class="p">);</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">pollFirst</span><span class="p">();</span>
+<span class="n">deque</span><span class="p">.</span><span class="na">pollLast</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="collections">
+<h2>Collections工具类<a class="headerlink" href="#collections" title="Link to this heading"></a></h2>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Collections</span><span class="p">;</span>
+
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
+
+<span class="c1">// 排序</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">list</span><span class="p">);</span><span class="w">                         </span><span class="c1">// 升序</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">reverseOrder</span><span class="p">());</span><span class="w">  </span><span class="c1">// 降序</span>
+
+<span class="c1">// 查找</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">max</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">min</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">binarySearch</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w">  </span><span class="c1">// 需有序</span>
+
+<span class="c1">// 反转</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">reverse</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+
+<span class="c1">// 洗牌</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">shuffle</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+
+<span class="c1">// 填充</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// 复制</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+
+<span class="c1">// 同步包装</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">syncList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">synchronizedList</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">syncMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">synchronizedMap</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+
+<span class="c1">// 不可修改包装</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">unmodifiable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">unmodifiableList</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>集合选择指南<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>时间复杂度对比<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>操作</p></th>
+<th class="head"><p>ArrayList</p></th>
+<th class="head"><p>LinkedList</p></th>
+<th class="head"><p>HashSet</p></th>
+<th class="head"><p>TreeSet</p></th>
+<th class="head"><p>HashMap</p></th>
+<th class="head"><p>TreeMap</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>添加</p></td>
+<td><p>O(1)*</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+</tr>
+<tr class="row-odd"><td><p>删除</p></td>
+<td><p>O(n)</p></td>
+<td><p>O(1)**</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+</tr>
+<tr class="row-even"><td><p>查找</p></td>
+<td><p>O(n)</p></td>
+<td><p>O(n)</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+</tr>
+<tr class="row-odd"><td><p>随机访问</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(n)</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>O(1)</p></td>
+<td><p>O(log n)</p></td>
+</tr>
+</tbody>
+</table>
+<p>*尾部添加，中间插入O(n)<br />
+**已有迭代器</p>
+</section>
+<section id="id4">
+<h3>选择决策<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>需要键值对？
+├─ 是 → 需要排序？
+│  ├─ 是 → TreeMap
+│  └─ 否 → HashMap（首选）
+└─ 否 → 需要去重？
+   ├─ 是 → 需要排序？
+   │  ├─ 是 → TreeSet
+   │  └─ 否 → HashSet
+   └─ 否 → 需要随机访问？
+      ├─ 是 → ArrayList（首选）
+      └─ 否 → 需要队列？
+         ├─ 是 → ArrayDeque
+         └─ 否 → 频繁插入删除？
+            └─ 是 → LinkedList
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>场景匹配<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p><strong>ArrayList：</strong></p>
+<ul class="simple">
+<li><p>默认List实现</p></li>
+<li><p>查询多，修改少</p></li>
+<li><p>顺序访问</p></li>
+</ul>
+<p><strong>LinkedList：</strong></p>
+<ul class="simple">
+<li><p>频繁头尾操作</p></li>
+<li><p>需要队列/栈</p></li>
+<li><p>中间插入删除多</p></li>
+</ul>
+<p><strong>HashSet：</strong></p>
+<ul class="simple">
+<li><p>去重</p></li>
+<li><p>快速查找</p></li>
+<li><p>不关心顺序</p></li>
+</ul>
+<p><strong>TreeSet：</strong></p>
+<ul class="simple">
+<li><p>需要排序</p></li>
+<li><p>范围查询</p></li>
+</ul>
+<p><strong>HashMap（最常用Map）：</strong></p>
+<ul class="simple">
+<li><p>键值存储</p></li>
+<li><p>快速查找</p></li>
+<li><p>不需要排序</p></li>
+</ul>
+<p><strong>TreeMap：</strong></p>
+<ul class="simple">
+<li><p>需要按键排序</p></li>
+<li><p>范围查询</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>集合常见陷阱<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. 遍历时修改集合</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
+
+<span class="c1">// ❌ ConcurrentModificationException</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">list</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">num</span><span class="p">);</span><span class="w">  </span><span class="c1">// 抛出异常！</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 使用迭代器</span>
+<span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">iterator</span><span class="p">();</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="na">next</span><span class="p">()</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">it</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span><span class="w">  </span><span class="c1">// 安全删除</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ removeIf（Java 8+）</span>
+<span class="n">list</span><span class="p">.</span><span class="na">removeIf</span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// 2. HashMap的key必须重写equals和hashCode</span>
+<span class="kd">class</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// 如果不重写hashCode，相同name的Person会被认为不同</span>
+<span class="p">}</span>
+
+<span class="c1">// 3. 泛型擦除导致的问题</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">list1</span><span class="p">.</span><span class="na">getClass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">list2</span><span class="p">.</span><span class="na">getClass</span><span class="p">();</span><span class="w">  </span><span class="c1">// true！运行时都是ArrayList</span>
+
+<span class="c1">// 4. Arrays.asList返回固定大小List</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="c1">// list.add(4);  // UnsupportedOperationException</span>
+
+<span class="c1">// ✅ 转换为可变List</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>集合性能优化<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 1. 预分配容量</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span><span class="w">  </span><span class="c1">// 避免扩容</span>
+
+<span class="c1">// 2. HashMap初始容量和负载因子</span>
+<span class="c1">// 容量 = 预期元素数 / 负载因子</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mf">0.75f</span><span class="p">);</span>
+
+<span class="c1">// 3. 批量操作</span>
+<span class="n">list</span><span class="p">.</span><span class="na">addAll</span><span class="p">(</span><span class="n">anotherList</span><span class="p">);</span><span class="w">  </span><span class="c1">// 优于逐个add</span>
+
+<span class="c1">// 4. 使用原始类型流避免装箱</span>
+<span class="n">list</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">mapToInt</span><span class="p">(</span><span class="n">Integer</span><span class="p">::</span><span class="n">intValue</span><span class="p">)</span><span class="w">  </span><span class="c1">// IntStream，避免装箱</span>
+<span class="w">    </span><span class="p">.</span><span class="na">sum</span><span class="p">();</span>
+
+<span class="c1">// 5. EnumSet/EnumMap（枚举类型）</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">Day</span><span class="o">&gt;</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EnumSet</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">MONDAY</span><span class="p">,</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">FRIDAY</span><span class="p">);</span><span class="w">  </span><span class="c1">// 极高效</span>
+
+<span class="c1">// 6. 只读场景用List.of（Java 9+）</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">immutable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 不可变，内存优化</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>比较器<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="comparable">
+<h3>Comparable接口<a class="headerlink" href="#comparable" title="Link to this heading"></a></h3>
+<p>对象自然排序。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">score</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">compareTo</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">other</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">compare</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">score</span><span class="p">,</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="na">score</span><span class="p">);</span><span class="w">  </span><span class="c1">// 按分数排序</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">students</span><span class="p">);</span><span class="w">  </span><span class="c1">// 使用compareTo</span>
+</pre></div>
+</div>
+</section>
+<section id="comparator">
+<h3>Comparator接口<a class="headerlink" href="#comparator" title="Link to this heading"></a></h3>
+<p>自定义排序规则。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// 匿名类</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="na">getName</span><span class="p">().</span><span class="na">compareTo</span><span class="p">(</span><span class="n">s2</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Lambda</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">compare</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="na">getScore</span><span class="p">(),</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="na">getScore</span><span class="p">());</span>
+
+<span class="c1">// 方法引用</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byName2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Comparator</span><span class="p">.</span><span class="na">comparing</span><span class="p">(</span><span class="n">Student</span><span class="p">::</span><span class="n">getName</span><span class="p">);</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byScore2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Comparator</span><span class="p">.</span><span class="na">comparingInt</span><span class="p">(</span><span class="n">Student</span><span class="p">::</span><span class="n">getScore</span><span class="p">);</span>
+
+<span class="c1">// 组合比较器</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">combined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Comparator</span>
+<span class="w">    </span><span class="p">.</span><span class="na">comparingInt</span><span class="p">(</span><span class="n">Student</span><span class="p">::</span><span class="n">getScore</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">thenComparing</span><span class="p">(</span><span class="n">Student</span><span class="p">::</span><span class="n">getName</span><span class="p">);</span><span class="w">  </span><span class="c1">// 分数相同按姓名</span>
+
+<span class="c1">// 使用</span>
+<span class="n">students</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">byScore</span><span class="p">);</span>
+<span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">students</span><span class="p">,</span><span class="w"> </span><span class="n">byName</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>最佳实践<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>优先接口类型声明</strong>：<code class="docutils literal notranslate"><span class="pre">List&lt;String&gt;</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">ArrayList&lt;&gt;();</span></code></p></li>
+<li><p><strong>预分配容量</strong>：已知大小时避免扩容</p></li>
+<li><p><strong>使用泛型</strong>：类型安全</p></li>
+<li><p><strong>重写equals/hashCode</strong>：用作HashMap的key必须重写</p></li>
+<li><p><strong>不可变集合</strong>：多线程共享用<code class="docutils literal notranslate"><span class="pre">Collections.unmodifiable</span></code>或<code class="docutils literal notranslate"><span class="pre">List.of()</span></code></p></li>
+<li><p><strong>迭代器删除</strong>：遍历时修改用迭代器</p></li>
+<li><p><strong>Stream API处理</strong>：链式调用更清晰</p></li>
+<li><p><strong>选对容器</strong>：90%场景ArrayList+HashMap够用</p></li>
+<li><p><strong>EnumSet/EnumMap</strong>：枚举类型首选</p></li>
+<li><p><strong>避免null值</strong>：用Optional或空集合</p></li>
+</ol>
+<p><strong>核心：</strong> 选择合适的集合类型是性能和可读性的基础。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="03-oop.html" class="btn btn-neutral float-left" title="03-Java面向对象" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="05-multithreading.html" class="btn btn-neutral float-right" title="05-Java多线程编程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,886 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>05-Java多线程编程 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="06-Java IO流" href="06-io.html" />
+    <link rel="prev" title="04-Java集合框架" href="04-collections.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp/index.html">C++ 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Java 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">Java 后端开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-environment-setup.html">01-环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-oop.html">03-面向对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-collections.html">04-集合框架</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">05-多线程编程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">线程创建</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#thread">方式1：继承Thread类</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runnable">方式2：实现Runnable接口（推荐）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#callable">方式3：实现Callable接口</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">线程状态</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">线程控制</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">线程同步</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#synchronized">synchronized关键字</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lock">Lock接口</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#readwritelock">ReadWriteLock</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">线程通信</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wait-notify">wait/notify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#condition">Condition</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">线程池</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#executors">Executors工厂方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#threadpoolexecutor">ThreadPoolExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#completablefuture-java-8">CompletableFuture（Java 8+）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">并发集合</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#concurrenthashmap">ConcurrentHashMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#copyonwritearraylist">CopyOnWriteArrayList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blockingqueue">BlockingQueue</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">原子类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#atomicinteger">AtomicInteger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">其他原子类</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">常见并发问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">死锁</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">线程安全问题</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#volatile">volatile关键字</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#threadlocal">ThreadLocal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">最佳实践</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">线程池配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">并发编程原则</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">并发工具类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#countdownlatch">CountDownLatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cyclicbarrier">CyclicBarrier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#semaphore">Semaphore</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="06-io.html">06-IO流</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Java 教程</a></li>
+      <li class="breadcrumb-item active">05-Java多线程编程</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/java/05-multithreading.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="java">
+<h1>05-Java多线程编程<a class="headerlink" href="#java" title="Link to this heading"></a></h1>
+<p>多线程是Java的核心特性，JVM级别支持，API丰富。合理使用多线程可充分利用多核CPU。</p>
+<section id="id1">
+<h2>线程创建<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="thread">
+<h3>方式1：继承Thread类<a class="headerlink" href="#thread" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyThread</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread running: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="n">MyThread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyThread</span><span class="p">();</span>
+<span class="n">t</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">  </span><span class="c1">// 启动线程（不是t.run()！）</span>
+</pre></div>
+</div>
+</section>
+<section id="runnable">
+<h3>方式2：实现Runnable接口（推荐）<a class="headerlink" href="#runnable" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyRunnable</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Runnable running&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="n">Thread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MyRunnable</span><span class="p">());</span>
+<span class="n">t</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+
+<span class="c1">// Lambda（Java 8+）</span>
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Lambda thread&quot;</span><span class="p">)).</span><span class="na">start</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="callable">
+<h3>方式3：实现Callable接口<a class="headerlink" href="#callable" title="Link to this heading"></a></h3>
+<p>支持返回值和抛出异常。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyCallable</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="nf">call</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newSingleThreadExecutor</span><span class="p">();</span>
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MyCallable</span><span class="p">());</span>
+
+<span class="n">Integer</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w">  </span><span class="c1">// 阻塞等待结果</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>线程状态<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>NEW（新建）
+  ↓ start()
+RUNNABLE（可运行）
+  ↓ 获取锁/IO完成
+RUNNING（运行）
+  ↓ sleep/wait/阻塞IO
+BLOCKED/WAITING/TIMED_WAITING（阻塞/等待）
+  ↓ run()结束
+TERMINATED（终止）
+</pre></div>
+</div>
+<section id="id3">
+<h3>线程控制<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Thread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">  </span><span class="c1">// 休眠1秒</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="n">t</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">                  </span><span class="c1">// 启动</span>
+<span class="n">t</span><span class="p">.</span><span class="na">join</span><span class="p">();</span><span class="w">                   </span><span class="c1">// 等待线程结束</span>
+<span class="n">t</span><span class="p">.</span><span class="na">interrupt</span><span class="p">();</span><span class="w">              </span><span class="c1">// 中断线程</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">alive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">isAlive</span><span class="p">();</span><span class="w"> </span><span class="c1">// 是否存活</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>线程同步<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="synchronized">
+<h3>synchronized关键字<a class="headerlink" href="#synchronized" title="Link to this heading"></a></h3>
+<p>Java最基本的同步机制，保证互斥访问。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 同步方法</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 同步块</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">decrement</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">count</span><span class="o">--</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 静态同步方法（锁类对象）</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">staticMethod</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>锁对象：</strong></p>
+<ul class="simple">
+<li><p>实例方法：锁this</p></li>
+<li><p>静态方法：锁Class对象</p></li>
+<li><p>同步块：锁指定对象</p></li>
+</ul>
+</section>
+<section id="lock">
+<h3>Lock接口<a class="headerlink" href="#lock" title="Link to this heading"></a></h3>
+<p>比synchronized更灵活，可中断、可超时、可尝试获取。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Lock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span><span class="w">  </span><span class="c1">// 必须在finally中释放</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 尝试获取锁</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">tryIncrement</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">.</span><span class="na">tryLock</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 超时获取</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">incrementWithTimeout</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">.</span><span class="na">tryLock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="readwritelock">
+<h3>ReadWriteLock<a class="headerlink" href="#readwritelock" title="Link to this heading"></a></h3>
+<p>读写分离锁，读多写少场景性能优于普通锁。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Cache</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ReadWriteLock</span><span class="w"> </span><span class="n">rwLock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantReadWriteLock</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Lock</span><span class="w"> </span><span class="n">readLock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rwLock</span><span class="p">.</span><span class="na">readLock</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Lock</span><span class="w"> </span><span class="n">writeLock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rwLock</span><span class="p">.</span><span class="na">writeLock</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 读操作（多个线程可同时读）</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">readLock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">cache</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">readLock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// 写操作（独占）</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">writeLock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cache</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">writeLock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>线程通信<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="wait-notify">
+<h3>wait/notify<a class="headerlink" href="#wait-notify" title="Link to this heading"></a></h3>
+<p>Object类的方法，必须在synchronized块中使用。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProducerConsumer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">produce</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">wait</span><span class="p">();</span><span class="w">  </span><span class="c1">// 队列满，等待</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">queue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Produced: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+<span class="w">        </span><span class="n">notifyAll</span><span class="p">();</span><span class="w">  </span><span class="c1">// 通知消费者</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">consume</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">wait</span><span class="p">();</span><span class="w">  </span><span class="c1">// 队列空，等待</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Consumed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+<span class="w">        </span><span class="n">notifyAll</span><span class="p">();</span><span class="w">  </span><span class="c1">// 通知生产者</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="condition">
+<h3>Condition<a class="headerlink" href="#condition" title="Link to this heading"></a></h3>
+<p>Lock配套的等待/通知机制，比wait/notify更灵活。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BoundedBuffer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Lock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Condition</span><span class="w"> </span><span class="n">notFull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">newCondition</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Condition</span><span class="w"> </span><span class="n">notEmpty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">newCondition</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">notFull</span><span class="p">.</span><span class="na">await</span><span class="p">();</span><span class="w">  </span><span class="c1">// 等待不满</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">queue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="w">            </span><span class="n">notEmpty</span><span class="p">.</span><span class="na">signal</span><span class="p">();</span><span class="w">  </span><span class="c1">// 通知不空</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">take</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">notEmpty</span><span class="p">.</span><span class="na">await</span><span class="p">();</span><span class="w">  </span><span class="c1">// 等待不空</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">            </span><span class="n">notFull</span><span class="p">.</span><span class="na">signal</span><span class="p">();</span><span class="w">  </span><span class="c1">// 通知不满</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>线程池<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<p>线程创建销毁开销大，线程池复用线程，提高性能。</p>
+<section id="executors">
+<h3>Executors工厂方法<a class="headerlink" href="#executors" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="c1">// 固定线程数</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">// 单线程</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newSingleThreadExecutor</span><span class="p">();</span>
+
+<span class="c1">// 缓存线程池（自动扩缩容）</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">cached</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newCachedThreadPool</span><span class="p">();</span>
+
+<span class="c1">// 定时任务</span>
+<span class="n">ScheduledExecutorService</span><span class="w"> </span><span class="n">scheduled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newScheduledThreadPool</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// 提交任务</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task&quot;</span><span class="p">));</span>
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">42</span><span class="p">);</span>
+
+<span class="c1">// 关闭</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span><span class="w">  </span><span class="c1">// 不接受新任务，等待已提交任务完成</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">shutdownNow</span><span class="p">();</span><span class="w">  </span><span class="c1">// 尝试中断所有任务</span>
+</pre></div>
+</div>
+</section>
+<section id="threadpoolexecutor">
+<h3>ThreadPoolExecutor<a class="headerlink" href="#threadpoolexecutor" title="Link to this heading"></a></h3>
+<p>手动配置线程池参数，更灵活。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">ThreadPoolExecutor</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">5</span><span class="p">,</span><span class="w">                      </span><span class="c1">// 核心线程数</span>
+<span class="w">    </span><span class="mi">10</span><span class="p">,</span><span class="w">                     </span><span class="c1">// 最大线程数</span>
+<span class="w">    </span><span class="mi">60L</span><span class="p">,</span><span class="w">                    </span><span class="c1">// 空闲线程存活时间</span>
+<span class="w">    </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">,</span><span class="w">       </span><span class="c1">// 时间单位</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span><span class="w">  </span><span class="c1">// 工作队列</span>
+<span class="w">    </span><span class="n">Executors</span><span class="p">.</span><span class="na">defaultThreadFactory</span><span class="p">(),</span><span class="w">  </span><span class="c1">// 线程工厂</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">.</span><span class="na">CallerRunsPolicy</span><span class="p">()</span><span class="w">  </span><span class="c1">// 拒绝策略</span>
+<span class="p">);</span>
+
+<span class="c1">// 拒绝策略：</span>
+<span class="c1">// - AbortPolicy：抛异常（默认）</span>
+<span class="c1">// - CallerRunsPolicy：调用线程执行</span>
+<span class="c1">// - DiscardPolicy：丢弃</span>
+<span class="c1">// - DiscardOldestPolicy：丢弃最老任务</span>
+</pre></div>
+</div>
+</section>
+<section id="completablefuture-java-8">
+<h3>CompletableFuture（Java 8+）<a class="headerlink" href="#completablefuture-java-8" title="Link to this heading"></a></h3>
+<p>异步编程增强，支持链式调用和组合。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.CompletableFuture</span><span class="p">;</span>
+
+<span class="c1">// 异步执行</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">runAsync</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Async task&quot;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 异步计算</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// 链式调用</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; World&quot;</span><span class="p">)</span><span class="w">       </span><span class="c1">// 转换</span>
+<span class="w">    </span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">String</span><span class="p">::</span><span class="n">toUpperCase</span><span class="p">)</span><span class="w">     </span><span class="c1">// 再转换</span>
+<span class="w">    </span><span class="p">.</span><span class="na">exceptionally</span><span class="p">(</span><span class="n">ex</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;Error&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// 异常处理</span>
+
+<span class="c1">// 组合多个Future</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">combined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f1</span><span class="p">.</span><span class="na">thenCombine</span><span class="p">(</span><span class="n">f2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">combined</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w">  </span><span class="c1">// 30</span>
+
+<span class="c1">// 等待所有完成</span>
+<span class="n">CompletableFuture</span><span class="p">.</span><span class="na">allOf</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="w"> </span><span class="n">f2</span><span class="p">).</span><span class="na">join</span><span class="p">();</span>
+
+<span class="c1">// 等待任一完成</span>
+<span class="n">CompletableFuture</span><span class="p">.</span><span class="na">anyOf</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="w"> </span><span class="n">f2</span><span class="p">).</span><span class="na">join</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>并发集合<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="concurrenthashmap">
+<h3>ConcurrentHashMap<a class="headerlink" href="#concurrenthashmap" title="Link to this heading"></a></h3>
+<p>线程安全的HashMap，分段锁实现，性能优于Hashtable。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
+
+<span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 原子操作</span>
+<span class="n">map</span><span class="p">.</span><span class="na">putIfAbsent</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">computeIfPresent</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="na">merge</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="p">::</span><span class="n">sum</span><span class="p">);</span><span class="w">  </span><span class="c1">// 原子计数</span>
+
+<span class="c1">// 不需要额外同步</span>
+</pre></div>
+</div>
+</section>
+<section id="copyonwritearraylist">
+<h3>CopyOnWriteArrayList<a class="headerlink" href="#copyonwritearraylist" title="Link to this heading"></a></h3>
+<p>写时复制，适合读多写少。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.CopyOnWriteArrayList</span><span class="p">;</span>
+
+<span class="n">CopyOnWriteArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CopyOnWriteArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// 写操作：复制整个数组</span>
+<span class="n">list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;item&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 加锁，复制数组，添加元素</span>
+
+<span class="c1">// 读操作：无锁，快照读取</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 不会ConcurrentModificationException</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="blockingqueue">
+<h3>BlockingQueue<a class="headerlink" href="#blockingqueue" title="Link to this heading"></a></h3>
+<p>阻塞队列，线程安全，支持阻塞操作。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayBlockingQueue</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// 生产者</span>
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">queue</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">  </span><span class="c1">// 队列满时阻塞</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+
+<span class="c1">// 消费者</span>
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Integer</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">take</span><span class="p">();</span><span class="w">  </span><span class="c1">// 队列空时阻塞</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Consumed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>原子类<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="atomicinteger">
+<h3>AtomicInteger<a class="headerlink" href="#atomicinteger" title="Link to this heading"></a></h3>
+<p>无锁线程安全的整数，基于CAS（Compare-And-Swap）。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.atomic.AtomicInteger</span><span class="p">;</span>
+
+<span class="n">AtomicInteger</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// 原子操作</span>
+<span class="n">count</span><span class="p">.</span><span class="na">incrementAndGet</span><span class="p">();</span><span class="w">  </span><span class="c1">// ++count</span>
+<span class="n">count</span><span class="p">.</span><span class="na">decrementAndGet</span><span class="p">();</span><span class="w">  </span><span class="c1">// --count</span>
+<span class="n">count</span><span class="p">.</span><span class="na">addAndGet</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">       </span><span class="c1">// count += 5</span>
+<span class="n">count</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w">  </span><span class="c1">// CAS</span>
+
+<span class="c1">// 性能：无锁 &gt; synchronized</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>其他原子类<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">AtomicLong</span><span class="w">               </span><span class="c1">// 长整型</span>
+<span class="n">AtomicBoolean</span><span class="w">            </span><span class="c1">// 布尔型</span>
+<span class="n">AtomicReference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w">       </span><span class="c1">// 引用类型</span>
+<span class="n">AtomicIntegerArray</span><span class="w">       </span><span class="c1">// 整数数组</span>
+<span class="n">AtomicReferenceArray</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w">  </span><span class="c1">// 引用数组</span>
+<span class="n">LongAdder</span><span class="w">                </span><span class="c1">// 高并发计数（比AtomicLong更快）</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>常见并发问题<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>死锁<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 死锁示例</span>
+<span class="n">Object</span><span class="w"> </span><span class="n">lock1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
+<span class="n">Object</span><span class="w"> </span><span class="n">lock2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 等待lock2</span>
+<span class="w">            </span><span class="c1">// ...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 等待lock1（死锁！）</span>
+<span class="w">            </span><span class="c1">// ...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+
+<span class="c1">// ✅ 解决：固定加锁顺序</span>
+<span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 两个线程都按相同顺序加锁</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>线程安全问题<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 非线程安全</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UnsafeCounter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w">  </span><span class="c1">// 非原子：读-改-写</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 同步方法</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 原子类</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">count</span><span class="p">.</span><span class="na">incrementAndGet</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ volatile（仅可见性，不保证原子性）</span>
+<span class="kd">private</span><span class="w"> </span><span class="kd">volatile</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setFlag</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">  </span><span class="c1">// 简单赋值可用volatile</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="volatile">
+<h2>volatile关键字<a class="headerlink" href="#volatile" title="Link to this heading"></a></h2>
+<p>保证可见性和有序性，但不保证原子性。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">VolatileExample</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">volatile</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">running</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 其他线程修改running立即可见</span>
+<span class="w">            </span><span class="c1">// ...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">  </span><span class="c1">// 修改对所有线程可见</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>使用场景：</strong></p>
+<ul class="simple">
+<li><p>状态标志</p></li>
+<li><p>双重检查锁的单例</p></li>
+<li><p>读多写少的变量</p></li>
+</ul>
+<p><strong>注意：</strong> <code class="docutils literal notranslate"><span class="pre">i++</span></code> 等复合操作即使用volatile也不是线程安全的。</p>
+</section>
+<section id="threadlocal">
+<h2>ThreadLocal<a class="headerlink" href="#threadlocal" title="Link to this heading"></a></h2>
+<p>线程局部变量，每个线程独立副本。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ThreadLocalExample</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">threadLocal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ThreadLocal</span><span class="p">.</span><span class="na">withInitial</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">threadLocal</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread 1: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">threadLocal</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">  </span><span class="c1">// 10</span>
+<span class="w">        </span><span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">threadLocal</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread 2: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">threadLocal</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">  </span><span class="c1">// 20</span>
+<span class="w">        </span><span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>使用场景：</strong></p>
+<ul class="simple">
+<li><p>数据库连接</p></li>
+<li><p>用户Session</p></li>
+<li><p>SimpleDateFormat（非线程安全，用ThreadLocal包装）</p></li>
+</ul>
+<p><strong>注意：</strong> 线程池环境必须手动清理，否则内存泄漏。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">threadLocal</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// 使用</span>
+<span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">threadLocal</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span><span class="w">  </span><span class="c1">// 清理</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h2>最佳实践<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>线程池配置<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// CPU密集型：线程数 = CPU核心数 + 1</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">cpuCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Runtime</span><span class="p">.</span><span class="na">getRuntime</span><span class="p">().</span><span class="na">availableProcessors</span><span class="p">();</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">cpuBound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="n">cpuCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// IO密集型：线程数 = 2 * CPU核心数</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">ioBound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="n">cpuCount</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// 自定义线程池（推荐）</span>
+<span class="n">ThreadPoolExecutor</span><span class="w"> </span><span class="n">custom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">60L</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">,</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadFactory</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="nd">@Override</span>
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="nf">newThread</span><span class="p">(</span><span class="n">Runnable</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Thread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">            </span><span class="n">t</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Worker-&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">count</span><span class="p">.</span><span class="na">incrementAndGet</span><span class="p">());</span>
+<span class="w">            </span><span class="n">t</span><span class="p">.</span><span class="na">setDaemon</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">.</span><span class="na">CallerRunsPolicy</span><span class="p">()</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>并发编程原则<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>优先使用并发集合</strong>：ConcurrentHashMap &gt; Hashtable</p></li>
+<li><p><strong>优先使用线程池</strong>：复用线程，避免频繁创建</p></li>
+<li><p><strong>最小化锁范围</strong>：只锁必要的代码</p></li>
+<li><p><strong>避免嵌套锁</strong>：易死锁</p></li>
+<li><p><strong>用final减少可见性问题</strong>：不变对象天然线程安全</p></li>
+<li><p><strong>优先无锁方案</strong>：原子类 &gt; synchronized</p></li>
+<li><p><strong>读写分离</strong>：ReadWriteLock适合读多写少</p></li>
+<li><p><strong>CompletableFuture异步</strong>：替代手动线程管理</p></li>
+<li><p><strong>ThreadLocal注意清理</strong>：线程池环境避免泄漏</p></li>
+<li><p><strong>充分测试</strong>：并发Bug难复现</p></li>
+</ol>
+<p><strong>核心：</strong> 能不用多线程就不用；必须用就用高层API；手写就加倍小心。</p>
+</section>
+</section>
+<section id="id16">
+<h2>并发工具类<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="countdownlatch">
+<h3>CountDownLatch<a class="headerlink" href="#countdownlatch" title="Link to this heading"></a></h3>
+<p>等待多个线程完成。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">CountDownLatch</span><span class="w"> </span><span class="n">latch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CountDownLatch</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 执行任务</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task done&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">latch</span><span class="p">.</span><span class="na">countDown</span><span class="p">();</span><span class="w">  </span><span class="c1">// 计数减1</span>
+<span class="w">    </span><span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">latch</span><span class="p">.</span><span class="na">await</span><span class="p">();</span><span class="w">  </span><span class="c1">// 等待计数归0</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;All tasks completed&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="cyclicbarrier">
+<h3>CyclicBarrier<a class="headerlink" href="#cyclicbarrier" title="Link to this heading"></a></h3>
+<p>多线程同步点，所有线程到达后一起继续。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">CyclicBarrier</span><span class="w"> </span><span class="n">barrier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CyclicBarrier</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;All threads reached barrier&quot;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread waiting at barrier&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">barrier</span><span class="p">.</span><span class="na">await</span><span class="p">();</span><span class="w">  </span><span class="c1">// 等待其他线程</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread continues&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="semaphore">
+<h3>Semaphore<a class="headerlink" href="#semaphore" title="Link to this heading"></a></h3>
+<p>信号量，控制同时访问的线程数。</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Semaphore</span><span class="w"> </span><span class="n">semaphore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w">  </span><span class="c1">// 最多3个线程</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">semaphore</span><span class="p">.</span><span class="na">acquire</span><span class="p">();</span><span class="w">  </span><span class="c1">// 获取许可</span>
+<span class="w">        </span><span class="c1">// 访问资源</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">semaphore</span><span class="p">.</span><span class="na">release</span><span class="p">();</span><span class="w">  </span><span class="c1">// 释放许可</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}).</span><span class="na">start</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>应用：</strong> 限流、连接池、资源访问控制。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="04-collections.html" class="btn btn-neutral float-left" title="04-Java集合框架" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="06-io.html" class="btn btn-neutral float-right" title="06-Java IO流" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

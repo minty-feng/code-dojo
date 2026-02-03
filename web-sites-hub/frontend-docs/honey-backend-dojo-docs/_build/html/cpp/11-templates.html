@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>11-模板编程 &mdash; Backend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Python 教程" href="../python/index.html" />
+    <link rel="prev" title="10-性能优化技术" href="10-performance.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Backend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Backend Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">C++ 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">C++ 后端开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-environment-setup.html">01-编译运行环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-basic-syntax.html">02-CPP基础语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-bitwise.html">03-位运算详解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-oop.html">04-面向对象编程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-stl.html">05-STL标准模板库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-memory.html">06-内存管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-exceptions.html">07-异常处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-concurrency.html">08-并发编程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-networking.html">09-网络编程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-performance.html">10-性能优化技术</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">11-模板编程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">函数模板</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">基本语法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">多参数模板</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">模板特化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">非类型模板参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">类模板</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">基本类模板</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">模板成员函数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">类模板特化</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">模板元编程</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">编译时计算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sfinae">SFINAE（替换失败不是错误）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">类型萃取</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#c-11">变参模板（C++11）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">基本语法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">变参类模板</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">完美转发</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#c-20">概念（C++20）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id17">基本概念</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">约束模板</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">模板实例化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id20">显式实例化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">实例化控制</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">模板调试</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id23">编译错误诊断</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">模板元编程调试</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">SFINAE 与编译期编程</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id26">SFINAE（替换失败不是错误）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#if-constexpr-c-17">if constexpr（C++17）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">编译期计算</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concepts-c-20">Concepts（C++20）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">模板编程最佳实践</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../java/index.html">Java 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nodejs/index.html">Node.js 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go/index.html">Golang 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rust/index.html">Rust 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Backend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">C++ 教程</a></li>
+      <li class="breadcrumb-item active">11-模板编程</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/cpp/11-templates.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>11-模板编程<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>模板是C++泛型编程的基础，实现类型无关的代码。模板在编译期展开，零运行时开销但增加编译时间。</p>
+<section id="id2">
+<h2>函数模板<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>函数模板定义通用算法，适用于多种类型。编译器根据实参自动推导模板参数类型。</p>
+<section id="id3">
+<h3>基本语法<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>函数模板用 <code class="docutils literal notranslate"><span class="pre">template&lt;typename</span> <span class="pre">T&gt;</span></code> 声明。<code class="docutils literal notranslate"><span class="pre">T</span></code> 是类型参数，可用于参数类型、返回类型、局部变量类型。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 函数模板定义</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">T</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">result1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span><span class="w">           </span><span class="c1">// T推导为int</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">result2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span><span class="w"> </span><span class="mf">2.71</span><span class="p">);</span><span class="w">    </span><span class="c1">// T推导为double</span>
+<span class="n">string</span><span class="w"> </span><span class="n">result3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string</span><span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// T推导为string</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>多参数模板<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>模板可以有多个类型参数或非类型参数。不同类型参数间可以互相操作，结果类型用 <code class="docutils literal notranslate"><span class="pre">decltype</span></code> 或 <code class="docutils literal notranslate"><span class="pre">auto</span></code> 推导。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mf">3.14</span><span class="p">);</span><span class="w">  </span><span class="c1">// 返回double</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>模板特化<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>模板特化为特定类型提供定制实现。全特化指定所有模板参数，偏特化指定部分参数。特化优先于通用模板。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 主模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Generic: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 特化版本</span>
+<span class="k">template</span><span class="o">&lt;&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">print</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;String: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="n">print</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span><span class="w">           </span><span class="c1">// 调用主模板</span>
+<span class="n">print</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;hi&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// 调用特化版本</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>非类型模板参数<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="p">[](</span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="mi">10</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">;</span><span class="w">  </span><span class="c1">// 编译时确定大小</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>类模板<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>类模板定义通用数据结构。STL容器都是类模板，如 <code class="docutils literal notranslate"><span class="pre">vector&lt;T&gt;</span></code>、<code class="docutils literal notranslate"><span class="pre">map&lt;K,V&gt;</span></code>。类模板需要显式指定模板参数。</p>
+<section id="id8">
+<h3>基本类模板<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>类模板在类名后用 <code class="docutils literal notranslate"><span class="pre">&lt;T&gt;</span></code> 声明模板参数。成员函数定义需要重复模板声明。模板定义通常放在头文件中。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Stack</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elements</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">push</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">element</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">elements</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">element</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">pop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">elements</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">elements</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">top</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">elements</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">elements</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">elements</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="n">Stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">intStack</span><span class="p">;</span>
+<span class="n">Stack</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">stringStack</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>模板成员函数<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Container</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Processing: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">combine</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Combined: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; + &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="n">Container</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="n">c</span><span class="p">.</span><span class="n">process</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+<span class="n">c</span><span class="p">.</span><span class="n">process</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">));</span>
+<span class="n">c</span><span class="p">.</span><span class="n">combine</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mf">3.14</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>类模板特化<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 主模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Vector</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">T</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">Vector</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="n">data</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="o">~</span><span class="n">Vector</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">delete</span><span class="p">[]</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 特化版本</span>
+<span class="k">template</span><span class="o">&lt;&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">Vector</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="n">data</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="p">[(</span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">])</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="o">~</span><span class="n">Vector</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">delete</span><span class="p">[]</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="p">[](</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">8</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">8</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>模板元编程<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>编译时计算<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 编译时阶乘</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Factorial</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Factorial</span><span class="o">&lt;</span><span class="n">N</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Factorial</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fact5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Factorial</span><span class="o">&lt;</span><span class="mi">5</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span><span class="w">  </span><span class="c1">// 编译时计算为120</span>
+</pre></div>
+</div>
+</section>
+<section id="sfinae">
+<h3>SFINAE（替换失败不是错误）<a class="headerlink" href="#sfinae" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span>
+
+<span class="c1">// 检查类型是否有size()成员函数</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">has_size</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">test</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span><span class="p">().</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">true_type</span><span class="p">{});</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">false_type</span><span class="w"> </span><span class="n">test</span><span class="p">(...);</span>
+<span class="w">    </span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">test</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">::</span><span class="n">value</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">has_size</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;::</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w">  </span><span class="c1">// true</span>
+<span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">has_size</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w">          </span><span class="c1">// false</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>类型萃取<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span>
+
+<span class="c1">// 移除引用</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">remove_reference_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">remove_reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">type</span><span class="p">;</span>
+
+<span class="c1">// 条件类型</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">bool</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">conditional_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">conditional</span><span class="o">&lt;</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">F</span><span class="o">&gt;::</span><span class="n">type</span><span class="p">;</span>
+
+<span class="c1">// 使用</span>
+<span class="n">remove_reference_t</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&amp;&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w">  </span><span class="c1">// a的类型是int</span>
+<span class="n">conditional_t</span><span class="o">&lt;</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span><span class="c1">// b的类型是int</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="c-11">
+<h2>变参模板（C++11）<a class="headerlink" href="#c-11" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>基本语法<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 变参函数模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Args</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="n">Args</span><span class="p">...</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">((</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">args</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">),</span><span class="w"> </span><span class="p">...);</span><span class="w">  </span><span class="c1">// C++17折叠表达式</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="n">print</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2.5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;c&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 输出: 1 2.5 hello c</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>变参类模板<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Types</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tuple</span><span class="p">;</span>
+
+<span class="c1">// 特化：空元组</span>
+<span class="k">template</span><span class="o">&lt;&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tuple</span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="c1">// 特化：非空元组</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Head</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Tail</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tuple</span><span class="o">&lt;</span><span class="n">Head</span><span class="p">,</span><span class="w"> </span><span class="n">Tail</span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">Head</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Tuple</span><span class="o">&lt;</span><span class="n">Tail</span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tail</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">Tuple</span><span class="p">(</span><span class="n">Head</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">Tail</span><span class="p">...</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">head</span><span class="p">(</span><span class="n">h</span><span class="p">),</span><span class="w"> </span><span class="n">tail</span><span class="p">(</span><span class="n">t</span><span class="p">...)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">Head</span><span class="o">&amp;</span><span class="w"> </span><span class="n">getHead</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Tuple</span><span class="o">&lt;</span><span class="n">Tail</span><span class="p">...</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">getTail</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">tail</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>完美转发<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">forwardValue</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">process</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Processing: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="n">forwardValue</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">        </span><span class="c1">// 左值</span>
+<span class="n">forwardValue</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span><span class="w">       </span><span class="c1">// 右值</span>
+<span class="n">forwardValue</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">));</span><span class="w"> </span><span class="c1">// 右值</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="c-20">
+<h2>概念（C++20）<a class="headerlink" href="#c-20" title="Link to this heading"></a></h2>
+<section id="id17">
+<h3>基本概念<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;concepts&gt;</span>
+
+<span class="c1">// 定义概念</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">concept</span><span class="w"> </span><span class="nc">Addable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">requires</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w">  </span><span class="c1">// 必须支持加法</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">concept</span><span class="w"> </span><span class="nc">Printable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">requires</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w">  </span><span class="c1">// 必须可打印</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用概念</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="n">Addable</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="n">T</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="n">Printable</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>约束模板<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;concepts&gt;</span>
+
+<span class="c1">// 约束函数模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">integral</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="n">T</span><span class="w"> </span><span class="n">multiply</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 约束类模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">copyable</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Container</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">Container</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">value</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="n">get</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">multiply</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w">        </span><span class="c1">// OK</span>
+<span class="c1">// auto result2 = multiply(5.0, 3.0); // 错误：不满足integral约束</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>模板实例化<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="id20">
+<h3>显式实例化<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 头文件中的模板定义</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Processing: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 源文件中的显式实例化</span>
+<span class="k">template</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<span class="k">template</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">double</span><span class="p">);</span>
+<span class="k">template</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">string</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>实例化控制<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 防止隐式实例化</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">template</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+
+<span class="c1">// 显式实例化声明</span>
+<span class="k">template</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">double</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>模板调试<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<section id="id23">
+<h3>编译错误诊断<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用static_assert进行编译时检查</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_arithmetic_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;T must be arithmetic type&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Processing: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id24">
+<h3>模板元编程调试<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用typeid获取类型信息</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">debugType</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Type: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">typeid</span><span class="p">(</span><span class="n">T</span><span class="p">).</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用decltype进行类型推导</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">debugDecltype</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Decltype: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">typeid</span><span class="p">(</span><span class="n">type</span><span class="p">).</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id25">
+<h2>SFINAE 与编译期编程<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<section id="id26">
+<h3>SFINAE（替换失败不是错误）<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<p>SFINAE是C++模板的强大特性：模板参数替换失败时不报错，而是尝试其他重载。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span>
+
+<span class="c1">// 示例1：根据类型特性启用不同函数</span>
+<span class="c1">// 只对整数类型启用</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">enable_if</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_integral</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;::</span><span class="n">type</span>
+<span class="n">processInteger</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 只对浮点类型启用</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">enable_if</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_floating_point</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;::</span><span class="n">type</span>
+<span class="n">processFloat</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.5</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">processInteger</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w">      </span><span class="c1">// OK，T=int</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">processFloat</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span><span class="w">   </span><span class="c1">// OK，T=double</span>
+<span class="c1">// processInteger(3.14);          // 编译错误，没有匹配的重载</span>
+
+<span class="c1">// C++17简化写法：std::enable_if_t</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_integral_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="n">processInteger</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="if-constexpr-c-17">
+<h3>if constexpr（C++17）<a class="headerlink" href="#if-constexpr-c-17" title="Link to this heading"></a></h3>
+<p>编译期条件判断，未选中分支不编译，比SFINAE更清晰。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// C++17之前：需要函数重载</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_integral_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_floating_point_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.5</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// C++17：if constexpr</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">T</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_integral_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_floating_point_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.5</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id27">
+<h3>编译期计算<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<p>模板可在编译期执行复杂计算，零运行时开销。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// 编译期计算阶乘</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Factorial</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Factorial</span><span class="o">&lt;</span><span class="n">N</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Factorial</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Factorial</span><span class="o">&lt;</span><span class="mi">5</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span><span class="w">  </span><span class="c1">// 编译期计算得120</span>
+
+<span class="c1">// C++14：constexpr函数（更简洁）</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">result2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">  </span><span class="c1">// 编译期计算</span>
+
+<span class="c1">// 编译期检查数组大小</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="w"> </span><span class="n">N</span><span class="o">&gt;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">isPowerOfTwo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static_assert</span><span class="p">(</span><span class="n">isPowerOfTwo</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Size must be power of 2&quot;</span><span class="p">);</span>
+<span class="c1">// static_assert(isPowerOfTwo&lt;7&gt;(), &quot;&quot;);  // 编译错误！</span>
+</pre></div>
+</div>
+</section>
+<section id="concepts-c-20">
+<h3>Concepts（C++20）<a class="headerlink" href="#concepts-c-20" title="Link to this heading"></a></h3>
+<p>取代SFINAE，提供更清晰的约束表达。</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;concepts&gt;</span>
+
+<span class="c1">// 定义concept</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">concept</span><span class="w"> </span><span class="nc">Numeric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_arithmetic_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// 使用concept约束模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="n">Numeric</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w">  </span><span class="c1">// 只接受数值类型</span>
+<span class="n">T</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 更复杂的concept</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">concept</span><span class="w"> </span><span class="nc">Container</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">requires</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<span class="w">    </span><span class="n">t</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="n">Container</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">printContainer</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">C</span><span class="o">&amp;</span><span class="w"> </span><span class="n">container</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">container</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// concept比SFINAE的优势：</span>
+<span class="c1">// 1. 错误信息更清晰</span>
+<span class="c1">// 2. 语法更简洁</span>
+<span class="c1">// 3. 可以组合和复用</span>
+</pre></div>
+</div>
+</section>
+<section id="id28">
+<h3>模板编程最佳实践<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ 1. 优先使用concept（C++20）或enable_if约束模板</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">requires</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_integral_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w">  </span><span class="c1">// C++20</span>
+<span class="n">T</span><span class="w"> </span><span class="n">square</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// ✅ 2. 使用if constexpr简化代码</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">print</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_pointer_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Pointer: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 3. 模板定义放头文件（或用extern template）</span>
+<span class="c1">// header.h</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">};</span>
+
+<span class="c1">// ✅ 4. 用constexpr代替模板元编程</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 简单清晰</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ❌ 复杂的模板元编程（难读）</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Fact</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Fact</span><span class="o">&lt;</span><span class="n">N</span><span class="mi">-1</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>原则：模板是工具而非目的，优先可读性和简洁性。</strong></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="10-performance.html" class="btn btn-neutral float-left" title="10-性能优化技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../python/index.html" class="btn btn-neutral float-right" title="Python 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

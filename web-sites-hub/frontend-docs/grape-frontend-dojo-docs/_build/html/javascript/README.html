@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📜 JavaScript 核心技术 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="01-ES6+核心特性" href="01-es6-core-features.html" />
+    <link rel="prev" title="JavaScript 教程" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html/index.html">HTML 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">JavaScript 教程</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JavaScript 核心技术</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">🎯 学习目标</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">核心能力</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">技术深度</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">📚 学习路径</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">第一阶段：JavaScript基础</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">第二阶段：进阶特性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">第三阶段：高级应用</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">🎨 技术要点</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">现代语法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">异步处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dom">DOM操作</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">💡 实践建议</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">代码规范</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">性能优化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">最佳实践</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-es6-core-features.html">01-ES6+核心特性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-asynchronous-programming.html">02-异步编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-dom-and-bom.html">03-DOM与BOM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../react/index.html">React 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vue/index.html">Vue 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">JavaScript 教程</a></li>
+      <li class="breadcrumb-item active">📜 JavaScript 核心技术</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/javascript/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="javascript">
+<h1>📜 JavaScript 核心技术<a class="headerlink" href="#javascript" title="Link to this heading"></a></h1>
+<p>JavaScript是前端开发的核心语言，掌握现代JavaScript（ES6+）特性是成为优秀前端工程师的必经之路。</p>
+<section id="id1">
+<h2>🎯 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>核心能力<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>语法基础</strong>：变量、数据类型、运算符、控制流</p></li>
+<li><p><strong>函数编程</strong>：函数声明、箭头函数、闭包、高阶函数</p></li>
+<li><p><strong>面向对象</strong>：原型链、类、继承、封装</p></li>
+<li><p><strong>异步编程</strong>：Promise、async/await、事件循环</p></li>
+<li><p><strong>模块化</strong>：ES6模块、CommonJS、模块打包</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>技术深度<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>ES6+特性</strong>：解构、展开、模板字符串、Symbol等</p></li>
+<li><p><strong>DOM操作</strong>：选择器、事件处理、节点操作</p></li>
+<li><p><strong>异步模式</strong>：回调、Promise、Generator、Async/Await</p></li>
+<li><p><strong>设计模式</strong>：单例、工厂、观察者、发布订阅</p></li>
+</ul>
+</section>
+</section>
+<section id="id4">
+<h2>📚 学习路径<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h3>第一阶段：JavaScript基础<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>基础语法</strong>：变量、数据类型、运算符、控制结构</p></li>
+<li><p><strong>函数与作用域</strong>：函数定义、作用域链、闭包</p></li>
+<li><p><strong>对象与数组</strong>：对象操作、数组方法、解构赋值</p></li>
+</ol>
+</section>
+<section id="id6">
+<h3>第二阶段：进阶特性<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<ol class="arabic simple" start="4">
+<li><p><strong>ES6+新特性</strong>：let/const、箭头函数、Promise、Class</p></li>
+<li><p><strong>异步编程</strong>：回调、Promise、async/await</p></li>
+<li><p><strong>DOM与BOM</strong>：DOM操作、事件处理、浏览器API</p></li>
+</ol>
+</section>
+<section id="id7">
+<h3>第三阶段：高级应用<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<ol class="arabic simple" start="7">
+<li><p><strong>模块化开发</strong>：ES6模块、动态导入、模块打包</p></li>
+<li><p><strong>函数式编程</strong>：纯函数、不可变性、柯里化</p></li>
+<li><p><strong>设计模式</strong>：常用设计模式在JavaScript中的应用</p></li>
+</ol>
+</section>
+</section>
+<section id="id8">
+<h2>🎨 技术要点<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h3>现代语法<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ES6+ 特性</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">];</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">person</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...</span><span class="nx">arr1</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">arr2</span><span class="p">];</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`Hello </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+
+<span class="c1">// 箭头函数</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">b</span><span class="p">;</span>
+
+<span class="c1">// 解构与默认值</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">greet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">({</span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Guest&#39;</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`Hello </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>异步处理<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Promise</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">));</span>
+
+<span class="c1">// Async/Await</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">data</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="dom">
+<h3>DOM操作<a class="headerlink" href="#dom" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 现代选择器</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.class&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">els</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.items&#39;</span><span class="p">);</span>
+
+<span class="c1">// 事件监听</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Clicked!&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 修改DOM</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;New Text&#39;</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;123&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>💡 实践建议<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>代码规范<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>使用const/let代替var</p></li>
+<li><p>优先使用箭头函数</p></li>
+<li><p>使用模板字符串</p></li>
+<li><p>保持代码简洁和可读性</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>性能优化<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>避免不必要的DOM操作</p></li>
+<li><p>使用事件委托</p></li>
+<li><p>防抖和节流</p></li>
+<li><p>合理使用闭包</p></li>
+</ul>
+</section>
+<section id="id14">
+<h3>最佳实践<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>编写纯函数</p></li>
+<li><p>避免全局变量污染</p></li>
+<li><p>使用严格模式</p></li>
+<li><p>适当添加注释</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="JavaScript 教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="01-es6-core-features.html" class="btn btn-neutral float-right" title="01-ES6+核心特性" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,877 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>02-异步编程 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="03-DOM与BOM操作" href="03-dom-and-bom.html" />
+    <link rel="prev" title="01-ES6+核心特性" href="01-es6-core-features.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html/index.html">HTML 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">JavaScript 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">JavaScript 核心技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-es6-core-features.html">01-ES6+核心特性</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">02-异步编程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">📋 学习目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">🔄 事件循环</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">执行模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">任务队列</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">📞 回调函数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">基本回调</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">回调地狱</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#promise">🎁 Promise</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">基本用法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Promise状态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">链式调用</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Promise静态方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Promise实现</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#async-await">🚀 Async/Await</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">基本用法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">错误处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">并发执行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">循环中的异步</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">🔧 实战技巧</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">超时控制</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">重试机制</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">并发限制</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">取消请求</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">缓存Promise</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">📚 实践练习</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id25">练习1：Promise实现</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">练习2：异步工具函数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">练习3：实际应用</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">💡 最佳实践</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">📚 参考资料</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-dom-and-bom.html">03-DOM与BOM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../react/index.html">React 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vue/index.html">Vue 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">JavaScript 教程</a></li>
+      <li class="breadcrumb-item active">02-异步编程</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/javascript/02-asynchronous-programming.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>02-异步编程<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>📋 学习目标<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>理解JavaScript事件循环机制</p></li>
+<li><p>掌握Promise的使用和原理</p></li>
+<li><p>精通async/await异步语法</p></li>
+<li><p>理解并发控制和错误处理</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>🔄 事件循环<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>执行模型<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 同步任务</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">);</span>
+
+<span class="c1">// 宏任务(MacroTask)</span>
+<span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">);</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+
+<span class="c1">// 微任务(MicroTask)</span>
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">().</span><span class="nx">then</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">);</span>
+
+<span class="c1">// 输出顺序：1 4 3 2</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>任务队列<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">执行顺序：</span>
+<span class="cm">1. 同步代码</span>
+<span class="cm">2. 微任务队列(Promise, MutationObserver)</span>
+<span class="cm">3. 宏任务队列(setTimeout, setInterval, I/O)</span>
+<span class="cm">*/</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;script start&#39;</span><span class="p">);</span>
+
+<span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;setTimeout&#39;</span><span class="p">);</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;promise1&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;promise2&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;script end&#39;</span><span class="p">);</span>
+
+<span class="c1">// 输出：</span>
+<span class="c1">// script start</span>
+<span class="c1">// script end</span>
+<span class="c1">// promise1</span>
+<span class="c1">// promise2</span>
+<span class="c1">// setTimeout</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>📞 回调函数<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>基本回调<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 简单回调</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">callback</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="p">});</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">getData</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// Node.js错误优先回调</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>回调地狱<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 回调地狱示例</span>
+<span class="nx">getUser</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">handleError</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">getOrders</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">orders</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">handleError</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">getOrderDetails</span><span class="p">(</span><span class="nx">orders</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">details</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">handleError</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="c1">// 继续嵌套...</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">});</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="promise">
+<h2>🎁 Promise<a class="headerlink" href="#promise" title="Link to this heading"></a></h2>
+<section id="id9">
+<h3>基本用法<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建Promise</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 异步操作</span>
+<span class="w">    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;Success!&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Failed!&#39;</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 使用Promise</span>
+<span class="nx">promise</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">result</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span><span class="w"> </span><span class="c1">// Success!</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;Next value&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">result</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span><span class="w"> </span><span class="c1">// Next value</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="k">finally</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Cleanup&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>Promise状态<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">三种状态：</span>
+<span class="cm">1. pending（进行中）</span>
+<span class="cm">2. fulfilled（已成功）</span>
+<span class="cm">3. rejected（已失败）</span>
+
+<span class="cm">状态只能从pending改变为fulfilled或rejected</span>
+<span class="cm">状态一旦改变就不会再变</span>
+<span class="cm">*/</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;Success&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 立即fulfilled</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Failed&#39;</span><span class="p">));</span><span class="w"> </span><span class="c1">// 立即rejected</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>链式调用<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">getUser</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">resolve</span><span class="p">({</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">});</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">getOrders</span><span class="p">(</span><span class="nx">userId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">resolve</span><span class="p">([{</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">}]);</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// 链式调用</span>
+<span class="nx">getUser</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">user</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;User:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">getOrders</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">orders</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Orders:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">orders</span><span class="p">);</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>Promise静态方法<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Promise.all - 所有成功才成功</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">3</span><span class="p">);</span>
+
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span><span class="nx">p1</span><span class="p">,</span><span class="w"> </span><span class="nx">p2</span><span class="p">,</span><span class="w"> </span><span class="nx">p3</span><span class="p">])</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">results</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span><span class="w"> </span><span class="c1">// [1, 2, 3]</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;One failed:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="c1">// Promise.allSettled - 等待所有完成</span>
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">allSettled</span><span class="p">([</span><span class="nx">p1</span><span class="p">,</span><span class="w"> </span><span class="nx">p2</span><span class="p">,</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)])</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">results</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">results</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">result</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;fulfilled&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Success:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Failed:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">reason</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="c1">// Promise.race - 最快的一个</span>
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">([</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/slow&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Timeout&#39;</span><span class="p">)),</span><span class="w"> </span><span class="mf">3000</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">])</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">result</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">));</span>
+
+<span class="c1">// Promise.any - 任意一个成功</span>
+<span class="nb">Promise</span><span class="p">.</span><span class="nx">any</span><span class="p">([</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/1&#39;</span><span class="p">).</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s1">&#39;API1 failed&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/2&#39;</span><span class="p">).</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s1">&#39;API2 failed&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/3&#39;</span><span class="p">).</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s1">&#39;API3 failed&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">result</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;First success:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">result</span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;All failed&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>Promise实现<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span><span class="w"> </span><span class="nx">MyPromise</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">executor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">undefined</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">reason</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">undefined</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">onFulfilledCallbacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">onRejectedCallbacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">resolve</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;fulfilled&#39;</span><span class="p">;</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">value</span><span class="p">;</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">onFulfilledCallbacks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">fn</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fn</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">reject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">reason</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;rejected&#39;</span><span class="p">;</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">reason</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">reason</span><span class="p">;</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">onRejectedCallbacks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">fn</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fn</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">executor</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">then</span><span class="p">(</span><span class="nx">onFulfilled</span><span class="p">,</span><span class="w"> </span><span class="nx">onRejected</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">onFulfilled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">typeof</span><span class="w"> </span><span class="nx">onFulfilled</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;function&#39;</span><span class="w"> </span>
+<span class="w">            </span><span class="o">?</span><span class="w"> </span><span class="nx">onFulfilled</span><span class="w"> </span>
+<span class="w">            </span><span class="o">:</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">value</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">onRejected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">typeof</span><span class="w"> </span><span class="nx">onRejected</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;function&#39;</span><span class="w"> </span>
+<span class="w">            </span><span class="o">?</span><span class="w"> </span><span class="nx">onRejected</span><span class="w"> </span>
+<span class="w">            </span><span class="o">:</span><span class="w"> </span><span class="nx">reason</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="nx">reason</span><span class="w"> </span><span class="p">};</span>
+<span class="w">            </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">MyPromise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;fulfilled&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">onFulfilled</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">                        </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">});</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;rejected&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">onRejected</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">reason</span><span class="p">);</span>
+<span class="w">                        </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">});</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">onFulfilledCallbacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">onFulfilled</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="w">                            </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="w">                        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">});</span>
+<span class="w">                </span><span class="p">});</span>
+<span class="w">                </span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">onRejectedCallbacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">onRejected</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">reason</span><span class="p">);</span>
+<span class="w">                            </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="w">                        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">});</span>
+<span class="w">                </span><span class="p">});</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="async-await">
+<h2>🚀 Async/Await<a class="headerlink" href="#async-await" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>基本用法<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// async函数返回Promise</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;data&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">getData</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span><span class="w"> </span><span class="c1">// data</span>
+
+<span class="c1">// await等待Promise</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">fetchUser</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/user&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">user</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 等同于</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">fetchUser</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/user&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>错误处理<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// try-catch捕获错误</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">data</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 统一错误处理</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">request</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`HTTP </span><span class="si">${</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">request</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Failed:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 顶层await（ES2022）</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">json</span><span class="p">());</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>并发执行<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 串行执行（慢）</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">sequential</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchUser</span><span class="p">();</span><span class="w">      </span><span class="c1">// 1秒</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">orders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchOrders</span><span class="p">();</span><span class="w">  </span><span class="c1">// 1秒</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">products</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchProducts</span><span class="p">();</span><span class="w"> </span><span class="c1">// 1秒</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">orders</span><span class="p">,</span><span class="w"> </span><span class="nx">products</span><span class="p">};</span><span class="w">     </span><span class="c1">// 总共3秒</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 并发执行（快）</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">concurrent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">orders</span><span class="p">,</span><span class="w"> </span><span class="nx">products</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">        </span><span class="nx">fetchUser</span><span class="p">(),</span>
+<span class="w">        </span><span class="nx">fetchOrders</span><span class="p">(),</span>
+<span class="w">        </span><span class="nx">fetchProducts</span><span class="p">()</span>
+<span class="w">    </span><span class="p">]);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">orders</span><span class="p">,</span><span class="w"> </span><span class="nx">products</span><span class="p">};</span><span class="w">     </span><span class="c1">// 总共1秒</span>
+<span class="p">}</span>
+
+<span class="c1">// 部分依赖</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">partial</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchUser</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// 这两个可以并发</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">orders</span><span class="p">,</span><span class="w"> </span><span class="nx">profile</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">        </span><span class="nx">fetchOrders</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">fetchProfile</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+<span class="w">    </span><span class="p">]);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">orders</span><span class="p">,</span><span class="w"> </span><span class="nx">profile</span><span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>循环中的异步<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ forEach不等待</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">wrong</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">];</span>
+<span class="w">    </span><span class="nx">ids</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchData</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Done&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 会立即执行</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ for...of串行执行</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">serial</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">];</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchData</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Done&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ Promise.all并发执行</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">parallel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">];</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">promises</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ids</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">id</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fetchData</span><span class="p">(</span><span class="nx">id</span><span class="p">));</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">promises</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">results</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Done&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ map + Promise.all</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">mapAsync</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">];</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">ids</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchData</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">processData</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>🔧 实战技巧<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>超时控制<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span><span class="w"> </span><span class="nx">timeout</span><span class="p">(</span><span class="nx">ms</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">reject</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Timeout&#39;</span><span class="p">)),</span><span class="w"> </span><span class="nx">ms</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">fetchWithTimeout</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">([</span>
+<span class="w">        </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">timeout</span><span class="p">(</span><span class="nx">ms</span><span class="p">)</span>
+<span class="w">    </span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetchWithTimeout</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">5000</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Request failed or timeout:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h3>重试机制<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">retry</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="w"> </span><span class="nx">maxAttempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">maxAttempts</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fn</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">maxAttempts</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="nx">error</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Attempt </span><span class="si">${</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="si">}</span><span class="sb"> failed, retrying...`</span><span class="p">);</span>
+<span class="w">            </span><span class="k">await</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">retry</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">),</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">2000</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>并发限制<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span><span class="w"> </span><span class="nx">PromisePool</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">maxConcurrency</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">maxConcurrency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">maxConcurrency</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">currentCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">add</span><span class="p">(</span><span class="nx">promiseFactory</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">currentCount</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">maxConcurrency</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">race</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">queue</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">currentCount</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">promiseFactory</span><span class="p">();</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">queueItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span>
+<span class="w">            </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">queueItem</span><span class="p">),</span>
+<span class="w">            </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">queueItem</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">queue</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">queueItem</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">promise</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">remove</span><span class="p">(</span><span class="nx">promise</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">queue</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">promise</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">queue</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">currentCount</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">pool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PromisePool</span><span class="p">(</span><span class="mf">3</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="mf">7</span><span class="p">,</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span><span class="w"> </span><span class="mf">9</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">];</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">tasks</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">id</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">add</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fetchData</span><span class="p">(</span><span class="nx">id</span><span class="p">)))</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id22">
+<h3>取消请求<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 使用AbortController</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">AbortController</span><span class="p">();</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">signal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">controller</span><span class="p">.</span><span class="nx">signal</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/data&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">signal</span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;AbortError&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Request cancelled&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="c1">// 取消请求</span>
+<span class="nx">controller</span><span class="p">.</span><span class="nx">abort</span><span class="p">();</span>
+
+<span class="c1">// 超时取消</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">fetchWithAbort</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">AbortController</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">timeoutId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">controller</span><span class="p">.</span><span class="nx">abort</span><span class="p">(),</span><span class="w"> </span><span class="nx">timeout</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">signal</span><span class="o">:</span><span class="w"> </span><span class="nx">controller</span><span class="p">.</span><span class="nx">signal</span><span class="p">});</span>
+<span class="w">        </span><span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeoutId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;AbortError&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Request timeout&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="nx">error</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id23">
+<h3>缓存Promise<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">();</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">getCachedData</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">fetcher</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">cache</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cache</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">fetcher</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">userData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getCachedData</span><span class="p">(</span><span class="s1">&#39;user:1&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">fetchUser</span><span class="p">(</span><span class="mf">1</span><span class="p">));</span>
+
+<span class="c1">// 带过期时间的缓存</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">PromiseCache</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">ttl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">ttl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ttl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">fetcher</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">cached</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">cached</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">cached</span><span class="p">.</span><span class="nx">timestamp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">ttl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">cached</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetcher</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">value</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">timestamp</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id24">
+<h2>📚 实践练习<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<section id="id25">
+<h3>练习1：Promise实现<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<p>手动实现：</p>
+<ul class="simple">
+<li><p>Promise.all</p></li>
+<li><p>Promise.race</p></li>
+<li><p>Promise.allSettled</p></li>
+<li><p>Promise.any</p></li>
+</ul>
+</section>
+<section id="id26">
+<h3>练习2：异步工具函数<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<p>实现以下工具：</p>
+<ul class="simple">
+<li><p>带超时的fetch</p></li>
+<li><p>重试机制</p></li>
+<li><p>并发控制</p></li>
+<li><p>请求队列</p></li>
+</ul>
+</section>
+<section id="id27">
+<h3>练习3：实际应用<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<p>创建一个数据获取层：</p>
+<ul class="simple">
+<li><p>支持缓存</p></li>
+<li><p>支持取消</p></li>
+<li><p>支持重试</p></li>
+<li><p>错误处理</p></li>
+</ul>
+</section>
+</section>
+<section id="id28">
+<h2>💡 最佳实践<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>优先使用async/await</strong>而不是Promise链</p></li>
+<li><p><strong>注意Promise.all的失败处理</strong></p></li>
+<li><p><strong>合理使用并发和串行</strong></p></li>
+<li><p><strong>总是处理异步错误</strong></p></li>
+<li><p><strong>避免在循环中使用await</strong>（除非需要串行）</p></li>
+</ol>
+</section>
+<section id="id29">
+<h2>📚 参考资料<a class="headerlink" href="#id29" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise">MDN Promise</a></p></li>
+<li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function">MDN async/await</a></p></li>
+<li><p><a class="reference external" href="https://javascript.info/async">JavaScript异步编程</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01-es6-core-features.html" class="btn btn-neutral float-left" title="01-ES6+核心特性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="03-dom-and-bom.html" class="btn btn-neutral float-right" title="03-DOM与BOM操作" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

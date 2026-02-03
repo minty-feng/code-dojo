@@ -1,0 +1,1005 @@
+# 网络请求与云开发
+
+## 💡 核心结论
+
+1. **wx.request发送HTTP请求，域名需要在后台配置白名单**
+2. **Promise封装wx.request可以使用async/await简化异步代码**
+3. **云开发提供数据库、存储、云函数，无需搭建服务器**
+4. **云数据库支持权限控制和实时推送**
+5. **小程序登录通过code换取openid和session_key**
+
+---
+
+## 1. 网络请求
+
+### 1.1 wx.request基础
+
+```javascript
+//pages/index/index.js
+Page({
+  data: {
+    list: []
+  },
+  
+  onLoad() {
+    this.loadData()
+  },
+  
+  loadData() {
+    wx.showLoading({ title: '加载中' })
+    
+    wx.request({
+      url: 'https://api.example.com/products',
+      method: 'GET',
+      data: {
+        page: 1,
+        size: 10
+      },
+      header: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + wx.getStorageSync('token')
+      },
+      timeout: 10000,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          this.setData({
+            list: res.data.list
+          })
+        } else {
+          wx.showToast({
+            title: '请求失败',
+            icon: 'none'
+          })
+        }
+      },
+      fail: (err) => {
+        console.error('请求失败', err)
+        wx.showToast({
+          title: '网络错误',
+          icon: 'none'
+        })
+      },
+      complete: () => {
+        wx.hideLoading()
+      }
+    })
+  }
+})
+```
+
+### 1.2 Promise封装
+
+```javascript
+// utils/request.js
+const baseURL = 'https://api.example.com'
+
+function request(options) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: baseURL + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      header: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + wx.getStorageSync('token'),
+        ...options.header
+      },
+      success: (res) => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve(res.data)
+        } else {
+          reject(res)
+        }
+      },
+      fail: (err) => {
+        reject(err)
+      }
+    })
+  })
+}
+
+// 封装常用方法
+export const http = {
+  get(url, data = {}) {
+    return request({ url, method: 'GET', data })
+  },
+  
+  post(url, data = {}) {
+    return request({ url, method: 'POST', data })
+  },
+  
+  put(url, data = {}) {
+    return request({ url, method: 'PUT', data })
+  },
+  
+  delete(url, data = {}) {
+    return request({ url, method: 'DELETE', data })
+  }
+}
+```
+
+### 1.3 使用async/await
+
+```javascript
+// pages/index/index.js
+import { http } from '../../utils/request.js'
+
+Page({
+  data: {
+    products: [],
+    page: 1
+  },
+  
+  async onLoad() {
+    await this.loadProducts()
+  },
+  
+  async loadProducts() {
+    try {
+      wx.showLoading({ title: '加载中' })
+      
+      const data = await http.get('/products', {
+        page: this.data.page,
+        size: 10
+      })
+      
+      this.setData({
+        products: data.list
+      })
+    } catch (error) {
+      console.error(error)
+      wx.showToast({
+        title: '加载失败',
+        icon: 'none'
+      })
+    } finally {
+      wx.hideLoading()
+    }
+  },
+  
+  // 上拉加载更多
+  async onReachBottom() {
+    this.setData({
+      page: this.data.page + 1
+    })
+    
+    try {
+      const data = await http.get('/products', {
+        page: this.data.page,
+        size: 10
+      })
+      
+      this.setData({
+        products: [...this.data.products, ...data.list]
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+})
+```
+
+### 1.4 请求拦截器
+
+```javascript
+// utils/request.js
+const baseURL = 'https://api.example.com'
+
+// 请求拦截器
+function requestInterceptor(options) {
+  // 添加token
+  const token = wx.getStorageSync('token')
+  if (token) {
+    options.header = {
+      ...options.header,
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  
+  // 添加时间戳（防止缓存）
+  if (options.method === 'GET') {
+    options.data = {
+      ...options.data,
+      _t: Date.now()
+    }
+  }
+  
+  return options
+}
+
+// 响应拦截器
+function responseInterceptor(res) {
+  // 统一处理响应
+  if (res.statusCode === 200) {
+    // 业务成功
+    if (res.data.code === 0) {
+      return res.data
+    }
+    // 业务失败
+    else {
+      // token过期，重新登录
+      if (res.data.code === 401) {
+        wx.removeStorageSync('token')
+        wx.reLaunch({
+          url: '/pages/login/login'
+        })
+        return Promise.reject(new Error('登录已过期'))
+      }
+      
+      // 其他业务错误
+      wx.showToast({
+        title: res.data.message || '请求失败',
+        icon: 'none'
+      })
+      return Promise.reject(new Error(res.data.message))
+    }
+  }
+  // HTTP错误
+  else {
+    wx.showToast({
+      title: '网络错误',
+      icon: 'none'
+    })
+    return Promise.reject(new Error('网络错误'))
+  }
+}
+
+function request(options) {
+  // 应用请求拦截器
+  options = requestInterceptor(options)
+  
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: baseURL + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      header: {
+        'content-type': 'application/json',
+        ...options.header
+      },
+      success: (res) => {
+        // 应用响应拦截器
+        responseInterceptor(res)
+          .then(resolve)
+          .catch(reject)
+      },
+      fail: (err) => {
+        wx.showToast({
+          title: '网络错误',
+          icon: 'none'
+        })
+        reject(err)
+      }
+    })
+  })
+}
+
+export const http = {
+  get(url, data = {}) {
+    return request({ url, method: 'GET', data })
+  },
+  
+  post(url, data = {}) {
+    return request({ url, method: 'POST', data })
+  }
+}
+```
+
+### 1.5 错误处理
+
+```javascript
+// utils/errorHandler.js
+export const errorHandler = {
+  // 处理网络错误
+  handleNetworkError(error) {
+    if (error.errMsg.includes('timeout')) {
+      wx.showToast({
+        title: '请求超时',
+        icon: 'none'
+      })
+    } else if (error.errMsg.includes('fail')) {
+      wx.showToast({
+        title: '网络连接失败',
+        icon: 'none'
+      })
+    } else {
+      wx.showToast({
+        title: '网络错误',
+        icon: 'none'
+      })
+    }
+  },
+  
+  // 处理业务错误
+  handleBusinessError(code, message) {
+    switch (code) {
+      case 400:
+        wx.showToast({
+          title: message || '请求参数错误',
+          icon: 'none'
+        })
+        break
+      case 401:
+        wx.showToast({
+          title: '登录已过期，请重新登录',
+          icon: 'none'
+        })
+        setTimeout(() => {
+          wx.reLaunch({
+            url: '/pages/login/login'
+          })
+        }, 1500)
+        break
+      case 403:
+        wx.showToast({
+          title: '没有权限',
+          icon: 'none'
+        })
+        break
+      case 404:
+        wx.showToast({
+          title: '资源不存在',
+          icon: 'none'
+        })
+        break
+      case 500:
+        wx.showToast({
+          title: '服务器错误',
+          icon: 'none'
+        })
+        break
+      default:
+        wx.showToast({
+          title: message || '操作失败',
+          icon: 'none'
+        })
+    }
+  }
+}
+
+// 使用
+import { errorHandler } from '../../utils/errorHandler.js'
+
+Page({
+  async loadData() {
+    try {
+      const data = await http.get('/products')
+      this.setData({ products: data.list })
+    } catch (error) {
+      if (error.errMsg) {
+        errorHandler.handleNetworkError(error)
+      } else {
+        errorHandler.handleBusinessError(error.code, error.message)
+      }
+    }
+  }
+})
+```
+
+### 1.6 API接口管理
+
+```javascript
+// api/product.js
+import { http } from '../utils/request.js'
+
+export const productAPI = {
+  // 获取商品列表
+  getList(params) {
+    return http.get('/products', params)
+  },
+  
+  // 获取商品详情
+  getDetail(id) {
+    return http.get(`/products/${id}`)
+  },
+  
+  // 创建商品
+  create(data) {
+    return http.post('/products', data)
+  },
+  
+  // 更新商品
+  update(id, data) {
+    return http.put(`/products/${id}`, data)
+  },
+  
+  // 删除商品
+  delete(id) {
+    return http.delete(`/products/${id}`)
+  }
+}
+
+// 使用
+import { productAPI } from '../../api/product.js'
+
+Page({
+  async loadProducts() {
+    try {
+      const data = await productAPI.getList({ page: 1, size: 10 })
+      this.setData({ products: data.list })
+    } catch (error) {
+      console.error('加载商品失败', error)
+    }
+  }
+})
+```
+
+---
+
+## 2. 用户登录
+
+### 2.1 微信登录流程
+
+```javascript
+// app.js
+App({
+  globalData: {
+    userInfo: null,
+    token: ''
+  },
+  
+  onLaunch() {
+    this.login()
+  },
+  
+  // 登录
+  async login() {
+    try {
+      // 1. 获取code
+      const loginRes = await wx.login()
+      const code = loginRes.code
+      
+      // 2. 发送code到后端
+      const res = await wx.request({
+        url: 'https://api.example.com/login',
+        method: 'POST',
+        data: { code }
+      })
+      
+      // 3. 保存token
+      this.globalData.token = res.data.token
+      wx.setStorageSync('token', res.data.token)
+      
+      // 4. 获取用户信息
+      await this.getUserProfile()
+    } catch (error) {
+      console.error('登录失败', error)
+    }
+  },
+  
+  // 获取用户信息（需要用户授权）
+  async getUserProfile() {
+    try {
+      const res = await wx.getUserProfile({
+        desc: '用于完善会员资料'
+      })
+      
+      this.globalData.userInfo = res.userInfo
+      wx.setStorageSync('userInfo', res.userInfo)
+      
+      // 发送到后端
+      await wx.request({
+        url: 'https://api.example.com/user/profile',
+        method: 'POST',
+        data: res.userInfo,
+        header: {
+          'Authorization': 'Bearer ' + this.globalData.token
+        }
+      })
+    } catch (error) {
+      console.error('获取用户信息失败', error)
+    }
+  }
+})
+```
+
+### 2.2 后端接口（Node.js示例）
+
+```javascript
+// 后端：login接口
+const axios = require('axios')
+const jwt = require('jsonwebtoken')
+
+app.post('/login', async (req, res) => {
+  const { code } = req.body
+  
+  // 1. 用code换取openid和session_key
+  const wechatRes = await axios.get('https://api.weixin.qq.com/sns/jscode2session', {
+    params: {
+      appid: 'your_appid',
+      secret: 'your_secret',
+      js_code: code,
+      grant_type: 'authorization_code'
+    }
+  })
+  
+  const { openid, session_key } = wechatRes.data
+  
+  // 2. 查询或创建用户
+  let user = await User.findOne({ openid })
+  if (!user) {
+    user = await User.create({ openid })
+  }
+  
+  // 3. 生成JWT token
+  const token = jwt.sign(
+    { userId: user.id, openid },
+    'your_secret_key',
+    { expiresIn: '7d' }
+  )
+  
+  res.json({ token, userId: user.id })
+})
+```
+
+---
+
+## 3. 云开发
+
+### 3.1 初始化云开发
+
+```javascript
+// app.js
+App({
+  onLaunch() {
+    // 初始化云开发
+    wx.cloud.init({
+      env: 'your-env-id',  // 云开发环境ID
+      traceUser: true
+    })
+  }
+})
+```
+
+### 3.2 云数据库
+
+**创建数据**：
+```javascript
+// pages/add/add.js
+Page({
+  async onAdd() {
+    const db = wx.cloud.database()
+    
+    try {
+      const res = await db.collection('todos').add({
+        data: {
+          title: '学习小程序',
+          done: false,
+          createTime: db.serverDate()  // 服务器时间
+        }
+      })
+      
+      console.log('添加成功', res._id)
+      wx.showToast({ title: '添加成功' })
+    } catch (error) {
+      console.error('添加失败', error)
+    }
+  }
+})
+```
+
+**查询数据**：
+```javascript
+Page({
+  async loadTodos() {
+    const db = wx.cloud.database()
+    const _ = db.command
+    
+    try {
+      // 简单查询
+      const res = await db.collection('todos')
+        .where({
+          done: false
+        })
+        .orderBy('createTime', 'desc')
+        .limit(20)
+        .get()
+      
+      this.setData({
+        todos: res.data
+      })
+      
+      // 条件查询
+      const res2 = await db.collection('todos')
+        .where({
+          // 等于
+          status: 'active',
+          // 大于
+          score: _.gt(60),
+          // 包含
+          tags: _.in(['work', 'study'])
+        })
+        .get()
+      
+      // 正则匹配
+      const res3 = await db.collection('todos')
+        .where({
+          title: db.RegExp({
+            regexp: '学习',
+            options: 'i'  // 不区分大小写
+          })
+        })
+        .get()
+    } catch (error) {
+      console.error('查询失败', error)
+    }
+  }
+})
+```
+
+**更新数据**：
+```javascript
+Page({
+  async updateTodo(id) {
+    const db = wx.cloud.database()
+    
+    try {
+      await db.collection('todos').doc(id).update({
+        data: {
+          done: true,
+          updateTime: db.serverDate()
+        }
+      })
+      
+      wx.showToast({ title: '更新成功' })
+    } catch (error) {
+      console.error('更新失败', error)
+    }
+  },
+  
+  // 数组操作
+  async addTag(id) {
+    const db = wx.cloud.database()
+    const _ = db.command
+    
+    await db.collection('todos').doc(id).update({
+      data: {
+        tags: _.push(['new-tag'])  // 添加到数组
+      }
+    })
+  }
+})
+```
+
+**删除数据**：
+```javascript
+Page({
+  async deleteTodo(id) {
+    const db = wx.cloud.database()
+    
+    try {
+      await db.collection('todos').doc(id).remove()
+      wx.showToast({ title: '删除成功' })
+    } catch (error) {
+      console.error('删除失败', error)
+    }
+  }
+})
+```
+
+### 3.3 云存储
+
+```javascript
+Page({
+  // 上传图片
+  async uploadImage() {
+    try {
+      // 选择图片
+      const chooseRes = await wx.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+        sourceType: ['album', 'camera']
+      })
+      
+      const filePath = chooseRes.tempFilePaths[0]
+      
+      // 上传到云存储
+      const uploadRes = await wx.cloud.uploadFile({
+        cloudPath: `images/${Date.now()}-${Math.random()}.png`,
+        filePath: filePath
+      })
+      
+      console.log('上传成功', uploadRes.fileID)
+      
+      // 获取临时链接
+      const tempURLRes = await wx.cloud.getTempFileURL({
+        fileList: [uploadRes.fileID]
+      })
+      
+      const imageURL = tempURLRes.fileList[0].tempFileURL
+      this.setData({ imageURL })
+    } catch (error) {
+      console.error('上传失败', error)
+    }
+  },
+  
+  // 下载文件
+  async downloadFile(fileID) {
+    try {
+      const res = await wx.cloud.downloadFile({
+        fileID: fileID
+      })
+      
+      console.log('临时文件路径', res.tempFilePath)
+    } catch (error) {
+      console.error('下载失败', error)
+    }
+  },
+  
+  // 删除文件
+  async deleteFile(fileID) {
+    try {
+      await wx.cloud.deleteFile({
+        fileList: [fileID]
+      })
+      
+      wx.showToast({ title: '删除成功' })
+    } catch (error) {
+      console.error('删除失败', error)
+    }
+  }
+})
+```
+
+### 3.4 云函数
+
+**创建云函数**：
+```javascript
+// cloudfunctions/getProducts/index.js
+const cloud = require('wx-server-sdk')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+
+const db = cloud.database()
+
+exports.main = async (event, context) => {
+  const { page = 1, size = 10 } = event
+  
+  try {
+    // 可以突破小程序端20条的限制
+    const res = await db.collection('products')
+      .skip((page - 1) * size)
+      .limit(size)
+      .orderBy('createTime', 'desc')
+      .get()
+    
+    return {
+      code: 0,
+      data: res.data,
+      total: res.data.length
+    }
+  } catch (error) {
+    return {
+      code: -1,
+      error: error.message
+    }
+  }
+}
+```
+
+**调用云函数**：
+```javascript
+// pages/index/index.js
+Page({
+  async loadProducts() {
+    try {
+      wx.showLoading({ title: '加载中' })
+      
+      const res = await wx.cloud.callFunction({
+        name: 'getProducts',
+        data: {
+          page: 1,
+          size: 20
+        }
+      })
+      
+      if (res.result.code === 0) {
+        this.setData({
+          products: res.result.data
+        })
+      }
+    } catch (error) {
+      console.error('调用失败', error)
+    } finally {
+      wx.hideLoading()
+    }
+  }
+})
+```
+
+---
+
+## 4. WebSocket
+
+```javascript
+// pages/chat/chat.js
+Page({
+  data: {
+    messages: [],
+    socketOpen: false
+  },
+  
+  onLoad() {
+    this.connectWebSocket()
+  },
+  
+  onUnload() {
+    this.closeWebSocket()
+  },
+  
+  // 连接WebSocket
+  connectWebSocket() {
+    wx.connectSocket({
+      url: 'wss://example.com/ws',
+      header: {
+        'Authorization': 'Bearer ' + wx.getStorageSync('token')
+      }
+    })
+    
+    // 连接成功
+    wx.onSocketOpen(() => {
+      console.log('WebSocket连接已打开')
+      this.setData({ socketOpen: true })
+      
+      // 发送心跳
+      this.startHeartbeat()
+    })
+    
+    // 接收消息
+    wx.onSocketMessage((res) => {
+      const message = JSON.parse(res.data)
+      this.setData({
+        messages: [...this.data.messages, message]
+      })
+    })
+    
+    // 连接关闭
+    wx.onSocketClose(() => {
+      console.log('WebSocket连接已关闭')
+      this.setData({ socketOpen: false })
+      
+      // 重连
+      setTimeout(() => {
+        this.connectWebSocket()
+      }, 3000)
+    })
+    
+    // 错误
+    wx.onSocketError((error) => {
+      console.error('WebSocket错误', error)
+    })
+  },
+  
+  // 发送消息
+  sendMessage(content) {
+    if (!this.data.socketOpen) {
+      wx.showToast({
+        title: '连接已断开',
+        icon: 'none'
+      })
+      return
+    }
+    
+    wx.sendSocketMessage({
+      data: JSON.stringify({
+        type: 'message',
+        content: content
+      })
+    })
+  },
+  
+  // 心跳
+  startHeartbeat() {
+    this.heartbeatTimer = setInterval(() => {
+      if (this.data.socketOpen) {
+        wx.sendSocketMessage({
+          data: JSON.stringify({ type: 'ping' })
+        })
+      }
+    }, 30000)  // 30秒
+  },
+  
+  // 关闭连接
+  closeWebSocket() {
+    if (this.heartbeatTimer) {
+      clearInterval(this.heartbeatTimer)
+    }
+    wx.closeSocket()
+  }
+})
+```
+
+---
+
+## 5. 文件操作
+
+### 5.1 图片选择和上传
+
+```javascript
+Page({
+  async chooseAndUpload() {
+    try {
+      // 选择图片
+      const chooseRes = await wx.chooseImage({
+        count: 9,
+        sizeType: ['compressed'],
+        sourceType: ['album', 'camera']
+      })
+      
+      const tempFilePaths = chooseRes.tempFilePaths
+      
+      // 批量上传
+      const uploadPromises = tempFilePaths.map(filePath => {
+        return wx.uploadFile({
+          url: 'https://api.example.com/upload',
+          filePath: filePath,
+          name: 'file',
+          header: {
+            'Authorization': 'Bearer ' + wx.getStorageSync('token')
+          }
+        })
+      })
+      
+      const results = await Promise.all(uploadPromises)
+      
+      const imageUrls = results.map(res => {
+        const data = JSON.parse(res.data)
+        return data.url
+      })
+      
+      this.setData({ images: imageUrls })
+      wx.showToast({ title: '上传成功' })
+    } catch (error) {
+      console.error('上传失败', error)
+    }
+  }
+})
+```
+
+### 5.2 图片预览
+
+```javascript
+Page({
+  previewImage(current) {
+    wx.previewImage({
+      current: current,
+      urls: this.data.images
+    })
+  }
+})
+```
+
+---
+
+## 6. 常见问题
+
+### Q1: 如何配置合法域名？
+**A**: 
+1. 登录小程序后台
+2. 开发 → 开发管理 → 开发设置 → 服务器域名
+3. 配置request、uploadFile、downloadFile、socket域名
+
+### Q2: 云开发和传统后端的区别？
+**A**:
+- **云开发**：无需搭建服务器，按量付费，快速开发
+- **传统后端**：自己搭建，成本高，灵活性强
+
+### Q3: 如何处理并发请求？
+**A**:
+```javascript
+Promise.all([
+  request1(),
+  request2(),
+  request3()
+]).then(results => {
+  // 所有请求完成
+})
+```
+
+---
+
+## 参考资源
+
+- 微信小程序网络API文档
+- 云开发官方文档
+- WebSocket协议规范
+

@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>03-DOM与BOM操作 &mdash; Frontend Tutorial 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="React 教程" href="../react/index.html" />
+    <link rel="prev" title="02-异步编程" href="02-asynchronous-programming.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Frontend Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Frontend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-environment-setup.html">00-环境配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-debugging-techniques.html">01-调试技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-testing-techniques.html">02-测试技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-performance-optimization.html">03-性能优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html/index.html">HTML 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../css/index.html">CSS 教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">JavaScript 教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README.html">JavaScript 核心技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-es6-core-features.html">01-ES6+核心特性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-asynchronous-programming.html">02-异步编程</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">03-DOM与BOM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">📋 学习目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dom">🌳 DOM操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">元素选择</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">元素创建与插入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">元素属性操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">DOM遍历</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">📅 事件处理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">事件监听</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">事件委托</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">常用事件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">自定义事件</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bom">🌐 BOM操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#window">window对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#location">location对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#history">history对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#navigator">navigator对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#screen">screen对象</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">⚡ 性能优化</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">防抖和节流</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#documentfragment">DocumentFragment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#intersectionobserver">IntersectionObserver</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">📚 实践练习</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#todo">练习1：Todo列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">练习2：图片懒加载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">练习3：无限滚动</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">📚 参考资料</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../react/index.html">React 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vue/index.html">Vue 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../angular/index.html">Angular 教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typescript/index.html">TypeScript 教程</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Frontend Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">JavaScript 教程</a></li>
+      <li class="breadcrumb-item active">03-DOM与BOM操作</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/javascript/03-dom-and-bom.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="dombom">
+<h1>03-DOM与BOM操作<a class="headerlink" href="#dombom" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>📋 学习目标<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>掌握DOM操作核心API</p></li>
+<li><p>学习事件处理机制</p></li>
+<li><p>理解BOM浏览器对象</p></li>
+<li><p>掌握性能优化技巧</p></li>
+</ul>
+</section>
+<section id="dom">
+<h2>🌳 DOM操作<a class="headerlink" href="#dom" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>元素选择<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// getElementById</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;myId&#39;</span><span class="p">);</span>
+
+<span class="c1">// querySelector（推荐）</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.class&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;#id&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;[data-id=&quot;123&quot;]&#39;</span><span class="p">);</span>
+
+<span class="c1">// querySelectorAll</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">elements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.items&#39;</span><span class="p">);</span>
+<span class="c1">// 返回NodeList，可以forEach</span>
+<span class="nx">elements</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">el</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">el</span><span class="p">));</span>
+
+<span class="c1">// 转换为数组</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">elements</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...</span><span class="nx">elements</span><span class="p">];</span>
+
+<span class="c1">// 其他选择器（不推荐）</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>元素创建与插入<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建元素</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;container&#39;</span><span class="p">;</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;main&#39;</span><span class="p">;</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Hello&#39;</span><span class="p">;</span>
+
+<span class="c1">// 设置HTML</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;span&gt;Content&lt;/span&gt;&#39;</span><span class="p">;</span>
+
+<span class="c1">// 设置属性</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;123&#39;</span><span class="p">);</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;123&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">// 推荐</span>
+
+<span class="c1">// 插入元素</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">div</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;text&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">anotherElement</span><span class="p">);</span>
+
+<span class="c1">// 在前面插入</span>
+<span class="nx">parent</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">newNode</span><span class="p">,</span><span class="w"> </span><span class="nx">referenceNode</span><span class="p">);</span>
+<span class="nx">parent</span><span class="p">.</span><span class="nx">prepend</span><span class="p">(</span><span class="nx">newNode</span><span class="p">);</span>
+
+<span class="c1">// 在后面插入</span>
+<span class="nx">parent</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span><span class="nx">newNode</span><span class="p">);</span>
+
+<span class="c1">// 替换</span>
+<span class="nx">parent</span><span class="p">.</span><span class="nx">replaceChild</span><span class="p">(</span><span class="nx">newNode</span><span class="p">,</span><span class="w"> </span><span class="nx">oldNode</span><span class="p">);</span>
+
+<span class="c1">// 移除</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="nx">parent</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span>
+
+<span class="c1">// 克隆</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">clone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">element</span><span class="p">.</span><span class="nx">cloneNode</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">  </span><span class="c1">// true表示深拷贝</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>元素属性操作<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 类名操作</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">toggle</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;new&#39;</span><span class="p">);</span>
+
+<span class="c1">// 样式操作</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;red&#39;</span><span class="p">;</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;blue&#39;</span><span class="p">;</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;color: red; font-size: 16px;&#39;</span><span class="p">;</span>
+
+<span class="c1">// 获取计算样式</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">);</span>
+
+<span class="c1">// 属性操作</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;123&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">hasAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">);</span>
+
+<span class="c1">// dataset（推荐）</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">userId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;123&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">// &lt;div data-user-id=&quot;123&quot;&gt;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">userId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">element</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">userId</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>DOM遍历<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 父元素</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">parentElement</span><span class="p">;</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+
+<span class="c1">// 子元素</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">children</span><span class="p">;</span><span class="w">  </span><span class="c1">// HTMLCollection</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span><span class="w">  </span><span class="c1">// NodeList（包含文本节点）</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">firstElementChild</span><span class="p">;</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">lastElementChild</span><span class="p">;</span>
+
+<span class="c1">// 兄弟元素</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">nextElementSibling</span><span class="p">;</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">previousElementSibling</span><span class="p">;</span>
+
+<span class="c1">// 最近的匹配元素</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s1">&#39;.container&#39;</span><span class="p">);</span>
+
+<span class="c1">// 检查包含关系</span>
+<span class="nx">parent</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span>
+
+<span class="c1">// 遍历所有子元素</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">child</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">element</span><span class="p">.</span><span class="nx">children</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>📅 事件处理<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>事件监听<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 添加事件监听</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Clicked!&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 箭头函数（注意this指向）</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 移除事件监听</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Clicked&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">);</span>
+
+<span class="c1">// 只执行一次</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">once</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">});</span>
+
+<span class="c1">// 捕获阶段</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">capture</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">});</span>
+
+<span class="c1">// 阻止默认行为</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="c1">// 阻止冒泡</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>事件委托<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 为每个元素添加监听</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.item&#39;</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">item</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">item</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleClick</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// ✅ 事件委托（推荐）</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.list&#39;</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">matches</span><span class="p">(</span><span class="s1">&#39;.item&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">handleItemClick</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// 实际应用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.todo-list&#39;</span><span class="p">);</span>
+
+<span class="nx">list</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">matches</span><span class="p">(</span><span class="s1">&#39;.delete-btn&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">target</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s1">&#39;.todo-item&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">item</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">target</span><span class="p">.</span><span class="nx">matches</span><span class="p">(</span><span class="s1">&#39;.toggle-btn&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">target</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s1">&#39;.todo-item&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">item</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">toggle</span><span class="p">(</span><span class="s1">&#39;completed&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>常用事件<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 鼠标事件</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;dblclick&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mousedown&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseup&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mousemove&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseenter&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseleave&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseover&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseout&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+
+<span class="c1">// 键盘事件</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keydown&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;Enter&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 处理回车</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">ctrlKey</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// Ctrl+S保存</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keyup&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keypress&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span><span class="w">  </span><span class="c1">// 已废弃</span>
+
+<span class="c1">// 表单事件</span>
+<span class="nx">input</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">input</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">input</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;focus&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">input</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;blur&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nx">form</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// 处理提交</span>
+<span class="p">});</span>
+
+<span class="c1">// 窗口事件</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;load&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span><span class="w">  </span><span class="c1">// 页面完全加载</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span><span class="w">  </span><span class="c1">// DOM加载完成</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;beforeunload&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">e</span><span class="p">.</span><span class="nx">returnValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">// 离开页面提示</span>
+<span class="p">});</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>自定义事件<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 创建自定义事件</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomEvent</span><span class="p">(</span><span class="s1">&#39;myEvent&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="mf">123</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">bubbles</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">cancelable</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">});</span>
+
+<span class="c1">// 监听自定义事件</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;myEvent&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 触发事件</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+
+<span class="c1">// 实际应用：组件通信</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">Component</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">element</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">emit</span><span class="p">(</span><span class="nx">eventName</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomEvent</span><span class="p">(</span><span class="nx">eventName</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">bubbles</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">on</span><span class="p">(</span><span class="nx">eventName</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">eventName</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">comp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Component</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.component&#39;</span><span class="p">));</span>
+<span class="nx">comp</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Updated:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">detail</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">comp</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;new value&#39;</span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bom">
+<h2>🌐 BOM操作<a class="headerlink" href="#bom" title="Link to this heading"></a></h2>
+<section id="window">
+<h3>window对象<a class="headerlink" href="#window" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 窗口尺寸</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 视口宽度</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">;</span><span class="w">  </span><span class="c1">// 视口高度</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">outerWidth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 浏览器窗口宽度</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">outerHeight</span><span class="p">;</span><span class="w">  </span><span class="c1">// 浏览器窗口高度</span>
+
+<span class="c1">// 滚动</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">scrollX</span><span class="p">;</span><span class="w">  </span><span class="c1">// 水平滚动距离</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">scrollY</span><span class="p">;</span><span class="w">  </span><span class="c1">// 垂直滚动距离</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">);</span><span class="w">  </span><span class="c1">// 滚动到指定位置</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">behavior</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;smooth&#39;</span><span class="w">  </span><span class="c1">// 平滑滚动</span>
+<span class="p">});</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">scrollBy</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">);</span><span class="w">  </span><span class="c1">// 相对滚动</span>
+
+<span class="c1">// 打开新窗口</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">newWindow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span>
+<span class="w">    </span><span class="s1">&#39;https://example.com&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="s1">&#39;_blank&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="s1">&#39;width=800,height=600&#39;</span>
+<span class="p">);</span>
+
+<span class="c1">// 关闭窗口</span>
+<span class="nx">newWindow</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+
+<span class="c1">// 对话框</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;提示信息&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">confirm</span><span class="p">(</span><span class="s1">&#39;确认吗？&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">prompt</span><span class="p">(</span><span class="s1">&#39;请输入：&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;默认值&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="location">
+<h3>location对象<a class="headerlink" href="#location" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// URL信息</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span><span class="w">      </span><span class="c1">// 完整URL</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span><span class="p">;</span><span class="w">  </span><span class="c1">// 协议（http:）</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">host</span><span class="p">;</span><span class="w">      </span><span class="c1">// 主机名和端口</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">hostname</span><span class="p">;</span><span class="w">  </span><span class="c1">// 主机名</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">port</span><span class="p">;</span><span class="w">      </span><span class="c1">// 端口</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">pathname</span><span class="p">;</span><span class="w">  </span><span class="c1">// 路径</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">;</span><span class="w">    </span><span class="c1">// 查询字符串（?key=value）</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">;</span><span class="w">      </span><span class="c1">// 锚点（#section）</span>
+
+<span class="c1">// 导航</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://example.com&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">// 跳转</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 跳转</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 替换（不产生历史记录）</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span><span class="w">  </span><span class="c1">// 刷新</span>
+<span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">  </span><span class="c1">// 强制从服务器刷新</span>
+
+<span class="c1">// URLSearchParams</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
+<span class="nx">params</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 获取参数</span>
+<span class="nx">params</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;page&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 设置参数</span>
+<span class="nx">params</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="s1">&#39;old&#39;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 删除参数</span>
+<span class="nx">params</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span><span class="w">  </span><span class="c1">// 转为字符串</span>
+
+<span class="c1">// 实际应用</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">getQueryParams</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">]</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">result</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="history">
+<h3>history对象<a class="headerlink" href="#history" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 导航</span>
+<span class="nx">history</span><span class="p">.</span><span class="nx">back</span><span class="p">();</span><span class="w">     </span><span class="c1">// 后退</span>
+<span class="nx">history</span><span class="p">.</span><span class="nx">forward</span><span class="p">();</span><span class="w">  </span><span class="c1">// 前进</span>
+<span class="nx">history</span><span class="p">.</span><span class="nx">go</span><span class="p">(</span><span class="o">-</span><span class="mf">2</span><span class="p">);</span><span class="w">     </span><span class="c1">// 后退2页</span>
+<span class="nx">history</span><span class="p">.</span><span class="nx">go</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w">      </span><span class="c1">// 前进1页</span>
+
+<span class="c1">// HTML5 History API</span>
+<span class="nx">history</span><span class="p">.</span><span class="nx">pushState</span><span class="p">({</span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">},</span><span class="w"> </span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;/page1&#39;</span><span class="p">);</span>
+<span class="nx">history</span><span class="p">.</span><span class="nx">replaceState</span><span class="p">({</span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">},</span><span class="w"> </span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;/page2&#39;</span><span class="p">);</span>
+
+<span class="c1">// 监听历史变化</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;popstate&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;State:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">state</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 实际应用：单页应用路由</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">Router</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">        </span><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;popstate&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">handleRoute</span><span class="p">();</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">route</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">routes</span><span class="p">[</span><span class="nx">path</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">handler</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">navigate</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">history</span><span class="p">.</span><span class="nx">pushState</span><span class="p">({},</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">path</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">handleRoute</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nx">handleRoute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">.</span><span class="nx">pathname</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">routes</span><span class="p">[</span><span class="nx">path</span><span class="p">];</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">handler</span><span class="p">)</span><span class="w"> </span><span class="nx">handler</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="navigator">
+<h3>navigator对象<a class="headerlink" href="#navigator" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 浏览器信息</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">;</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">;</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">;</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">onLine</span><span class="p">;</span><span class="w">  </span><span class="c1">// 是否在线</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">cookieEnabled</span><span class="p">;</span>
+
+<span class="c1">// 地理位置</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">geolocation</span><span class="p">.</span><span class="nx">getCurrentPosition</span><span class="p">(</span>
+<span class="w">    </span><span class="p">(</span><span class="nx">position</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">position</span><span class="p">.</span><span class="nx">coords</span><span class="p">.</span><span class="nx">latitude</span><span class="p">,</span><span class="w"> </span><span class="nx">position</span><span class="p">.</span><span class="nx">coords</span><span class="p">.</span><span class="nx">longitude</span><span class="p">);</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">);</span>
+
+<span class="c1">// 剪贴板</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">clipboard</span><span class="p">.</span><span class="nx">writeText</span><span class="p">(</span><span class="s1">&#39;复制的文本&#39;</span><span class="p">);</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">clipboard</span><span class="p">.</span><span class="nx">readText</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">text</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">));</span>
+
+<span class="c1">// 分享</span>
+<span class="nx">navigator</span><span class="p">.</span><span class="nx">share</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;分享标题&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;分享内容&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://example.com&#39;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="screen">
+<h3>screen对象<a class="headerlink" href="#screen" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">screen</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span><span class="w">   </span><span class="c1">// 屏幕宽度</span>
+<span class="nx">screen</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span><span class="w">  </span><span class="c1">// 屏幕高度</span>
+<span class="nx">screen</span><span class="p">.</span><span class="nx">availWidth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 可用宽度</span>
+<span class="nx">screen</span><span class="p">.</span><span class="nx">availHeight</span><span class="p">;</span><span class="w">  </span><span class="c1">// 可用高度</span>
+<span class="nx">screen</span><span class="p">.</span><span class="nx">colorDepth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 颜色深度</span>
+<span class="nx">screen</span><span class="p">.</span><span class="nx">pixelDepth</span><span class="p">;</span><span class="w">   </span><span class="c1">// 像素深度</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>⚡ 性能优化<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>防抖和节流<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 防抖</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">debounce</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">function</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">timer</span><span class="p">)</span><span class="w"> </span><span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timer</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="p">);</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="nx">delay</span><span class="p">);</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">handleInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">debounce</span><span class="p">((</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Search:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">500</span><span class="p">);</span>
+
+<span class="nx">input</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleInput</span><span class="p">);</span>
+
+<span class="c1">// 节流</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">throttle</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span><span class="w"> </span><span class="nx">delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">lastCall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">function</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">lastCall</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">delay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">lastCall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">now</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">handleScroll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">throttle</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Scrolled&#39;</span><span class="p">);</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">200</span><span class="p">);</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">handleScroll</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="documentfragment">
+<h3>DocumentFragment<a class="headerlink" href="#documentfragment" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ 多次操作DOM</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">li</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">li</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`Item </span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">ul</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">li</span><span class="p">);</span><span class="w">  </span><span class="c1">// 触发1000次重排</span>
+<span class="p">}</span>
+
+<span class="c1">// ✅ 使用DocumentFragment</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fragment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">();</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">li</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">li</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`Item </span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">fragment</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">li</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">ul</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">fragment</span><span class="p">);</span><span class="w">  </span><span class="c1">// 只触发1次重排</span>
+</pre></div>
+</div>
+</section>
+<section id="intersectionobserver">
+<h3>IntersectionObserver<a class="headerlink" href="#intersectionobserver" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// 懒加载图片</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">observer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">IntersectionObserver</span><span class="p">((</span><span class="nx">entries</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">entries</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">entry</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">isIntersecting</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">img</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">entry</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">img</span><span class="p">.</span><span class="nx">src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">img</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">src</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">observer</span><span class="p">.</span><span class="nx">unobserve</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;img[data-src]&#39;</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">img</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// 无限滚动</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">sentinel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.sentinel&#39;</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">observer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">IntersectionObserver</span><span class="p">((</span><span class="nx">entries</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">entries</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">isIntersecting</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">loadMore</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">sentinel</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>📚 实践练习<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="todo">
+<h3>练习1：Todo列表<a class="headerlink" href="#todo" title="Link to this heading"></a></h3>
+<p>实现功能：</p>
+<ul class="simple">
+<li><p>添加、删除Todo</p></li>
+<li><p>标记完成</p></li>
+<li><p>过滤显示</p></li>
+<li><p>本地存储</p></li>
+</ul>
+</section>
+<section id="id14">
+<h3>练习2：图片懒加载<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<p>实现：</p>
+<ul class="simple">
+<li><p>IntersectionObserver</p></li>
+<li><p>占位图</p></li>
+<li><p>加载动画</p></li>
+</ul>
+</section>
+<section id="id15">
+<h3>练习3：无限滚动<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<p>实现：</p>
+<ul class="simple">
+<li><p>滚动加载</p></li>
+<li><p>加载状态</p></li>
+<li><p>错误处理</p></li>
+</ul>
+</section>
+</section>
+<section id="id16">
+<h2>📚 参考资料<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model">MDN DOM文档</a></p></li>
+<li><p><a class="reference external" href="https://dom.spec.whatwg.org/">DOM Standard</a></p></li>
+<li><p><a class="reference external" href="https://javascript.info/document">JavaScript.info DOM</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="02-asynchronous-programming.html" class="btn btn-neutral float-left" title="02-异步编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../react/index.html" class="btn btn-neutral float-right" title="React 教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

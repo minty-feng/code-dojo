@@ -1,0 +1,716 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>08-背包问题 &mdash; Algorithms Core 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=f07cb45e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=34088549"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="DP进阶" href="../09-dynamic-programming-advanced/index.html" />
+    <link rel="prev" title="背包问题" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Algorithms Core
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Algorithms Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-sorting-algorithms/index.html">排序算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-search-algorithms/index.html">搜索算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-two-pointers/index.html">双指针技巧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-recursion-backtracking/index.html">递归与回溯</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-divide-conquer/index.html">分治算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-greedy/index.html">贪心算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-dynamic-programming-basic/index.html">动态规划基础</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">背包问题</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">背包问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">💡 核心结论</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">背包问题本质</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">三种背包对比</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">0-1背包核心</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">完全背包核心</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">🎯 0-1背包</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dp">二维DP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">一维DP（空间优化）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">🔄 完全背包</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">一维DP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">🎁 多重背包</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">二进制优化</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">🎯 背包变种</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">1. 恰好装满</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">2. 求方案数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">3. 求具体方案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#leetcode">📚 LeetCode练习</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id17">0-1背包</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">完全背包</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">💡 解题模板</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id20">0-1背包模板</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">完全背包模板</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">🎯 关键区别</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">💻 完整代码实现</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python">Python 实现</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c">C++ 实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../09-dynamic-programming-advanced/index.html">DP进阶</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Algorithms Core</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">背包问题</a></li>
+      <li class="breadcrumb-item active">08-背包问题</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/08-knapsack/README.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>08-背包问题<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>💡 核心结论<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>背包问题本质<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>定义</strong>：在容量限制下，选择物品使价值最大</p></li>
+<li><p><strong>核心</strong>：动态规划的经典应用</p></li>
+<li><p><strong>关键</strong>：每个物品选或不选，累积最优解</p></li>
+<li><p><strong>难点</strong>：状态定义、空间优化</p></li>
+<li><p><strong>应用</strong>：资源分配、项目选择、切割问题</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>三种背包对比<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>类型</p></th>
+<th class="head"><p>特点</p></th>
+<th class="head"><p>状态转移</p></th>
+<th class="head"><p>遍历顺序</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0-1背包</p></td>
+<td><p>每个物品最多1个</p></td>
+<td><p>max(不选, 选)</p></td>
+<td><p>逆序</p></td>
+</tr>
+<tr class="row-odd"><td><p>完全背包</p></td>
+<td><p>每个物品无限个</p></td>
+<td><p>max(不选, 选)</p></td>
+<td><p>正序</p></td>
+</tr>
+<tr class="row-even"><td><p>多重背包</p></td>
+<td><p>每个物品k个</p></td>
+<td><p>二进制优化</p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id5">
+<h3>0-1背包核心<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>状态：dp[i][j] = 前i个物品，容量j的最大价值
+转移：dp[i][j] = max(
+    dp[i-1][j],              # 不选第i个
+    dp[i-1][j-w[i]] + v[i]   # 选第i个
+)
+空间优化：一维数组，逆序遍历
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>完全背包核心<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>状态：dp[i][j] = 前i种物品，容量j的最大价值  
+转移：dp[i][j] = max(
+    dp[i-1][j],          # 不选第i种
+    dp[i][j-w[i]] + v[i] # 选第i种（注意是dp[i]不是dp[i-1]）
+)
+空间优化：一维数组，正序遍历
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>🎯 0-1背包<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="dp">
+<h3>二维DP<a class="headerlink" href="#dp" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_01</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">capacity</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>一维DP（空间优化）<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_01_optimized</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)):</span>
+        <span class="c1"># 逆序遍历（避免物品被重复选择）</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>🔄 完全背包<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h3>一维DP<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_complete</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)):</span>
+        <span class="c1"># 正序遍历（允许物品被重复选择）</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>🎁 多重背包<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>二进制优化<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_multiple</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+    <span class="c1"># 转换为0-1背包</span>
+    <span class="n">new_weights</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_values</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">new_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">new_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">k</span>
+            <span class="n">k</span> <span class="o">*=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">new_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">new_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">knapsack_01_optimized</span><span class="p">(</span><span class="n">new_weights</span><span class="p">,</span> <span class="n">new_values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>🎯 背包变种<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>1. 恰好装满<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 初始化</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">inf</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 容量0价值0</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>2. 求方案数<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 状态：dp[i] = 容量i的方案数</span>
+<span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>  <span class="c1"># 累加方案数</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>3. 求具体方案<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 记录选择</span>
+<span class="n">choice</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+<span class="c1"># 回溯方案</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">j</span> <span class="o">=</span> <span class="n">capacity</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">choice</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">j</span> <span class="o">-=</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="leetcode">
+<h2>📚 LeetCode练习<a class="headerlink" href="#leetcode" title="Link to this heading"></a></h2>
+<section id="id17">
+<h3>0-1背包<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://leetcode.com/problems/partition-equal-subset-sum/">416. Partition Equal Subset Sum</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/ones-and-zeroes/">474. Ones and Zeroes</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/target-sum/">494. Target Sum</a></p></li>
+</ul>
+</section>
+<section id="id18">
+<h3>完全背包<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://leetcode.com/problems/coin-change/">322. Coin Change</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/coin-change-2/">518. Coin Change 2</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/problems/perfect-squares/">279. Perfect Squares</a></p></li>
+</ul>
+</section>
+</section>
+<section id="id19">
+<h2>💡 解题模板<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="id20">
+<h3>0-1背包模板<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h3>完全背包模板<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>🎯 关键区别<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<p><strong>0-1背包 vs 完全背包唯一区别</strong>：</p>
+<ul class="simple">
+<li><p>0-1：<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">j</span> <span class="pre">in</span> <span class="pre">range(capacity,</span> <span class="pre">w-1,</span> <span class="pre">-1)</span></code> 逆序</p></li>
+<li><p>完全：<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">j</span> <span class="pre">in</span> <span class="pre">range(w,</span> <span class="pre">capacity+1)</span></code> 正序</p></li>
+</ul>
+<p><strong>为什么？</strong></p>
+<ul class="simple">
+<li><p>逆序：保证每个物品只用一次</p></li>
+<li><p>正序：允许物品重复使用</p></li>
+</ul>
+</section>
+<section id="id23">
+<h2>💻 完整代码实现<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="python">
+<h3>Python 实现<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">背包问题实现</span>
+<span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="c1"># ========== 0-1背包 ==========</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_01</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+<span class="linenos">  8</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;0-1背包（二维DP）&quot;&quot;&quot;</span>
+<span class="linenos">  9</span>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+<span class="linenos"> 10</span>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="linenos"> 11</span>    
+<span class="linenos"> 12</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 13</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 14</span>            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+<span class="linenos"> 15</span>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+<span class="linenos"> 16</span>            <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 17</span>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+<span class="linenos"> 18</span>                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span>
+<span class="linenos"> 19</span>                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos"> 20</span>                <span class="p">)</span>
+<span class="linenos"> 21</span>    
+<span class="linenos"> 22</span>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">capacity</span><span class="p">]</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_01_optimized</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+<span class="linenos"> 26</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;0-1背包（一维DP优化）&quot;&quot;&quot;</span>
+<span class="linenos"> 27</span>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 28</span>    
+<span class="linenos"> 29</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)):</span>
+<span class="linenos"> 30</span>        <span class="c1"># 逆序遍历</span>
+<span class="linenos"> 31</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 32</span>            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 33</span>    
+<span class="linenos"> 34</span>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">]</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="c1"># ========== 完全背包 ==========</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_complete</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;完全背包（物品可重复选择）&quot;&quot;&quot;</span>
+<span class="linenos"> 41</span>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 42</span>    
+<span class="linenos"> 43</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)):</span>
+<span class="linenos"> 44</span>        <span class="c1"># 正序遍历</span>
+<span class="linenos"> 45</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">capacity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 46</span>            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 47</span>    
+<span class="linenos"> 48</span>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">]</span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="c1"># ========== 多重背包 ==========</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="k">def</span><span class="w"> </span><span class="nf">knapsack_multiple</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;多重背包（每个物品有数量限制）&quot;&quot;&quot;</span>
+<span class="linenos"> 55</span>    <span class="c1"># 二进制优化：转换为0-1背包</span>
+<span class="linenos"> 56</span>    <span class="n">new_weights</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 57</span>    <span class="n">new_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 58</span>    
+<span class="linenos"> 59</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)):</span>
+<span class="linenos"> 60</span>        <span class="n">count</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos"> 61</span>        <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 62</span>        <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">count</span><span class="p">:</span>
+<span class="linenos"> 63</span>            <span class="n">new_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span>
+<span class="linenos"> 64</span>            <span class="n">new_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span>
+<span class="linenos"> 65</span>            <span class="n">count</span> <span class="o">-=</span> <span class="n">k</span>
+<span class="linenos"> 66</span>            <span class="n">k</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="linenos"> 67</span>        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="linenos"> 68</span>            <span class="n">new_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
+<span class="linenos"> 69</span>            <span class="n">new_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
+<span class="linenos"> 70</span>    
+<span class="linenos"> 71</span>    <span class="k">return</span> <span class="n">knapsack_01_optimized</span><span class="p">(</span><span class="n">new_weights</span><span class="p">,</span> <span class="n">new_values</span><span class="p">,</span> <span class="n">capacity</span><span class="p">)</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="c1"># ========== 应用：分割等和子集 ==========</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span><span class="k">def</span><span class="w"> </span><span class="nf">can_partition</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;判断能否分割成两个和相等的子集&quot;&quot;&quot;</span>
+<span class="linenos"> 78</span>    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+<span class="linenos"> 79</span>    <span class="k">if</span> <span class="n">total</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+<span class="linenos"> 80</span>        <span class="k">return</span> <span class="kc">False</span>
+<span class="linenos"> 81</span>    
+<span class="linenos"> 82</span>    <span class="n">target</span> <span class="o">=</span> <span class="n">total</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="linenos"> 83</span>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">target</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 84</span>    <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="linenos"> 85</span>    
+<span class="linenos"> 86</span>    <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+<span class="linenos"> 87</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="linenos"> 88</span>            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">or</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">num</span><span class="p">]</span>
+<span class="linenos"> 89</span>    
+<span class="linenos"> 90</span>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+<span class="linenos"> 91</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span><span class="c1"># ========== 应用：零钱兑换 ==========</span>
+<span class="linenos"> 94</span>
+<span class="linenos"> 95</span><span class="k">def</span><span class="w"> </span><span class="nf">coin_change</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+<span class="linenos"> 96</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;最少硬币数（完全背包）&quot;&quot;&quot;</span>
+<span class="linenos"> 97</span>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="n">amount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 98</span>    <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 99</span>    
+<span class="linenos">100</span>    <span class="k">for</span> <span class="n">coin</span> <span class="ow">in</span> <span class="n">coins</span><span class="p">:</span>
+<span class="linenos">101</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">coin</span><span class="p">,</span> <span class="n">amount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos">102</span>            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">coin</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">103</span>    
+<span class="linenos">104</span>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">amount</span><span class="p">]</span> <span class="k">if</span> <span class="n">dp</span><span class="p">[</span><span class="n">amount</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="k">def</span><span class="w"> </span><span class="nf">coin_change_ways</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+<span class="linenos">108</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;组成金额的方案数（完全背包）&quot;&quot;&quot;</span>
+<span class="linenos">109</span>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">amount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">110</span>    <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">111</span>    
+<span class="linenos">112</span>    <span class="k">for</span> <span class="n">coin</span> <span class="ow">in</span> <span class="n">coins</span><span class="p">:</span>
+<span class="linenos">113</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">coin</span><span class="p">,</span> <span class="n">amount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos">114</span>            <span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dp</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">coin</span><span class="p">]</span>
+<span class="linenos">115</span>    
+<span class="linenos">116</span>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">amount</span><span class="p">]</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span>
+<span class="linenos">119</span><span class="k">def</span><span class="w"> </span><span class="nf">demo</span><span class="p">():</span>
+<span class="linenos">120</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;演示背包问题&quot;&quot;&quot;</span>
+<span class="linenos">121</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== 背包问题演示 ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">122</span>    
+<span class="linenos">123</span>    <span class="c1"># 0-1背包</span>
+<span class="linenos">124</span>    <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="linenos">125</span>    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="linenos">126</span>    <span class="n">capacity</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="linenos">127</span>    
+<span class="linenos">128</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;0-1背包:&quot;</span><span class="p">)</span>
+<span class="linenos">129</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  重量: </span><span class="si">{</span><span class="n">weights</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">130</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  价值: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">131</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  容量: </span><span class="si">{</span><span class="n">capacity</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">132</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最大价值: </span><span class="si">{</span><span class="n">knapsack_01</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">133</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最大价值（优化）: </span><span class="si">{</span><span class="n">knapsack_01_optimized</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">134</span>    
+<span class="linenos">135</span>    <span class="c1"># 完全背包</span>
+<span class="linenos">136</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;完全背包:&quot;</span><span class="p">)</span>
+<span class="linenos">137</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最大价值: </span><span class="si">{</span><span class="n">knapsack_complete</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">138</span>    
+<span class="linenos">139</span>    <span class="c1"># 多重背包</span>
+<span class="linenos">140</span>    <span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="linenos">141</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;多重背包:&quot;</span><span class="p">)</span>
+<span class="linenos">142</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  数量: </span><span class="si">{</span><span class="n">counts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">143</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最大价值: </span><span class="si">{</span><span class="n">knapsack_multiple</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">counts</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">144</span>    
+<span class="linenos">145</span>    <span class="c1"># 分割等和子集</span>
+<span class="linenos">146</span>    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="linenos">147</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;分割等和子集 </span><span class="si">{</span><span class="n">nums</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="linenos">148</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  能否分割: </span><span class="si">{</span><span class="n">can_partition</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">149</span>    
+<span class="linenos">150</span>    <span class="c1"># 零钱兑换</span>
+<span class="linenos">151</span>    <span class="n">coins</span><span class="p">,</span> <span class="n">amount</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="mi">11</span>
+<span class="linenos">152</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;零钱兑换:&quot;</span><span class="p">)</span>
+<span class="linenos">153</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  硬币: </span><span class="si">{</span><span class="n">coins</span><span class="si">}</span><span class="s2">, 金额: </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">154</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  最少硬币数: </span><span class="si">{</span><span class="n">coin_change</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">155</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  方案数: </span><span class="si">{</span><span class="n">coin_change_ways</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">156</span>
+<span class="linenos">157</span>
+<span class="linenos">158</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">159</span>    <span class="n">demo</span><span class="p">()</span>
+<span class="linenos">160</span>
+</pre></div>
+</div>
+</section>
+<section id="c">
+<h3>C++ 实现<a class="headerlink" href="#c" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cm">/**</span>
+<span class="linenos">  2</span><span class="cm"> * 背包问题实现</span>
+<span class="linenos">  3</span><span class="cm"> */</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="linenos">  6</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="c1">// 0-1背包（二维DP）</span>
+<span class="linenos"> 12</span><span class="kt">int</span><span class="w"> </span><span class="nf">knapsack01</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 13</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="linenos"> 14</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">capacity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="linenos"> 15</span><span class="w">    </span>
+<span class="linenos"> 16</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 17</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 18</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 19</span><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="linenos"> 20</span><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 21</span><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span>
+<span class="linenos"> 22</span><span class="w">                    </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span>
+<span class="linenos"> 23</span><span class="w">                    </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span>
+<span class="linenos"> 24</span><span class="w">                </span><span class="p">);</span>
+<span class="linenos"> 25</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 26</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 27</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 28</span><span class="w">    </span>
+<span class="linenos"> 29</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">capacity</span><span class="p">];</span>
+<span class="linenos"> 30</span><span class="p">}</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="c1">// 0-1背包（一维优化）</span>
+<span class="linenos"> 33</span><span class="kt">int</span><span class="w"> </span><span class="nf">knapsack01Optimized</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 34</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">capacity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 35</span><span class="w">    </span>
+<span class="linenos"> 36</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">weights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 37</span><span class="w">        </span><span class="c1">// 逆序遍历</span>
+<span class="linenos"> 38</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"> </span><span class="n">j</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 39</span><span class="w">            </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="linenos"> 40</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 42</span><span class="w">    </span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">];</span>
+<span class="linenos"> 44</span><span class="p">}</span>
+<span class="linenos"> 45</span>
+<span class="linenos"> 46</span><span class="c1">// 完全背包</span>
+<span class="linenos"> 47</span><span class="kt">int</span><span class="w"> </span><span class="nf">knapsackComplete</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 48</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">capacity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 49</span><span class="w">    </span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">weights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 51</span><span class="w">        </span><span class="c1">// 正序遍历</span>
+<span class="linenos"> 52</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 53</span><span class="w">            </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="linenos"> 54</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 56</span><span class="w">    </span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">capacity</span><span class="p">];</span>
+<span class="linenos"> 58</span><span class="p">}</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="c1">// 零钱兑换（完全背包）</span>
+<span class="linenos"> 61</span><span class="kt">int</span><span class="w"> </span><span class="nf">coinChange</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">coins</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">INT_MAX</span><span class="p">);</span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 64</span><span class="w">    </span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">coin</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">coins</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 66</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coin</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 67</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">coin</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">INT_MAX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 68</span><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">coin</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 69</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos"> 70</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 72</span><span class="w">    </span>
+<span class="linenos"> 73</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">amount</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">INT_MAX</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">-1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">amount</span><span class="p">];</span>
+<span class="linenos"> 74</span><span class="p">}</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span><span class="c1">// 零钱兑换II（方案数）</span>
+<span class="linenos"> 77</span><span class="kt">int</span><span class="w"> </span><span class="nf">coinChangeWays</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">coins</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="linenos"> 80</span><span class="w">    </span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">coin</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">coins</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 82</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coin</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 83</span><span class="w">            </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">coin</span><span class="p">];</span>
+<span class="linenos"> 84</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 85</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 86</span><span class="w">    </span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">amount</span><span class="p">];</span>
+<span class="linenos"> 88</span><span class="p">}</span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span><span class="c1">// 分割等和子集</span>
+<span class="linenos"> 91</span><span class="kt">bool</span><span class="w"> </span><span class="nf">canPartition</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+<span class="linenos"> 94</span><span class="w">    </span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sum</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos"> 96</span><span class="w">    </span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos">100</span><span class="w">    </span>
+<span class="linenos">101</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">102</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">num</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">103</span><span class="w">            </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">num</span><span class="p">];</span>
+<span class="linenos">104</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">105</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">106</span><span class="w">    </span>
+<span class="linenos">107</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">target</span><span class="p">];</span>
+<span class="linenos">108</span><span class="p">}</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">111</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;=== 背包问题演示 ===&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">112</span><span class="w">    </span>
+<span class="linenos">113</span><span class="w">    </span><span class="c1">// 0-1背包</span>
+<span class="linenos">114</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
+<span class="linenos">115</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">};</span>
+<span class="linenos">116</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="linenos">117</span><span class="w">    </span>
+<span class="linenos">118</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;0-1背包:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">119</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  重量: [2,3,4,5]&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">120</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  价值: [3,4,5,6]&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">121</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  容量: 8&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">122</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最大价值: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">knapsack01</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">123</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最大价值（优化）: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">knapsack01Optimized</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">124</span><span class="w">    </span>
+<span class="linenos">125</span><span class="w">    </span><span class="c1">// 完全背包</span>
+<span class="linenos">126</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;完全背包:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">127</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最大价值: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">knapsackComplete</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">128</span><span class="w">    </span>
+<span class="linenos">129</span><span class="w">    </span><span class="c1">// 零钱兑换</span>
+<span class="linenos">130</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">coins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
+<span class="linenos">131</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span>
+<span class="linenos">132</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;零钱兑换:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">133</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  硬币: [1,2,5], 金额: 11&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">134</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  最少硬币数: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">coinChange</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">135</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  方案数: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">coinChangeWays</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">136</span><span class="w">    </span>
+<span class="linenos">137</span><span class="w">    </span><span class="c1">// 分割等和子集</span>
+<span class="linenos">138</span><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
+<span class="linenos">139</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;分割等和子集 [1,5,11,5]:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">140</span><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  能否分割: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">canPartition</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;是&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;否&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="linenos">141</span><span class="w">    </span>
+<span class="linenos">142</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">143</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="背包问题" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../09-dynamic-programming-advanced/index.html" class="btn btn-neutral float-right" title="DP进阶" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Code Dojo。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
