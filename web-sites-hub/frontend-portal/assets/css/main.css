@@ -392,7 +392,7 @@ body {
 /* Sites Grid */
 .sites-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
     margin-top: 0;
     margin-bottom: 6rem;
@@ -411,6 +411,7 @@ body {
     overflow: hidden;
     backdrop-filter: blur(20px);
     min-height: 260px;
+    min-width: 0; /* 允许 grid 项收缩，防止内容撑开导致换行 */
 }
 
 .site-card::before {
@@ -776,10 +777,12 @@ body {
     }
 
     .sites-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem;
     }
 }
+
+/* 768px 以下单列布局 */
 
 @media (max-width: 768px) {
     .container {

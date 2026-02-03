@@ -59,7 +59,7 @@
                 </div>
                 <div class="sites-grid">
                     <!-- Blog Site -->
-                    <a href="learning.html" data-domain="https://blog.joketop.com" class="site-card" data-site="blog" target="_blank" rel="noopener noreferrer">
+                    <a href="https://blog.joketop.com" data-local-href="learning.html" class="site-card" data-site="blog" target="_blank" rel="noopener noreferrer">
                         <div class="card-glow"></div>
                         <div class="card-background"></div>
                         <div class="card-content-wrapper">
@@ -89,7 +89,7 @@
                     </a>
 
                     <!-- Projects Site -->
-                    <a href="showcase.html" data-domain="https://showcase.joketop.com" class="site-card" data-site="projects" target="_blank" rel="noopener noreferrer">
+                    <a href="https://showcase.joketop.com" data-local-href="showcase.html" class="site-card" data-site="projects" target="_blank" rel="noopener noreferrer">
                         <div class="card-glow"></div>
                         <div class="card-background"></div>
                         <div class="card-content-wrapper">
@@ -120,7 +120,7 @@
                     </a>
 
                     <!-- Resume Site -->
-                    <a href="resume.html" data-domain="https://me.joketop.com" class="site-card" data-site="resume" target="_blank" rel="noopener noreferrer">
+                    <a href="https://me.joketop.com" data-local-href="resume.html" class="site-card" data-site="resume" target="_blank" rel="noopener noreferrer">
                         <div class="card-glow"></div>
                         <div class="card-background"></div>
                         <div class="card-content-wrapper">
@@ -149,7 +149,7 @@
                     </a>
 
                     <!-- Life Site -->
-                    <a href="diary.html" data-domain="https://diary.joketop.com" class="site-card" data-site="life" target="_blank" rel="noopener noreferrer">
+                    <a href="https://diary.joketop.com" data-local-href="diary.html" class="site-card" data-site="life" target="_blank" rel="noopener noreferrer">
                         <div class="card-glow"></div>
                         <div class="card-background"></div>
                         <div class="card-content-wrapper">
@@ -232,6 +232,18 @@
         </footer>
     </div>
 
+    <script>
+    (function() {
+        var h = location.hostname, p = location.port;
+        var isLocal = p === '8000' || h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0' || h === '[::1]' || !h;
+        if (isLocal) {
+            document.querySelectorAll('a[data-local-href]').forEach(function(a) {
+                a.href = a.getAttribute('data-local-href');
+                a.target = '_self';
+            });
+        }
+    })();
+    </script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

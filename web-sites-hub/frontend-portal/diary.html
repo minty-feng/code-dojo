@@ -51,13 +51,13 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
         
         @media (min-width: 768px) {
              .modules-grid {
-                 grid-template-columns: repeat(4, 1fr);
+                 grid-template-columns: repeat(5, 1fr);
              }
         }
 
@@ -132,6 +132,7 @@
         .mod-diary .module-icon { color: #f093fb; }
         .mod-tianya .module-icon { color: #ff9a9e; }
         .mod-poems .module-icon { color: #8fd3f4; }
+        .mod-goals .module-icon { color: #a8edea; }
         
         .mini-stats {
             margin-top: 4rem;
@@ -241,6 +242,19 @@
                     </div>
                     <span class="module-title">诗词</span>
                     <span class="module-desc">经典咏流传</span>
+                </a>
+                
+                <!-- Goals -->
+                <a href="goals.html" class="module-card mod-goals">
+                     <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <span class="module-title">目标</span>
+                    <span class="module-desc">积跬步至千里</span>
                 </a>
             </div>
 

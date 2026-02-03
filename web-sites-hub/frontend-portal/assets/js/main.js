@@ -440,35 +440,6 @@ setInterval(() => {
 console.log('%c🚀 Welcome to minty-feng\'s personal website!', 'color: #667eea; font-size: 16px; font-weight: bold;');
 console.log('%cBuilt with ❤️', 'color: #764ba2; font-size: 12px;');
 
-// Production Domain Enhancer
-// In local dev, links are relative (e.g. "learning.html") and work automatically.
-// In production, we upgrade them to subdomains (e.g. "blog.joketop.com") if configured.
-function handleProductionLinks() {
-    const isLocal = ['localhost', '127.0.0.1', '0.0.0.0'].some(host => window.location.hostname.includes(host));
-    
-    // In local mode, force target="_self" for smoother navigation
-    if (isLocal) {
-        document.querySelectorAll('a[data-domain]').forEach(link => {
-            link.target = '_self'; 
-        });
-        console.log('🔧 Local mode: using relative links');
-        return;
-    }
-
-    // In production, use the data-domain attribute
-    console.log('🌐 Production mode: upgrading to subdomains');
-    document.querySelectorAll('a[data-domain]').forEach(link => {
-        const domain = link.getAttribute('data-domain');
-        if (domain && domain.startsWith('http')) {
-            link.href = domain;
-        }
-    });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', handleProductionLinks);
-} else {
-    handleProductionLinks();
-}
+// 本地/线上链接切换已移至 index.html 内联脚本，优先执行
 
 

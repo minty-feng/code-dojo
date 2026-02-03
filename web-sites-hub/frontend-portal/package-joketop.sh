@@ -29,7 +29,7 @@ fi
 # 明确指定要打包的文件和目录
 echo -e "${YELLOW}正在打包文件...${NC}"
 echo -e "${YELLOW}包含的文件：${NC}"
-echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed-test.html, fund.html, wufu.html${NC}"
+echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed.html, fund.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html${NC}"
 echo -e "${YELLOW}  - 资源文件: assets/ (css, js, favicon.svg)${NC}"
 echo ""
 
@@ -39,7 +39,7 @@ trap "rm -rf $TEMP_DIR" EXIT
 
 # 复制需要打包的文件
 echo -e "${YELLOW}准备文件...${NC}"
-cp index.html resume.html learning.html showcase.html diary.html fund.html wufu.html $TEMP_DIR/ 2>/dev/null
+cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html wufu.html poems.html timeline.html goals.html tianya.html journal.html $TEMP_DIR/ 2>/dev/null
 cp -r assets $TEMP_DIR/ 2>/dev/null
 
 # 检查关键文件是否存在
@@ -49,8 +49,14 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/learning.html" ] && MISSING_FILES+=("learning.html")
 [ ! -f "$TEMP_DIR/showcase.html" ] && MISSING_FILES+=("showcase.html")
 [ ! -f "$TEMP_DIR/diary.html" ] && MISSING_FILES+=("diary.html")
+[ ! -f "$TEMP_DIR/speed.html" ] && MISSING_FILES+=("speed.html")
 [ ! -f "$TEMP_DIR/fund.html" ] && MISSING_FILES+=("fund.html")
 [ ! -f "$TEMP_DIR/wufu.html" ] && MISSING_FILES+=("wufu.html")
+[ ! -f "$TEMP_DIR/poems.html" ] && MISSING_FILES+=("poems.html")
+[ ! -f "$TEMP_DIR/timeline.html" ] && MISSING_FILES+=("timeline.html")
+[ ! -f "$TEMP_DIR/goals.html" ] && MISSING_FILES+=("goals.html")
+[ ! -f "$TEMP_DIR/tianya.html" ] && MISSING_FILES+=("tianya.html")
+[ ! -f "$TEMP_DIR/journal.html" ] && MISSING_FILES+=("journal.html")
 [ ! -d "$TEMP_DIR/assets" ] && MISSING_FILES+=("assets/")
 [ ! -f "$TEMP_DIR/assets/favicon.svg" ] && MISSING_FILES+=("assets/favicon.svg")
 
