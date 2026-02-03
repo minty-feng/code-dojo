@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="人生时光轴 - 记录重要时刻">
+    <title>时光轴 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/diary.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .life-path {
+            position: relative;
+            padding: 2rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .life-path::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(-50%);
+        }
+        .life-event {
+            position: relative;
+            margin-bottom: 4rem;
+            width: 50%;
+            padding: 0 2rem;
+        }
+        .life-event:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+        .life-event:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+        .event-point {
+            position: absolute;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-life);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .life-event:nth-child(odd) .event-point {
+            right: -10px;
+        }
+        .life-event:nth-child(even) .event-point {
+            left: -10px;
+        }
+        .event-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+        .event-card:hover {
+            transform: scale(1.02);
+            background: var(--bg-card-hover);
+        }
+        .event-year {
+            font-size: 2rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            top: -20px;
+            font-family: 'Playfair Display', serif;
+        }
+        .life-event:nth-child(odd) .event-year {
+            right: 2rem;
+        }
+        .life-event:nth-child(even) .event-year {
+            left: 2rem;
+        }
+        .event-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        @media (max-width: 768px) {
+            .life-path::before {
+                left: 20px;
+            }
+            .life-event {
+                width: 100%;
+                padding-left: 60px;
+                padding-right: 20px;
+                text-align: left !important;
+            }
+            .life-event:nth-child(odd), .life-event:nth-child(even) {
+                left: 0;
+            }
+            .life-event:nth-child(odd) .event-point, .life-event:nth-child(even) .event-point {
+                left: 10px;
+                right: auto;
+            }
+            .life-event:nth-child(odd) .event-year {
+                right: auto;
+                left: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                     <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">人生时光轴</p>
+                </a>
+               <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                        <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                        <a href="timeline.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">时光</a>
+                    </nav>
+                    <button class="theme-toggle" id="themeToggle">
+                         <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="diary-main">
+            <div class="life-path">
+                <!-- Example Events -->
+                <div class="life-event">
+                    <span class="event-year">2026</span>
+                    <div class="event-point"></div>
+                    <div class="event-card">
+                        <h3 class="event-title">新篇章</h3>
+                        <p>以新的面貌面对生活，建立个人知识体系和生活记录。</p>
+                    </div>
+                </div>
+
+                <div class="life-event">
+                    <span class="event-year">2024</span>
+                    <div class="event-point"></div>
+                    <div class="event-card">
+                        <h3 class="event-title">技术深耕</h3>
+                        <p>深入研究全栈开发，完成多个核心项目。</p>
+                    </div>
+                </div>
+
+                <div class="life-event">
+                    <span class="event-year">2020</span>
+                    <div class="event-point"></div>
+                    <div class="event-card">
+                        <h3 class="event-title">初入职场</h3>
+                        <p>带着梦想和好奇心，开始了程序员的职业生涯。</p>
+                    </div>
+                </div>
+                
+                <div class="life-event">
+                    <span class="event-year">1998</span>
+                    <div class="event-point"></div>
+                    <div class="event-card">
+                        <h3 class="event-title">Hello World</h3>
+                        <p>降临地球，游戏开始。</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

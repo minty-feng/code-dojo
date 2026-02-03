@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="minty-feng 的个人网站导航 - 技术博客、项目展示、简历、生活记录">
+    <title>minty-feng | 个人网站导航</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <!-- Snowflakes container (only visible in dark mode) -->
+        <div class="snowflakes" id="snowflakes"></div>
+        <!-- Fireflies container (only visible in dark mode) -->
+        <div class="fireflies" id="fireflies"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">从代码道场到生活记录</p>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Sites Grid -->
+            <section class="sites-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">01</span>
+                        <span class="section-title-text">站点导航</span>
+                    </h2>
+                </div>
+                <div class="sites-grid">
+                    <!-- Blog Site -->
+                    <a href="learning.html" data-domain="https://blog.joketop.com" class="site-card" data-site="blog" target="_blank" rel="noopener noreferrer">
+                        <div class="card-glow"></div>
+                        <div class="card-background"></div>
+                        <div class="card-content-wrapper">
+                            <div class="card-icon blog-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    <path d="M8 7h6M8 11h8M8 15h4"></path>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h2 class="card-title">博客</h2>
+                                <p class="card-description">技术沉淀与知识分享</p>
+                                <div class="card-tags">
+                                    <span class="tag">Tech</span>
+                                    <span class="tag">Notes</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Projects Site -->
+                    <a href="showcase.html" data-domain="https://showcase.joketop.com" class="site-card" data-site="projects" target="_blank" rel="noopener noreferrer">
+                        <div class="card-glow"></div>
+                        <div class="card-background"></div>
+                        <div class="card-content-wrapper">
+                            <div class="card-icon projects-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h2 class="card-title">项目</h2>
+                                <p class="card-description">个人代码作品展示</p>
+                                <div class="card-tags">
+                                    <span class="tag">Demo</span>
+                                    <span class="tag">Code</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Resume Site -->
+                    <a href="resume.html" data-domain="https://me.joketop.com" class="site-card" data-site="resume" target="_blank" rel="noopener noreferrer">
+                        <div class="card-glow"></div>
+                        <div class="card-background"></div>
+                        <div class="card-content-wrapper">
+                            <div class="card-icon resume-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h2 class="card-title">简历</h2>
+                                <p class="card-description">技能与工作经历</p>
+                                <div class="card-tags">
+                                    <span class="tag">CV</span>
+                                    <span class="tag">Job</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Life Site -->
+                    <a href="diary.html" data-domain="https://diary.joketop.com" class="site-card" data-site="life" target="_blank" rel="noopener noreferrer">
+                        <div class="card-glow"></div>
+                        <div class="card-background"></div>
+                        <div class="card-content-wrapper">
+                            <div class="card-icon life-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h2 class="card-title">生活</h2>
+                                <p class="card-description">感悟 · 纪律 · 经典</p>
+                                <div class="card-tags">
+                                    <span class="tag">Life</span>
+                                    <span class="tag">Goals</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Links Section -->
+            <section class="links-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">02</span>
+                        <span class="section-title-text">快速链接</span>
+                    </h2>
+                </div>
+                <div class="links-grid">
+                    <a href="https://github.com/minty-feng" class="link-item" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </div>
+                        <div class="link-content">
+                            <span class="link-title">GitHub</span>
+                            <span class="link-description">代码仓库</span>
+                        </div>
+                        <div class="link-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="https://github.com/minty-feng/code-dojo" class="link-item" target="_blank" rel="noopener noreferrer">
+                        <div class="link-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                        </div>
+                        <div class="link-content">
+                            <span class="link-title">Code Dojo</span>
+                            <span class="link-description">代码道场</span>
+                        </div>
+                        <div class="link-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 minty-feng</p>
+                <p class="footer-accent">Built with ❤️ and passion</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

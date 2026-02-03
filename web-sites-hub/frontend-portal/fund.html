@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基金估值助手 | Fund Valuation</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Axios for Networking (Optional, but useful if backend is connected later) -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #3b82f6; --secondary: #64748b; --success: #10b981; --danger: #ef4444;
+            --background: #f8fafc; --surface: #ffffff; --text-primary: #1e293b; --text-secondary: #64748b;
+            --border: #e2e8f0; --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+        }
+
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--background); color: var(--text-primary); margin: 0; line-height: 1.5; }
+        
+        /* Background Animation */
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; filter: blur(100px); opacity: 0.6; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; animation: float 20s infinite ease-in-out; }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #e0e7ff; }
+        .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: #dbeafe; animation-delay: -5s; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -50px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } 100% { transform: translate(0, 0) scale(1); } }
+
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .back-link { 
+            display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); text-decoration: none; 
+            font-weight: 500; margin-bottom: 2rem; padding: 0.5rem 1rem; background: var(--surface); 
+            border-radius: 9999px; box-shadow: 0 2px 4px rgb(0 0 0 / 0.05); transition: all 0.2s; cursor: pointer; border: none; font-size: 1rem;
+        }
+        .back-link:hover { color: var(--primary); transform: translateX(-5px); }
+
+        /* UI Components */
+        .hero { text-align: center; margin-bottom: 3rem; animation: slideDown 0.8s ease-out; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--primary), #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .market-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; animation: fadeIn 0.8s backwards; }
+        .overview-card { background: var(--surface); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; }
+        .icon-box { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: var(--background); }
+        .card-value { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
+        .trend-up { color: var(--danger); font-weight: 600; }
+        .trend-down { color: var(--success); font-weight: 600; }
+
+        .toolbar { background: var(--surface); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 2rem; animation: fadeIn 0.8s 0.2s backwards; }
+        .search-box { position: relative; flex: 1; min-width: 250px; }
+        .search-box input { width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid var(--border); border-radius: 8px; background: var(--background); box-sizing: border-box; }
+        .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        
+        .filter-group { display: flex; gap: 0.5rem; }
+        .filter-btn { padding: 0.5rem 1rem; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; border-radius: 6px; transition: all 0.2s; }
+        .filter-btn:hover { background: var(--background); color: var(--primary); }
+        .filter-btn.active { background: var(--primary); color: white; }
+        
+        .action-btn { background: linear-gradient(135deg, var(--primary), #2563eb); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+        .table-container { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; animation: highlight 1s 0.4s backwards; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f1f5f9; padding: 1rem; text-align: left; font-weight: 600; color: var(--text-secondary); }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text-primary); transition: background 0.2s; cursor: pointer; }
+        tr:hover td { background: #f8fafc; }
+        .badge { padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.8rem; background: #e0f2fe; color: var(--primary); }
+        .code-cell { font-family: monospace; color: var(--primary); font-weight: 600; }
+
+        /* Detail View Styles */
+        .hidden { display: none !important; }
+        .detail-header h2 { font-size: 2rem; margin: 0; }
+        .detail-content { background: var(--surface); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); margin-top: 2rem; }
+        .chart-placeholder { height: 300px; background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(255, 255, 255, 0) 100%); display: flex; align-items: flex-end; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--border); }
+        .chart-bar { width: 4%; border-radius: 4px; transition: height 1s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes highlight { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <!-- HEADER / NAVIGATION -->
+        <a href="showcase.html" class="back-link" id="nav-home">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            返回项目展示
+        </a>
+
+        <!-- VIEW: LIST -->
+        <div id="view-list">
+            <div class="hero">
+                <h1>📊 基金估值助手</h1>
+                <p>实时追踪基金净值，智能辅助投资决策 (Vanilla JS)</p>
+            </div>
+
+            <div class="market-overview">
+                <!-- Static Cards for Demo -->
+                <div class="overview-card">
+                    <div class="icon-box">📈</div>
+                    <div>
+                        <h3 style="margin:0 0 5px 0; color:var(--text-secondary)">上证指数</h3>
+                        <div class="card-value">3,256.32</div>
+                        <div class="trend-up" style="font-size: 0.9rem">+1.2%</div>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="icon-box">📉</div>
+                    <div>
+                        <h3 style="margin:0 0 5px 0; color:var(--text-secondary)">深证成指</h3>
+                        <div class="card-value">10,432.11</div>
+                        <div class="trend-down" style="font-size: 0.9rem">-0.5%</div>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="icon-box">💹</div>
+                    <div>
+                        <h3 style="margin:0 0 5px 0; color:var(--text-secondary)">监控基金数</h3>
+                        <div class="card-value" id="total-count">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="搜索基金代码/名称...">
+                </div>
+                <div class="filter-group" id="filter-container">
+                    <button class="filter-btn active" data-type="all">全部</button>
+                    <button class="filter-btn" data-type="股票型">股票型</button>
+                    <button class="filter-btn" data-type="混合型">混合型</button>
+                    <button class="filter-btn" data-type="债券型">债券型</button>
+                    <button class="filter-btn" data-type="指数型">指数型</button>
+                </div>
+                <button class="action-btn" onclick="alert('下载功能演示')">
+                    💾 下载数据
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>代码</th>
+                            <th>基金名称</th>
+                            <th>类型</th>
+                            <th>单位净值</th>
+                            <th>估算净值</th>
+                            <th>估算涨幅</th>
+                            <th>更新时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fund-table-body">
+                        <!-- Data injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VIEW: DETAIL -->
+        <div id="view-detail" class="hidden">
+            <button class="back-link" id="btn-back-to-list">← 返回列表</button>
+            
+            <div id="detail-container">
+                <!-- Detail injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/fund.js"></script>
+</body>
+</html>

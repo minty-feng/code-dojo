@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="minty-feng 生活主页">
+    <title>生活 · 记录 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/diary.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        .portal-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .greeting {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .daily-wisdom {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        .wisdom-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        .wisdom-author {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: right;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+             .modules-grid {
+                 grid-template-columns: repeat(4, 1fr);
+             }
+        }
+
+        .module-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem; /* ⬇️ Compact padding */
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            aspect-ratio: 1/1;
+            position: relative;
+            /* overflow: hidden;  <-- REMOVED to prevent clipping shadows/icons */
+            z-index: 1; 
+        }
+        
+        .module-card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-glow);
+            z-index: 10;
+        }
+
+        .module-icon {
+            width: 56px; /* ⬇️ Slightly smaller icon for better fit */
+            height: 56px;
+            flex-shrink: 0;
+            margin-bottom: 0.5rem; /* ⬇️ Tighter margin */
+            font-size: 1.75rem; /* ⬇️ Scaled symbol */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .module-card:hover .module-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .module-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover .module-desc {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Module Specific Colors */
+        .mod-timeline .module-icon { color: #4facfe; }
+        .mod-diary .module-icon { color: #f093fb; }
+        .mod-tianya .module-icon { color: #ff9a9e; }
+        .mod-poems .module-icon { color: #8fd3f4; }
+        
+        .mini-stats {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="fireflies"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="https://joketop.com" class="logo">
+                     <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                </a>
+                <button class="theme-toggle" id="themeToggle">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="diary-main" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
+            <div class="portal-header">
+                <p class="greeting" id="greeting">Hello, World.</p>
+                <div class="daily-wisdom">
+                    <p class="wisdom-text" id="quote-text">"The mind that is anxious about future events is miserable."</p>
+                    <p class="wisdom-author" id="quote-author">― Seneca</p>
+                </div>
+            </div>
+
+            <div class="modules-grid">
+                <!-- Timeline -->
+                <a href="timeline.html" class="module-card mod-timeline">
+                    <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <span class="module-title">时光轴</span>
+                    <span class="module-desc">人生轨迹</span>
+                </a>
+
+                <!-- Journal (moved old diary here) -->
+                <a href="journal.html" class="module-card mod-diary">
+                    <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                    <span class="module-title">日记</span>
+                    <span class="module-desc">碎碎念</span>
+                </a>
+
+                <!-- Tianya -->
+                <a href="tianya.html" class="module-card mod-tianya">
+                    <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </div>
+                    <span class="module-title">天涯</span>
+                    <span class="module-desc">神贴收藏</span>
+                </a>
+
+                <!-- Poems -->
+                <a href="poems.html" class="module-card mod-poems">
+                    <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                            <path d="M2 2l7.586 7.586"></path>
+                            <circle cx="11" cy="11" r="2"></circle>
+                        </svg>
+                    </div>
+                    <span class="module-title">诗词</span>
+                    <span class="module-desc">经典咏流传</span>
+                </a>
+            </div>
+
+            <div class="mini-stats">
+                 <div class="stat-item">
+                    <div class="stat-value" id="days-lived">0</div>
+                    <div class="stat-label">Days Lived</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Modules</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Dynamic Greeting
+        const hour = new Date().getHours();
+        const greetingEl = document.getElementById('greeting');
+        let greeting = 'Hello.';
+        if (hour >= 5 && hour < 12) greeting = 'Good Morning.';
+        else if (hour >= 12 && hour < 18) greeting = 'Good Afternoon.';
+        else greeting = 'Good Evening.';
+        greetingEl.textContent = greeting;
+
+        // Days Lived (assuming birthday 1998-01-01 for demo)
+        const birthday = new Date('1998-01-01');
+        const now = new Date();
+        const diffTime = Math.abs(now - birthday);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        const daysContainer = document.getElementById('days-lived');
+        const days = Math.floor((new Date() - new Date('1998-01-01')) / (1000 * 60 * 60 * 24));
+        animateValue(daysContainer, 0, days, 2000);
+
+        // Simple Random Quotes
+        const quotes = [
+            { text: "人无压力轻飘飘，井无压力不出油。", author: "Iron Man Wang" },
+            { text: "Talk is cheap. Show me the code.", author: "Linus Torvalds" },
+            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
+            { text: "知行合一。", author: "王阳明" },
+            { text: "不积跬步，无以至千里。", author: "荀子" }
+        ];
+        
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quote-text').textContent = randomQuote.text;
+        document.getElementById('quote-author').textContent = "— " + randomQuote.author;
+    </script>
+</body>
+</html>
+

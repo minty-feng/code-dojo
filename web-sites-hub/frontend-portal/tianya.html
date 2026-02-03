@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="天涯社区经典神贴收藏">
+    <title>经典阅读 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/diary.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .post-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .post-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .post-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .post-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .tag {
+            background: rgba(255,255,255,0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="https://diary.joketop.com" class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">经典阅读</p>
+                </a>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="https://diary.joketop.com" style="color: var(--text-secondary); text-decoration: none;">日记</a>
+                    <a href="goals.html" style="color: var(--text-secondary); text-decoration: none;">目标</a>
+                    <a href="tianya.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">经典</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="diary-main">
+            <section class="timeline-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-text">天涯神贴</span>
+                    </h2>
+                    <p class="section-subtitle">互联网的记忆，时代的思想火花</p>
+                </div>
+
+                <div class="posts-list">
+                    <!-- Post 1 -->
+                    <a href="#" class="post-card">
+                        <h3 class="post-title">《寒门再难出贵子》</h3>
+                        <div class="post-meta">
+                            <span>Author: 永不言败</span>
+                            <span>Date: 2012</span>
+                            <span class="tag">社会</span>
+                            <span class="tag">阶层</span>
+                        </div>
+                        <p class="post-excerpt">
+                            这是一篇关于社会阶层固化和个人奋斗的深度思考。文章通过身边几个真实的故事，剖析了不同家庭背景下的孩子在成长过程中面临的机遇与挑战，即便是今日读来，依然振聋发聩。
+                        </p>
+                    </a>
+
+                    <!-- Post 2 -->
+                    <a href="#" class="post-card">
+                        <h3 class="post-title">《大江大河：中国经济的四十年的缩影》</h3>
+                        <div class="post-meta">
+                            <span>Author: 沧海一声笑</span>
+                            <span>Date: 2010</span>
+                            <span class="tag">经济</span>
+                            <span class="tag">历史</span>
+                        </div>
+                        <p class="post-excerpt">
+                            回顾改革开放以来的经济变迁，从个体户到国企改革，从房地产到互联网。这是一部普通人的奋斗史，也是一部国家的发展史。
+                        </p>
+                    </a>
+
+                    <!-- Post 3 -->
+                    <a href="#" class="post-card">
+                        <h3 class="post-title">《明朝那些事儿》连载楼</h3>
+                        <div class="post-meta">
+                            <span>Author: 当年明月</span>
+                            <span>Date: 2006</span>
+                            <span class="tag">历史</span>
+                            <span class="tag">经典</span>
+                        </div>
+                        <p class="post-excerpt">
+                            历史可以很精彩，历史可以很好看。当年明月用幽默风趣的语言，将明朝三百年的历史娓娓道来，开启了新历史写作的先河。
+                        </p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="minty-feng 的生活日记 - 记录生活点滴、思考感悟、旅行见闻">
+    <title>生活日记 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/diary.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <!-- Snowflakes container (only visible in dark mode) -->
+        <div class="snowflakes" id="snowflakes"></div>
+        <!-- Fireflies container (only visible in dark mode) -->
+        <div class="fireflies" id="fireflies"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="https://joketop.com" class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">生活日记</p>
+                </a>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                        <a href="https://diary.joketop.com" style="color: var(--text-primary); font-weight: bold; text-decoration: none; margin-right: 1rem;">日记</a>
+                        <a href="goals.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">目标</a>
+                        <a href="tianya.html" style="color: var(--text-secondary); text-decoration: none;">经典</a>
+                    </nav>
+                    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="diary-main">
+            <!-- Timeline Section -->
+            <section class="timeline-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-number">∞</span>
+                        <span class="section-title-text">时光记录</span>
+                    </h2>
+                    <p class="section-subtitle">生活不止眼前的代码，还有诗和远方</p>
+                </div>
+
+                <!-- Year 2025 -->
+                <div class="year-divider">
+                    <span class="year-text">2025</span>
+                </div>
+
+                <div class="timeline">
+                    <!-- Diary Entry 1 -->
+                    <article class="diary-entry">
+                        <div class="entry-date">
+                            <div class="date-day">07</div>
+                            <div class="date-month">十一月</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-header">
+                                <h3 class="entry-title">初雪</h3>
+                                <div class="entry-tags">
+                                    <span class="tag">生活</span>
+                                    <span class="tag">随笔</span>
+                                </div>
+                            </div>
+                            <p class="entry-text">
+                                今天下了今年的第一场雪。清晨推开窗，整个世界都被白雪覆盖，安静得仿佛时间都停止了。在这样的时刻，突然意识到，写代码和赏雪其实有着异曲同工之妙——都需要耐心，都能在寂静中找到美。
+                            </p>
+                            <div class="entry-meta">
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    心情：平静
+                                </span>
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    北京
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Diary Entry 2 -->
+                    <article class="diary-entry featured">
+                        <div class="entry-date">
+                            <div class="date-day">03</div>
+                            <div class="date-month">十一月</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-header">
+                                <h3 class="entry-title">关于效率的思考</h3>
+                                <div class="entry-tags">
+                                    <span class="tag">思考</span>
+                                    <span class="tag">成长</span>
+                                    <span class="tag featured">精选</span>
+                                </div>
+                            </div>
+                            <p class="entry-text">
+                                最近在反思"效率"这个词。我们总是追求更快、更高效，但有时候慢下来反而能看到更多。就像调试代码，有时候一行行走读比盲目修改更有效。生活也是如此，并不是所有事情都需要追求效率，有些美好需要时间去沉淀。
+                            </p>
+                            <blockquote class="entry-quote">
+                                "慢即是快，少即是多。" —— 某位智者
+                            </blockquote>
+                            <div class="entry-meta">
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    心情：充实
+                                </span>
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    咖啡馆
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Diary Entry 3 -->
+                    <article class="diary-entry">
+                        <div class="entry-date">
+                            <div class="date-day">28</div>
+                            <div class="date-month">十月</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-header">
+                                <h3 class="entry-title">周末徒步记</h3>
+                                <div class="entry-tags">
+                                    <span class="tag">旅行</span>
+                                    <span class="tag">运动</span>
+                                </div>
+                            </div>
+                            <p class="entry-text">
+                                和朋友们去了香山，秋天的红叶真的很美。爬到半山腰的时候累得不行，但看到满山的红叶那一刻，觉得所有的付出都值得。下山后大家一起吃火锅，聊天到深夜，这种简单的快乐最珍贵。
+                            </p>
+                            <div class="entry-photos">
+                                <div class="photo-placeholder">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                    <span>香山红叶</span>
+                                </div>
+                                <div class="photo-placeholder">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                    <span>山顶合影</span>
+                                </div>
+                            </div>
+                            <div class="entry-meta">
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    心情：开心
+                                </span>
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    香山
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Diary Entry 4 -->
+                    <article class="diary-entry">
+                        <div class="entry-date">
+                            <div class="date-day">15</div>
+                            <div class="date-month">十月</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-header">
+                                <h3 class="entry-title">读书笔记：《人月神话》</h3>
+                                <div class="entry-tags">
+                                    <span class="tag">读书</span>
+                                    <span class="tag">技术</span>
+                                </div>
+                            </div>
+                            <p class="entry-text">
+                                重读《人月神话》，每次读都有新的收获。"人月"这个概念本身就是一个谬误，9个孕妇并不能在1个月内生出孩子。软件开发不是简单的人力堆砌，沟通成本会随着人数增加呈指数级增长。
+                            </p>
+                            <blockquote class="entry-quote">
+                                "向进度落后的项目中增加人手，只会使进度更加落后。" —— 布鲁克斯定律
+                            </blockquote>
+                            <div class="entry-meta">
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    心情：专注
+                                </span>
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    家
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Diary Entry 5 -->
+                    <article class="diary-entry">
+                        <div class="entry-date">
+                            <div class="date-day">01</div>
+                            <div class="date-month">十月</div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-header">
+                                <h3 class="entry-title">国庆假期小结</h3>
+                                <div class="entry-tags">
+                                    <span class="tag">总结</span>
+                                    <span class="tag">生活</span>
+                                </div>
+                            </div>
+                            <p class="entry-text">
+                                国庆假期过得飞快。没有选择出远门，而是在家附近走走停停，发现了好几家有趣的小店。有时候，美好就在身边，不需要走很远。这个假期最大的收获是重新整理了书架，把很多书重新分类，感觉生活都变得更有序了。
+                            </p>
+                            <div class="entry-meta">
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    心情：放松
+                                </span>
+                                <span class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    家附近
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="load-more-container">
+                    <button class="load-more-btn">
+                        <span>加载更多</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2025 minty-feng</p>
+                <p class="footer-accent">记录生活，感受美好</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/diary.js"></script>
+</body>
+</html>
+

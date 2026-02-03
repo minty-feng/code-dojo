@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="网速测试工具集合 - 快速访问各大测速平台">
+    <title>网速测试 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .speed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        .speed-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .speed-card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .speed-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .speed-card:hover .speed-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .speed-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .speed-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .speed-btn {
+            margin-top: auto;
+            padding: 0.75rem 2rem;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .speed-card:hover .speed-btn {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Specific card colors/gradients */
+        .card-ookla .speed-icon { color: #00b0f0; } 
+        .card-fast .speed-icon { color: #e50914; }
+        .card-cloudflare .speed-icon { color: #f38020; }
+        .card-aliyun .speed-icon { color: #ff6a00; }
+        .card-google .speed-icon { color: #4285f4; }
+        .card-custom .speed-icon { color: #34a853; }
+        .card-checkhost .speed-icon { color: #f44336; }
+        .card-chinaz .speed-icon { color: #9c27b0; }
+        .card-speedcn .speed-icon { color: #2196f3; }
+
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">网速测试中心</p>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-title-text">全球网速测试</span>
+                </h2>
+                <p class="section-subtitle">精选全球主流测速节点，一键直达</p>
+            </div>
+
+            <div class="speed-grid">
+                <!-- Speedtest.net -->
+                <a href="https://www.speedtest.net/" target="_blank" class="speed-card card-ookla">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
+                            <path d="M2 12h4"></path>
+                            <path d="M18 12h4"></path>
+                            <path d="M12 2v4"></path>
+                            <path d="M12 18v4"></path>
+                            <path d="M12 12l3-3"></path>
+                        </svg>
+                    </div>
+                    <div class="speed-title">Speedtest by Ookla</div>
+                    <div class="speed-desc">全球最流行的测速工具，拥有最广泛的测试节点服务器网络。</div>
+                    <div class="speed-btn">开始测试</div>
+                </a>
+
+                <!-- Fast.com -->
+                <a href="https://fast.com/" target="_blank" class="speed-card card-fast">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                    </div>
+                    <div class="speed-title">Fast.com</div>
+                    <div class="speed-desc">由 Netflix 提供的极简测速工具，专注于测试视频流媒体的下载速度。</div>
+                    <div class="speed-btn">开始测试</div>
+                </a>
+
+                <!-- Cloudflare -->
+                <a href="https://speed.cloudflare.com/" target="_blank" class="speed-card card-cloudflare">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M8 12a4 4 0 0 1 8 0"></path>
+                            <path d="M9.5 12a2.5 2.5 0 0 1 5 0"></path>
+                        </svg>
+                    </div>
+                    <div class="speed-title">Cloudflare Speed</div>
+                    <div class="speed-desc">提供详细的网络质量报告，包括延迟、抖动、丢包率等专业数据。</div>
+                    <div class="speed-btn">查看报告</div>
+                </a>
+
+                <!-- Google Fiber -->
+                <a href="http://speedtest.googlefiber.net/" target="_blank" class="speed-card card-google">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <div class="speed-title">Google Fiber</div>
+                    <div class="speed-desc">Google 光纤提供的测速服务，界面简洁，测试结果准确可靠。</div>
+                    <div class="speed-btn">开始测试</div>
+                </a>
+                
+                 <!-- AliYun (Generic placeholder link as specific one changes often, mapping to a search or common tool) -->
+                 <a href="https://www.aliyun.com/product/cdn?help_test" target="_blank" class="speed-card card-aliyun">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1v-4s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                            <line x1="4" y1="22" x2="4" y2="15"></line>
+                        </svg>
+                    </div>
+                    <div class="speed-title">阿里云测速</div>
+                    <div class="speed-desc">针对国内线路优化的测速工具，适合测试云端服务器连接质量。</div>
+                    <div class="speed-btn">前往测试</div>
+                </a>
+                
+                 <!-- China Telecom / 10000.gd.cn equivalent -->
+                 <a href="http://10000.gd.cn/" target="_blank" class="speed-card card-custom">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                        </svg>
+                    </div>
+                    <div class="speed-title">电信宽带测速</div>
+                    <div class="speed-desc">中国电信官方宽带测速，测试家庭宽带接入速率最准确的工具。</div>
+                    <div class="speed-btn">官方测速</div>
+                </a>
+
+                <!-- Check Host -->
+                <a href="https://check-host.net/" target="_blank" class="speed-card card-checkhost">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </div>
+                    <div class="speed-title">Check-Host</div>
+                    <div class="speed-desc">强大的全球Ping、HTTP检测工具，支持多节点上传下载测试。</div>
+                    <div class="speed-btn">开始检测</div>
+                </a>
+
+                <!-- 测速网 (Speedtest Classic CN) -->
+                <a href="http://www.speedtest.cn/" target="_blank" class="speed-card card-speedcn">
+                    <div class="speed-icon">
+                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="speed-title">测速网</div>
+                    <div class="speed-desc">国内老牌专业测速平台，节点覆盖广泛，适合测试内网和国内宽带。</div>
+                    <div class="speed-btn">立即测速</div>
+                </a>
+
+                <!-- Chinaz Tool -->
+                <a href="http://tool.chinaz.com/speedtest/" target="_blank" class="speed-card card-chinaz">
+                    <div class="speed-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                            <line x1="9" y1="20" x2="15" y2="20"></line>
+                            <line x1="12" y1="4" x2="12" y2="20"></line>
+                        </svg>
+                    </div>
+                    <div class="speed-title">站长工具测速</div>
+                    <div class="speed-desc">专业的网站速度测试工具，可检测国内各地区ping值和响应速度。</div>
+                    <div class="speed-btn">Ping检测</div>
+                </a>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2026 minty-feng</p>
+                <p class="footer-accent">Network Speed Test Center</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+       // Simple Theme Toggle Logic (inline for simplicity)
+       const themeToggle = document.getElementById('themeToggle');
+       const body = document.body;
+       
+       // Check saved theme
+       if (localStorage.getItem('theme') === 'dark') {
+           body.setAttribute('data-theme', 'dark');
+       } else if (localStorage.getItem('theme') === 'light') {
+           body.setAttribute('data-theme', 'light');
+       } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+           body.setAttribute('data-theme', 'dark');
+       }
+
+       themeToggle.addEventListener('click', () => {
+           const currentTheme = body.getAttribute('data-theme');
+           const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+           body.setAttribute('data-theme', newTheme);
+           localStorage.setItem('theme', newTheme);
+       });
+    </script>
+</body>
+</html>

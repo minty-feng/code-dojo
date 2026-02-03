@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="经典诗词歌赋收藏">
+    <title>诗词歌赋 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/diary.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <style>
+        .poem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .poem-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 4px; /* More paper-like */
+            border: 1px solid var(--border-color);
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+        .poem-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+        }
+        .poem-title {
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .poem-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .poem-content {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            white-space: pre-line;
+        }
+        .ink-stain {
+            position: absolute;
+            background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                     <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">诗词歌赋</p>
+                </a>
+               <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                         <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                        <a href="poems.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">诗词</a>
+                    </nav>
+                    <button class="theme-toggle" id="themeToggle">
+                         <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="diary-main">
+            <!-- Loading State -->
+            <div id="loading" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                <p>正在研墨...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-message" style="display: none; text-align: center; color: var(--text-muted); padding: 2rem;">
+                <p>暂时无法获取远程诗词，已加载精选集。</p>
+            </div>
+
+            <div class="poem-grid" id="poem-grid">
+                <!-- Poems will be inserted here -->
+            </div>
+        </main>
+    </div>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Default backup poems in case backend is offline
+        const fallbackPoems = [
+            {
+                title: "定风波",
+                author: "宋 · 苏轼",
+                content: "莫听穿林打叶声，何妨吟啸且徐行。\n竹杖芒鞋轻胜马，谁怕？\n一蓑烟雨任平生。\n\n料峭春风吹酒醒，微冷，山头斜照却相迎。\n回首向来萧瑟处，归去，\n也无风雨也无晴。"
+            },
+            {
+                title: "将进酒",
+                author: "唐 · 李白",
+                content: "君不见，黄河之水天上来，\n奔流到海不复回。\n天生我材必有用，\n千金散尽还复来。"
+            },
+            {
+                title: "行路难",
+                author: "唐 · 李白",
+                content: "长风破浪会有时，\n直挂云帆济沧海。"
+            }
+        ];
+
+        // Function to create poem card HTML
+        function createPoemCard(poem) {
+            const article = document.createElement('article');
+            article.className = 'poem-card';
+            
+            // Format author if it comes from API as "Subject" and "Dynasty"
+            let authorText = poem.author;
+            if (poem.dynesty) {
+                authorText = `${poem.dynesty} · ${poem.author}`;
+            }
+
+            article.innerHTML = `
+                <h3 class="poem-title">${poem.title}</h3>
+                <p class="poem-author">${authorText}</p>
+                <div class="poem-content">${poem.content}</div>
+                <div class="ink-stain"></div>
+            `;
+            return article;
+        }
+
+        async function fetchPoems() {
+            const grid = document.getElementById('poem-grid');
+            const loading = document.getElementById('loading');
+            const errorMsg = document.getElementById('error-message');
+            
+            // Try to fetch from local backend first (common port 8000 or 8080)
+            // Assuming the backend is running on localhost:8080 as configured
+            const API_URL = 'http://localhost:8080/api/poems';
+
+            try {
+                const response = await fetch(API_URL, { 
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' },
+                    signal: AbortSignal.timeout(2000) // 2 second timeout
+                });
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const poems = await response.json();
+                
+                // Clear loading
+                loading.style.display = 'none';
+                
+                // Render poems
+                poems.forEach(poem => {
+                    grid.appendChild(createPoemCard(poem));
+                });
+                
+            } catch (error) {
+                console.log('Backend not available, using fallback data:', error);
+                
+                loading.style.display = 'none';
+                errorMsg.style.display = 'block'; // Show "using fallback" message
+                
+                // Use fallback data
+                fallbackPoems.forEach(poem => {
+                    grid.appendChild(createPoemCard(poem));
+                });
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', fetchPoems);
+    </script>
+</body>
+</html>
