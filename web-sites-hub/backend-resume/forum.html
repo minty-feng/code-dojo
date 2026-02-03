@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术问答论坛</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* 顶部导航栏 */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1C64F2;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn-primary {
+            background: #1C64F2;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background: #1557d0;
+        }
+        
+        /* 主容器 */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* 帖子列表页面 */
+        .forum-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+        
+        .posts-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .posts-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .posts-header h1 {
+            font-size: 1.5rem;
+            color: #111;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 0.9rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #1C64F2;
+            border-bottom-color: #1C64F2;
+        }
+        
+        .post-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .post-item:hover {
+            background: #f9fafb;
+        }
+        
+        .post-item:last-child {
+            border-bottom: none;
+        }
+        
+        .post-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .post-badge {
+            background: #1C64F2;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+        
+        .post-badge.new {
+            background: #10b981;
+        }
+        
+        .post-badge.hot {
+            background: #f59e0b;
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1C64F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .post-stats {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+        
+        .sidebar-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+        
+        .on-duty-list {
+            list-style: none;
+        }
+        
+        .on-duty-item {
+            padding: 0.8rem;
+            background: #f9fafb;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .on-duty-item.active {
+            background: #eff6ff;
+            border-left: 3px solid #1C64F2;
+        }
+        
+        .on-duty-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .on-duty-info {
+            flex: 1;
+        }
+        
+        .on-duty-name {
+            font-weight: 600;
+            color: #111;
+            font-size: 0.9rem;
+        }
+        
+        .on-duty-role {
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        .on-duty-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+        
+        /* 帖子详情页 */
+        .post-detail-page {
+            display: none;
+        }
+        
+        .post-detail-page.active {
+            display: block;
+        }
+        
+        .post-header {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .post-header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 1rem;
+        }
+        
+        .post-header-meta {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .back-btn {
+            background: #f3f4f6;
+            color: #666;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .chat-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chat-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header h2 {
+            font-size: 1.1rem;
+            color: #111;
+        }
+        
+        .mentioned-users {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        
+        .mention-tag {
+            background: #eff6ff;
+            color: #1C64F2;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .chat-iframe-container {
+            height: 700px;
+            position: relative;
+        }
+        
+        .chat-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 对话记录 */
+        .conversations-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+        
+        .conversations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .conversation-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background: #f9fafb;
+            border-left: 4px solid #1C64F2;
+        }
+        
+        .conversation-item.user {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .conversation-item.robot {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .conversation-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .conversation-content {
+            color: #111;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+        
+        .empty-conversations {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .forum-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 1rem;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .post-header-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">💬 技术问答论坛</div>
+            <div class="nav-actions">
+                <button class="btn-primary" onclick="showNewPostForm()">+ 发布新帖</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主容器 -->
+    <div class="main-container">
+        <!-- 帖子列表页面 -->
+        <div id="posts-page" class="forum-layout">
+            <div class="posts-container">
+                <div class="posts-header">
+                    <h1>最新帖子</h1>
+                </div>
+                <div class="filter-tabs">
+                    <button class="tab active" onclick="filterPosts('all')">全部</button>
+                    <button class="tab" onclick="filterPosts('new')">最新</button>
+                    <button class="tab" onclick="filterPosts('hot')">热门</button>
+                    <button class="tab" onclick="filterPosts('my')">我的</button>
+                </div>
+                <div id="posts-list">
+                    <!-- 帖子列表将通过 JavaScript 动态生成 -->
+                </div>
+            </div>
+            
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>👥 值班同学</h3>
+                    <ul class="on-duty-list" id="on-duty-list">
+                        <!-- 值班列表将通过 JavaScript 动态生成 -->
+                    </ul>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3>📊 论坛统计</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <div>
+                            <strong id="total-posts">0</strong>
+                            <span style="color: #666; margin-left: 0.5rem;">总帖子数</span>
+                        </div>
+                        <div>
+                            <strong id="total-replies">0</strong>
+                            <span style="color: #666; margin-left: 0.5rem;">总回复数</span>
+                        </div>
+                        <div>
+                            <strong id="online-users">0</strong>
+                            <span style="color: #666; margin-left: 0.5rem;">在线用户</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 帖子详情页面 -->
+        <div id="post-detail-page" class="post-detail-page">
+            <button class="back-btn" onclick="showPostsPage()">← 返回帖子列表</button>
+            
+            <div class="post-header">
+                <h1 class="post-header-title" id="post-detail-title">帖子标题</h1>
+                <div class="post-header-meta" id="post-detail-meta">
+                    <!-- 帖子元信息 -->
+                </div>
+            </div>
+            
+            <div class="chat-section">
+                <div class="chat-header">
+                    <div>
+                        <h2>💬 开始讨论</h2>
+                        <div class="mentioned-users" id="mentioned-users">
+                            <!-- 自动@的值班同学 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-iframe-container">
+                    <iframe
+                        id="dify-chat-iframe"
+                        src="http://agenthub.intra.xiaojukeji.com/chatbot/DXChfprHX2DNh0v7"
+                        frameborder="0"
+                        allow="microphone">
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="conversations-panel">
+                <div class="conversations-header">
+                    <h3>📝 对话记录</h3>
+                    <div>
+                        <button class="btn-primary" onclick="exportConversations()" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">导出记录</button>
+                    </div>
+                </div>
+                <div id="conversations-list">
+                    <div class="empty-conversations">
+                        <p>等待对话开始...</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">对话内容将自动显示在这里</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 数据存储
+        let posts = JSON.parse(localStorage.getItem('forum_posts') || '[]');
+        let conversations = {};
+        let currentPostId = null;
+        let onDutyUsers = [
+            { id: 1, name: '张三', role: '前端工程师', avatar: '张', active: true },
+            { id: 2, name: '李四', role: '后端工程师', avatar: '李', active: true },
+            { id: 3, name: '王五', role: '全栈工程师', avatar: '王', active: false },
+            { id: 4, name: '赵六', role: 'DevOps', avatar: '赵', active: true }
+        ];
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts();
+            renderOnDutyList();
+            updateStats();
+            
+            // 监听 postMessage 收集对话
+            window.addEventListener('message', function(event) {
+                if (event.origin === 'http://agenthub.intra.xiaojukeji.com' && currentPostId) {
+                    handleChatMessage(event.data, currentPostId);
+                }
+            });
+        });
+        
+        // 渲染帖子列表
+        function renderPosts() {
+            const postsList = document.getElementById('posts-list');
+            
+            if (posts.length === 0) {
+                postsList.innerHTML = `
+                    <div style="padding: 3rem; text-align: center; color: #999;">
+                        <p>还没有帖子，快来发布第一个吧！</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            postsList.innerHTML = posts.map(post => `
+                <div class="post-item" onclick="openPost(${post.id})">
+                    <div class="post-title">
+                        ${post.title}
+                        ${post.isNew ? '<span class="post-badge new">新</span>' : ''}
+                        ${post.replyCount > 10 ? '<span class="post-badge hot">热门</span>' : ''}
+                    </div>
+                    <div class="post-meta">
+                        <div class="post-author">
+                            <div class="avatar">${post.author.charAt(0)}</div>
+                            <span>${post.author}</span>
+                        </div>
+                        <div class="post-stats">
+                            <div class="stat-item">💬 ${post.replyCount} 回复</div>
+                            <div class="stat-item">👁️ ${post.viewCount} 浏览</div>
+                            <div class="stat-item">🕒 ${formatTime(post.createdAt)}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 渲染值班列表
+        function renderOnDutyList() {
+            const list = document.getElementById('on-duty-list');
+            list.innerHTML = onDutyUsers.map(user => `
+                <li class="on-duty-item ${user.active ? 'active' : ''}">
+                    <div class="on-duty-avatar">${user.avatar}</div>
+                    <div class="on-duty-info">
+                        <div class="on-duty-name">${user.name}</div>
+                        <div class="on-duty-role">${user.role}</div>
+                    </div>
+                    ${user.active ? '<div class="on-duty-status"></div>' : ''}
+                </li>
+            `).join('');
+        }
+        
+        // 更新统计信息
+        function updateStats() {
+            document.getElementById('total-posts').textContent = posts.length;
+            const totalReplies = posts.reduce((sum, post) => sum + post.replyCount, 0);
+            document.getElementById('total-replies').textContent = totalReplies;
+            document.getElementById('online-users').textContent = onDutyUsers.filter(u => u.active).length;
+        }
+        
+        // 打开帖子详情
+        function openPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            currentPostId = postId;
+            
+            // 更新帖子浏览量
+            post.viewCount++;
+            savePosts();
+            
+            // 显示详情页
+            document.getElementById('posts-page').style.display = 'none';
+            document.getElementById('post-detail-page').classList.add('active');
+            
+            // 更新帖子信息
+            document.getElementById('post-detail-title').textContent = post.title;
+            document.getElementById('post-detail-meta').innerHTML = `
+                <div class="post-author">
+                    <div class="avatar">${post.author.charAt(0)}</div>
+                    <span>${post.author}</span>
+                </div>
+                <div class="post-stats">
+                    <div class="stat-item">💬 ${post.replyCount} 回复</div>
+                    <div class="stat-item">👁️ ${post.viewCount} 浏览</div>
+                    <div class="stat-item">🕒 ${formatTime(post.createdAt)}</div>
+                </div>
+            `;
+            
+            // 自动@值班同学
+            autoMentionOnDuty();
+            
+            // 渲染对话记录
+            renderConversations(postId);
+        }
+        
+        // 自动@值班同学
+        function autoMentionOnDuty() {
+            const activeUsers = onDutyUsers.filter(u => u.active);
+            const mentionedDiv = document.getElementById('mentioned-users');
+            
+            if (activeUsers.length > 0) {
+                mentionedDiv.innerHTML = `
+                    <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">已自动通知值班同学：</div>
+                    ${activeUsers.map(user => `
+                        <div class="mention-tag">
+                            <span>@</span>
+                            <span>${user.name}</span>
+                        </div>
+                    `).join('')}
+                `;
+            } else {
+                mentionedDiv.innerHTML = '';
+            }
+        }
+        
+        // 渲染对话记录
+        function renderConversations(postId) {
+            const list = document.getElementById('conversations-list');
+            const convs = conversations[postId] || [];
+            
+            if (convs.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-conversations">
+                        <p>等待对话开始...</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">对话内容将自动显示在这里</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = convs.map(conv => `
+                <div class="conversation-item ${conv.type}">
+                    <div class="conversation-meta">
+                        <span>${conv.type === 'user' ? '👤 用户' : '🤖 机器人'}</span>
+                        <span>${conv.timestamp}</span>
+                    </div>
+                    <div class="conversation-content">${escapeHtml(conv.content)}</div>
+                </div>
+            `).join('');
+            
+            // 滚动到底部
+            list.scrollTop = list.scrollHeight;
+        }
+        
+        // 处理聊天消息
+        function handleChatMessage(data, postId) {
+            if (!conversations[postId]) {
+                conversations[postId] = [];
+            }
+            
+            const timestamp = new Date().toLocaleString('zh-CN');
+            
+            // 解析消息格式
+            if (data && data.type) {
+                let content = data.content || data.message || data.text;
+                let type = 'robot';
+                
+                if (data.type === 'user_message' || data.type === 'user') {
+                    type = 'user';
+                } else if (data.type === 'bot_message' || data.type === 'assistant_message') {
+                    type = 'robot';
+                }
+                
+                // 检查是否包含@值班同学
+                const mentioned = checkMentions(content);
+                if (mentioned.length > 0) {
+                    content += `\n\n已通知: ${mentioned.map(u => `@${u.name}`).join(' ')}`;
+                }
+                
+                const conversation = {
+                    type: type,
+                    content: content,
+                    timestamp: timestamp
+                };
+                
+                // 避免重复
+                const exists = conversations[postId].some(c => 
+                    c.content === conversation.content && 
+                    c.timestamp === conversation.timestamp
+                );
+                
+                if (!exists) {
+                    conversations[postId].push(conversation);
+                    saveConversations();
+                    
+                    // 更新帖子回复数
+                    const post = posts.find(p => p.id === postId);
+                    if (post && type === 'user') {
+                        post.replyCount++;
+                        savePosts();
+                    }
+                    
+                    // 实时渲染
+                    if (currentPostId === postId) {
+                        renderConversations(postId);
+                    }
+                }
+            }
+        }
+        
+        // 检查消息中的@提及
+        function checkMentions(content) {
+            const mentioned = [];
+            const activeUsers = onDutyUsers.filter(u => u.active);
+            
+            activeUsers.forEach(user => {
+                if (content.includes(`@${user.name}`) || content.includes(user.name)) {
+                    mentioned.push(user);
+                }
+            });
+            
+            return mentioned;
+        }
+        
+        // 显示帖子列表页
+        function showPostsPage() {
+            document.getElementById('posts-page').style.display = 'grid';
+            document.getElementById('post-detail-page').classList.remove('active');
+            currentPostId = null;
+            renderPosts();
+            updateStats();
+        }
+        
+        // 显示新帖表单
+        function showNewPostForm() {
+            const title = prompt('请输入帖子标题:');
+            if (!title) return;
+            
+            const author = prompt('请输入您的名字:', '匿名用户') || '匿名用户';
+            
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                author: author,
+                createdAt: new Date().toISOString(),
+                replyCount: 0,
+                viewCount: 0,
+                isNew: true
+            };
+            
+            posts.unshift(newPost);
+            savePosts();
+            renderPosts();
+            updateStats();
+            
+            // 自动打开新帖子
+            setTimeout(() => openPost(newPost.id), 100);
+        }
+        
+        // 过滤帖子
+        function filterPosts(type) {
+            // 更新标签状态
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 这里可以添加过滤逻辑
+            renderPosts();
+        }
+        
+        // 导出对话记录
+        function exportConversations() {
+            if (!currentPostId) {
+                alert('请先打开一个帖子');
+                return;
+            }
+            
+            const convs = conversations[currentPostId] || [];
+            if (convs.length === 0) {
+                alert('没有对话记录可导出');
+                return;
+            }
+            
+            const post = posts.find(p => p.id === currentPostId);
+            const data = {
+                postTitle: post.title,
+                postId: currentPostId,
+                exportTime: new Date().toISOString(),
+                conversations: convs
+            };
+            
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `forum-post-${currentPostId}-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // 保存数据
+        function savePosts() {
+            localStorage.setItem('forum_posts', JSON.stringify(posts));
+        }
+        
+        function saveConversations() {
+            localStorage.setItem('forum_conversations', JSON.stringify(conversations));
+        }
+        
+        function loadConversations() {
+            const saved = localStorage.getItem('forum_conversations');
+            if (saved) {
+                conversations = JSON.parse(saved);
+            }
+        }
+        
+        // 工具函数
+        function formatTime(isoString) {
+            const date = new Date(isoString);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) return '刚刚';
+            if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
+            if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
+            if (diff < 604800000) return `${Math.floor(diff / 86400000)}天前`;
+            
+            return date.toLocaleDateString('zh-CN');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // 加载保存的对话记录
+        loadConversations();
+        
+        // 初始化示例数据（如果没有帖子）
+        if (posts.length === 0) {
+            posts = [
+                {
+                    id: 1,
+                    title: '如何配置 Dify 聊天机器人？',
+                    author: '小明',
+                    createdAt: new Date(Date.now() - 3600000).toISOString(),
+                    replyCount: 5,
+                    viewCount: 23,
+                    isNew: false
+                },
+                {
+                    id: 2,
+                    title: '论坛系统使用指南',
+                    author: '小红',
+                    createdAt: new Date(Date.now() - 7200000).toISOString(),
+                    replyCount: 12,
+                    viewCount: 45,
+                    isNew: false
+                }
+            ];
+            savePosts();
+            renderPosts();
+        }
+    </script>
+</body>
+</html>

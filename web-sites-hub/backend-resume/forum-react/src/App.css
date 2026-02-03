@@ -1,0 +1,51 @@
+.main-container {
+    max-width: 1600px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.forum-chat-layout {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 2rem;
+    height: calc(100vh - 200px);
+}
+
+.forum-posts-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.forum-chat-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+    .forum-chat-layout {
+        grid-template-columns: 350px 1fr;
+    }
+}
+
+@media (max-width: 968px) {
+    .forum-chat-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .forum-posts-section {
+        max-height: 400px;
+    }
+    
+    .forum-chat-section {
+        min-height: 500px;
+    }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历 - 需要邀请码</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-section">
+            <div class="logo">👤</div>
+            <h1>个人简历</h1>
+            <p class="subtitle">请输入邀请码查看完整简历内容</p>
+
+            <div class="input-group">
+                <input type="text" id="inviteCode" placeholder="输入32位邀请码" maxlength="32" autocomplete="off">
+            </div>
+
+            <button onclick="verifyInvite()" class="auth-btn">
+                <span class="btn-icon">🔐</span>
+                验证邀请码
+            </button>
+
+            <div id="statusBubble" class="status-bubble" aria-live="polite">
+                <span class="status-icon">💬</span>
+                <span class="status-text">请联系简历主人获取邀请码</span>
+            </div>
+        </div>
+    </div>
+    <script src="/static/auth.js"></script>
+</body>
+</html>
+
