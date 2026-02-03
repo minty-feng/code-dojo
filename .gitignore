@@ -2,5 +2,8 @@
 web-sites-hub/*/venv/
 web-sites-hub/*/*.gz
 web-sites-hub/*/*.tar.gz
+web-sites-hub/frontend-docs/*/venv/
+web-sites-hub/frontend-docs/*/*.gz
+web-sites-hub/frontend-docs/*/*.tar.gz
 .github
 web-sites-hub/venv/

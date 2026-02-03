@@ -36,7 +36,7 @@
 
 ```bash
 # 编辑配置文件
-vim sphinx-docs/joketop.conf
+vim web-sites-hub/joketop.conf
 
 # 测试配置
 sudo nginx -t
@@ -49,7 +49,7 @@ sudo ./deploy-all-docs.sh
 
 ```bash
 # 编辑配置
-vim sphinx-docs/joketop.conf
+vim web-sites-hub/joketop.conf
 
 # 手动拷贝到 Nginx 目录
 sudo cp joketop.conf /etc/nginx/sites-available/joketop.conf
@@ -123,10 +123,10 @@ joketop.conf
 
 ```bash
 # 1. 修改配置（如果需要）
-vim sphinx-docs/joketop.conf
+vim web-sites-hub/joketop.conf
 
 # 2. 部署（包含证书管理）
-cd sphinx-docs
+cd web-sites-hub
 sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
 
 # 3. 验证

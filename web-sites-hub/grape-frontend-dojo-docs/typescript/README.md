@@ -1,1 +1,0 @@
-../../../grape-frontend-dojo/typescript/README.md

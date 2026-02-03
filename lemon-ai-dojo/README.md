@@ -14,7 +14,7 @@
 - **神经网络**：感知机、多层感知机、反向传播
 - **CNN**：卷积层、池化层、全连接层、图像处理
 - **RNN**：循环神经网络、LSTM、GRU、序列建模
-- **Transformer**：注意力机制、BERT、GPT、大语言模型
+- **Transformer**：注意力机制、BERT、GPT、大语言模型、多模态模型
 
 ### 自然语言处理
 - **文本预处理**：分词、词性标注、命名实体识别
@@ -27,6 +27,12 @@
 - **图像识别**：物体识别、场景分类、人脸识别
 - **目标检测**：R-CNN、YOLO、SSD、实时检测
 - **图像生成**：GAN、VAE、扩散模型、风格迁移
+
+### AI Agent系统
+- **自主代理**：目标导向、任务规划、工具调用
+- **多模态Agent**：视觉理解、语音交互、文本生成
+- **协作Agent**：团队协作、角色分工、知识共享
+- **记忆系统**：短期记忆、长期记忆、向量检索
 
 ## 🛠️ 开发框架
 
@@ -43,10 +49,17 @@
 - **Seaborn**：统计可视化、美观图表、数据探索
 
 ### 云服务
-- **AWS**：SageMaker、EC2、S3、Lambda
-- **Azure**：Machine Learning、Cognitive Services
-- **Google Cloud**：AI Platform、AutoML、Vertex AI
-- **阿里云**：PAI、机器学习、智能语音
+- **AWS**：SageMaker、EC2、S3、Lambda、Bedrock
+- **Azure**：Machine Learning、Cognitive Services、OpenAI Service
+- **Google Cloud**：AI Platform、AutoML、Vertex AI、Gemini API
+- **阿里云**：PAI、机器学习、智能语音、通义千问
+
+### AI工具与平台
+- **编程助手**：GitHub Copilot、Cursor、Codeium、Tabnine
+- **对话平台**：ChatGPT、Claude、Gemini、Poe、Perplexity
+- **Agent框架**：LangChain、AutoGPT、BabyAGI、CrewAI
+- **向量数据库**：Pinecone、Chroma、Weaviate、Milvus
+- **模型部署**：Hugging Face、Replicate、Together AI、Ollama
 
 ## 🎯 学习重点
 
@@ -89,10 +102,11 @@
 - **项目实践**：端到端的AI应用
 
 ### 第四阶段：高级应用 (持续)
-- **大模型**：Transformer、BERT、GPT、ChatGPT
-- **模型优化**：模型压缩、量化、蒸馏
-- **生产部署**：模型服务化、监控、更新
-- **研究前沿**：最新论文、技术趋势
+- **大模型**：Transformer、BERT、GPT、ChatGPT、Claude、Gemini
+- **AI Agent**：自主代理、多模态Agent、工具调用Agent
+- **模型优化**：模型压缩、量化、蒸馏、LoRA、QLoRA
+- **生产部署**：模型服务化、监控、更新、MLOps
+- **研究前沿**：最新论文、技术趋势、AGI探索
 
 ## 💡 实践建议
 

@@ -1,55 +1,84 @@
-# Sphinx 文档统一部署
+# Web Sites Hub 统一管理
+
+本项目是一个整合了个人网站、前后端服务和文档站点的统一工作区。
 
 ## 📁 目录结构
 
 ```
-sphinx-docs/
-├── joketop.conf                    # Nginx 配置文件（239行）
-├── joketop-letsencrypt-temp.conf  # Let's Encrypt 临时配置（37行）
-├── deploy-all-docs.sh              # 统一部署脚本（374行）
-├── DEPLOY-README.md                # 部署说明
-├── NGINX-CONFIG-README.md          # 配置说明
+web-sites-hub/
 │
-├── honey-backend-dojo-docs/        # Backend 文档
-├── grape-frontend-dojo-docs/       # Frontend 文档
-├── apple-ds-core-docs/             # 数据结构文档
-├── banana-algo-core-docs/          # 算法文档
-└── cookie-os-network-docs/         # 操作系统和网络文档
+├── frontend-portal/                # 个人网站主入口 (Static HTML/JS)
+│   ├── index.html                  # joketop.com 主页
+│   ├── learning.html               # 学习笔记聚合页
+│   ├── showcase.html               # 项目展示页
+│   ├── resume.html                 # 简历页
+│   ├── diary.html                  # 生活门户 (含时光轴、诗词等子模块)
+│   └── scripts/
+│       └── preview.sh              # 本地预览脚本
+│
+├── frontend-docs/                  # 静态文档站点集合
+│   ├── apple-ds-core-docs/         # 数据结构教程
+│   ├── banana-algo-core-docs/      # 算法教程
+│   ├── honey-backend-dojo-docs/    # 后端教程
+│   ├── grape-frontend-dojo-docs/   # 前端教程
+│   └── cookie-os-network-docs/     # OS与网络教程
+│
+├── backend-poems/                  # 诗词服务 (Python FastAPI)
+│   ├── main.py                     # API 入口
+│   └── requirements.txt
+│
+├── backend-resume/                 # 安全简历服务 (Rust Actix-web)
+│   └── src/
+│
+├── deploy-all-docs.sh              # 统一 Nginx 部署脚本
+├── joketop.conf                    # Nginx 核心配置文件
+├── DEPLOY-README.md                # 部署详细说明
+└── NGINX-CONFIG-README.md          # Nginx 配置说明
 ```
 
-## 🚀 快速开始
+## 🚀 服务概览
 
-### 1. 部署到服务器
+| 服务/站点 | 域名 | 本地对应目录 | 部署技术 |
+|----------|------|-------------|---------|
+| **主站** | `joketop.com` | `frontend-portal/` | 静态 HTML |
+| **简历** | `me.joketop.com` | `backend-resume/` | Rust (反向代理) |
+| **日记** | `diary.joketop.com` | `frontend-portal/diary.html` | 静态 HTML |
+| **诗词** | (内部 API) | `backend-poems/` | Python FastAPI (端口 8080) |
+| **文档** | `blog.joketop.com/*` | `frontend-docs/` | 静态 HTML (Alias) |
+
+## 🛠️ 快速开始
+
+### 1. 启动前端主站预览
 
 ```bash
-# 上传文件到服务器
-scp joketop.conf joketop-letsencrypt-temp.conf deploy-all-docs.sh user@server:~/sphinx-docs/
+cd frontend-portal
+./scripts/preview.sh
+# 访问 http://localhost:8000
+```
 
-# SSH 到服务器
-ssh user@server
+### 2. 启动诗词后端服务
 
-# 部署（含 HTTPS）
-cd ~/sphinx-docs
+```bash
+cd backend-poems
+pip install -r requirements.txt
+python main.py
+# 服务运行在 http://localhost:8080
+```
+
+### 3. 部署生产环境
+
+```bash
+# 执行统一部署脚本
 sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 ```
 
-### 2. 修改配置
-
-```bash
-# 直接编辑配置文件
-vim joketop.conf
-
-# 重新部署
-sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
-```
-
-## 📋 访问地址
+## 📖 访问地址
 
 - **主站**: https://joketop.com
 - **简历**: https://me.joketop.com
 - **学习站点**: https://blog.joketop.com
 
-**文档服务：**
+**文档子站：**
 - Backend: https://blog.joketop.com/backend
 - Frontend: https://blog.joketop.com/frontend
 - 数据结构: https://blog.joketop.com/ds
@@ -58,14 +87,11 @@ sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 
 ## 🔧 架构特点
 
-### 配置与脚本分离
+### 模块化分层
+- **frontend-***: 所有前端资源，包括主站门户 (`portal`) 和文档 (`docs`)。
+- **backend-***: 动态服务后端，按功能拆分 (`poems`, `resume`)。
 
-- ✅ `joketop.conf` - 独立的 Nginx 配置文件
-- ✅ `deploy-all-docs.sh` - 只负责拷贝和部署
-- ✅ 无 EOF heredoc，避免转义问题
-- ✅ 易于维护和版本控制
-
-### 关键优化
+### 统一配置管理
 
 1. **使用 `^~` 修饰符** - 确保 alias location 优先匹配
 2. **移除嵌套 location** - 避免路径解析问题
