@@ -76,7 +76,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 400px;
+            aspect-ratio: 1;
+            width: 100%;
             background: #ffffff;
             border-radius: 12px;
             position: relative;
@@ -84,23 +85,71 @@
             box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
+        
+        .save-btn-preview {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(55, 6, 23, 0.92);
+            color: #ffb703;
+            border: 1px solid rgba(255, 183, 3, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.25s ease;
+            z-index: 10;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+        }
+        
+        .preview-area:hover .save-btn-preview,
+        .preview-area .save-btn-preview.show {
+            opacity: 1;
+        }
+        
+        .save-btn-preview:hover {
+            transform: translateX(-50%) translateY(-1px);
+            background: rgba(55, 6, 23, 0.96);
+            border-color: #ffb703;
+            box-shadow: 0 4px 16px rgba(255, 183, 3, 0.25);
+        }
 
         .fu-display {
             font-size: 12rem;
             line-height: 1;
             user-select: none;
             transition: all 0.3s ease;
-            position: relative;
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 2;
+            padding: 0;
+            text-align: center;
+            white-space: nowrap;
+            /* 补偿书法字体视觉中心偏上 */
+            transform: translateY(0.04em);
         }
 
         /* Decorative squared paper background (Doufang) */
         .doufang {
             position: absolute;
-            width: 80%;
-            height: 80%;
+            /* 70.7% (1/√2)：旋转45度后菱形顶点正好触及四边中点，不超出 */
+            width: 70.7%;
+            height: 70.7%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
             border: 2px solid #d90429;
-            transform: rotate(45deg);
             z-index: 1;
             opacity: 0.2;
             pointer-events: none;
@@ -109,20 +158,24 @@
         .doufang::before {
              content: '';
              position: absolute;
-             top: 10px; left: 10px; right: 10px; bottom: 10px;
+             /* 内层虚线边框，保持比例 */
+             top: 8%;
+             left: 8%;
+             right: 8%;
+             bottom: 8%;
              border: 1px dashed #d90429;
         }
 
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.35rem;
         }
 
         .control-group label {
@@ -240,11 +293,45 @@
             cursor: pointer;
             overflow: visible; /* Allow tooltip to show */
         }
+        
+        .fu-card-save-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(55, 6, 23, 0.9);
+            color: #ffb703;
+            border: 1px solid rgba(255, 183, 3, 0.4);
+            padding: 0.3rem 0.6rem;
+            border-radius: 14px;
+            font-weight: 500;
+            font-size: 0.65rem;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+            z-index: 103;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            white-space: nowrap;
+            backdrop-filter: blur(6px);
+        }
+        
+        .fu-card-save-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .fu-card-save-btn:hover {
+            transform: translateY(-1px);
+            background: rgba(55, 6, 23, 0.95);
+            border-color: #ffb703;
+            box-shadow: 0 3px 12px rgba(255, 183, 3, 0.2);
+        }
 
         .fu-card:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             z-index: 100;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         }
         
         .fu-card .char {
@@ -348,7 +435,7 @@
             cursor: pointer;
             font-size: 1.1rem;
             transition: transform 0.2s;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
         
         button.action-btn:hover {
@@ -392,6 +479,7 @@
             <div class="preview-area" id="preview-area">
                 <div class="doufang"></div>
                 <div class="fu-display" id="fu-display">福</div>
+                <button class="save-btn-preview" id="save-preview-btn">💾 Save</button>
             </div>
 
             <div class="controls">
@@ -451,6 +539,6 @@
         </div>
     </div>
 
-    <script src="assets/js/wufu.js?v=20260203"></script>
+    <script src="assets/js/wufu.js?v=20260205"></script>
 </body>
 </html>

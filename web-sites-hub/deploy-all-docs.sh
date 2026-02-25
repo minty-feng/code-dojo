@@ -16,17 +16,6 @@ NGINX_CONF_TEMPLATE="$SCRIPT_DIR/joketop.conf"
 NGINX_CONF_TEMPLATE_HTTP="$SCRIPT_DIR/joketop-http.conf"
 NGINX_LETSENCRYPT_TEMP="$SCRIPT_DIR/joketop-letsencrypt-temp.conf"
 
-# 旧配置文件列表（需要清理的）
-declare -a OLD_CONFIGS=(
-    "$NGINX_SITES_ENABLED/honey-backend-dojo"
-    "$NGINX_SITES_ENABLED/grape-frontend-dojo"
-    "$NGINX_SITES_ENABLED/apple-ds-core-docs"
-    "$NGINX_SITES_ENABLED/docs-unified"
-    "$NGINX_SITES_AVAILABLE/honey-backend-dojo"
-    "$NGINX_SITES_AVAILABLE/grape-frontend-dojo"
-    "$NGINX_SITES_AVAILABLE/apple-ds-core-docs"
-    "$NGINX_SITES_AVAILABLE/docs-unified"
-)
 
 # 服务配置数组
 # 格式: "路径:部署目录:服务名称"
@@ -195,12 +184,6 @@ if [ "$ENABLE_HTTPS" = "letsencrypt" ]; then
     # 创建符号链接并测试
     ln -sf "$NGINX_CONF_FILE" "$NGINX_SITES_ENABLED/joketop.conf"
     
-    # 再次清理冲突配置（certbot 运行前）
-    for old_config in "${OLD_CONFIGS[@]}"; do
-        if [ -L "$old_config" ] && [ "$(readlink -f "$old_config" 2>/dev/null)" != "$(readlink -f "$NGINX_CONF_FILE" 2>/dev/null)" ]; then
-            rm -f "$old_config"
-        fi
-    done
     
     echo "   🧪 测试 Nginx 配置..."
     if nginx -t 2>&1 | grep -q "successful"; then
@@ -246,12 +229,7 @@ if [ "$ENABLE_HTTPS" = "letsencrypt" ]; then
     ln -sf "$NGINX_CONF_FILE" "$NGINX_SITES_ENABLED/joketop.conf"
     rm -f "$NGINX_SITES_ENABLED/docs-code-dojo"
     rm -f "$NGINX_SITES_ENABLED/joketop.com"
-    for old_config in "${OLD_CONFIGS[@]}"; do
-        if [ -L "$old_config" ] && [ "$(readlink -f "$old_config" 2>/dev/null)" != "$(readlink -f "$NGINX_CONF_FILE" 2>/dev/null)" ]; then
-            echo "      删除冲突配置: $old_config"
-            rm -f "$old_config"
-        fi
-    done
+  
     
     echo ""
     echo "📋 步骤 4/6: 检查证书状态..."
@@ -371,17 +349,6 @@ ln -sf "$NGINX_CONF_FILE" "$NGINX_SITES_ENABLED/joketop.conf"
 rm -f "$NGINX_SITES_ENABLED/docs-code-dojo"
 rm -f "$NGINX_SITES_ENABLED/joketop.com"
 
-# 再次清理可能存在的旧配置（certbot 可能会创建）
-echo "   🧹 清理冲突配置..."
-for old_config in "${OLD_CONFIGS[@]}"; do
-    if [ -L "$old_config" ] && [ "$(readlink -f "$old_config" 2>/dev/null)" != "$(readlink -f "$NGINX_CONF_FILE" 2>/dev/null)" ]; then
-        echo "      删除: $old_config"
-        rm -f "$old_config"
-    elif [ -f "$old_config" ] && [ "$old_config" != "$NGINX_CONF_FILE" ]; then
-        echo "      删除: $old_config"
-        rm -f "$old_config"
-    fi
-done
 
 # 测试 Nginx 配置
 echo "   🧪 测试 Nginx 配置..."

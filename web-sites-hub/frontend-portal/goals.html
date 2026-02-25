@@ -3,77 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="个人目标追踪与纪律管理">
-    <title>目标与纪律 | minty-feng</title>
+    <meta name="description" content="目标、计划、压力管理与日历">
+    <title>目标 · 计划 · 自律 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
-    <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260205">
+    <link rel="stylesheet" href="assets/css/diary.css?v=20260205">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        .goals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .goal-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            backdrop-filter: blur(20px);
-        }
-        .goal-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .progress-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--gradient-life);
-            width: 0%;
-            transition: width 1s ease;
-        }
-        .habit-list {
-            list-style: none;
-        }
-        .habit-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .habit-item:last-child {
-            border-bottom: none;
-        }
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--text-muted);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .checkbox.checked {
-            background: #43e97b;
-            border-color: #43e97b;
-        }
+        .tabs-container { display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); overflow-x: auto; padding-bottom: 1rem; }
+        .tab-btn { padding: 0.75rem 1.5rem; background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-weight: 500; transition: all 0.3s ease; border-bottom: 2px solid transparent; margin-bottom: -1rem; }
+        .tab-btn.active { color: var(--text-primary); border-bottom-color: #43e97b; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .goals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .goal-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; transition: all 0.3s ease; }
+        .goal-card:hover { border-color: #43e97b; box-shadow: 0 8px 32px rgba(67, 233, 123, 0.1); }
+        .goal-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; }
+        .goal-title { font-size: 1.1rem; font-weight: 700; }
+        .icon-btn { width: 28px; height: 28px; border: none; background: rgba(255,255,255,0.1); border-radius: 0.4rem; cursor: pointer; color: var(--text-secondary); transition: all 0.2s ease; font-size: 0.9rem; }
+        .icon-btn:hover { background: rgba(255,255,255,0.2); color: var(--text-primary); }
+
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; margin: 0.75rem 0; }
+        .progress-fill { height: 100%; background: var(--gradient-life); width: 0%; transition: width 0.5s ease; }
+
+        .calendar-container { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .calendar-nav { display: flex; gap: 0.5rem; }
+        .calendar-nav button { width: 28px; height: 28px; border: 1px solid var(--border-color); background: transparent; border-radius: 0.4rem; cursor: pointer; color: var(--text-secondary); transition: all 0.2s ease; }
+        .calendar-nav button:hover { border-color: #43e97b; color: #43e97b; }
+        .calendar-weekday, .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; }
+        .weekday-label { text-align: center; font-size: 0.85rem; color: var(--text-muted); font-weight: 500; padding: 0.5rem; }
+        .calendar-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease; }
+        .calendar-day:hover { background: rgba(67, 233, 123, 0.1); border-color: #43e97b; }
+        .calendar-day.today { background: rgba(67, 233, 123, 0.2); border-color: #43e97b; font-weight: 700; }
+
+        .stress-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stress-meter { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; }
+        .stress-level { font-size: 2rem; font-weight: 700; margin: 0.5rem 0; }
+        .stress-level.low { color: #43e97b; }
+        .stress-level.medium { color: #ffe66d; }
+        .stress-level.high { color: #ff6b6b; }
+
+        .reminder-form { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 0.5rem; color: var(--text-primary); font-family: inherit; transition: all 0.2s ease; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #43e97b; background: rgba(67, 233, 123, 0.05); }
+        .form-textarea { resize: vertical; min-height: 80px; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 0.95rem; }
+        .btn-primary { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #000; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(67, 233, 123, 0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+        .login-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .login-modal.active { display: flex; }
+        .login-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1.2rem; padding: 2rem; max-width: 400px; width: 90%; }
+        .user-info { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(67, 233, 123, 0.1); border-radius: 0.8rem; margin-bottom: 1.5rem; }
+        .user-avatar { width: 40px; height: 40px; background: #43e97b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; }
     </style>
 </head>
 <body>
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+            <h2 style="text-align: center; margin-bottom: 1.5rem;" id="authTitle">登录</h2>
+            <form id="loginForm" style="display: block;">
+                <div class="form-group">
+                    <label class="form-label">邮箱</label>
+                    <input type="email" class="form-input" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">登录</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="toggleAuthForm()">没有账户？注册</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="closeLoginModal()">取消</button>
+            </form>
+            <form id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="registerName" placeholder="输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">邮箱</label>
+                    <input type="email" class="form-input" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">注册</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="toggleAuthForm()">已有账户？登录</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="closeLoginModal()">取消</button>
+            </form>
+        </div>
+    </div>
+
     <div class="bg-animation">
         <div class="bg-gradient"></div>
         <div class="bg-particles" id="particles"></div>
@@ -82,111 +113,529 @@
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="https://diary.joketop.com" class="logo">
-                    <h1 class="logo-text">
-                        <span class="logo-main">minty-feng</span>
-                    </h1>
-                    <p class="logo-subtitle">自律 & 目标</p>
+                <a href="diary.html" class="logo">
+                    <h1 class="logo-text"><span class="logo-main">minty-feng</span></h1>
+                    <p class="logo-subtitle">目标 · 计划 · 自律</p>
                 </a>
-                <div style="display: flex; gap: 1rem;">
-                    <a href="https://diary.joketop.com" style="color: var(--text-secondary); text-decoration: none;">日记</a>
-                    <a href="goals.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">目标</a>
-                    <a href="tianya.html" style="color: var(--text-secondary); text-decoration: none;">经典</a>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                        <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                        <a href="goals.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">目标</a>
+                    </nav>
+                    <button id="loginBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">登录</button>
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </header>
 
+        <div id="userSection" style="display: none; margin-bottom: 2rem;">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">M</div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600;" id="userName">User</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);" id="userEmail">user@email.com</div>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()" style="padding: 0.5rem 1rem; font-size: 0.85rem;">登出</button>
+            </div>
+        </div>
+
         <main class="diary-main">
-            <section class="timeline-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="section-title-text">年度目标</span>
-                    </h2>
-                    <p class="section-subtitle">人无压力轻飘飘，井无压力不出油</p>
-                </div>
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="switchTab('goals', event)">🎯 目标</button>
+                <button class="tab-btn" onclick="switchTab('plans', event)">📋 计划</button>
+                <button class="tab-btn" onclick="switchTab('calendar', event)">📅 日历</button>
+                <button class="tab-btn" onclick="switchTab('stress', event)">🧘 压力管理</button>
+                <button class="tab-btn" onclick="switchTab('reminders', event)">🔔 提醒</button>
+            </div>
 
+            <div id="goals" class="tab-content active">
+                <h2>年度目标</h2>
+                <p style="color: var(--text-secondary);">人无压力轻飘飘，井无压力不出油</p>
                 <div class="goals-grid">
-                    <!-- Health -->
                     <div class="goal-card">
-                        <h3 class="goal-title">
-                            <span style="color: #ff6b6b;">💪</span> 身体素质
-                        </h3>
-                        <p style="color: var(--text-secondary);">保持每周运动，控制体重</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 65%;"></div>
+                        <div class="goal-header">
+                            <h3 class="goal-title">💪 身体素质</h3>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="icon-btn" onclick="editGoal(1)">✏️</button>
+                                <button class="icon-btn" onclick="deleteGoal(1)">🗑️</button>
+                            </div>
                         </div>
-                        <ul class="habit-list">
-                            <li class="habit-item">
-                                <div class="checkbox checked"></div>
-                                <span>早起 (6:30)</span>
-                            </li>
-                            <li class="habit-item">
-                                <div class="checkbox"></div>
-                                <span>跑步 5km</span>
-                            </li>
-                            <li class="habit-item">
-                                <div class="checkbox checked"></div>
-                                <span>不吃夜宵</span>
-                            </li>
-                        </ul>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">保持每周运动，控制体重</p>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between;"><span>进度</span><span>65%</span></div>
                     </div>
-
-                    <!-- Learning -->
                     <div class="goal-card">
-                        <h3 class="goal-title">
-                            <span style="color: #4ecdc4;">📚</span> 深度学习
-                        </h3>
-                        <p style="color: var(--text-secondary);">持续输入，建立知识体系</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="background: var(--gradient-blog); width: 40%;"></div>
+                        <div class="goal-header">
+                            <h3 class="goal-title">📚 深度学习</h3>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="icon-btn" onclick="editGoal(2)">✏️</button>
+                                <button class="icon-btn" onclick="deleteGoal(2)">🗑️</button>
+                            </div>
                         </div>
-                        <ul class="habit-list">
-                            <li class="habit-item">
-                                <div class="checkbox checked"></div>
-                                <span>阅读 30 分钟</span>
-                            </li>
-                            <li class="habit-item">
-                                <div class="checkbox"></div>
-                                <span>LeetCode 每日一题</span>
-                            </li>
-                            <li class="habit-item">
-                                <div class="checkbox"></div>
-                                <span>写技术博客</span>
-                            </li>
-                        </ul>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">持续输入，建立知识体系</p>
+                        <div class="progress-bar"><div class="progress-fill" style="background: var(--gradient-blog); width: 40%;"></div></div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between;"><span>进度</span><span>40%</span></div>
                     </div>
-
-                    <!-- Wealth -->
                     <div class="goal-card">
-                        <h3 class="goal-title">
-                            <span style="color: #ffe66d;">💰</span> 财务积累
-                        </h3>
-                        <p style="color: var(--text-secondary);">开源节流，理性消费</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="background: var(--gradient-resume); width: 25%;"></div>
+                        <div class="goal-header">
+                            <h3 class="goal-title">💰 财务积累</h3>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="icon-btn" onclick="editGoal(3)">✏️</button>
+                                <button class="icon-btn" onclick="deleteGoal(3)">🗑️</button>
+                            </div>
                         </div>
-                        <ul class="habit-list">
-                            <li class="habit-item">
-                                <div class="checkbox checked"></div>
-                                <span>记账</span>
-                            </li>
-                            <li class="habit-item">
-                                <div class="checkbox checked"></div>
-                                <span>定投基金</span>
-                            </li>
-                        </ul>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">开源节流，理性消费</p>
+                        <div class="progress-bar"><div class="progress-fill" style="background: var(--gradient-resume); width: 25%;"></div></div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between;"><span>进度</span><span>25%</span></div>
                     </div>
                 </div>
-            </section>
+                <button class="btn btn-primary" onclick="addGoal()">+ 添加新目标</button>
+            </div>
+
+            <div id="plans" class="tab-content">
+                <h2>行动计划</h2>
+                <p style="color: var(--text-secondary);">目标 → 计划 → 行动</p>
+                <div style="position: relative; padding-left: 2rem;">
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; position: relative;">
+                        <div style="position: absolute; left: -2rem; top: 0; width: 12px; height: 12px; background: #43e97b; border-radius: 50%; border: 2px solid var(--bg-card);"></div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">2月</div>
+                        <div style="flex: 1; color: var(--text-secondary);">建立运动习惯</div>
+                        <span style="padding: 0.2rem 0.6rem; background: rgba(67, 233, 123, 0.1); border-radius: 0.3rem; font-size: 0.75rem; color: #43e97b;">进行中</span>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; position: relative;">
+                        <div style="position: absolute; left: -2rem; top: 0; width: 12px; height: 12px; background: #43e97b; border-radius: 50%; border: 2px solid var(--bg-card);"></div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">3月</div>
+                        <div style="flex: 1; color: var(--text-secondary);">完成深度阅读</div>
+                        <span style="padding: 0.2rem 0.6rem; background: rgba(67, 233, 123, 0.1); border-radius: 0.3rem; font-size: 0.75rem; color: #43e97b;">计划中</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addPlan()">+ 添加新计划</button>
+            </div>
+
+            <div id="calendar" class="tab-content">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <h3 id="calendarTitle" style="margin: 0;">2月 2025</h3>
+                        <div class="calendar-nav">
+                            <button onclick="prevMonth()">←</button>
+                            <button onclick="todayMonth()">今</button>
+                            <button onclick="nextMonth()">→</button>
+                        </div>
+                    </div>
+                    <div class="calendar-weekday">
+                        <div class="weekday-label">日</div><div class="weekday-label">一</div><div class="weekday-label">二</div>
+                        <div class="weekday-label">三</div><div class="weekday-label">四</div><div class="weekday-label">五</div><div class="weekday-label">六</div>
+                    </div>
+                    <div class="calendar-days" id="calendarDays"></div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">事件标记</h3>
+                <div class="goal-card" style="max-width: 400px;">
+                    <div class="form-group">
+                        <label class="form-label">选择日期</label>
+                        <input type="date" class="form-input" id="eventDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">事件描述</label>
+                        <input type="text" class="form-input" id="eventDesc" placeholder="如：健身房, 看书...">
+                    </div>
+                    <button class="btn btn-primary" onclick="addEvent()" style="width: 100%;">标记事件</button>
+                </div>
+            </div>
+
+            <div id="stress" class="tab-content">
+                <h2>压力管理</h2>
+                <p style="color: var(--text-secondary);">监测、调整、平衡</p>
+                <div class="stress-grid">
+                    <div class="stress-meter">
+                        <h3 style="color: var(--text-secondary); margin-bottom: 0.5rem;">今日压力</h3>
+                        <div class="stress-level medium">5/10</div>
+                        <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin: 1rem 0;">
+                            <div style="height: 100%; background: #ffe66d; width: 50%;"></div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">💡 建议：做深呼吸或冥想</p>
+                    </div>
+                </div>
+
+                <h3>压力日志</h3>
+                <div class="goal-card" style="max-width: 600px;">
+                    <div class="form-group">
+                        <label class="form-label">压力等级 (1-10)</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="range" min="1" max="10" value="5" id="stressLevel" style="flex: 1;">
+                            <span id="stressValue" style="font-weight: 700;">5</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">压力来源</label>
+                        <input type="text" class="form-input" id="stressSource" placeholder="工作、学习、人际...">
+                    </div>
+                    <button class="btn btn-primary" onclick="recordStress()" style="width: 100%;">记录压力</button>
+                </div>
+            </div>
+
+            <div id="reminders" class="tab-content">
+                <h2>定时提醒</h2>
+                <p style="color: var(--text-secondary);">不要忘记重要的事情</p>
+                <div class="reminder-form">
+                    <h3 style="margin-bottom: 1rem;">创建新提醒</h3>
+                    <form id="reminderForm">
+                        <div class="form-group">
+                            <label class="form-label">提醒标题</label>
+                            <input type="text" class="form-input" id="reminderTitle" placeholder="如：完成周报" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">日期</label>
+                                <input type="date" class="form-input" id="reminderDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">时间</label>
+                                <input type="time" class="form-input" id="reminderTime" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">重复</label>
+                            <select class="form-select" id="reminderRepeat">
+                                <option value="once">仅一次</option>
+                                <option value="daily">每天</option>
+                                <option value="weekly">每周</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">创建提醒</button>
+                    </form>
+                </div>
+
+                <h3 style="margin-top: 2rem;">活跃提醒</h3>
+                <div id="remindersList" style="display: grid; gap: 1rem;">
+                    <div class="goal-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem;">
+                            <div>
+                                <h4 style="margin: 0 0 0.5rem 0;">阅读 30 分钟</h4>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">每天 - 晚上 8:00</p>
+                            </div>
+                            <button class="icon-btn" onclick="deleteReminder(1)">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
-        
-        <script>
-            // Simple animation for progress bars
-            document.addEventListener('DOMContentLoaded', () => {
-                const colors = ['var(--gradient-life)', 'var(--gradient-blog)', 'var(--gradient-resume)'];
-                // This is just a visual demo, real data would come from backend or local storage
-            });
-        </script>
     </div>
+
+    <script>
+        function switchTab(tabName, event) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // 后端 API 配置（混合架构）
+        const AUTH_API = 'http://127.0.0.1:8100';  // Django 认证服务
+        const DATA_API = 'http://127.0.0.1:8200';  // FastAPI 数据服务
+        const API_BASE = AUTH_API;  // 兼容旧代码
+        
+        function toggleAuthForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const authTitle = document.getElementById('authTitle');
+            
+            if (loginForm.style.display === 'block') {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                authTitle.textContent = '注册';
+            } else {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                authTitle.textContent = '登录';
+            }
+        }
+        
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('authTitle').textContent = '登录';
+        }
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        document.getElementById('loginBtn').addEventListener('click', openLoginModal);
+        
+        // 登录处理
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: email, password })
+                });
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('authToken', data.data.access);
+                    localStorage.setItem('userEmail', email);
+                    showUserSection(email);
+                    closeLoginModal();
+                    document.getElementById('loginForm').reset();
+                } else {
+                    alert('登录失败：' + (data.detail || data.message));
+                }
+            } catch (error) {
+                alert('登录错误：' + error.message);
+            }
+        });
+
+        // 注册处理
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: email, email, password, password2: password })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('authToken', data.data.access_token);
+                    localStorage.setItem('userEmail', email);
+                    showUserSection(email);
+                    closeLoginModal();
+                    document.getElementById('registerForm').reset();
+                } else {
+                    alert('注册失败：' + (data.detail || data.message));
+                }
+            } catch (error) {
+                alert('注册错误：' + error.message);
+            }
+        });
+
+        function showUserSection(email) {
+            document.getElementById('userSection').style.display = 'block';
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('userName').textContent = email.split('@')[0];
+            document.getElementById('userEmail').textContent = email;
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            document.getElementById('userSection').style.display = 'none';
+            document.getElementById('loginBtn').style.display = 'block';
+        }
+
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('authToken');
+            const email = localStorage.getItem('userEmail');
+            if (token && email) {
+                showUserSection(email);
+            }
+            renderCalendar();
+        });
+
+        function addGoal() {
+            const title = prompt('目标标题：');
+            const description = prompt('目标描述：');
+            if (title && description) submitGoal({ title, description, progress: 0 });
+        }
+        function editGoal(id) {
+            const newTitle = prompt('编辑目标：');
+            const newDesc = prompt('编辑描述：');
+            if (newTitle && newDesc) updateGoal(id, { title: newTitle, description: newDesc, progress: 0 });
+        }
+        function deleteGoal(id) {
+            if (confirm('确定删除？')) submitDelete(`/api/diary/goals/${id}`);
+        }
+        function addPlan() {
+            alert('计划添加功能开发中...');
+        }
+
+        let currentDate = new Date();
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let html = '';
+            for (let i = 0; i < firstDay; i++) {
+                html += '<div class="calendar-day" style="opacity: 0.5;"></div>';
+            }
+            for (let i = 1; i <= daysInMonth; i++) {
+                const isToday = i === new Date().getDate() && month === new Date().getMonth();
+                html += `<div class="calendar-day ${isToday ? 'today' : ''}">${i}</div>`;
+            }
+            document.getElementById('calendarDays').innerHTML = html;
+            document.getElementById('calendarTitle').textContent = `${month + 1}月 ${year}`;
+        }
+
+        function prevMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+        function todayMonth() {
+            currentDate = new Date();
+            renderCalendar();
+        }
+
+        function addEvent() {
+            const date = document.getElementById('eventDate').value;
+            const desc = document.getElementById('eventDesc').value;
+            if (date && desc) submitEvent({ date, description: desc });
+        }
+
+        document.getElementById('stressLevel').addEventListener('change', (e) => {
+            document.getElementById('stressValue').textContent = e.target.value;
+        });
+
+        function recordStress() {
+            const level = document.getElementById('stressLevel').value;
+            const source = document.getElementById('stressSource').value;
+            if (source) submitStressRecord({ level, source });
+        }
+
+        document.getElementById('reminderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('authToken');
+            if (!token) { alert('请先登录'); return; }
+
+            const reminder = {
+                title: document.getElementById('reminderTitle').value,
+                date: document.getElementById('reminderDate').value,
+                time: document.getElementById('reminderTime').value,
+                repeat: document.getElementById('reminderRepeat').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/diary/reminders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(reminder)
+                });
+                if (response.ok) {
+                    document.getElementById('reminderForm').reset();
+                    alert('提醒已创建');
+                }
+            } catch (error) {
+                alert('错误：' + error.message);
+            }
+        });
+
+        function deleteReminder(id) {
+            if (confirm('删除提醒？')) submitDelete(`/api/diary/reminders/${id}`);
+        }
+
+        async function submitGoal(data) {
+            const token = localStorage.getItem('authToken');
+            if (!token) { alert('请先登录'); return; }
+            try {
+                const response = await fetch(`${AUTH_API}/api/diary/goals/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) location.reload();
+            } catch (error) {
+                alert('错误：' + error.message);
+            }
+        }
+
+        async function updateGoal(id, data) {
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`${AUTH_API}/api/diary/goals/${id}/`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) location.reload();
+            } catch (error) {
+                alert('错误：' + error.message);
+            }
+        }
+
+        async function submitEvent(data) {
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`${API_BASE}/api/diary/events`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    document.getElementById('eventDate').value = '';
+                    document.getElementById('eventDesc').value = '';
+                    alert('事件已标记');
+                }
+            } catch (error) {
+                alert('错误：' + error.message);
+            }
+        }
+
+        async function submitStressRecord(data) {
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`${API_BASE}/api/diary/stress-records`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    document.getElementById('stressSource').value = '';
+                    alert('压力记录已保存');
+                }
+            } catch (error) {
+                alert('错误：' + error.message);
+            }
+        }
+
+        async function submitDelete(url) {
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`${API_BASE}${url}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.ok) location.reload();
+            } catch (error) {
+                alert('删除失败：' + error.message);
+            }
+        }
+    </script>
+    <script src="assets/js/main.js?v=20260203"></script>
 </body>
 </html>

@@ -68,16 +68,23 @@
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="https://diary.joketop.com" class="logo">
+                <a href="diary.html" class="logo">
                     <h1 class="logo-text">
                         <span class="logo-main">minty-feng</span>
                     </h1>
-                    <p class="logo-subtitle">经典阅读</p>
+                    <p class="logo-subtitle">天涯</p>
                 </a>
-                <div style="display: flex; gap: 1rem;">
-                    <a href="https://diary.joketop.com" style="color: var(--text-secondary); text-decoration: none;">日记</a>
-                    <a href="goals.html" style="color: var(--text-secondary); text-decoration: none;">目标</a>
-                    <a href="tianya.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">经典</a>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                        <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                        <a href="tianya.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">天涯</a>
+                    </nav>
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </header>
@@ -137,5 +144,6 @@
             </section>
         </main>
     </div>
+    <script src="assets/js/main.js?v=20260203"></script>
 </body>
 </html>

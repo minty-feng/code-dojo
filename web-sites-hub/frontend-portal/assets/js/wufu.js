@@ -101,25 +101,26 @@ document.addEventListener('DOMContentLoaded', () => {
         fuDisplay.textContent = state.text;
         fuDisplay.style.fontFamily = state.font;
         fuDisplay.style.color = state.textColor;
-        fuDisplay.style.fontSize = `${state.size / 10}rem`;
+        
+        // 根据文字长度自动调整字体大小
+        const textLength = state.text.length;
+        let fontSize;
+        if (textLength === 1) {
+            fontSize = state.size / 10; // 单个字使用原始大小
+        } else if (textLength === 2) {
+            fontSize = (state.size * 0.7) / 10; // 两个字缩小到70%
+        } else if (textLength === 3) {
+            fontSize = (state.size * 0.55) / 10; // 三个字缩小到55%
+        } else {
+            fontSize = (state.size * 0.45) / 10; // 四个字缩小到45%
+        }
+        fuDisplay.style.fontSize = `${fontSize}rem`;
         
         previewArea.style.backgroundColor = state.bgColor;
         
         // Update doufang border
-        doufang.style.borderColor = state.borderColor; // Outer diamond
-        // Pseudo element for dashed border needs to be updated via custom property usually, 
-        // but simple border color on parent works for the solid part.
-        // For the dashed part:
-        const sheet = document.styleSheets[0];
-        // Note: Changing pseudo-element styles from JS is tricky. 
-        // We actally used a ::before on .doufang in CSS.
-        // Let's replace the logic to use CSS Variables for easy updates.
-        previewArea.style.setProperty('--border-color', state.borderColor);
         doufang.style.borderColor = state.borderColor;
-        // In JS we can modify inline style for custom property if we update CSS to use it
-        // OR we just toggle classes. But let's stick to inline styles where possible.
-        // Quick fix: Set inner HTML for doufang to include a real div instead of pseudo if needed,
-        // but for now, let's assume the outer border is enough customization.
+        previewArea.style.setProperty('--border-color', state.borderColor);
     }
 
     // Setup Listeners
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 3. Render
-        deck.forEach(fontMeta => {
+        deck.forEach((fontMeta, index) => {
             const card = document.createElement('div');
             card.className = 'fu-card';
             
@@ -224,14 +225,8 @@ document.addEventListener('DOMContentLoaded', () => {
                  Object.assign(content.style, fontMeta.style);
             }
             
-            // Slight rotation for natural look (accumulate with any transform in style)
-            // If style has transform, we need to append
-            const randomRotate = (Math.random() * 10 - 5).toFixed(1);
-            if (content.style.transform) {
-                content.style.transform += ` rotate(${randomRotate}deg)`;
-            } else {
-                content.style.transform = `rotate(${randomRotate}deg)`;
-            }
+            // 保持正方向，不添加随机旋转
+            // 如果 style 中已有 transform，保留它
 
             // Tooltip
             const tooltip = document.createElement('div');
@@ -244,30 +239,72 @@ document.addEventListener('DOMContentLoaded', () => {
             card.appendChild(content);
             card.appendChild(tooltip);
             
-            // Add click handler to "adopt" this style
-            card.addEventListener('click', () => {
-                // Copy style to main editor
-                state.font = font;
+            // 创建保存按钮
+            const saveBtn = document.createElement('button');
+            saveBtn.type = 'button';
+            saveBtn.className = 'fu-card-save-btn';
+            saveBtn.textContent = '💾 Save';
+            saveBtn.onclick = (e) => {
+                e.stopPropagation();
+                saveFuAsImage(card, getSaveFilename());
+                saveBtn.classList.remove('show');
+            };
+            card.appendChild(saveBtn);
+            
+            // 阻止左键 mousedown 默认行为，防止点击时页面滚动
+            card.addEventListener('mousedown', (e) => {
+                if (e.button !== 0 || e.target === saveBtn || saveBtn.contains(e.target)) return;
+                e.preventDefault();
+            });
+            
+            // 点击卡片：显示保存按钮
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 
-                // Copy other visual properties if we want strict What-You-See-Is-What-You-Get
-                // Note: The main editor logic is simpler, so we mainly copy the Font Family.
-                // If we wanted to copy Bold/Italic, we'd need to update State to support it.
-                // For now, let's stick to copying the Font Family.
+                // 如果点击的是保存按钮，不处理（由 saveBtn.onclick 处理）
+                if (e.target === saveBtn || saveBtn.contains(e.target)) {
+                    return;
+                }
                 
-                // Find matching button if exists
-                fontBtns.forEach(btn => {
-                    const btnFont = btn.getAttribute('data-font');
-                    if (btnFont && (font.includes(btnFont.split(',')[0]) || btnFont === font)) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
+                // 如果刚触发了长按，不执行点击
+                if (card._longPressed && card._longPressed()) {
+                    return;
+                }
+                
+                // 关闭其他卡片的保存按钮
+                document.querySelectorAll('.fu-card-save-btn.show').forEach(btn => {
+                    if (btn !== saveBtn) {
+                        btn.classList.remove('show');
                     }
                 });
+                
+                // 切换当前卡片的保存按钮
+                const isShowing = saveBtn.classList.contains('show');
+                if (isShowing) {
+                    // 如果已显示，隐藏并应用样式到预览区
+                    saveBtn.classList.remove('show');
+                    state.font = font;
+                    
+                    // Find matching button if exists
+                    fontBtns.forEach(btn => {
+                        const btnFont = btn.getAttribute('data-font');
+                        if (btnFont && (font.includes(btnFont.split(',')[0]) || btnFont === font)) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
 
-                updateDisplay();
-                // Scroll to top
-                previewArea.scrollIntoView({ behavior: 'smooth' });
+                    updateDisplay();
+                } else {
+                    // 如果未显示，显示保存按钮
+                    saveBtn.classList.add('show');
+                }
             });
+            
+            // 为卡片添加长按/右键保存功能
+            setupLongPressSave(card, () => getSaveFilename());
 
             fragment.appendChild(card);
         });
@@ -275,6 +312,305 @@ document.addEventListener('DOMContentLoaded', () => {
         fuGrid.innerHTML = ''; // Clear existing
         fuGrid.appendChild(fragment);
     }
+
+    // 生成文件名时间戳：YYYYMMDDHHmmss（如 20260206210003）
+    function getSaveTimestamp() {
+        const n = new Date();
+        const pad = (x) => String(x).padStart(2, '0');
+        return `${n.getFullYear()}${pad(n.getMonth() + 1)}${pad(n.getDate())}${pad(n.getHours())}${pad(n.getMinutes())}${pad(n.getSeconds())}`;
+    }
+    function getSaveFilename() {
+        return `wufu_${getSaveTimestamp()}.png`;
+    }
+
+    // 保存福字为图片（使用 html2canvas 或 fallback 到 canvas）
+    const FU_CARD_OUTPUT_SIZE = 512; // 百福图卡片导出固定尺寸，福字适配填满
+    const CHAR_FILL_RATIO = 0.78;    // 福字占画布比例
+    
+    async function saveFuAsImage(element, filename = null) {
+        if (!filename) filename = getSaveFilename();
+        const isFuCard = element.classList && element.classList.contains('fu-card');
+        
+        // 百福图卡片：使用 canvas 固定尺寸导出，福字适配填满
+        if (isFuCard) {
+            const charEl = element.querySelector('.char');
+            if (charEl) {
+                const canvas = document.createElement('canvas');
+                canvas.width = FU_CARD_OUTPUT_SIZE;
+                canvas.height = FU_CARD_OUTPUT_SIZE;
+                const ctx = canvas.getContext('2d');
+                const cStyle = window.getComputedStyle(element);
+                const bgColor = cStyle.backgroundColor || '#d90429';
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, FU_CARD_OUTPUT_SIZE, FU_CARD_OUTPUT_SIZE);
+                
+                const charStyle = window.getComputedStyle(charEl);
+                const fontSize = Math.round(FU_CARD_OUTPUT_SIZE * CHAR_FILL_RATIO);
+                ctx.save();
+                ctx.translate(FU_CARD_OUTPUT_SIZE / 2, FU_CARD_OUTPUT_SIZE / 2);
+                ctx.font = `${charStyle.fontStyle} ${charStyle.fontWeight} ${fontSize}px ${charStyle.fontFamily}`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const textShadow = charStyle.textShadow;
+                if (textShadow && textShadow !== 'none') {
+                    const parts = textShadow.split(' ');
+                    if (parts.length >= 3) {
+                        ctx.shadowOffsetX = parseFloat(parts[0]) * (fontSize / 48);
+                        ctx.shadowOffsetY = parseFloat(parts[1]) * (fontSize / 48);
+                        ctx.shadowBlur = parseFloat(parts[2]) * (fontSize / 48);
+                        ctx.shadowColor = parts[3] || 'rgba(0,0,0,0.2)';
+                    }
+                }
+                
+                const stroke = charStyle.webkitTextStroke;
+                if (stroke && stroke !== '0px none') {
+                    const parts = stroke.split(' ');
+                    ctx.strokeStyle = parts[1] || '#1a0505';
+                    ctx.lineWidth = (parseFloat(parts[0]) || 1) * (fontSize / 48);
+                    ctx.strokeText(charEl.textContent, 0, 0);
+                }
+                ctx.fillStyle = charStyle.color;
+                ctx.fillText(charEl.textContent, 0, 0);
+                ctx.restore();
+                
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 'image/png');
+                return;
+            }
+        }
+        
+        // 预览区域：统一使用 canvas 绘制，确保斗方菱形不超出边界（html2canvas 易出现溢出）
+        // 跳过 html2canvas，直接走下方 canvas fallback
+        
+        // Fallback: 使用纯 canvas 方法（预览区域）
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const rect = element.getBoundingClientRect();
+        const scale = 2;
+        canvas.width = rect.width * scale;
+        canvas.height = rect.height * scale;
+        ctx.scale(scale, scale);
+        
+        const computedStyle = window.getComputedStyle(element);
+        const bgColor = computedStyle.backgroundColor || '#ffffff';
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, rect.width, rect.height);
+        
+        // 处理预览区域
+        if (element.id === 'preview-area') {
+            const fuDisplay = element.querySelector('#fu-display');
+            const doufang = element.querySelector('.doufang');
+            
+            if (fuDisplay) {
+                // 绘制斗方（菱形）：边长 = 预览区/√2，旋转45度后顶点触及四边中点
+                if (doufang) {
+                    const size = Math.min(rect.width, rect.height);
+                    const diamondSide = size / Math.sqrt(2);
+                    const cx = rect.width / 2;
+                    const cy = rect.height / 2;
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(45 * Math.PI / 180);
+                    ctx.strokeStyle = state.borderColor;
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(-diamondSide / 2, -diamondSide / 2, diamondSide, diamondSide);
+                    const innerOffset = diamondSide * 0.08;
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(-diamondSide / 2 + innerOffset, -diamondSide / 2 + innerOffset,
+                                   diamondSide - innerOffset * 2, diamondSide - innerOffset * 2);
+                    ctx.restore();
+                }
+                
+                // 绘制福字
+                const fRect = fuDisplay.getBoundingClientRect();
+                const fx = fRect.left - rect.left;
+                const fy = fRect.top - rect.top;
+                const fStyle = window.getComputedStyle(fuDisplay);
+                
+                ctx.save();
+                ctx.translate(fx + fRect.width / 2, fy + fRect.height / 2);
+                ctx.font = `${fStyle.fontStyle} ${fStyle.fontWeight} ${fStyle.fontSize} ${fStyle.fontFamily}`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = fStyle.color;
+                
+                const textShadow = fStyle.textShadow;
+                if (textShadow && textShadow !== 'none') {
+                    const parts = textShadow.split(' ');
+                    if (parts.length >= 3) {
+                        ctx.shadowOffsetX = parseFloat(parts[0]);
+                        ctx.shadowOffsetY = parseFloat(parts[1]);
+                        ctx.shadowBlur = parseFloat(parts[2]);
+                        ctx.shadowColor = parts[3] || 'rgba(0,0,0,0.2)';
+                    }
+                }
+                
+                ctx.fillText(fuDisplay.textContent, 0, 0);
+                ctx.restore();
+            }
+        } else {
+            // 处理福字卡片
+            const charEl = element.querySelector('.char');
+            if (charEl) {
+                const cRect = charEl.getBoundingClientRect();
+                const cx = cRect.left - rect.left;
+                const cy = cRect.top - rect.top;
+                const cStyle = window.getComputedStyle(charEl);
+                
+                ctx.save();
+                ctx.translate(cx + cRect.width / 2, cy + cRect.height / 2);
+                
+                const transform = cStyle.transform;
+                if (transform && transform !== 'none') {
+                    try {
+                        const matrix = new DOMMatrix(transform);
+                        ctx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
+                    } catch (e) {
+                        // 如果 DOMMatrix 不支持，尝试解析 transform
+                        const match = transform.match(/rotate\(([^)]+)\)/);
+                        if (match) {
+                            ctx.rotate(parseFloat(match[1]) * Math.PI / 180);
+                        }
+                    }
+                }
+                
+                ctx.font = `${cStyle.fontStyle} ${cStyle.fontWeight} ${cStyle.fontSize} ${cStyle.fontFamily}`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const stroke = cStyle.webkitTextStroke;
+                if (stroke && stroke !== '0px none') {
+                    const parts = stroke.split(' ');
+                    ctx.strokeStyle = parts[1] || '#1a0505';
+                    ctx.lineWidth = parseFloat(parts[0]) || 1;
+                    ctx.strokeText(charEl.textContent, 0, 0);
+                } else {
+                    ctx.fillStyle = cStyle.color;
+                    ctx.fillText(charEl.textContent, 0, 0);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 'image/png');
+    }
+    
+    // 长按检测（每个元素独立的 timer）
+    const longPressTimers = new WeakMap();
+    const LONG_PRESS_DURATION = 500; // 500ms
+    
+    function setupLongPressSave(element, filenameOrFn) {
+        const getFilename = typeof filenameOrFn === 'function' ? filenameOrFn : () => filenameOrFn;
+        let longPressed = false;
+        
+        // 移动端：长按保存
+        element.addEventListener('touchstart', (e) => {
+            longPressed = false;
+            const timer = setTimeout(() => {
+                longPressed = true;
+                e.preventDefault();
+                saveFuAsImage(element, getFilename());
+                // 触觉反馈（如果支持）
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+                // 视觉反馈
+                element.style.opacity = '0.7';
+                setTimeout(() => {
+                    element.style.opacity = '';
+                    longPressed = false;
+                }, 300);
+            }, LONG_PRESS_DURATION);
+            longPressTimers.set(element, timer);
+        }, { passive: false });
+        
+        element.addEventListener('touchend', (e) => {
+            const timer = longPressTimers.get(element);
+            if (timer) {
+                clearTimeout(timer);
+                longPressTimers.delete(element);
+            }
+            // 如果触发了长按，阻止后续的点击事件
+            if (longPressed) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+        
+        element.addEventListener('touchmove', () => {
+            const timer = longPressTimers.get(element);
+            if (timer) {
+                clearTimeout(timer);
+                longPressTimers.delete(element);
+            }
+        });
+        
+        // 桌面端：右键保存
+        element.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            saveFuAsImage(element, getFilename());
+        });
+        
+        // 添加提示
+        element.setAttribute('title', 'Long press or right-click to save');
+        
+        // 存储长按标志到元素上，供点击事件检查
+        element._longPressed = () => longPressed;
+    }
+    
+    // 为预览区域添加保存功能
+    setupLongPressSave(previewArea, getSaveFilename);
+    
+    // 预览区域点击保存按钮
+    const savePreviewBtn = document.getElementById('save-preview-btn');
+    if (savePreviewBtn) {
+        savePreviewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            saveFuAsImage(previewArea, getSaveFilename());
+            savePreviewBtn.classList.remove('show');
+        });
+        
+        // 点击预览区域显示/隐藏保存按钮
+        previewArea.addEventListener('click', (e) => {
+            if (e.target === savePreviewBtn || savePreviewBtn.contains(e.target)) {
+                return;
+            }
+            savePreviewBtn.classList.toggle('show');
+        });
+    }
+    
+    // 点击外部关闭所有保存按钮
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.preview-area') && !e.target.closest('.fu-card')) {
+            if (savePreviewBtn) {
+                savePreviewBtn.classList.remove('show');
+            }
+            document.querySelectorAll('.fu-card-save-btn.show').forEach(btn => {
+                btn.classList.remove('show');
+            });
+        }
+    });
 
     init();
 });

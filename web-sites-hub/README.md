@@ -4,71 +4,108 @@
 
 ## 📁 目录结构
 
+以下路径均相对于仓库根目录（即 `web-sites-hub/` 为本工作区根）。
+
 ```
 web-sites-hub/
 │
-├── frontend-portal/                # 个人网站主入口 (Static HTML/JS)
-│   ├── index.html                  # joketop.com 主页
-│   ├── learning.html               # 学习笔记聚合页
-│   ├── showcase.html               # 项目展示页
-│   ├── resume.html                 # 简历页
-│   ├── diary.html                  # 生活门户 (含时光轴、诗词等子模块)
+├── frontend-portal/                           # 个人网站主入口 (Static HTML/JS)
+│   ├── index.html                             # joketop.com 主页
+│   ├── diary.html                             # 生活门户（六栏入口）
+│   ├── journal.html                           # 日记
+│   ├── timeline.html                          # 时光轴
+│   ├── tianya.html                            # 天涯
+│   ├── poems.html                             # 诗词
+│   ├── goals.html                             # 目标（需后端登录）
+│   ├── ganwu.html                             # 感悟
+│   ├── learning.html                          # 学习笔记聚合页 (blog.joketop.com)
+│   ├── showcase.html                          # 项目展示页
+│   ├── resume.html                            # 简历页
+│   ├── wufu.html                              # 五福
+│   ├── fund.html                              # 基金
+│   ├── speed.html                             # 测速
+│   ├── assets/
+│   │   ├── css/                               # 主样式 (main.css, diary.css 等)
+│   │   └── js/                                # 主脚本 (main.js 等)
+│   ├── scripts/
+│   │   └── preview.sh                         # 本地预览 (默认 8000)
+│   ├── package-joketop.sh                     # 打包与版本注入
+│   └── README.md
+│
+├── frontend-docs/                             # 静态文档站点集合
+│   ├── apple-ds-core-docs/                    # 数据结构 → blog.joketop.com/ds
+│   ├── banana-algo-core-docs/                 # 算法 → blog.joketop.com/algo
+│   ├── honey-backend-dojo-docs/               # 后端 → blog.joketop.com/backend
+│   ├── grape-frontend-dojo-docs/              # 前端 → blog.joketop.com/frontend
+│   └── cookie-os-network-docs/                # OS与网络 → blog.joketop.com/os
+│
+├── backend-diary/                             # 日记/目标后端 (Django 8100 + FastAPI 8200)
+│   ├── manage.py                              # Django 入口
+│   ├── django_app/                            # 认证、目标、提醒、事件等 (端口 8100)
+│   ├── fastapi_app/                           # 数据查询服务 (端口 8200)
+│   ├── app.py                                 # 单机 FastAPI 演示 (端口 5000)
+│   ├── ARCHITECTURE.md                        # 混合架构与目标页登录说明
+│   ├── README.md
 │   └── scripts/
-│       └── preview.sh              # 本地预览脚本
+│       ├── run-all.sh                         # 同时启动 Django + FastAPI
+│       └── run.sh                             # 仅 Django
 │
-├── frontend-docs/                  # 静态文档站点集合
-│   ├── apple-ds-core-docs/         # 数据结构教程
-│   ├── banana-algo-core-docs/      # 算法教程
-│   ├── honey-backend-dojo-docs/    # 后端教程
-│   ├── grape-frontend-dojo-docs/   # 前端教程
-│   └── cookie-os-network-docs/     # OS与网络教程
-│
-├── backend-poems/                  # 诗词服务 (Python FastAPI)
-│   ├── main.py                     # API 入口
-│   └── requirements.txt
-│
-├── backend-resume/                 # 安全简历服务 (Rust Actix-web)
+├── backend-resume/                            # 安全简历服务 (Rust Actix-web)
 │   └── src/
 │
-├── deploy-all-docs.sh              # 统一 Nginx 部署脚本
-├── joketop.conf                    # Nginx 核心配置文件
-├── DEPLOY-README.md                # 部署详细说明
-└── NGINX-CONFIG-README.md          # Nginx 配置说明
+├── internship-trends/                         # 实习趋势/面试趋势 (独立项目)
+│   ├── frontend/                              # 前端 (Vite + React/TS)
+│   └── README.md
+│
+├── trending-aggregator/                       # 热点聚合 (独立项目)
+│   ├── frontend/                              # Vue 前端
+│   └── backend/                               # Node 后端
+│
+├── deploy-all-docs.sh                         # 统一 Nginx 部署脚本
+├── apply-security-headers.sh                  # 安全头应用脚本
+├── joketop.conf                               # Nginx 核心配置
+├── DEPLOY-README.md                           # 部署详细说明
+├── NGINX-CONFIG-README.md                     # Nginx 配置说明
+├── APPLY-SECURITY-README.md                   # 安全头说明（如有）
+└── README.md                                  # 本文件
 ```
 
 ## 🚀 服务概览
 
-| 服务/站点 | 域名 | 本地对应目录 | 部署技术 |
-|----------|------|-------------|---------|
-| **主站** | `joketop.com` | `frontend-portal/` | 静态 HTML |
-| **简历** | `me.joketop.com` | `backend-resume/` | Rust (反向代理) |
-| **日记** | `diary.joketop.com` | `frontend-portal/diary.html` | 静态 HTML |
-| **诗词** | (内部 API) | `backend-poems/` | Python FastAPI (端口 8080) |
-| **文档** | `blog.joketop.com/*` | `frontend-docs/` | 静态 HTML (Alias) |
+| 服务/站点 | 域名 | 本地路径 | 部署技术 |
+|----------|------|----------|---------|
+| **主站** | `joketop.com` | `web-sites-hub/frontend-portal/` | 静态 HTML |
+| **简历** | `me.joketop.com` | `web-sites-hub/backend-resume/` | Rust (反向代理) |
+| **日记** | `diary.joketop.com` | `web-sites-hub/frontend-portal/diary.html` | 静态 HTML |
+| **目标/登录** | 同日记站内 | `web-sites-hub/backend-diary/` (Django 8100) | Django + JWT |
+| **文档** | `blog.joketop.com/*` | `web-sites-hub/frontend-docs/` | 静态 HTML (Alias) |
 
 ## 🛠️ 快速开始
 
 ### 1. 启动前端主站预览
 
 ```bash
-cd frontend-portal
+cd web-sites-hub/frontend-portal
 ./scripts/preview.sh
 # 访问 http://localhost:8000
 ```
 
-### 2. 启动诗词后端服务
+### 2. 启动目标页登录与日记后端（Django）
 
 ```bash
-cd backend-poems
+cd web-sites-hub/backend-diary
 pip install -r requirements.txt
-python main.py
-# 服务运行在 http://localhost:8080
+python manage.py migrate
+python manage.py runserver 127.0.0.1:8100
+# 目标页 goals.html 登录/注册对接 http://127.0.0.1:8100/api/auth/
 ```
+
+详见 `web-sites-hub/backend-diary/README.md` 与 `web-sites-hub/backend-diary/ARCHITECTURE.md`。
 
 ### 3. 部署生产环境
 
 ```bash
-# 执行统一部署脚本
+cd web-sites-hub
 sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 ```
 
@@ -100,8 +137,11 @@ sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 
 ## 📖 详细文档
 
-- **DEPLOY-README.md** - 部署脚本使用说明
-- **NGINX-CONFIG-README.md** - Nginx 配置详解
+- **web-sites-hub/DEPLOY-README.md** - 部署脚本使用说明
+- **web-sites-hub/NGINX-CONFIG-README.md** - Nginx 配置详解
+- **web-sites-hub/backend-diary/README.md** - 日记/目标后端 API 与启动
+- **web-sites-hub/backend-diary/ARCHITECTURE.md** - 混合架构与目标页登录设计
+- **web-sites-hub/frontend-portal/README.md** - 主站与 diary 子页说明
 
 ## 🎯 已修复的问题
 
@@ -121,8 +161,8 @@ sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 
 ## 📝 添加新服务
 
-1. 在 `joketop.conf` 中添加 location 块
-2. 在 `deploy-all-docs.sh` 的 SERVICES 数组中添加条目
+1. 在 `web-sites-hub/joketop.conf` 中添加 location 块
+2. 在 `web-sites-hub/deploy-all-docs.sh` 的 SERVICES 数组中添加条目
 3. 重新部署
 
-详见 `DEPLOY-README.md`。
+详见 `web-sites-hub/DEPLOY-README.md`。

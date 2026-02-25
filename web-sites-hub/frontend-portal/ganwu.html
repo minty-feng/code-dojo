@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="所思所感 - 生活感悟与思考">
+    <title>感悟 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
+    <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .insights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .insight-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        .insight-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .insight-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .insight-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .insight-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .insight-body {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .insight-body p {
+            margin-bottom: 1rem;
+        }
+        .insight-body p:last-child {
+            margin-bottom: 0;
+        }
+        .insight-body .lead {
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+        .insight-body h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.5rem;
+        }
+        .insight-body h4:first-of-type {
+            margin-top: 1rem;
+        }
+
+        /* 长文卡片：爱，是不快乐的艺术 */
+        .insight-card.essay-card {
+            padding: 2.5rem 3rem;
+            border-radius: 1.25rem;
+            border-color: rgba(255,255,255,0.08);
+            font-family: 'Noto Serif SC', 'Playfair Display', serif;
+        }
+        .essay-card .insight-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        .essay-card .insight-body {
+            font-size: 1.05rem;
+            line-height: 2;
+            letter-spacing: 0.02em;
+            color: var(--text-secondary);
+        }
+        .essay-card .insight-body .lead {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            padding: 1.25rem 0 1.25rem 1.5rem;
+            margin: 0 0 1.75rem 0;
+            border-left: 3px solid rgba(240, 147, 251, 0.5);
+            background: rgba(255,255,255,0.02);
+            border-radius: 0 0.5rem 0.5rem 0;
+            color: var(--text-primary);
+            font-style: italic;
+        }
+        .essay-card .insight-body p {
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
+        .essay-card .insight-body p:last-child {
+            margin-bottom: 0;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .essay-card .insight-body h4 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            margin: 2rem 0 0.75rem 0;
+            color: var(--text-primary);
+            opacity: 0.95;
+        }
+        .essay-card .insight-body h4:first-of-type {
+            margin-top: 1.25rem;
+        }
+        @media (max-width: 640px) {
+            .insight-card.essay-card {
+                padding: 1.75rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="diary.html" class="logo">
+                    <h1 class="logo-text">
+                        <span class="logo-main">minty-feng</span>
+                    </h1>
+                    <p class="logo-subtitle">感悟</p>
+                </a>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                        <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                        <a href="ganwu.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">感悟</a>
+                    </nav>
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="diary-main">
+            <section class="timeline-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-text">所思所感</span>
+                    </h2>
+                    <p class="section-subtitle">记录生活里的顿悟与沉淀</p>
+                </div>
+
+                <div class="insights-list">
+                    <div class="insight-card">
+                        <h3 class="insight-title">留白</h3>
+                        <div class="insight-meta">某日</div>
+                        <p class="insight-excerpt">
+                            做事留三分余地，说话留三分余地。留白不是空白，是给呼吸和生长的空间。
+                        </p>
+                    </div>
+                    <div class="insight-card">
+                        <h3 class="insight-title">长期主义</h3>
+                        <div class="insight-meta">某日</div>
+                        <p class="insight-excerpt">
+                            把时间拉长，很多当下的焦虑会变得无足轻重。选对方向，然后持续做下去。
+                        </p>
+                    </div>
+
+                    <div class="insight-card essay-card">
+                        <h3 class="insight-title">爱，是不快乐的艺术</h3>
+                        <div class="insight-body">
+                            <p class="lead">爱是不快乐的艺术，因为它是唯一一种，以自愿交出武器的方式，接近另一个灵魂的战争。</p>
+                            <p>让我们剥开表层，直视核心。</p>
+                            <h4>1. 他者的绝对他性，是爱的第一重绝望。</h4>
+                            <p>你最深爱的，恰恰是你最无法掌控、最不可化约为自身欲求的"他者"。你的快乐预设了占有与理解，但真正的爱，却在每一次你以为"懂"了的时候，遭遇对方无法穿透的神秘与自由。这种挫败不是偶然，是必然。爱就是承认：我面前是一个我永远无法完全抵达的宇宙。</p>
+                            <h4>2. 爱是最高形式的自我剥夺，以确立对方的存在。</h4>
+                            <p>真正的深爱里，"自我"必须被悬置。你的快乐来自需求被满足，但深爱要求你凝视对方的需求，有时甚至在你痛苦之时。这是一种 "主体性的让位" 。快乐属于完整的"我"，而深爱时，"我"的完整性已被打破，为"我们"腾出空间——那个空间里，常常住着寂寞。</p>
+                            <h4>3. 它逼迫你直面自身最深的脆弱。</h4>
+                            <p>在他人面前，你可以扮演完美。但在深爱之人面前，你的自私、恐惧、占有欲和依赖无处遁形。爱是一面过于诚实的镜子，照出你一切不可爱之处。你不是因为看见美好而爱，而是在爱中，被迫与自己的阴影共处。这种自我认知的尖锐过程，与单纯的快乐背道而驰。</p>
+                            <h4>4. 快乐追求享乐原则，爱却走向死亡驱力。</h4>
+                            <p>弗洛伊德说，人有生之本能，也有向寂静回归的死之本能。极致的爱里有一种隐秘的献祭冲动——愿意为对方损耗、甚至毁灭部分自我。这种向内的破坏力，与追求愉悦的本能直接冲突。所以，深爱中的痛苦，近乎一种清醒的 "自愿受难" ，以确认爱的绝对性。</p>
+                            <h4>5. 它揭示了存在的终极孤独，即便在最亲密之中。</h4>
+                            <p>最深层的连接，恰恰让你体会到灵魂间不可逾越的最后一厘米。你们可以共享一切，却无法共享对同一时刻完全相同的感知。爱到深处，那种 "即便在你怀中，我仍是孤独的" 的领悟会突然降临。这种孤独不是缺憾，是存在的本质，而爱让它变得清晰可感，因而沉重。</p>
+                            <p>因此，说深爱不快乐，是因为快乐关乎拥有，而爱关乎面对。<br>面对他者的不可掌控，面对自我的消解与重建，面对存在的孤独底色。</p>
+                            <p>这种不快乐，不是爱的缺陷，而是它的深度刻度。它测量的是你参与另一人存在的程度，是你灵魂的边界被重塑时所必然经历的震荡。在这震荡中，纯粹的、轻省的快乐无法存活；但另一种更厚重的东西——比如深刻的理解、悲悯的共同命运感、以及在虚无中依然选择紧握的意志——却得以诞生。</p>
+                            <p>最终，爱或许不是幸福的答案，而是对"什么是真实"的一次勇敢而疼痛的确认。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="assets/js/main.js?v=20260203"></script>
+</body>
+</html>

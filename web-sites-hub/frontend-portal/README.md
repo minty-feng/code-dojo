@@ -42,6 +42,7 @@
 ```
 frontend-portal/
 ├── index.html              # 主页面
+├── version.txt             # 资源版本号（CSS/JS ?v=xxx），打包时自动注入
 ├── assets/
 │   ├── css/
 │   │   └── main.css       # 主样式文件
@@ -49,6 +50,7 @@ frontend-portal/
 │       └── main.js        # 交互脚本
 ├── scripts/
 │   └── preview.sh         # 预览脚本
+├── package-joketop.sh     # 打包脚本（含版本注入、JS 压缩）
 └── README.md              # 本文件
 ```
 
@@ -100,25 +102,35 @@ frontend-portal/
 为避免 CDN/浏览器缓存导致样式或脚本更新不生效，所有 CSS/JS 引用均带版本号参数：
 
 ```html
-<link rel="stylesheet" href="assets/css/main.css?v=20260203">
-<script src="assets/js/main.js?v=20260203"></script>
+<link rel="stylesheet" href="assets/css/main.css?v=20260206">
+<script src="assets/js/main.js?v=20260206"></script>
 ```
+
+### 统一版本配置
+
+版本号由 **`version.txt`** 或环境变量 **`ASSETS_VERSION`** 统一管理，打包时自动注入到所有 HTML：
+
+| 方式 | 说明 |
+|------|------|
+| `version.txt` | 编辑此文件，写入新版本号（如 `20260207`），打包时自动读取 |
+| `ASSETS_VERSION` | 环境变量覆盖：`ASSETS_VERSION=20260207 ./package-joketop.sh` |
 
 ### 工作原理
 
 | 场景 | 请求 URL | CDN/浏览器行为 |
 |------|----------|----------------|
-| 首次访问（新版本） | `main.css?v=20260204` | 缓存未命中，回源拉取并缓存 |
-| 后续访问 | `main.css?v=20260204` | 缓存命中，直接返回（快） |
-| 更新版本号后 | `main.css?v=20260205` | 新 URL，缓存未命中，拉取最新文件 |
+| 首次访问（新版本） | `main.css?v=20260206` | 缓存未命中，回源拉取并缓存 |
+| 后续访问 | `main.css?v=20260206` | 缓存命中，直接返回（快） |
+| 更新版本号后 | `main.css?v=20260207` | 新 URL，缓存未命中，拉取最新文件 |
 
 ### 更新步骤
 
 1. 修改 CSS/JS 文件
-2. 将所有 HTML 中的版本号改为新日期，如 `?v=20260204`
-3. 重新打包部署
+2. 编辑 `version.txt` 更新版本号（或使用 `ASSETS_VERSION`）
+3. 执行 `./package-joketop.sh` 打包（自动注入版本号）
+4. 部署
 
-**优势**：既能强制更新，又保证 CDN 缓存生效，兼顾更新及时性与加载速度。
+**优势**：一处修改即可触发全站 CDN 更新，既能强制更新，又保证缓存生效。
 
 ## 📝 许可证
 

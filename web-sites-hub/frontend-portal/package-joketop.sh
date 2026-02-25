@@ -12,6 +12,15 @@ NC='\033[0m' # No Color
 PACKAGE_NAME="joketop-$(date +%Y%m%d-%H%M%S).tar.gz"
 EXCLUDE_FILE=".package-exclude"
 
+# 版本号：优先环境变量 ASSETS_VERSION，否则从 version.txt 读取，用于 CDN 缓存更新
+if [ -n "$ASSETS_VERSION" ]; then
+    VERSION="$ASSETS_VERSION"
+elif [ -f "version.txt" ]; then
+    VERSION=$(tr -d '\n\r' < version.txt)
+else
+    VERSION=$(date +%Y%m%d)
+fi
+
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}  开始打包 joketop 项目${NC}"
 echo -e "${GREEN}========================================${NC}"
@@ -41,6 +50,22 @@ trap "rm -rf $TEMP_DIR" EXIT
 echo -e "${YELLOW}准备文件...${NC}"
 cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html wufu.html poems.html timeline.html goals.html tianya.html journal.html $TEMP_DIR/ 2>/dev/null
 cp -r assets $TEMP_DIR/ 2>/dev/null
+
+# 统一注入版本号到 HTML（替换 ?v=xxx 为 ?v=$VERSION，触发 CDN 更新）
+echo -e "${YELLOW}注入版本号 v=${GREEN}$VERSION${NC}"
+for f in $TEMP_DIR/*.html; do
+    [ -f "$f" ] && sed -i.bak "s/?v=[0-9]*/?v=$VERSION/g" "$f" && rm -f "${f}.bak"
+done
+
+# JS 压缩（使用 terser，需 npm 环境）
+if command -v npx &>/dev/null; then
+    echo -e "${YELLOW}压缩 JS 文件...${NC}"
+    for f in $TEMP_DIR/assets/js/*.js; do
+        [ -f "$f" ] && npx --yes terser "$f" -c -m -o "$f" 2>/dev/null && echo -e "  ${GREEN}✓${NC} $(basename "$f")" || echo -e "  ${YELLOW}⚠ 跳过${NC} $(basename "$f")"
+    done
+else
+    echo -e "${YELLOW}提示: 未检测到 npx，跳过 JS 压缩。安装 Node.js 后可用 terser 压缩。${NC}"
+fi
 
 # 检查关键文件是否存在
 MISSING_FILES=()
@@ -87,6 +112,7 @@ if [ $? -eq 0 ]; then
     echo -e "${GREEN}  文件信息${NC}"
     echo -e "${GREEN}========================================${NC}"
     echo -e "  文件名: ${GREEN}$PACKAGE_NAME${NC}"
+    echo -e "  资源版本: ${GREEN}v=$VERSION${NC}"
     echo -e "  文件大小: ${GREEN}$FILE_SIZE${NC}"
     echo -e "  文件数量: ${GREEN}$FILE_COUNT${NC}"
     echo -e "  文件位置: ${GREEN}$(pwd)/$PACKAGE_NAME${NC}"
