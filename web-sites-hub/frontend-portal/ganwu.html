@@ -12,6 +12,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* 始终预留右侧滚动条，避免展开/折叠时因滚动条出现导致抖动 */
+        html {
+            overflow-y: scroll;
+        }
         .insights-list {
             display: flex;
             flex-direction: column;
@@ -78,6 +82,9 @@
             border-color: rgba(255,255,255,0.08);
             font-family: 'Noto Serif SC', 'Playfair Display', serif;
         }
+        .insight-card.essay-card:hover {
+            transform: none;
+        }
         .essay-card .insight-title {
             font-family: 'Noto Serif SC', serif;
             font-size: 1.5rem;
@@ -127,9 +134,164 @@
         .essay-card .insight-body h4:first-of-type {
             margin-top: 1.25rem;
         }
+        /* 可折叠：折叠时只显示题目 + 创作日期 */
+        .essay-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.25rem 0;
+        }
+        .essay-card-header:focus {
+            outline: none;
+        }
+        .essay-card-header .essay-title-wrap {
+            flex: 1;
+        }
+        .essay-card-date {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .essay-card-toggle-wrap {
+            flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+        }
+        .essay-card-toggle {
+            width: 1rem;
+            height: 1rem;
+            color: inherit;
+            transition: transform 0.25s ease-out;
+        }
+        .essay-card.collapsed .essay-card-toggle {
+            transform: rotate(-90deg);
+        }
+        /* 用 grid 做折叠动画，避免 max-height 导致的抖动 */
+        .essay-card-body-wrap {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease-out;
+        }
+        .essay-card:not(.collapsed) .essay-card-body-wrap {
+            grid-template-rows: 1fr;
+        }
+        .essay-card-body {
+            overflow: hidden;
+            min-height: 0;
+            padding-top: 1rem;
+        }
+        .essay-card.collapsed .essay-card-body {
+            margin-top: 0;
+            padding-top: 0;
+        }
+        .essay-card.collapsed .essay-card-header .insight-title {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        /* 移动端适配：字号调小，减少换行 */
+        @media (max-width: 768px) {
+            .insights-list {
+                padding: 0 0.5rem;
+                gap: 1.25rem;
+            }
+            .insight-card.essay-card {
+                padding: 1.25rem 1rem;
+                border-radius: 1rem;
+            }
+            .essay-card .insight-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.35rem;
+                padding-bottom: 0.5rem;
+            }
+            .essay-card-date {
+                font-size: 0.8rem;
+            }
+            .essay-card .insight-body {
+                font-size: 0.875rem;
+                line-height: 1.75;
+            }
+            .essay-card .insight-body .lead {
+                font-size: 0.9rem;
+                padding: 0.75rem 0 0.75rem 0.75rem;
+                margin: 0 0 1rem 0;
+            }
+            .essay-card .insight-body h4 {
+                font-size: 0.825rem;
+                margin: 1.25rem 0 0.35rem 0;
+            }
+            .essay-card .insight-body h4:first-of-type {
+                margin-top: 0.75rem;
+            }
+            .essay-card .insight-body p {
+                margin-bottom: 0.75rem;
+            }
+            .essay-card-body {
+                padding-top: 0.5rem;
+            }
+        }
         @media (max-width: 640px) {
             .insight-card.essay-card {
-                padding: 1.75rem 1.5rem;
+                padding: 1rem 0.875rem;
+            }
+            .essay-card-header {
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            .essay-card-header .essay-title-wrap {
+                min-width: 0;
+            }
+            .essay-card .insight-title {
+                font-size: 1rem;
+                word-break: break-word;
+            }
+            .essay-card-date {
+                font-size: 0.75rem;
+            }
+            .essay-card-toggle-wrap {
+                width: 2.25rem;
+                height: 2.25rem;
+                flex-shrink: 0;
+                margin-top: 0.1rem;
+            }
+            .essay-card .insight-body {
+                font-size: 0.8125rem;
+            }
+            .essay-card .insight-body .lead {
+                font-size: 0.85rem;
+                padding: 0.6rem 0 0.6rem 0.6rem;
+            }
+            .essay-card .insight-body h4 {
+                font-size: 0.8rem;
+            }
+            .essay-card .insight-body p {
+                margin-bottom: 0.6rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .essay-card .insight-title {
+                font-size: 0.95rem;
+            }
+            .essay-card-date {
+                font-size: 0.7rem;
+            }
+            .essay-card .insight-body {
+                font-size: 0.75rem;
+            }
+            .essay-card .insight-body .lead {
+                font-size: 0.8rem;
+            }
+            .essay-card .insight-body h4 {
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -174,39 +336,71 @@
                 </div>
 
                 <div class="insights-list">
-                    <div class="insight-card">
-                        <h3 class="insight-title">留白</h3>
-                        <div class="insight-meta">某日</div>
-                        <p class="insight-excerpt">
-                            做事留三分余地，说话留三分余地。留白不是空白，是给呼吸和生长的空间。
-                        </p>
-                    </div>
-                    <div class="insight-card">
-                        <h3 class="insight-title">长期主义</h3>
-                        <div class="insight-meta">某日</div>
-                        <p class="insight-excerpt">
-                            把时间拉长，很多当下的焦虑会变得无足轻重。选对方向，然后持续做下去。
-                        </p>
-                    </div>
-
-                    <div class="insight-card essay-card">
-                        <h3 class="insight-title">爱，是不快乐的艺术</h3>
+                    <div class="insight-card essay-card collapsed" data-essay>
+                        <div class="essay-card-header" aria-expanded="false">
+                            <div class="essay-title-wrap">
+                                <h3 class="insight-title">爱，是不快乐的艺术</h3>
+                                <div class="essay-card-date">创作日期：2026年2月25日</div>
+                            </div>
+                            <span class="essay-card-toggle-wrap">
+                                <svg class="essay-card-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="essay-card-body-wrap">
+                        <div class="essay-card-body">
                         <div class="insight-body">
                             <p class="lead">爱是不快乐的艺术，因为它是唯一一种，以自愿交出武器的方式，接近另一个灵魂的战争。</p>
-                            <p>让我们剥开表层，直视核心。</p>
-                            <h4>1. 他者的绝对他性，是爱的第一重绝望。</h4>
-                            <p>你最深爱的，恰恰是你最无法掌控、最不可化约为自身欲求的"他者"。你的快乐预设了占有与理解，但真正的爱，却在每一次你以为"懂"了的时候，遭遇对方无法穿透的神秘与自由。这种挫败不是偶然，是必然。爱就是承认：我面前是一个我永远无法完全抵达的宇宙。</p>
+                            <p>剥开表层，直视核心。</p>
+                            <h4>1. 她者的绝对她性，是爱的第一重绝望。</h4>
+                            <p>你最深爱的，恰恰是你最无法掌控、最不可化约为自身欲求的"她者"。你的快乐预设了占有与理解，但真正的爱，却在每一次你以为"懂"了的时候，遭遇对方无法穿透的神秘与自由。这种挫败不是偶然，是必然。爱就是承认：我面前是一个我永远无法完全抵达的宇宙。</p>
                             <h4>2. 爱是最高形式的自我剥夺，以确立对方的存在。</h4>
                             <p>真正的深爱里，"自我"必须被悬置。你的快乐来自需求被满足，但深爱要求你凝视对方的需求，有时甚至在你痛苦之时。这是一种 "主体性的让位" 。快乐属于完整的"我"，而深爱时，"我"的完整性已被打破，为"我们"腾出空间——那个空间里，常常住着寂寞。</p>
                             <h4>3. 它逼迫你直面自身最深的脆弱。</h4>
-                            <p>在他人面前，你可以扮演完美。但在深爱之人面前，你的自私、恐惧、占有欲和依赖无处遁形。爱是一面过于诚实的镜子，照出你一切不可爱之处。你不是因为看见美好而爱，而是在爱中，被迫与自己的阴影共处。这种自我认知的尖锐过程，与单纯的快乐背道而驰。</p>
+                            <p>在她人面前，你可以扮演完美。但在深爱之人面前，你的自私、恐惧、占有欲和依赖无处遁形。爱是一面过于诚实的镜子，照出你一切不可爱之处。你不是因为看见美好而爱，而是在爱中，被迫与自己的阴影共处。这种自我认知的尖锐过程，与单纯的快乐背道而驰。</p>
                             <h4>4. 快乐追求享乐原则，爱却走向死亡驱力。</h4>
                             <p>弗洛伊德说，人有生之本能，也有向寂静回归的死之本能。极致的爱里有一种隐秘的献祭冲动——愿意为对方损耗、甚至毁灭部分自我。这种向内的破坏力，与追求愉悦的本能直接冲突。所以，深爱中的痛苦，近乎一种清醒的 "自愿受难" ，以确认爱的绝对性。</p>
                             <h4>5. 它揭示了存在的终极孤独，即便在最亲密之中。</h4>
                             <p>最深层的连接，恰恰让你体会到灵魂间不可逾越的最后一厘米。你们可以共享一切，却无法共享对同一时刻完全相同的感知。爱到深处，那种 "即便在你怀中，我仍是孤独的" 的领悟会突然降临。这种孤独不是缺憾，是存在的本质，而爱让它变得清晰可感，因而沉重。</p>
-                            <p>因此，说深爱不快乐，是因为快乐关乎拥有，而爱关乎面对。<br>面对他者的不可掌控，面对自我的消解与重建，面对存在的孤独底色。</p>
+                            <p>因此，说深爱不快乐，是因为快乐关乎拥有，而爱关乎面对。<br>面对她者的不可掌控，面对自我的消解与重建，面对存在的孤独底色。</p>
                             <p>这种不快乐，不是爱的缺陷，而是它的深度刻度。它测量的是你参与另一人存在的程度，是你灵魂的边界被重塑时所必然经历的震荡。在这震荡中，纯粹的、轻省的快乐无法存活；但另一种更厚重的东西——比如深刻的理解、悲悯的共同命运感、以及在虚无中依然选择紧握的意志——却得以诞生。</p>
                             <p>最终，爱或许不是幸福的答案，而是对"什么是真实"的一次勇敢而疼痛的确认。</p>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card essay-card collapsed" data-essay>
+                        <div class="essay-card-header" aria-expanded="false">
+                            <div class="essay-title-wrap">
+                                <h3 class="insight-title">戒除对宝贝的贪嗔痴怨执</h3>
+                                <div class="essay-card-date">创作日期：2026年2月26日</div>
+                            </div>
+                            <span class="essay-card-toggle-wrap">
+                                <svg class="essay-card-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="essay-card-body-wrap">
+                        <div class="essay-card-body">
+                        <div class="insight-body">
+                            <p class="lead">深爱中需要照见的五种心境。它们并非需要斩断的"恶"，而是理解爱、净化爱的路标。</p>
+                            <h4>贪 · 对拥有的无尽渴求</h4>
+                            <p>是"希望宝贝只属于我"、"想要更多陪伴、关注与确认"的渴望。它的本质是恐惧——恐惧失去，恐惧不圆满。在爱中呈现为过度依赖与索取。</p>
+                            <h4>嗔 · 对不顺意的排斥与恼怒</h4>
+                            <p>是当宝贝不如己意时（如忙碌疏忽、观点不合）升起的烦躁、失望或冷语。它的本质是"我执"受挫——试图将对方塑造成自己理想的模样。</p>
+                            <h4>痴 · 对实相的蒙昧与执着</h4>
+                            <p>它有两副面孔：<br>一是心灵的幻象："离开她我就无法幸福"、"关系必须永恒如初"；<br>二是肉体的迷执：将强烈的欲望误认为爱的全部，或试图通过身体的不断索取与占有，来填补内心的不安、确认自我的存在。<br>二者的本质皆是"无明"——用一时的强烈感受或固定剧本，去覆盖生命真实、流动的无常。</p>
+                            <h4>怨 · 对付出与回报的计较</h4>
+                            <p>是"我如此爱你，为何你却不……"的委屈感。它的本质是爱的交易化——将给予暗中标价，一旦回报失衡，便滋生苦涩。</p>
+                            <h4>执 · 对"自我正确"的固守</h4>
+                            <p>其最锋利也最伤人的化身，便是"争执"——坚信"我是对的，你是错的"，并试图在言语或道理上征服对方、改变对方。它的本质是把爱误当作辩论场，将关系的和谐，偷换成自我观点的胜利。真正的亲密，不在输赢，而在靠近。</p>
+                            <p>在爱中的修习恰在于此：<br>不以"贪"催生束缚，而以感恩滋养珍惜；<br>不以"嗔"点燃战火，而以慈悲接纳差异；<br>不以"痴"建造牢笼，而以智慧欣赏无常；<br>不以"怨"计量付出，而以慷慨享受给予；<br>不以"执"争辩对错，而以沉静守护连接——这沉静，是在情绪涌起时，先收回指向对方的手指，转向自己内心：此刻，爱先于对。</p>
+                            <p>真正的深情，是愿意在波动里看见自己，在碰撞中拓宽心的边界——让对一个人的爱，最终成为通向更完整生命的桥梁。</p>
+                        </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -215,5 +409,15 @@
     </div>
 
     <script src="assets/js/main.js?v=20260203"></script>
+    <script>
+        document.querySelectorAll('.essay-card[data-essay]').forEach(function(card) {
+            var header = card.querySelector('.essay-card-header');
+            if (!header) return;
+            header.addEventListener('click', function() {
+                card.classList.toggle('collapsed');
+                header.setAttribute('aria-expanded', card.classList.contains('collapsed') ? 'false' : 'true');
+            });
+        });
+    </script>
 </body>
 </html>

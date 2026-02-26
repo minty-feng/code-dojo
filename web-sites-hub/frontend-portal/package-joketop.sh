@@ -48,7 +48,7 @@ trap "rm -rf $TEMP_DIR" EXIT
 
 # 复制需要打包的文件
 echo -e "${YELLOW}准备文件...${NC}"
-cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html wufu.html poems.html timeline.html goals.html tianya.html journal.html $TEMP_DIR/ 2>/dev/null
+cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html ganwu.html wufu.html poems.html timeline.html goals.html tianya.html journal.html $TEMP_DIR/ 2>/dev/null
 cp -r assets $TEMP_DIR/ 2>/dev/null
 
 # 统一注入版本号到 HTML（替换 ?v=xxx 为 ?v=$VERSION，触发 CDN 更新）
