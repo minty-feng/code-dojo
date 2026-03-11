@@ -38,7 +38,7 @@ fi
 # 明确指定要打包的文件和目录
 echo -e "${YELLOW}正在打包文件...${NC}"
 echo -e "${YELLOW}包含的文件：${NC}"
-echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed.html, fund.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html${NC}"
+echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed.html, fund.html, docsearch.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html${NC}"
 echo -e "${YELLOW}  - 资源文件: assets/ (css, js, favicon.svg)${NC}"
 echo ""
 
@@ -48,7 +48,7 @@ trap "rm -rf $TEMP_DIR" EXIT
 
 # 复制需要打包的文件
 echo -e "${YELLOW}准备文件...${NC}"
-cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html ganwu.html wufu.html poems.html timeline.html goals.html tianya.html journal.html $TEMP_DIR/ 2>/dev/null
+cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html docsearch.html invisiblechars.html ganwu.html wufu.html poems.html timeline.html goals.html tianya.html journal.html $TEMP_DIR/ 2>/dev/null
 cp -r assets $TEMP_DIR/ 2>/dev/null
 
 # 统一注入版本号到 HTML（替换 ?v=xxx 为 ?v=$VERSION，触发 CDN 更新）
@@ -82,6 +82,8 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/goals.html" ] && MISSING_FILES+=("goals.html")
 [ ! -f "$TEMP_DIR/tianya.html" ] && MISSING_FILES+=("tianya.html")
 [ ! -f "$TEMP_DIR/journal.html" ] && MISSING_FILES+=("journal.html")
+[ ! -f "$TEMP_DIR/docsearch.html" ] && MISSING_FILES+=("docsearch.html")
+[ ! -f "$TEMP_DIR/invisiblechars.html" ] && MISSING_FILES+=("invisiblechars.html")
 [ ! -d "$TEMP_DIR/assets" ] && MISSING_FILES+=("assets/")
 [ ! -f "$TEMP_DIR/assets/favicon.svg" ] && MISSING_FILES+=("assets/favicon.svg")
 

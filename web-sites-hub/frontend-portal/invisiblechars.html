@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="不可见字符查看 - 将空格、换行、制表符等显示为可见符号">
+    <title>不可见字符查看 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
+    <style>
+        .ic-page { min-height: 100vh; padding: 2rem 0 3rem; }
+        .ic-wrap { max-width: 900px; margin: 0 auto; }
+        .ic-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.5rem; }
+        .ic-title { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+        .ic-back { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; }
+        .ic-back:hover { color: var(--accent); }
+        .ic-desc { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin-bottom: 2rem; }
+        .ic-section { margin-bottom: 2rem; }
+        .ic-section-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .ic-card { border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-card); overflow: hidden; }
+        .ic-textarea {
+            width: 100%; min-height: 180px; padding: 1.25rem;
+            font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+            font-size: 0.9rem; line-height: 1.65;
+            border: none; resize: vertical; box-sizing: border-box;
+            background: transparent; color: var(--text-primary);
+        }
+        .ic-textarea::placeholder { color: var(--text-secondary); opacity: 0.7; }
+        .ic-textarea:focus { outline: none; }
+        .ic-output-wrap { padding: 1.25rem; min-height: 180px; }
+        .ic-output {
+            width: 100%; min-height: 160px;
+            font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+            font-size: 0.9rem; line-height: 1.65;
+            white-space: pre-wrap; word-break: break-all; overflow: auto;
+            color: var(--text-primary);
+        }
+        .ic-output .ic-hl { padding: 0.12em 0.4em; border-radius: 4px; font-weight: 600; }
+        .ic-output .ic-space { color: #1a73e8; background: rgba(26, 115, 232, 0.15); }
+        .ic-output .ic-tab { color: #c44d34; background: rgba(196, 77, 52, 0.15); }
+        .ic-output .ic-nl { color: #0d904f; background: rgba(13, 144, 79, 0.15); }
+        .ic-output .ic-cr { color: #7c3aed; background: rgba(124, 58, 237, 0.15); }
+        .ic-output .ic-nbsp { color: #0284c7; background: rgba(2, 132, 199, 0.15); }
+        .ic-output .ic-zw { color: #b91c1c; background: rgba(185, 28, 28, 0.15); }
+        .ic-output .ic-hl.ic-space,
+        .ic-output .ic-hl.ic-tab,
+        .ic-output .ic-hl.ic-nl,
+        .ic-output .ic-hl.ic-cr,
+        .ic-output .ic-hl.ic-nbsp,
+        .ic-output .ic-hl.ic-zw { display: inline; }
+        .ic-legend { margin-top: 2.5rem; padding: 1rem 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-secondary); }
+        .ic-legend-title { font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; color: var(--text-secondary); }
+        .ic-legend ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+        .ic-legend li { display: flex; align-items: center; gap: 0.4rem; }
+        .ic-legend code { padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.8em; font-weight: 600; }
+        .ic-legend .ic-hl.ic-space { color: #1a73e8; background: rgba(26, 115, 232, 0.15); }
+        .ic-legend .ic-hl.ic-tab { color: #c44d34; background: rgba(196, 77, 52, 0.15); }
+        .ic-legend .ic-hl.ic-nl { color: #0d904f; background: rgba(13, 144, 79, 0.15); }
+        .ic-legend .ic-hl.ic-cr { color: #7c3aed; background: rgba(124, 58, 237, 0.15); }
+        .ic-legend .ic-hl.ic-nbsp { color: #0284c7; background: rgba(2, 132, 199, 0.15); }
+        .ic-legend .ic-hl.ic-zw { color: #b91c1c; background: rgba(185, 28, 28, 0.15); }
+    </style>
+</head>
+<body class="ic-page">
+    <div class="container">
+        <div class="ic-wrap">
+            <header class="ic-header">
+                <a href="showcase.html" class="ic-back">← 返回项目展示</a>
+                <h1 class="ic-title">不可见字符查看</h1>
+            </header>
+            <p class="ic-desc">将文本中的空格、换行、制表符等不可见字符以转义形式高亮显示，便于排查复制粘贴或格式问题。</p>
+
+            <section class="ic-section">
+                <div class="ic-section-title">输入文本</div>
+                <div class="ic-card">
+                    <textarea class="ic-textarea" id="inputText" placeholder="在此粘贴或输入需要检查的文本…"></textarea>
+                </div>
+            </section>
+
+            <section class="ic-section">
+                <div class="ic-section-title">转义结果</div>
+                <div class="ic-card">
+                    <div class="ic-output-wrap">
+                        <div class="ic-output" id="output" role="textbox" aria-readonly="true">输入上方文本后，此处将实时显示将不可见字符替换为转义符号的结果。</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="ic-legend">
+                <div class="ic-legend-title">图例</div>
+                <ul>
+                    <li><code class="ic-hl ic-space">·</code> 普通空格 (U+0020)</li>
+                    <li><code class="ic-hl ic-tab">\t</code> 制表符 (U+0009)</li>
+                    <li><code class="ic-hl ic-nl">\n</code> 换行 LF (U+000A)</li>
+                    <li><code class="ic-hl ic-cr">\r</code> 回车 CR (U+000D)</li>
+                    <li><code class="ic-hl ic-nbsp">\u00A0</code> 不换行空格 (U+00A0)</li>
+                    <li><code class="ic-hl ic-zw">\u200B</code> 零宽空格等</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/main.js?v=20260203"></script>
+    <script>
+        (function() {
+            var input = document.getElementById('inputText');
+            var output = document.getElementById('output');
+
+            function escapeInvisible(str) {
+                if (!str) return '';
+                var html = '';
+                for (var i = 0; i < str.length; i++) {
+                    var c = str[i];
+                    var code = str.charCodeAt(i);
+                    switch (code) {
+                        case 0x20: html += '<span class="ic-hl ic-space" title="空格 U+0020">·</span>'; break;
+                        case 0x09: html += '<span class="ic-hl ic-tab" title="Tab U+0009">\\t</span>'; break;
+                        case 0x0A: html += '<span class="ic-hl ic-nl" title="换行 LF U+000A">\\n</span>'; break;
+                        case 0x0D: html += '<span class="ic-hl ic-cr" title="回车 CR U+000D">\\r</span>'; break;
+                        case 0xA0: html += '<span class="ic-hl ic-nbsp" title="不换行空格 U+00A0">\\u00A0</span>'; break;
+                        case 0x200B: html += '<span class="ic-hl ic-zw" title="零宽空格 U+200B">\\u200B</span>'; break;
+                        case 0x200C: html += '<span class="ic-hl ic-zw" title="零宽非连接符 U+200C">\\u200C</span>'; break;
+                        case 0x200D: html += '<span class="ic-hl ic-zw" title="零宽连接符 U+200D">\\u200D</span>'; break;
+                        case 0xFEFF: html += '<span class="ic-hl ic-zw" title="BOM U+FEFF">\\uFEFF</span>'; break;
+                        default:
+                            if (code < 0x20 || (code >= 0x7F && code < 0xA0)) {
+                                var hex = 'U+' + code.toString(16).toUpperCase().padStart(4,'0');
+                                html += '<span class="ic-hl ic-zw" title="控制字符 ' + hex + '">\\x' + code.toString(16).toUpperCase().padStart(2,'0') + '</span>';
+                            } else {
+                                html += escapeHtml(c);
+                            }
+                    }
+                }
+                return html;
+            }
+            function escapeHtml(s) {
+                var div = document.createElement('div');
+                div.textContent = s;
+                return div.innerHTML;
+            }
+
+            function update() {
+                var val = input.value;
+                if (!val) {
+                    output.innerHTML = '输入上方文本后，此处将实时显示将不可见字符替换为转义符号的结果。';
+                    output.classList.remove('has-content');
+                    return;
+                }
+                output.innerHTML = escapeInvisible(val);
+                output.classList.add('has-content');
+            }
+
+            input.addEventListener('input', update);
+            input.addEventListener('paste', function() { setTimeout(update, 0); });
+            update();
+        })();
+    </script>
+</body>
+</html>
