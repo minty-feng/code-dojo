@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="古今中外人物传 - 中国与外国人物">
+    <title>人物传 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+    <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .figures-page { max-width: 900px; margin: 0 auto; padding: 0 0 3rem; }
+        .figures-title { font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .figures-subtitle { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem; }
+
+        .figures-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; }
+        .figures-tabs .tab { padding: 0.75rem 1.25rem; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; font-weight: 500; font-size: 1rem; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; }
+        .figures-tabs .tab:hover { color: var(--text-primary); }
+        .figures-tabs .tab.active { color: var(--text-primary); border-bottom-color: var(--gradient-life); }
+        .figures-list { display: flex; flex-direction: column; gap: 1rem; }
+        .figure-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.25rem 1.5rem; transition: all 0.3s ease; display: flex; align-items: flex-start; gap: 1rem; }
+        .figure-card:hover { background: var(--bg-card-hover); border-color: rgba(255,255,255,0.15); }
+        .figure-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--gradient-life); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 1.1rem; }
+        .figure-info { flex: 1; min-width: 0; }
+        .figure-name { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .figure-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .figure-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+        .figure-card[data-region="china"] .figure-avatar { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: #fff; }
+        .figure-card[data-region="foreign"] .figure-avatar { background: linear-gradient(135deg, #60a5fa, #2563eb); color: #fff; }
+
+        .figures-empty { text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <span style="flex: 1;"></span>
+                <nav class="sub-nav" style="margin-right: 2rem;">
+                    <a href="showcase.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">项目展示</a>
+                    <a href="figures.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">人物传</a>
+                </nav>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="diary-main figures-page">
+            <h1 class="figures-title">古今中外人物传</h1>
+            <p class="figures-subtitle">按地域分类，便于检索与阅读</p>
+
+            <div class="figures-tabs" role="tablist">
+                <button type="button" class="tab active" role="tab" data-category="china" aria-selected="true">中国</button>
+                <button type="button" class="tab" role="tab" data-category="foreign" aria-selected="false">外国</button>
+            </div>
+
+            <div class="figures-list" id="figuresList"></div>
+        </main>
+    </div>
+
+    <script src="assets/js/main.js?v=20260203"></script>
+    <script>
+        (function() {
+            const DATA = {
+                'china': [
+                    { name: '孔子', meta: '春秋 · 思想家、教育家', desc: '儒家学派创始人，主张仁与礼，影响东亚文明两千年。' },
+                    { name: '司马迁', meta: '西汉 · 史学家、文学家', desc: '著《史记》，开创纪传体通史，被誉为「史家之绝唱，无韵之离骚」。' },
+                    { name: '王阳明', meta: '明代 · 思想家、军事家', desc: '心学集大成者，提倡「知行合一」「致良知」。' },
+                    { name: '苏轼', meta: '北宋 · 文学家、书法家', desc: '唐宋八大家之一，词开豪放一派，诗文书画皆精。' },
+                    { name: '鲁迅', meta: '近现代 · 文学家、思想家', desc: '新文化运动旗手，以杂文与小说批判旧礼教与国民性。' },
+                    { name: '钱钟书', meta: '近现代 · 学者、作家', desc: '学贯中西，《管锥编》《围城》等影响深远。' },
+                    { name: '林徽因', meta: '近现代 · 建筑学家、诗人', desc: '中国现代建筑学奠基人之一，兼工诗文。' }
+                ],
+                'foreign': [
+                    { name: '苏格拉底', meta: '古希腊 · 哲学家', desc: '西方哲学奠基人之一，以问答法探求德性与真理。' },
+                    { name: '达·芬奇', meta: '文艺复兴 · 艺术家、发明家', desc: '文艺复兴全才，《蒙娜丽莎》《最后的晚餐》等。' },
+                    { name: '牛顿', meta: '英国 · 物理学家、数学家', desc: '经典力学与微积分奠基人，万有引力定律。' },
+                    { name: '爱因斯坦', meta: '德/美 · 物理学家', desc: '相对论创立者，现代物理学里程碑。' }
+                ]
+            };
+
+            const listEl = document.getElementById('figuresList');
+            const tabs = document.querySelectorAll('.figures-tabs .tab[data-category]');
+
+            function render(category) {
+                const items = DATA[category] || [];
+                if (items.length === 0) {
+                    listEl.innerHTML = '<div class="figures-empty">暂无该分类人物，欢迎后续补充。</div>';
+                    return;
+                }
+                listEl.innerHTML = items.map(function(item) {
+                    const initial = item.name.charAt(0);
+                    return '<article class="figure-card" data-region="' + category + '">' +
+                        '<div class="figure-avatar">' + initial + '</div>' +
+                        '<div class="figure-info">' +
+                        '<div class="figure-name">' + item.name + '</div>' +
+                        '<div class="figure-meta">' + item.meta + '</div>' +
+                        '<div class="figure-desc">' + item.desc + '</div>' +
+                        '</div></article>';
+                }).join('');
+            }
+
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    tabs.forEach(function(t) { t.classList.toggle('active', t.dataset.category === category); });
+                    render(category);
+                });
+            });
+
+            render('china');
+        })();
+    </script>
+</body>
+</html>

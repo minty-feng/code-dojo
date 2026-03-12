@@ -6,7 +6,7 @@
     <meta name="description" content="minty-feng 生活主页">
     <title>生活 · 记录 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,6 +145,8 @@
         .mod-poems .module-icon { color: #8fd3f4; }
         .mod-goals .module-icon { color: #a8edea; }
         .mod-ganwu .module-icon { color: #d299c2; }
+        .mod-plans .module-icon { color: #84fab0; }
+        .mod-calendar .module-icon { color: #7dd3fc; }
         
         .mini-stats {
             margin-top: 4rem;
@@ -173,20 +175,16 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <div class="bg-animation">
         <div class="bg-gradient"></div>
         <div class="bg-particles" id="particles"></div>
-        <div class="fireflies"></div>
     </div>
 
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="https://joketop.com" class="logo">
-                     <h1 class="logo-text">
-                        <span class="logo-main">minty-feng</span>
-                    </h1>
-                </a>
+                <span style="flex: 1;"></span>
                 <button class="theme-toggle" id="themeToggle">
                     <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -230,32 +228,6 @@
                     <span class="module-desc">碎碎念</span>
                 </a>
 
-                <!-- Tianya -->
-                <a href="tianya.html" class="module-card mod-tianya">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                        </svg>
-                    </div>
-                    <span class="module-title">天涯</span>
-                    <span class="module-desc">神贴收藏</span>
-                </a>
-
-                <!-- Poems -->
-                <a href="poems.html" class="module-card mod-poems">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
-                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
-                            <path d="M2 2l7.586 7.586"></path>
-                            <circle cx="11" cy="11" r="2"></circle>
-                        </svg>
-                    </div>
-                    <span class="module-title">诗词</span>
-                    <span class="module-desc">经典咏流传</span>
-                </a>
-                
                 <!-- Goals -->
                 <a href="goals.html" class="module-card mod-goals">
                      <div class="module-icon">
@@ -269,6 +241,20 @@
                     <span class="module-desc">积跬步至千里</span>
                 </a>
 
+                <!-- 智能日历 -->
+                <a href="calendar.html" class="module-card mod-calendar">
+                    <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <span class="module-title">智能日历</span>
+                    <span class="module-desc">日程 · 习惯 · 纪念日</span>
+                </a>
+
                 <!-- 感悟 -->
                 <a href="ganwu.html" class="module-card mod-ganwu">
                     <div class="module-icon">
@@ -280,6 +266,18 @@
                     </div>
                     <span class="module-title">感悟</span>
                     <span class="module-desc">所思所感</span>
+                </a>
+
+                <!-- 出行规划 -->
+                <a href="plans.html" class="module-card mod-plans">
+                    <div class="module-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="2" width="18" height="20" rx="2" ry="2"></rect>
+                            <path d="M8 2v20M3 7h5M3 12h5M3 17h5"></path>
+                        </svg>
+                    </div>
+                    <span class="module-title">出行规划</span>
+                    <span class="module-desc">衣食住行 · 节奏设计</span>
                 </a>
             </div>
 

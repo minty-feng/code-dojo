@@ -6,13 +6,14 @@
     <meta name="description" content="minty-feng 的生活日记 - 记录生活点滴、思考感悟、旅行见闻">
     <title>生活日记 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="diary.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <!-- Animated Background -->
     <div class="bg-animation">
         <div class="bg-gradient"></div>
@@ -23,21 +24,11 @@
             <div class="shape shape-3"></div>
             <div class="shape shape-4"></div>
         </div>
-        <!-- Snowflakes container (only visible in dark mode) -->
-        <div class="snowflakes" id="snowflakes"></div>
-        <!-- Fireflies container (only visible in dark mode) -->
-        <div class="fireflies" id="fireflies"></div>
     </div>
-
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="diary.html" class="logo">
-                    <h1 class="logo-text">
-                        <span class="logo-main">minty-feng</span>
-                    </h1>
-                    <p class="logo-subtitle">日记</p>
-                </a>
+                <span style="flex: 1;"></span>
                 <div style="display: flex; gap: 1rem; align-items: center;">
                     <nav class="sub-nav" style="margin-right: 2rem;">
                         <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>

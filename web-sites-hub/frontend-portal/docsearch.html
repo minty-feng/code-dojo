@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="文件检索平台 - 支持本地、云端、局域网多数据源，按文件名与正文搜索">
+    <title>文件检索平台 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .fs-industrial {
+            --fs-bg: #1a1e24;
+            --fs-surface: #23272e;
+            --fs-surface-hover: #2a2f36;
+            --fs-border: #5c6570;
+            --fs-text: #f1f3f5;
+            --fs-text-secondary: #c2c8d0;
+            --fs-text-muted: #9ca3af;
+            --fs-accent: #3b82f6;
+            --fs-accent-hover: #2563eb;
+            --fs-success: #22c55e;
+            --fs-warning: #eab308;
+            --fs-danger: #ef4444;
+        }
+        [data-theme="light"] .fs-industrial {
+            --fs-bg: #f1f5f9;
+            --fs-surface: #ffffff;
+            --fs-surface-hover: #f8fafc;
+            --fs-border: #94a3b8;
+            --fs-text: #0f172a;
+            --fs-text-secondary: #475569;
+            --fs-text-muted: #64748b;
+            --fs-accent: #2563eb;
+            --fs-accent-hover: #1d4ed8;
+        }
+        .fs-page { background: var(--fs-bg) !important; min-height: 100vh; color: var(--fs-text); font-family: 'Inter', system-ui, sans-serif; }
+        .fs-page .container { max-width: none; width: 100%; margin: 0; padding: 0; display: flex; min-height: 100vh; align-items: stretch; }
+        .fs-sidebar {
+            width: 260px; flex-shrink: 0; align-self: stretch; border-right: 1px solid var(--fs-border); padding: 0.75rem 0.75rem;
+            background: var(--fs-surface); display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .fs-sidebar-notice { font-size: 0.7rem; color: var(--fs-text-muted); line-height: 1.5; padding: 0.5rem 0.6rem; margin-bottom: 0.75rem; background: var(--fs-bg); border-radius: 6px; border: 1px solid var(--fs-border); }
+        .fs-sidebar-notice strong { color: var(--fs-text-secondary); font-weight: 600; }
+        .fs-sidebar-title { font-size: 0.68rem; font-weight: 600; color: var(--fs-text-muted); text-transform: uppercase; letter-spacing: 0.06em; padding: 0; margin-bottom: 0.35rem; }
+        .fs-source-list { display: flex; flex-direction: column; gap: 0.15rem; }
+        .fs-source-tab {
+            display: flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.6rem; border-radius: 6px; border: none;
+            background: transparent; color: var(--fs-text-secondary); font-size: 0.8rem; cursor: pointer; text-align: left; width: 100%;
+        }
+        .fs-source-tab:hover { background: var(--fs-surface-hover); color: var(--fs-text); }
+        .fs-source-tab.active { background: rgba(59, 130, 246, 0.12); color: var(--fs-accent); }
+        .fs-source-tab svg { width: 1rem; height: 1rem; flex-shrink: 0; opacity: 0.9; }
+        .fs-config { display: none; margin-top: 0.35rem; }
+        .fs-config.active { display: block; }
+        .fs-form-row { margin-bottom: 0.5rem; }
+        .fs-form-row:last-child { margin-bottom: 0; }
+        .fs-label { display: block; font-size: 0.68rem; color: var(--fs-text-muted); margin-bottom: 0.2rem; }
+        .fs-input {
+            width: 100%; padding: 0.35rem 0.5rem; border: 1px solid var(--fs-border); border-radius: 5px;
+            background: var(--fs-bg); color: var(--fs-text); font-size: 0.8rem; box-sizing: border-box;
+        }
+        .fs-input:focus { outline: none; border-color: var(--fs-accent); }
+        .fs-input::placeholder { color: var(--fs-text-muted); }
+        .fs-input-row { display: flex; gap: 0.35rem; }
+        .fs-input-row .fs-input { flex: 1; min-width: 0; }
+        .fs-btn { padding: 0.4rem 0.75rem; border-radius: 6px; border: 1px solid var(--fs-border); background: var(--fs-surface-hover); color: var(--fs-text); font-size: 0.8125rem; cursor: pointer; }
+        .fs-btn:hover { border-color: var(--fs-accent); color: var(--fs-accent); }
+        .fs-btn-primary { background: var(--fs-accent); border-color: var(--fs-accent); color: #fff; }
+        .fs-btn-primary:hover { background: var(--fs-accent-hover); border-color: var(--fs-accent-hover); }
+        .fs-sidebar .fs-btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+        .fs-status { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.68rem; padding: 0.18rem 0.4rem; border-radius: 4px; margin-top: 0.4rem; }
+        .fs-status.connected { background: rgba(34, 197, 94, 0.15); color: var(--fs-success); }
+        .fs-status.disconnected { background: rgba(239, 68, 68, 0.1); color: var(--fs-danger); }
+        .fs-status.pending { background: rgba(234, 179, 8, 0.15); color: var(--fs-warning); }
+        .fs-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+        .fs-main { flex: 1; min-width: 0; padding: 1.5rem 2rem 2rem; display: flex; flex-direction: column; }
+        .fs-header {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+        }
+        .fs-header-left { display: flex; align-items: center; gap: 0.75rem; }
+        .fs-title { font-size: 1.125rem; font-weight: 600; color: var(--fs-text); }
+        .fs-version-tabs { display: flex; border: 1px solid var(--fs-border); border-radius: 6px; overflow: hidden; background: var(--fs-surface); }
+        .fs-version-tab { padding: 0.35rem 0.875rem; font-size: 0.75rem; font-weight: 500; border: none; cursor: pointer; background: transparent; color: var(--fs-text-secondary); }
+        .fs-version-tab.active { background: var(--fs-accent); color: #fff; }
+        .fs-version-tab.disabled { color: var(--fs-text-muted); cursor: not-allowed; }
+        .fs-version-tab:not(.disabled):not(.active):hover { background: var(--fs-surface-hover); color: var(--fs-text); }
+        /* 核心搜索区：视觉焦点 */
+        .fs-hero-search {
+            margin-bottom: 2rem;
+        }
+        .fs-hero-search-label { font-size: 0.75rem; color: var(--fs-text-muted); margin-bottom: 0.5rem; }
+        .fs-hero-search-box {
+            display: flex; align-items: center; gap: 0; border: 1px solid var(--fs-border); border-radius: 12px;
+            background: var(--fs-surface); padding: 0.5rem 0.5rem 0.5rem 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+        }
+        .fs-hero-search-box:focus-within { border-color: var(--fs-accent); box-shadow: 0 4px 24px rgba(59, 130, 246, 0.15); }
+        .fs-hero-search-box .fs-search-icon { color: var(--fs-text-muted); flex-shrink: 0; margin-right: 0.5rem; }
+        .fs-hero-search-box .fs-search-icon svg { width: 1.35rem; height: 1.35rem; }
+        .fs-hero-search-box input {
+            flex: 1; min-width: 0; border: none; background: transparent; color: var(--fs-text); font-size: 1.0625rem;
+            padding: 0.65rem 0; outline: none;
+        }
+        .fs-hero-search-box input::placeholder { color: var(--fs-text-muted); }
+        .fs-hero-search-box .fs-scope {
+            display: flex; padding: 0 0.75rem; border-left: 1px solid var(--fs-border); margin-left: 0.5rem;
+        }
+        .fs-hero-search-box .fs-scope button {
+            padding: 0.4rem 0.65rem; margin: 0 0.15rem; border-radius: 6px; border: none; background: transparent;
+            color: var(--fs-text-secondary); font-size: 0.8125rem; cursor: pointer;
+        }
+        .fs-hero-search-box .fs-scope button:hover { color: var(--fs-text); background: var(--fs-surface-hover); }
+        .fs-hero-search-box .fs-scope button.active { background: rgba(59, 130, 246, 0.14); color: var(--fs-accent); border: 1px solid rgba(59, 130, 246, 0.4); }
+        .fs-hero-search-box .btn-search-hero {
+            padding: 0.6rem 1.35rem; border-radius: 8px; border: none; background: var(--fs-accent); color: #fff;
+            font-size: 0.9375rem; font-weight: 600; cursor: pointer; margin-left: 0.5rem;
+        }
+        .fs-hero-search-box .btn-search-hero:hover { background: var(--fs-accent-hover); }
+        .fs-toolbar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem; font-size: 0.8125rem; }
+        .fs-toolbar select { padding: 0.35rem 0.5rem; border-radius: 6px; border: 1px solid var(--fs-border); background: var(--fs-bg); color: var(--fs-text); }
+        .fs-hierarchy { font-size: 0.8125rem; color: var(--fs-text-muted); padding: 0.4rem 0; }
+        .fs-hierarchy a { color: var(--fs-accent); text-decoration: none; }
+        .fs-hierarchy a:hover { text-decoration: underline; }
+        .fs-results-card { background: var(--fs-surface); border: 1px solid var(--fs-border); border-radius: 10px; overflow: hidden; flex: 1; min-height: 200px; display: flex; flex-direction: column; }
+        .fs-results-head { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 1.25rem; border-bottom: 1px solid var(--fs-border); font-size: 0.8125rem; color: var(--fs-text-muted); }
+        .fs-results-head select { padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid var(--fs-border); background: var(--fs-bg); color: var(--fs-text); font-size: 0.8125rem; }
+        .fs-results-body { flex: 1; overflow: auto; }
+        .fs-results-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        .fs-results-table th { text-align: left; padding: 0.65rem 1.25rem; border-bottom: 1px solid var(--fs-border); font-weight: 600; color: var(--fs-text-secondary); }
+        .fs-results-table td { padding: 0.65rem 1.25rem; border-bottom: 1px solid var(--fs-border); color: var(--fs-text); }
+        .fs-results-table tbody tr:hover td { background: var(--fs-surface-hover); }
+        .fs-action-cell { white-space: nowrap; }
+        .fs-action-link { display: inline-block; margin-right: 0.75rem; color: var(--fs-accent); text-decoration: none; font-size: 0.8125rem; cursor: pointer; }
+        .fs-action-link:hover { text-decoration: underline; }
+        .fs-action-link.download { margin-right: 0; }
+        .fs-results-empty { padding: 3rem 1.5rem; text-align: center; color: var(--fs-text-muted); font-size: 0.9rem; line-height: 1.6; }
+        .fs-footer { margin-top: auto; padding-top: 1.5rem; font-size: 0.75rem; color: var(--fs-text-muted); text-align: center; }
+        .fs-subtitle { font-size: 0.8rem; color: var(--fs-text-muted); font-weight: 400; margin-top: 0.25rem; }
+        .fs-header-left .fs-brand { display: flex; flex-direction: column; gap: 0; }
+        .fs-search-hint { font-size: 0.7rem; color: var(--fs-text-muted); margin-top: 0.5rem; }
+        .fs-search-hint kbd { padding: 0.1rem 0.35rem; border-radius: 4px; background: var(--fs-surface-hover); border: 1px solid var(--fs-border); font-size: 0.65rem; }
+        .fs-index-meta { font-size: 0.68rem; color: var(--fs-text-muted); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--fs-border); }
+        .fs-footer-links { margin-top: 0.5rem; }
+        .fs-footer-links a { color: var(--fs-text-muted); text-decoration: none; }
+        .fs-footer-links a:hover { color: var(--fs-accent); }
+        .fs-footer-links span { margin: 0 0.5rem; color: var(--fs-border); }
+        .btn-search-hero.loading { pointer-events: none; opacity: 0.85; }
+        .fs-sidebar .nav-back-icon { color: var(--fs-text-secondary); }
+        .fs-sidebar .nav-back-icon:hover { color: var(--fs-text); background: var(--fs-surface-hover); }
+        @media (max-width: 768px) {
+            .fs-page .container { flex-direction: column; }
+            .fs-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--fs-border); flex-direction: row; flex-wrap: wrap; padding: 1rem; }
+            .fs-sidebar-title { width: 100%; }
+            .fs-source-list { flex-direction: row; flex-wrap: wrap; }
+            .fs-hero-search-box { flex-wrap: nowrap; padding: 0.4rem 0.4rem 0.4rem 0.75rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .fs-hero-search-box .fs-scope { border-left: 1px solid var(--fs-border); margin-left: 0.2rem; padding-left: 0.2rem; flex-shrink: 0; }
+            .fs-hero-search-box .fs-scope button { padding: 0.28rem 0.38rem; font-size: 0.75rem; margin: 0 0.04rem; }
+            .fs-hero-search-box .btn-search-hero { padding: 0.45rem 0.75rem; font-size: 0.875rem; margin-left: 0.1rem; }
+            .fs-hero-search-box input { font-size: 0.9375rem; min-width: 4.5rem; }
+        }
+    </style>
+</head>
+<body class="fs-page fs-industrial">
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <div class="container">
+        <!-- 左侧：数据源（紧凑） -->
+        <aside class="fs-sidebar">
+            <div class="fs-sidebar-notice">
+                <strong>接入说明</strong><br>
+                本地 / 局域网：使用前请在目标环境安装本平台提供的<strong>索引客户端</strong>，完成索引与连接后即可在本页检索。<br>
+                云端：使用本平台<strong>云端检索服务</strong>，无需安装客户端，配置服务地址与认证后即可连接。
+            </div>
+            <div>
+                <div class="fs-sidebar-title">数据源</div>
+                <div class="fs-source-list">
+                    <button type="button" class="fs-source-tab active" data-source="local">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        本地
+                    </button>
+                    <button type="button" class="fs-source-tab" data-source="cloud">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                        云端
+                    </button>
+                    <button type="button" class="fs-source-tab" data-source="lan">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect></svg>
+                        局域网
+                    </button>
+                </div>
+                <span class="fs-status disconnected" id="sourceStatus"><span class="fs-status-dot"></span>未连接</span>
+                <div class="fs-index-meta" id="indexMeta" style="display: none;">已索引 <strong id="indexFileCount">0</strong> 个文件 · 索引仅供本地检索</div>
+            </div>
+            <div class="fs-config active" id="configLocal">
+                <div class="fs-form-row">
+                    <label class="fs-label">路径</label>
+                    <div class="fs-input-row">
+                        <input type="text" class="fs-input" id="localPath" placeholder="C:\Docs 或 /home/docs">
+                        <button type="button" class="fs-btn">浏览</button>
+                    </div>
+                </div>
+                <button type="button" class="fs-btn fs-btn-primary" id="btnConnectLocal">连接</button>
+            </div>
+            <div class="fs-config" id="configCloud">
+                <div class="fs-form-row">
+                    <label class="fs-label">服务地址</label>
+                    <input type="text" class="fs-input" id="cloudUrl" placeholder="https://api.example.com">
+                </div>
+                <div class="fs-form-row">
+                    <label class="fs-label">认证（可选）</label>
+                    <input type="password" class="fs-input" id="cloudSecret" placeholder="API Key">
+                </div>
+                <button type="button" class="fs-btn fs-btn-primary" id="btnConnectCloud">连接</button>
+            </div>
+            <div class="fs-config" id="configLan">
+                <div class="fs-form-row">
+                    <label class="fs-label">IP</label>
+                    <input type="text" class="fs-input" id="lanIp" placeholder="192.168.1.100">
+                </div>
+                <div class="fs-form-row">
+                    <label class="fs-label">端口</label>
+                    <input type="text" class="fs-input" id="lanPort" placeholder="445">
+                </div>
+                <div class="fs-form-row">
+                    <label class="fs-label">共享路径</label>
+                    <input type="text" class="fs-input" id="lanPath" placeholder="\\server\share">
+                </div>
+                <button type="button" class="fs-btn fs-btn-primary" id="btnConnectLan">连接</button>
+            </div>
+        </aside>
+
+        <!-- 主区：搜索 + 结果 -->
+        <main class="fs-main">
+            <header class="fs-header">
+                <div class="fs-header-left">
+                    <div class="fs-brand">
+                        <span class="fs-title">文件检索平台</span>
+                        <span class="fs-subtitle">多数据源 · 全文检索 · 文件名与正文联合搜索</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div class="fs-version-tabs">
+                        <button type="button" class="fs-version-tab active" data-version="beta">测试版</button>
+                        <button type="button" class="fs-version-tab disabled" data-version="release" title="没有权限">发布版</button>
+                    </div>
+                    <span id="themeToggle" style="display:none" aria-hidden="true"><span class="theme-icon"></span></span>
+                </div>
+            </header>
+
+            <!-- 核心：大搜索框 -->
+            <section class="fs-hero-search">
+                <div class="fs-hero-search-label">检索文件名或正文</div>
+                <div class="fs-hero-search-box">
+                    <span class="fs-search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+                    <input type="text" id="searchInput" placeholder="输入关键词检索…" autocomplete="off">
+                    <div class="fs-scope">
+                        <button type="button" class="fs-scope-btn" data-scope="name">文件名</button>
+                        <button type="button" class="fs-scope-btn" data-scope="content">正文</button>
+                    </div>
+                    <button type="button" class="btn-search-hero" id="btnSearch">检索</button>
+                </div>
+                <div class="fs-search-hint"><kbd>Enter</kbd> 执行检索 · <kbd>Esc</kbd> 清空输入 · 多词用空格分隔，精确匹配可加引号</div>
+            </section>
+
+            <div class="fs-toolbar">
+                <label style="display:flex;align-items:center;gap:0.5rem;color:var(--fs-text-muted);font-size:0.8125rem;">
+                    文件类型 <select id="fileType"><option value="all">全部</option><option value="txt">txt</option><option value="pdf">pdf</option><option value="doc">doc</option><option value="docx">docx</option><option value="md">md</option><option value="html">html</option><option value="htm">htm</option><option value="xls">xls</option><option value="xlsx">xlsx</option><option value="ppt">ppt</option><option value="pptx">pptx</option><option value="jpg">jpg</option><option value="png">png</option><option value="gif">gif</option><option value="zip">zip</option><option value="rar">rar</option></select>
+                </label>
+                <button type="button" class="fs-btn" id="btnRefreshIndex">刷新索引</button>
+            </div>
+
+            <div class="fs-hierarchy" id="hierarchyBar"><a href="#">根目录</a></div>
+
+            <div class="fs-results-card">
+                <div class="fs-results-head">
+                    <span id="resultsCount">共 0 条</span>
+                    <select id="sortBy"><option value="name">按名称</option><option value="time">按修改时间</option><option value="size">按大小</option></select>
+                </div>
+                <div class="fs-results-body">
+                    <div class="fs-results-empty" id="resultsPlaceholder">在左侧选择数据源并连接后，在上方输入关键词执行检索。</div>
+                    <div id="resultsList" style="display: none;"></div>
+                </div>
+            </div>
+
+            <footer class="fs-footer">
+                文件检索平台 · 测试版 v0.1.0<br>
+                <span class="fs-footer-links"><a href="#" title="使用说明">使用说明</a><span>|</span><a href="#" title="隐私与安全">隐私与安全</a></span>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        (function(){ if (!localStorage.getItem('theme')) localStorage.setItem('theme', 'light'); })();
+    </script>
+    <script src="assets/js/main.js?v=20260203"></script>
+    <script>
+        (function() {
+            var sourceTabs = document.querySelectorAll('.fs-source-tab');
+            var configs = { local: document.getElementById('configLocal'), cloud: document.getElementById('configCloud'), lan: document.getElementById('configLan') };
+            var sourceStatus = document.getElementById('sourceStatus');
+            var versionTabs = document.querySelectorAll('.fs-version-tab');
+            var scopeBtns = document.querySelectorAll('.fs-scope-btn');
+            var searchInput = document.getElementById('searchInput');
+            var btnSearch = document.getElementById('btnSearch');
+            var resultsPlaceholder = document.getElementById('resultsPlaceholder');
+            var resultsList = document.getElementById('resultsList');
+            var resultsCount = document.getElementById('resultsCount');
+
+            versionTabs.forEach(function(t) {
+                t.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) { alert('没有权限'); return; }
+                    versionTabs.forEach(function(x) { x.classList.remove('active'); });
+                    this.classList.add('active');
+                });
+            });
+
+            sourceTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var src = this.getAttribute('data-source');
+                    sourceTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    Object.keys(configs).forEach(function(k) { configs[k].classList.remove('active'); });
+                    if (configs[src]) configs[src].classList.add('active');
+                });
+            });
+
+            scopeBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var scope = this.getAttribute('data-scope');
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } else {
+                        scopeBtns.forEach(function(b) { b.classList.remove('active'); });
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            var indexMeta = document.getElementById('indexMeta');
+            var indexFileCount = document.getElementById('indexFileCount');
+            function setStatus(className, text) {
+                sourceStatus.className = 'fs-status ' + className;
+                sourceStatus.innerHTML = '<span class="fs-status-dot"></span>' + text;
+                if (className === 'connected' && indexMeta) {
+                    indexMeta.style.display = 'block';
+                    if (indexFileCount) indexFileCount.textContent = '0';
+                } else if ((className === 'disconnected' || className === 'pending') && indexMeta) {
+                    indexMeta.style.display = 'none';
+                }
+            }
+            document.getElementById('btnConnectLocal').addEventListener('click', function() {
+                if (!document.getElementById('localPath').value.trim()) { alert('请填写本地路径'); return; }
+                setStatus('pending', '连接中…');
+                setTimeout(function() { setStatus('connected', '已连接'); }, 800);
+            });
+            document.getElementById('btnConnectCloud').addEventListener('click', function() {
+                if (!document.getElementById('cloudUrl').value.trim()) { alert('请填写服务地址'); return; }
+                setStatus('pending', '连接中…');
+                setTimeout(function() { setStatus('connected', '已连接'); }, 800);
+            });
+            document.getElementById('btnConnectLan').addEventListener('click', function() {
+                if (!document.getElementById('lanIp').value.trim()) { alert('请填写 IP 地址'); return; }
+                setStatus('pending', '连接中…');
+                setTimeout(function() { setStatus('connected', '已连接'); }, 800);
+            });
+            document.getElementById('btnRefreshIndex').addEventListener('click', function() { alert('索引刷新需接入后端服务'); });
+
+            var demoNames = ['项目方案', '周报', '会议纪要', '需求说明', '设计稿', '测试报告', '上线清单', '复盘总结', '预算表', '合同草稿'];
+            var demoDates = ['2026-01-05 09:12', '2026-01-12 14:30', '2026-01-18 11:00', '2026-01-25 16:45', '2026-02-01 10:20', '2026-02-08 15:33', '2026-02-15 08:50', '2026-02-20 13:15', '2026-02-23 17:00', '2026-03-01 14:30'];
+            var demoSizes = ['256 KB', '1.2 MB', '89 KB', '3.4 MB', '512 KB', '2.1 MB', '445 KB', '780 KB', '1.8 MB', '120 KB'];
+            function getActiveScope() {
+                var active = document.querySelector('.fs-scope-btn.active');
+                return active ? active.getAttribute('data-scope') : 'all';
+            }
+            function buildDemoRows(ext, kw) {
+                var rows = [];
+                var base = '/docs/';
+                var nameTemplates = [kw + '项目方案', kw + '周报', '会议纪要_' + kw, '需求_' + kw + '_说明', kw + '设计稿', '测试' + kw + '报告', kw + '上线清单', '复盘' + kw + '总结', kw + '预算表', '合同' + kw + '草稿'];
+                for (var i = 0; i < 10; i++) {
+                    var baseName = (kw && kw.length > 0) ? nameTemplates[i] : demoNames[i];
+                    var name = baseName + (ext ? '.' + ext : (i % 3 === 0 ? '.pdf' : i % 3 === 1 ? '.docx' : '.txt'));
+                    rows.push('<tr><td>' + name + '</td><td>' + base + name + '</td><td>' + demoSizes[i] + '</td><td>' + demoDates[i] + '</td><td class="fs-action-cell"><a href="#" class="fs-action-link" data-action="view">查看</a><a href="#" class="fs-action-link download" data-action="download">下载</a></td></tr>');
+                }
+                return rows.join('');
+            }
+            function doSearch() {
+                var kw = (searchInput.value || '').trim();
+                if (!kw) {
+                    resultsList.style.display = 'none';
+                    resultsList.innerHTML = '';
+                    resultsPlaceholder.style.display = 'block';
+                    resultsPlaceholder.textContent = '请输入关键词后点击「检索」。';
+                    resultsCount.textContent = '共 0 条';
+                    return;
+                }
+                var scope = getActiveScope();
+                var fileType = (document.getElementById('fileType') && document.getElementById('fileType').value) || 'all';
+                var ext = (fileType && fileType !== 'all') ? fileType : null;
+                var btn = document.getElementById('btnSearch');
+                btn.classList.add('loading');
+                btn.textContent = '检索中…';
+                resultsPlaceholder.style.display = 'none';
+                resultsList.style.display = 'block';
+                resultsCount.textContent = '共 10 条（演示）';
+                resultsList.innerHTML = '<table class="fs-results-table"><thead><tr><th>名称</th><th>路径</th><th>大小</th><th>修改时间</th><th>操作</th></tr></thead><tbody>' + buildDemoRows(ext, kw) + '</tbody></table>';
+                setTimeout(function() {
+                    btn.classList.remove('loading');
+                    btn.textContent = '检索';
+                }, 500);
+            }
+            btnSearch.addEventListener('click', doSearch);
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') doSearch();
+                if (e.key === 'Escape') { searchInput.value = ''; searchInput.focus(); }
+            });
+            document.getElementById('resultsList').addEventListener('click', function(e) {
+                var a = e.target.closest('.fs-action-link');
+                if (!a) return;
+                e.preventDefault();
+                var action = a.getAttribute('data-action');
+                var row = a.closest('tr');
+                var name = row && row.cells[0] ? row.cells[0].textContent : '';
+                if (action === 'view') alert('查看文件：' + name + '（演示）');
+                else if (action === 'download') alert('下载文件：' + name + '（演示）');
+            });
+        })();
+    </script>
+</body>
+</html>

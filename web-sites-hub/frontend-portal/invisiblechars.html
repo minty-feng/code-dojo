@@ -6,14 +6,12 @@
     <meta name="description" content="不可见字符查看 - 将空格、换行、制表符等显示为可见符号">
     <title>不可见字符查看 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <style>
         .ic-page { min-height: 100vh; padding: 2rem 0 3rem; }
         .ic-wrap { max-width: 1400px; margin: 0 auto; }
         .ic-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.5rem; }
         .ic-title { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
-        .ic-back { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; }
-        .ic-back:hover { color: var(--accent); }
         .ic-desc { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin-bottom: 2rem; }
         .ic-section { margin-bottom: 2rem; }
         .ic-section-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 0.5rem; }
@@ -62,10 +60,10 @@
     </style>
 </head>
 <body class="ic-page">
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <div class="container">
         <div class="ic-wrap">
             <header class="ic-header">
-                <a href="showcase.html" class="ic-back">← 返回项目展示</a>
                 <h1 class="ic-title">不可见字符查看</h1>
             </header>
             <p class="ic-desc">将文本中的空格、换行、制表符等不可见字符以转义形式高亮显示，便于排查复制粘贴或格式问题。</p>

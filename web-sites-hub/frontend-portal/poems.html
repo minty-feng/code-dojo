@@ -6,7 +6,7 @@
     <meta name="description" content="经典诗词歌赋收藏">
     <title>诗词歌赋 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="assets/css/main.css?v=20260203">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
@@ -58,6 +58,7 @@
     </style>
 </head>
 <body>
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <div class="bg-animation">
         <div class="bg-gradient"></div>
         <div class="bg-particles" id="particles"></div>
@@ -66,24 +67,13 @@
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="index.html" class="logo">
-                     <h1 class="logo-text">
-                        <span class="logo-main">minty-feng</span>
-                    </h1>
-                    <p class="logo-subtitle">诗词歌赋</p>
-                </a>
-               <div style="display: flex; gap: 1rem; align-items: center;">
-                    <nav class="sub-nav" style="margin-right: 2rem;">
-                         <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
-                        <a href="poems.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">诗词</a>
-                    </nav>
-                    <button class="theme-toggle" id="themeToggle">
+                <span style="flex: 1;"></span>
+                <button class="theme-toggle" id="themeToggle">
                          <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <circle cx="12" cy="12" r="5"></circle>
                             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
                         </svg>
                     </button>
-                </div>
             </div>
         </header>
 

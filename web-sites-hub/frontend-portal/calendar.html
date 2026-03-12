@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="智能日历 - 日程、习惯、纪念日、待办与笔记">
+    <title>智能日历 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+    <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .cal-page { max-width: 1200px; margin: 0 auto; padding: 0 1rem 3rem; }
+        .cal-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+        .cal-nav { display: flex; align-items: center; gap: 0.5rem; }
+        .cal-nav button { width: 36px; height: 36px; border: 1px solid var(--border-color); background: var(--bg-card); border-radius: 0.5rem; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .cal-nav button:hover { border-color: var(--text-muted); color: var(--text-primary); background: var(--bg-card-hover); }
+        .cal-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); min-width: 140px; text-align: center; }
+        .cal-view-toggle { display: flex; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 0.5rem; overflow: hidden; }
+        .cal-view-toggle button { padding: 0.5rem 1rem; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .cal-view-toggle button.active { background: var(--gradient-life); color: #000; }
+        .cal-view-toggle button:not(.active):hover { color: var(--text-primary); }
+
+        .cal-grid-wrap { display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start; }
+        @media (max-width: 900px) { .cal-grid-wrap { grid-template-columns: 1fr; } }
+
+        .cal-month { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.25rem; }
+        .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+        .cal-weekday { text-align: center; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; padding: 0.5rem 0; }
+        .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 0.5rem; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; position: relative; min-height: 44px; }
+        .cal-day.other-month { opacity: 0.35; }
+        .cal-day.today { background: var(--gradient-life); color: #000; font-weight: 700; }
+        .cal-day.selected:not(.today) { background: var(--bg-card-hover); border: 2px solid var(--text-muted); }
+        .cal-day:hover:not(.today) { background: var(--bg-card-hover); }
+        .cal-day-num { font-weight: 500; }
+        .cal-day-dots { display: flex; gap: 2px; margin-top: 2px; flex-wrap: wrap; justify-content: center; max-width: 100%; }
+        .cal-day-dot { width: 4px; height: 4px; border-radius: 50%; }
+
+        .cal-side { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.25rem; position: sticky; top: 1rem; }
+        .cal-side h3 { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin: 0 0 1rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        .cal-selected-date { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .cal-event-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 280px; overflow-y: auto; }
+        .cal-event-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.75rem; background: rgba(255,255,255,0.03); border-radius: 0.5rem; border-left: 3px solid var(--event-color, #58a6ff); font-size: 0.9rem; }
+        .cal-event-item .time { color: var(--text-muted); font-size: 0.8rem; min-width: 48px; }
+        .cal-event-item .title { flex: 1; color: var(--text-primary); }
+        .cal-event-item .type-tag { font-size: 0.7rem; padding: 0.15rem 0.4rem; border-radius: 0.25rem; opacity: 0.9; }
+        .cal-event-item .delete-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 0.25rem; opacity: 0.7; }
+        .cal-event-item .delete-btn:hover { color: #ff6b6b; opacity: 1; }
+
+        .cal-quick-add { margin-top: 1rem; }
+        .cal-quick-add input, .cal-quick-add select { width: 100%; padding: 0.6rem 0.75rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 0.5rem; color: var(--text-primary); font-size: 0.9rem; }
+        .cal-quick-add input:focus, .cal-quick-add select:focus { outline: none; border-color: var(--text-muted); }
+        .cal-quick-add button { width: 100%; padding: 0.6rem; border: none; border-radius: 0.5rem; background: var(--gradient-life); color: #000; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        .cal-quick-add button:hover { transform: translateY(-1px); }
+
+        .cal-upcoming { margin-top: 1.5rem; }
+        .cal-upcoming-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
+        .cal-upcoming-item:last-child { border-bottom: none; }
+        .cal-upcoming-item .date { color: var(--text-muted); min-width: 60px; }
+        .cal-upcoming-item .title { color: var(--text-primary); }
+
+        .cal-week-view { display: none; }
+        .cal-week-view.active { display: block; }
+        .cal-month-view.active + .cal-month { display: none; }
+        .cal-week-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 1rem; }
+        .cal-week-day { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 0.75rem; padding: 1rem; min-height: 120px; }
+        .cal-week-day.today { border-color: var(--gradient-life); box-shadow: 0 0 0 2px rgba(67, 233, 123, 0.3); }
+        .cal-week-day-header { font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .cal-week-day-events { font-size: 0.8rem; color: var(--text-secondary); }
+        .cal-week-day-events .ev { padding: 0.25rem 0; border-left: 3px solid; padding-left: 0.5rem; margin-bottom: 0.25rem; }
+
+        .event-types { --schedule: #58a6ff; --anniversary: #f472b6; --habit: #34d399; --todo: #fb923c; --note: #94a3b8; }
+    </style>
+</head>
+<body>
+    <a href="diary.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <span style="flex: 1;"></span>
+                <nav class="sub-nav" style="margin-right: 2rem;">
+                    <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                    <a href="calendar.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">智能日历</a>
+                </nav>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="diary-main cal-page">
+            <div class="cal-toolbar">
+                <div class="cal-nav">
+                    <button type="button" id="calPrev" aria-label="上一月">←</button>
+                    <span class="cal-title" id="calTitle">2025年3月</span>
+                    <button type="button" id="calNext" aria-label="下一月">→</button>
+                    <button type="button" id="calToday" style="margin-left: 0.5rem;">今</button>
+                </div>
+                <div class="cal-view-toggle">
+                    <button type="button" class="active" data-view="month">月</button>
+                    <button type="button" data-view="week">周</button>
+                </div>
+            </div>
+
+            <div class="cal-grid-wrap">
+                <div>
+                    <div id="calMonthView" class="cal-month-view active">
+                        <div class="cal-month">
+                            <div class="cal-weekdays">
+                                <div class="cal-weekday">日</div><div class="cal-weekday">一</div><div class="cal-weekday">二</div><div class="cal-weekday">三</div><div class="cal-weekday">四</div><div class="cal-weekday">五</div><div class="cal-weekday">六</div>
+                            </div>
+                            <div class="cal-days" id="calDays"></div>
+                        </div>
+                    </div>
+                    <div id="calWeekView" class="cal-week-view">
+                        <div class="cal-week-row" id="calWeekRow"></div>
+                    </div>
+                </div>
+
+                <aside class="cal-side">
+                    <h3>选中日</h3>
+                    <p class="cal-selected-date" id="calSelectedDate">点击日历选择日期</p>
+                    <div class="cal-event-list" id="calEventList"></div>
+                    <div class="cal-quick-add">
+                        <input type="text" id="calQuickTitle" placeholder="添加日程、待办、笔记...">
+                        <select id="calQuickType">
+                            <option value="schedule">日程</option>
+                            <option value="anniversary">纪念日</option>
+                            <option value="habit">习惯打卡</option>
+                            <option value="todo">待办</option>
+                            <option value="note">笔记</option>
+                        </select>
+                        <input type="time" id="calQuickTime" placeholder="时间（可选）">
+                        <button type="button" id="calQuickAdd">添加</button>
+                    </div>
+                    <div class="cal-upcoming">
+                        <h3>即将到来</h3>
+                        <div id="calUpcoming"></div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/main.js?v=20260203"></script>
+    <script>
+        (function() {
+            const STORAGE_KEY = 'smart-calendar-events';
+            const TYPE_COLORS = { schedule: '#58a6ff', anniversary: '#f472b6', habit: '#34d399', todo: '#fb923c', note: '#94a3b8' };
+            const TYPE_LABELS = { schedule: '日程', anniversary: '纪念日', habit: '习惯', todo: '待办', note: '笔记' };
+
+            let state = { current: new Date(), selected: null, view: 'month', events: [] };
+
+            function loadEvents() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    state.events = raw ? JSON.parse(raw) : [];
+                } catch (e) { state.events = []; }
+            }
+            function saveEvents() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state.events));
+            }
+
+            function formatDate(d) {
+                const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+                return y + '-' + m + '-' + day;
+            }
+            function getEventsForDate(dateStr) {
+                return state.events.filter(e => e.date === dateStr);
+            }
+            function getEventsForRange(startStr, endStr) {
+                return state.events.filter(e => e.date >= startStr && e.date <= endStr);
+            }
+
+            function renderMonth() {
+                const y = state.current.getFullYear(), m = state.current.getMonth();
+                document.getElementById('calTitle').textContent = y + '年' + (m + 1) + '月';
+
+                const first = new Date(y, m, 1);
+                const last = new Date(y, m + 1, 0);
+                const startPad = first.getDay();
+                const daysInMonth = last.getDate();
+                const prevMonth = new Date(y, m, 0);
+                const prevDays = prevMonth.getDate();
+
+                let html = '';
+                for (let i = 0; i < startPad; i++) {
+                    const d = prevDays - startPad + i + 1;
+                    const dateStr = formatDate(new Date(prevMonth.getFullYear(), prevMonth.getMonth(), d));
+                    const events = getEventsForDate(dateStr);
+                    const dots = events.slice(0, 3).map(ev => `<span class="cal-day-dot" style="background:${TYPE_COLORS[ev.type] || '#94a3b8'}"></span>`).join('');
+                    html += `<div class="cal-day other-month" data-date="${dateStr}">${d}<div class="cal-day-dots">${dots}</div></div>`;
+                }
+                const todayStr = formatDate(new Date());
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dateStr = formatDate(new Date(y, m, i));
+                    const events = getEventsForDate(dateStr);
+                    const dots = events.slice(0, 3).map(ev => `<span class="cal-day-dot" style="background:${TYPE_COLORS[ev.type] || '#94a3b8'}"></span>`).join('');
+                    const isToday = dateStr === todayStr;
+                    const isSelected = state.selected === dateStr;
+                    html += `<div class="cal-day ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}" data-date="${dateStr}">${i}<div class="cal-day-dots">${dots}</div></div>`;
+                }
+                const totalCells = startPad + daysInMonth;
+                const rest = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+                for (let i = 1; i <= rest; i++) {
+                    const next = new Date(y, m + 1, i);
+                    const dateStr = formatDate(next);
+                    const events = getEventsForDate(dateStr);
+                    const dots = events.slice(0, 3).map(ev => `<span class="cal-day-dot" style="background:${TYPE_COLORS[ev.type] || '#94a3b8'}"></span>`).join('');
+                    html += `<div class="cal-day other-month" data-date="${dateStr}">${i}<div class="cal-day-dots">${dots}</div></div>`;
+                }
+                document.getElementById('calDays').innerHTML = html;
+
+                document.querySelectorAll('#calDays .cal-day').forEach(el => {
+                    el.addEventListener('click', () => {
+                        state.selected = el.dataset.date;
+                        renderMonth();
+                        renderSide();
+                    });
+                });
+            }
+
+            function renderWeek() {
+                const d = new Date(state.current);
+                const day = d.getDay();
+                const start = new Date(d);
+                start.setDate(d.getDate() - day);
+                let html = '';
+                for (let i = 0; i < 7; i++) {
+                    const cur = new Date(start);
+                    cur.setDate(start.getDate() + i);
+                    const dateStr = formatDate(cur);
+                    const events = getEventsForDate(dateStr);
+                    const todayStr = formatDate(new Date());
+                    const isToday = dateStr === todayStr;
+                    const label = (cur.getMonth() + 1) + '/' + cur.getDate();
+                    const evHtml = events.map(ev => `<div class="ev" style="border-color:${TYPE_COLORS[ev.type]}">${ev.time || ''} ${ev.title}</div>`).join('');
+                    html += `<div class="cal-week-day ${isToday ? 'today' : ''}" data-date="${dateStr}">
+                        <div class="cal-week-day-header">${label}</div>
+                        <div class="cal-week-day-events">${evHtml || '—'}</div>
+                    </div>`;
+                }
+                document.getElementById('calWeekRow').innerHTML = html;
+            }
+
+            function renderSide() {
+                const sel = state.selected || formatDate(new Date());
+                state.selected = sel;
+                const [y, m, d] = sel.split('-').map(Number);
+                const dateLabel = y + '年' + m + '月' + d + '日';
+                document.getElementById('calSelectedDate').textContent = dateLabel;
+
+                const events = getEventsForDate(sel);
+                const listEl = document.getElementById('calEventList');
+                if (events.length === 0) {
+                    listEl.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">暂无安排</p>';
+                } else {
+                    listEl.innerHTML = events.map(ev => {
+                        const color = TYPE_COLORS[ev.type] || '#94a3b8';
+                        return `<div class="cal-event-item" data-id="${ev.id}" style="--event-color: ${color}">
+                            <span class="time">${ev.time || '全天'}</span>
+                            <span class="title">${ev.title}</span>
+                            <span class="type-tag" style="background:${color}20;color:${color}">${TYPE_LABELS[ev.type]}</span>
+                            <button class="delete-btn" type="button" aria-label="删除">×</button>
+                        </div>`;
+                    }).join('');
+                    listEl.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const id = btn.closest('.cal-event-item').dataset.id;
+                            state.events = state.events.filter(e => e.id !== id);
+                            saveEvents();
+                            renderMonth();
+                            renderSide();
+                            if (state.view === 'week') renderWeek();
+                        });
+                    });
+                }
+
+                document.getElementById('calQuickTitle').value = '';
+                document.getElementById('calQuickTime').value = '';
+                document.getElementById('calQuickTitle').focus();
+
+                const today = new Date();
+                const end = new Date(today);
+                end.setDate(today.getDate() + 7);
+                const upcoming = getEventsForRange(formatDate(today), formatDate(end));
+                upcoming.sort((a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || ''));
+                const upcomingHtml = upcoming.slice(0, 8).map(ev => `<div class="cal-upcoming-item"><span class="date">${ev.date}</span><span class="title">${ev.title}</span></div>`).join('') || '<p style="color: var(--text-muted); font-size: 0.85rem;">未来 7 天无安排</p>';
+                document.getElementById('calUpcoming').innerHTML = upcomingHtml;
+            }
+
+            function addEvent() {
+                const title = document.getElementById('calQuickTitle').value.trim();
+                if (!title) return;
+                const type = document.getElementById('calQuickType').value;
+                const time = document.getElementById('calQuickTime').value || null;
+                const date = state.selected || formatDate(new Date());
+                const id = 'ev-' + Date.now();
+                state.events.push({ id, date, title, type, time });
+                saveEvents();
+                renderMonth();
+                renderSide();
+                if (state.view === 'week') renderWeek();
+            }
+
+            document.getElementById('calPrev').addEventListener('click', () => {
+                if (state.view === 'month') state.current.setMonth(state.current.getMonth() - 1);
+                else state.current.setDate(state.current.getDate() - 7);
+                state.current = new Date(state.current);
+                renderMonth();
+                if (state.view === 'week') renderWeek();
+            });
+            document.getElementById('calNext').addEventListener('click', () => {
+                if (state.view === 'month') state.current.setMonth(state.current.getMonth() + 1);
+                else state.current.setDate(state.current.getDate() + 7);
+                state.current = new Date(state.current);
+                renderMonth();
+                if (state.view === 'week') renderWeek();
+            });
+            document.getElementById('calToday').addEventListener('click', () => {
+                state.current = new Date();
+                state.selected = formatDate(new Date());
+                renderMonth();
+                renderSide();
+                if (state.view === 'week') renderWeek();
+            });
+
+            document.querySelectorAll('.cal-view-toggle button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.cal-view-toggle button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.view = btn.dataset.view;
+                    document.getElementById('calMonthView').classList.toggle('active', state.view === 'month');
+                    document.getElementById('calWeekView').classList.toggle('active', state.view === 'week');
+                    if (state.view === 'week') renderWeek();
+                    else renderMonth();
+                });
+            });
+
+            document.getElementById('calQuickAdd').addEventListener('click', addEvent);
+            document.getElementById('calQuickTitle').addEventListener('keydown', e => { if (e.key === 'Enter') addEvent(); });
+
+            loadEvents();
+            state.selected = formatDate(new Date());
+            renderMonth();
+            renderSide();
+        })();
+    </script>
+</body>
+</html>

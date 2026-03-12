@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="个人出行规划合集：清明回老家、五一新疆旅行的衣食住行与行程安排。">
+    <title>出行规划册 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .plans-main { padding: 1rem 0 4rem; }
+        .plans-header {
+            max-width: 820px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        .plans-kicker {
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+        .plans-title {
+            font-family: "Playfair Display", serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.75rem;
+        }
+        .plans-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .plans-highlight {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .plans-section {
+            margin-bottom: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.1rem;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+        }
+        .plans-section-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.15rem 1.4rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            transition: background 0.2s ease;
+        }
+        .plans-section-trigger:hover {
+            background: var(--bg-card-hover);
+        }
+        .plans-section-trigger:focus {
+            outline: none;
+            box-shadow: inset 0 0 0 2px var(--border-color);
+        }
+        .plans-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 0;
+        }
+        .plans-section-title {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .plans-section-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .plans-section-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .plans-section-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .plans-section-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .plans-status-upcoming {
+            background: rgba(79, 172, 254, 0.2);
+            color: #4facfe;
+            border: 1px solid rgba(79, 172, 254, 0.4);
+        }
+        .plans-status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .plans-status-done {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+        .plans-section-chevron {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+            color: var(--text-secondary);
+            transition: transform 0.25s ease;
+        }
+        .plans-section.is-expanded .plans-section-chevron {
+            transform: rotate(180deg);
+        }
+        .plans-section-body {
+            display: none;
+            padding: 0 1.4rem 1.5rem;
+        }
+        .plans-section.is-expanded .plans-section-body {
+            display: block;
+        }
+        .plans-section-body-inner {
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .plans-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .plans-card {
+            background: var(--bg-card-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.25rem 1.4rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .plans-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .plans-card-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .plans-card-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+        .plans-tag {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .plans-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .plans-list li + li { margin-top: 0.3rem; }
+        .plans-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.4rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            margin-right: 0.4rem;
+        }
+
+        .plans-timeline {
+            position: relative;
+            padding-left: 1.25rem;
+            margin: 0;
+            list-style: none;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+        .plans-timeline::before {
+            content: "";
+            position: absolute;
+            left: 0.3rem;
+            top: 0.3rem;
+            bottom: 0.3rem;
+            width: 1px;
+            background: var(--border-color);
+        }
+        .plans-timeline-item {
+            position: relative;
+            padding-left: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        .plans-timeline-item:last-child { padding-bottom: 0; }
+        .plans-timeline-dot {
+            position: absolute;
+            left: -0.02rem;
+            top: 0.25rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            background: var(--bg-card);
+        }
+        .plans-timeline-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .plans-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        .plans-footer-note {
+            max-width: 780px;
+            margin: 2rem auto 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        @media (max-width: 960px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            .plans-section-header {
+                flex-wrap: wrap;
+            }
+            .plans-section-meta {
+                width: 100%;
+            }
+        }
+        @media (max-width: 640px) {
+            .plans-title { font-size: 2.1rem; }
+            .plans-header { margin-bottom: 2.4rem; }
+            .plans-section-trigger { padding: 1rem 1.1rem; }
+            .plans-section-body { padding: 0 1.1rem 1.25rem; }
+            .plans-card { padding: 1.05rem 1.1rem; }
+            .plans-section-name { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="diary.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <span style="flex: 1;"></span>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <nav class="sub-nav" style="margin-right: 2rem;">
+                        <a href="diary.html" style="color: var(--text-secondary); text-decoration: none; margin-right: 1rem;">首页</a>
+                        <a href="plans.html" style="color: var(--text-primary); font-weight: bold; text-decoration: none;">出行规划</a>
+                    </nav>
+                    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="plans-main">
+            <section class="plans-header">
+                <div class="plans-kicker">TRAVEL & LIFE DESIGN</div>
+                <h2 class="plans-title">把出行当作品来打磨</h2>
+                <p class="plans-subtitle">
+                    不只是订几张票、住几晚酒店，而是围绕当下的自己，去设计一次
+                    <span class="plans-highlight">节奏舒适、细节到位</span> 的旅程。
+                    这里收纳了近期的两份规划：清明回老家小聚，以及五一去新疆看更辽阔的风景。
+                </p>
+            </section>
+
+            <!-- 清明回老家规划 -->
+            <section class="plans-section" id="plan-01" data-start="2026-04-04" data-end="2026-04-06">
+                <button type="button" class="plans-section-trigger" aria-expanded="false" aria-controls="plan-body-01">
+                    <div class="plans-section-header">
+                        <div class="plans-section-title">
+                            <span class="plans-section-label">PLAN · 01</span>
+                            <span class="plans-section-name">清明回老家 · 探亲 + 扫墓</span>
+                        </div>
+                        <div class="plans-section-meta">
+                            <div>建议时间：4 月 4–6 日（共 3 天）</div>
+                            <div>主题：陪伴长辈 · 与自己和解过去</div>
+                        </div>
+                        <span class="plans-section-status plans-status-upcoming" data-status>未开始</span>
+                    </div>
+                    <svg class="plans-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div id="plan-body-01" class="plans-section-body" hidden>
+                    <div class="plans-section-body-inner">
+                        <div class="plans-grid">
+                            <div class="plans-column">
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🧳</span>
+                                            行前准备 & 衣物
+                                        </div>
+                                        <span class="plans-tag">轻装 + 仪式感</span>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li><span class="plans-badge">衣</span>深色外套 1 件（扫墓方便）、舒适长裤 2 条、运动鞋 1 双、简单换洗 T 恤 2–3 件，睡衣 1 套。</li>
+                                        <li><span class="plans-badge">配</span>折叠雨伞、薄围巾（车上/夜里防冷）、小挎包（装证件与随身物品）。</li>
+                                        <li><span class="plans-badge">证</span>身份证、交通卡/银行卡、少量现金（给长辈买菜或小礼物会用到）。</li>
+                                        <li><span class="plans-badge">礼</span>给长辈的小礼物：保健品/茶叶/水果券；提前想一句想跟他们说的话。</li>
+                                    </ul>
+                                </div>
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🏠</span>
+                                            住宿 & 动线
+                                        </div>
+                                        <span class="plans-tag">尽量住家里</span>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li>优先住在父母/长辈家，多一些自然的聊天时间，晚上可以一起看电视、翻旧相册。</li>
+                                        <li>如需住酒店，选择步行 10–15 分钟内能到家的位置，避免来回奔波。</li>
+                                        <li>提前和家里确认床铺、被褥是否需要自己带枕巾/薄被单。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="plans-column">
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">📅</span>
+                                            粗略行程
+                                        </div>
+                                    </div>
+                                    <ul class="plans-timeline">
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">Day 1 · 到达 + 家庭叙旧</div>
+                                            <div>上午/下午：到家、简单整理房间；晚上：和家人吃饭聊天，帮忙洗碗、收拾厨房。</div>
+                                        </li>
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">Day 2 · 扫墓 + 散步</div>
+                                            <div>上午：按照家里习惯去扫墓，留一点安静时间独处；下午：陪父母在附近公园或老街慢走。</div>
+                                        </li>
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">Day 3 · 返程前的小收尾</div>
+                                            <div>上午：帮家里做一件“看得见”的家务（擦窗、整理柜子等）；下午：回程。</div>
+                                        </li>
+                                    </ul>
+                                    <p class="plans-note">行程故意留白，把节奏放慢一点，比“排满景点”更重要。</p>
+                                </div>
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🍲</span>
+                                            饮食 & 小预算
+                                        </div>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li>以家常菜为主，不强求大餐；可以提议某一顿由自己下厨，让长辈“当客人”。</li>
+                                        <li>准备一些路上小零食：坚果、轻盐饼干、气泡水，避免高糖饮料。</li>
+                                        <li>预算预估：往返交通 + 礼物约 X00–X000 元，餐饮基本记在“家”的支出里即可。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 五一新疆旅行规划 -->
+            <section class="plans-section" id="plan-02" data-start="2026-04-30" data-end="2026-05-06">
+                <button type="button" class="plans-section-trigger" aria-expanded="false" aria-controls="plan-body-02">
+                    <div class="plans-section-header">
+                        <div class="plans-section-title">
+                            <span class="plans-section-label">PLAN · 02</span>
+                            <span class="plans-section-name">五一新疆 · 公路 + 星空</span>
+                        </div>
+                        <div class="plans-section-meta">
+                            <div>建议时间：4 月 30 – 5 月 5 / 6 日</div>
+                            <div>主题：半自驾 · 看山河 · 和自己待一会儿</div>
+                        </div>
+                        <span class="plans-section-status plans-status-upcoming" data-status>未开始</span>
+                    </div>
+                    <svg class="plans-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div id="plan-body-02" class="plans-section-body" hidden>
+                    <div class="plans-section-body-inner">
+                        <div class="plans-grid">
+                            <div class="plans-column">
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">👕</span>
+                                            衣：昼夜温差 & 防晒
+                                        </div>
+                                        <span class="plans-tag">分层穿衣</span>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li><span class="plans-badge">上身</span>速干长袖 2–3 件、薄抓绒/卫衣 1–2 件、轻薄羽绒或软壳 1 件。</li>
+                                        <li><span class="plans-badge">下身</span>快干长裤 2 条、宽松休闲裤 1 条，视行程安排是否带一条牛仔裤。</li>
+                                        <li><span class="plans-badge">鞋袜</span>登山/徒步鞋 1 双、运动鞋 1 双，厚中筒袜 3–4 双。</li>
+                                        <li><span class="plans-badge">防晒</span>防晒衣、防晒霜（PA+++）、遮阳帽/渔夫帽、墨镜、润唇膏。</li>
+                                        <li><span class="plans-badge">杂项</span>折叠雨衣、小手电/头灯、耳塞 + 眼罩（夜宿或长途车上用）。</li>
+                                    </ul>
+                                </div>
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🍜</span>
+                                            食：路上补给 & 当地特色
+                                        </div>
+                                        <span class="plans-tag">吃好但不过量</span>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li>车程较长路段准备：坚果、小番茄、乳酸菌饮料、低糖能量棒，避免空腹暴风吸入油腻食物。</li>
+                                        <li>必打卡：大盘鸡、烤馕、烤肉、抓饭、酸奶；每天预留一顿清淡（如粥 + 素菜），给肠胃休息。</li>
+                                        <li>自己携带：保温杯（路上及时补水）、简易旅行餐具、少量药品（肠胃药、抗过敏药、创可贴）。</li>
+                                    </ul>
+                                </div>
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🧾</span>
+                                            预算分配（示意）
+                                        </div>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li>机票 / 火车：约 40–50%</li>
+                                        <li>住宿（含特色民宿 / 青旅）：约 20–25%</li>
+                                        <li>当地交通（包车 / 自驾油费 / 公交等）：约 15–20%</li>
+                                        <li>餐饮 + 咖啡小店探索：约 15%</li>
+                                        <li>纪念品 / 不期而遇的花销：预留 5–10%，当作“惊喜预算”。</li>
+                                    </ul>
+                                    <p class="plans-note">出发前可以在记账 App 里录一个“新疆行”项目，回来后复盘花在哪些让自己真正快乐的地方。</p>
+                                </div>
+                            </div>
+                            <div class="plans-column">
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🛏️</span>
+                                            住：节奏感 & 安全感
+                                        </div>
+                                        <span class="plans-tag">两晚一节奏</span>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li>优先选择评分高、评论里提到“安静”“干净”的住宿；如果是青旅，尽量选择女性/混合但人数少的房型。</li>
+                                        <li>路线结构可以设计为：城市起点 1–2 晚 → 景区附近 2–3 晚 → 回程城市 1 晚，用“据点”向外辐射。</li>
+                                        <li>到店第一件事：确认门锁、紧急出口位置，给电子设备统一充电，收纳重要证件。</li>
+                                    </ul>
+                                </div>
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">🚗</span>
+                                            行：交通 & 路线草图
+                                        </div>
+                                    </div>
+                                    <ul class="plans-timeline">
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">D0 晚 / D1 早 · 抵达乌鲁木齐</div>
+                                            <div>适应气候 + 时差，简单在市区散步，早睡。</div>
+                                        </li>
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">D1–D3 · 周边公路 / 湖泊</div>
+                                            <div>可选择天山天池 / 赛里木湖 / 伊犁一线，根据实际行程调整；注意预估单日车程不超过 6–7 小时。</div>
+                                        </li>
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">D4–D5 · 城市 slow day</div>
+                                            <div>回到乌鲁木齐或中转城市，放慢节奏：逛市场、住一间设计感不错的民宿，给身体和情绪都放个假。</div>
+                                        </li>
+                                        <li class="plans-timeline-item">
+                                            <span class="plans-timeline-dot"></span>
+                                            <div class="plans-timeline-time">D6 · 返程</div>
+                                            <div>提前 2–3 小时到机场 / 火车站，保证充足缓冲时间。</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="plans-card">
+                                    <div class="plans-card-header">
+                                        <div class="plans-card-title">
+                                            <span class="plans-card-icon">✨</span>
+                                            心情 & 记录方式
+                                        </div>
+                                    </div>
+                                    <ul class="plans-list">
+                                        <li>每天晚上留 10 分钟记一行「今日最值得保留的三个瞬间」，可以写在备忘录/纸质小本子上。</li>
+                                        <li>拍照时多带点“人和环境的关系”，而不是纯风景；可以固定一两张“今日自拍”，以后很好用来回忆状态变化。</li>
+                                        <li>给未来的自己写一张明信片：在新疆寄回家，或者带回后贴在工作区墙上。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <p class="plans-footer-note">
+                这些规划都是可以微调的「模板」：以后每次旅行，都可以照着衣 · 食 · 住 · 行 · 行程 · 预算 · 心情这几栏重新复制一份，慢慢积累自己的出行手册。
+            </p>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">&copy; 2026 minty-feng</p>
+                <p class="footer-accent">把生活过成作品，也把旅行过成作品</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js?v=20260203"></script>
+    <script>
+(function() {
+    function toDate(str) {
+        var parts = str.split('-').map(Number);
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+    function getStatus(section) {
+        var startStr = section.getAttribute('data-start');
+        var endStr = section.getAttribute('data-end');
+        if (!startStr || !endStr) return { text: '未开始', status: 'upcoming' };
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var start = toDate(startStr);
+        var end = toDate(endStr);
+        if (today < start) return { text: '未开始', status: 'upcoming' };
+        if (today > end) return { text: '已结束', status: 'done' };
+        return { text: '进行中', status: 'active' };
+    }
+    function updateStatus(section) {
+        var el = section.querySelector('[data-status]');
+        if (!el) return;
+        var s = getStatus(section);
+        el.textContent = s.text;
+        el.className = 'plans-section-status plans-status-' + s.status;
+    }
+    function init() {
+        var sections = document.querySelectorAll('.plans-section[data-start][data-end]');
+        sections.forEach(function(section) {
+            updateStatus(section);
+            var trigger = section.querySelector('.plans-section-trigger');
+            var body = section.querySelector('.plans-section-body');
+            if (!trigger || !body) return;
+            trigger.addEventListener('click', function() {
+                var expanded = section.classList.toggle('is-expanded');
+                trigger.setAttribute('aria-expanded', expanded);
+                body.hidden = !expanded;
+            });
+        });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+    </script>
+</body>
+</html>
