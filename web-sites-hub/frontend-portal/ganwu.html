@@ -16,12 +16,23 @@
         html {
             overflow-y: scroll;
         }
+        /* 感悟页：标题与区域略大、略宽 */
+        .header .logo-subtitle {
+            font-size: 1.2rem;
+        }
+        main.diary-main {
+            max-width: 960px;
+            width: 100%;
+            box-sizing: border-box;
+        }
         .insights-list {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            max-width: 800px;
+            max-width: 900px;
+            width: 100%;
             margin: 0 auto;
+            box-sizing: border-box;
         }
         .insight-card {
             background: var(--bg-card);
@@ -198,15 +209,27 @@
             padding-bottom: 0;
             border-bottom: none;
         }
-        /* 移动端适配：字号调小，减少换行 */
+        /* 移动端适配：感悟标题加大，内容区自适应宽度、减少留白 */
         @media (max-width: 768px) {
+            .header .logo-subtitle {
+                font-size: 1rem;
+            }
+            main.diary-main {
+                padding: 0 0.75rem 3rem;
+            }
+            .timeline-section {
+                padding: 0 0.25rem;
+            }
             .insights-list {
-                padding: 0 0.5rem;
+                padding: 0;
                 gap: 1.25rem;
+                max-width: none;
             }
             .insight-card.essay-card {
                 padding: 1.25rem 1rem;
                 border-radius: 1rem;
+                width: 100%;
+                box-sizing: border-box;
             }
             .essay-card .insight-title {
                 font-size: 1.1rem;
@@ -217,11 +240,11 @@
                 font-size: 0.8rem;
             }
             .essay-card .insight-body {
-                font-size: 0.875rem;
+                font-size: 0.9375rem;
                 line-height: 1.75;
             }
             .essay-card .insight-body .lead {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
                 padding: 0.75rem 0 0.75rem 0.75rem;
                 margin: 0 0 1rem 0;
             }
@@ -240,8 +263,14 @@
             }
         }
         @media (max-width: 640px) {
+            main.diary-main {
+                padding: 0 0.5rem 2.5rem;
+            }
+            .insights-list {
+                padding: 0;
+            }
             .insight-card.essay-card {
-                padding: 1rem 0.875rem;
+                padding: 1rem 0.75rem;
             }
             .essay-card-header {
                 gap: 0.5rem;
@@ -264,10 +293,10 @@
                 margin-top: 0.1rem;
             }
             .essay-card .insight-body {
-                font-size: 0.8125rem;
+                font-size: 0.875rem;
             }
             .essay-card .insight-body .lead {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
                 padding: 0.6rem 0 0.6rem 0.6rem;
             }
             .essay-card .insight-body h4 {
@@ -278,6 +307,12 @@
             }
         }
         @media (max-width: 480px) {
+            main.diary-main {
+                padding: 0 0.5rem 2rem;
+            }
+            .insight-card.essay-card {
+                padding: 0.875rem 0.6rem;
+            }
             .essay-card .insight-title {
                 font-size: 0.95rem;
             }
@@ -285,10 +320,10 @@
                 font-size: 0.7rem;
             }
             .essay-card .insight-body {
-                font-size: 0.75rem;
+                font-size: 0.8125rem;
             }
             .essay-card .insight-body .lead {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
             .essay-card .insight-body h4 {
                 font-size: 0.75rem;
@@ -399,6 +434,34 @@
                             <p>其最锋利也最伤人的化身，便是"争执"——坚信"我是对的，你是错的"，并试图在言语或道理上征服对方、改变对方。它的本质是把爱误当作辩论场，将关系的和谐，偷换成自我观点的胜利。真正的亲密，不在输赢，而在靠近。</p>
                             <p>在爱中的修习恰在于此：<br>不以"贪"催生束缚，而以感恩滋养珍惜；<br>不以"嗔"点燃战火，而以慈悲接纳差异；<br>不以"痴"建造牢笼，而以智慧欣赏无常；<br>不以"怨"计量付出，而以慷慨享受给予；<br>不以"执"争辩对错，而以沉静守护连接——这沉静，是在情绪涌起时，先收回指向对方的手指，转向自己内心：此刻，爱先于对。</p>
                             <p>真正的深情，是愿意在波动里看见自己，在碰撞中拓宽心的边界——让对一个人的爱，最终成为通向更完整生命的桥梁。</p>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card essay-card collapsed" data-essay>
+                        <div class="essay-card-header" aria-expanded="false">
+                            <div class="essay-title-wrap">
+                                <h3 class="insight-title">应该如何度过这一生</h3>
+                                <div class="essay-card-date">创作日期：2026年3月11日</div>
+                            </div>
+                            <span class="essay-card-toggle-wrap">
+                                <svg class="essay-card-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="essay-card-body-wrap">
+                        <div class="essay-card-body">
+                        <div class="insight-body">
+                            <p class="lead">一生何以度过，从来不是「努力」与「放松」之间的简单选择；而是你是否愿意承认——存在本身有重量，而那份重量，只能由你自己扛起。</p>
+                            <h4>劳作与自我</h4>
+                            <p>人需要有事可做，需要在一件事里耗尽心力、留下一点无可替代的痕迹；那是尊严的一种来处。可当劳作不再被「我在为何而做」照亮，便会悄悄变成用别人的尺子丈量自己的命：排名、绩效、他人眼中的成功，一寸寸挤掉「我究竟要成为谁」的追问。到那时，你不是在活，是在扮演一个被期待的角色。真正的分野不在忙与闲，而在：这份忙碌，是否还在回答你自己的问题。</p>
+                            <h4>在场与消逝</h4>
+                            <p>「享受生活」常被说成是停下来、慢下来。更根本的是：你是否在场。许多时刻——一顿饭、一段路、一次沉默的并肩——不会出现在任何总结里，却像沙漏里漏下的沙，一粒粒叠成「我曾活过」的质地。回忆从来不是被成就清单填满的，而是被那些无法被汇报的在场拼成的。若到终了，发现从未为落日、为某人的眼神、为一页书留出过不可压缩的注意力，再多的「做了什么事」也抵不过一种空：仿佛从未真正在场。</p>
+                            <h4>亲密与选择</h4>
+                            <p>爱情不是人生的全部，但若你选择与一人共度，它便不再是可有可无的装饰。关系的厚度，取决于你愿不愿意把最稀缺的资源——时间与专注——持续地给出去。不是仪式感，不是「经营」的算计，而是：在日复一日的选择里，你是否仍把对方当作需要被看见的人，而不是像旧相框一样被搁在背景里。忽视会稀释爱，看见会沉淀它。你如何度过一生，与你如何对待身边人，本是同一条线。</p>
+                            <p>没有普世的答案。唯有一点可以确定：这一生是你唯一的一趟。用力时，记得问自己为谁而用力；停顿时，记得问自己是否真的在。对身边的人，若你选择了他们，就不要再把他们当作「忙完再说」的选项。如此，才不至于在终点回望时，发现从未真正活过、也从未真正爱过。</p>
                         </div>
                         </div>
                         </div>
