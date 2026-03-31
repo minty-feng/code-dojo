@@ -8,7 +8,9 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
         .poem-grid {
             display: grid;
@@ -19,16 +21,37 @@
         .poem-card {
             background: var(--bg-card);
             padding: 2.5rem;
-            border-radius: 4px; /* More paper-like */
+            border-radius: 14px;
             border: 1px solid var(--border-color);
             position: relative;
             text-align: center;
             overflow: hidden;
-            transition: transform 0.4s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            scroll-margin-top: 6rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .poem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(201, 123, 45, 0.65), rgba(232, 168, 88, 0.45), transparent);
+            opacity: 0.85;
+            pointer-events: none;
+        }
+        [data-theme="dark"] .poem-card::before {
+            background: linear-gradient(90deg, hsl(210 50% 55% / 0.5), hsl(265 45% 55% / 0.35), transparent);
         }
         .poem-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             background: var(--bg-card-hover);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(180, 150, 100, 0.22);
+        }
+        [data-theme="dark"] .poem-card:hover {
+            border-color: rgba(88, 166, 255, 0.18);
         }
         .poem-title {
             font-family: 'Zhi Mang Xing', cursive;
@@ -55,6 +78,214 @@
             border-radius: 50%;
             pointer-events: none;
         }
+
+        /* Poems index — 典藏目录：单层序号（仅列表符号），书名衬线层级 */
+        .poems-home {
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 0.25rem;
+        }
+        .poems-home-title {
+            font-family: 'Noto Serif SC', 'Songti SC', serif;
+            font-style: normal;
+            font-size: clamp(1.65rem, 4vw, 2.15rem);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--text-primary);
+            margin-bottom: 0.65rem;
+            padding-bottom: 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        .poems-home-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 3.5rem;
+            height: 2px;
+            background: linear-gradient(90deg, #c97b2d, #e8b858);
+            border-radius: 1px;
+        }
+        [data-theme="dark"] .poems-home-title::after {
+            background: linear-gradient(90deg, rgba(88, 166, 255, 0.75), rgba(163, 113, 247, 0.45));
+        }
+        .poems-home-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 1.75rem;
+            font-weight: 400;
+        }
+
+        .poems-index {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .poems-index details {
+            border: 1px solid var(--border-color);
+            background: rgba(255, 251, 245, 0.35);
+            border-radius: 14px;
+            padding: 0;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+        [data-theme="dark"] .poems-index details {
+            background: rgba(22, 27, 34, 0.55);
+        }
+
+        .poems-index summary {
+            cursor: pointer;
+            list-style: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.02rem;
+            font-family: 'Noto Serif SC', serif;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.15rem;
+            transition: background 0.2s ease;
+        }
+        .poems-index summary:hover {
+            background: rgba(232, 168, 88, 0.08);
+        }
+        [data-theme="dark"] .poems-index summary:hover {
+            background: rgba(88, 166, 255, 0.06);
+        }
+
+        .poems-index summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .poems-index summary .count {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-family: 'Inter', system-ui, sans-serif;
+            letter-spacing: 0.02em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+
+        .poems-index summary::after {
+            content: '';
+            width: 0.45rem;
+            height: 0.45rem;
+            border-right: 2px solid var(--text-muted);
+            border-bottom: 2px solid var(--text-muted);
+            transform: rotate(45deg);
+            transition: transform 0.25s ease, opacity 0.2s ease;
+            opacity: 0.65;
+            flex-shrink: 0;
+            margin-left: 0.35rem;
+        }
+        .poems-index details[open] summary::after {
+            transform: rotate(-135deg);
+        }
+
+        .poems-index-list {
+            margin: 0;
+            padding: 0 1.15rem 1rem 2.5rem;
+            list-style: decimal;
+            list-style-position: outside;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .poems-index-item {
+            border-top: 1px solid rgba(180, 150, 100, 0.12);
+            margin: 0;
+            padding: 0;
+        }
+        [data-theme="dark"] .poems-index-item {
+            border-top-color: rgba(48, 54, 61, 0.85);
+        }
+        .poems-index-item:first-of-type {
+            border-top: none;
+        }
+
+        .poems-index-item a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            border-radius: 0;
+            padding: 0.72rem 0.15rem 0.72rem 0;
+            border: none;
+            transition: background 0.18s ease, padding-left 0.2s ease;
+        }
+
+        .poems-index-item a:hover {
+            background: rgba(201, 123, 45, 0.06);
+            padding-left: 0.35rem;
+        }
+        [data-theme="dark"] .poems-index-item a:hover {
+            background: rgba(88, 166, 255, 0.06);
+        }
+
+        .toc-line {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.35rem 0.55rem;
+        }
+        .toc-author {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+        .toc-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .poems-index-item a.found .toc-title {
+            color: var(--text-primary);
+        }
+        .poems-index-item a.found .toc-author {
+            color: var(--text-secondary);
+        }
+
+        .poems-index-item a.not-found {
+            opacity: 0.45;
+        }
+        .poems-index-item a.not-found:hover {
+            opacity: 0.72;
+        }
+
+        .poems-index-total {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-align: center;
+        }
+
+        @media (min-width: 900px) {
+            .poems-home {
+                max-width: 800px;
+            }
+            .poems-index-list {
+                padding-left: 2.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -76,6 +307,19 @@
                     </button>
             </div>
         </header>
+
+        <section class="poems-home" aria-label="诗词名篇首页目录">
+            <h1 class="poems-home-title">诗词名篇目录（100篇）</h1>
+            <p class="poems-home-subtitle">按「宋词 / 古文 / 骈文 / 檄文」分组；点击条目可跳转到诗词卡片。</p>
+            <div class="poems-index" id="poems-index">
+                <details open>
+                    <summary>
+                        <span>载入目录中…</span>
+                        <span class="count">-</span>
+                    </summary>
+                </details>
+            </div>
+        </section>
 
         <main class="diary-main">
             <!-- Loading State -->
@@ -114,10 +358,281 @@
             }
         ];
 
+        function normalizeAuthor(author) {
+            // 统一把作者字段清洗成「人名」尾部，避免后端格式不同导致定位失败
+            if (!author) return '';
+            const s = String(author).trim();
+            // 常见分隔符：' · ' / '·' / '.'
+            if (s.includes('/')) return s.split('/').filter(Boolean).pop().trim();
+            if (s.includes('·')) return s.split('·').filter(Boolean).pop().trim();
+            if (s.includes('.')) return s.split('.').filter(Boolean).pop().trim();
+            return s;
+        }
+
+        function normalizeTitle(title) {
+            if (!title) return '';
+            return String(title).trim();
+        }
+
+        function hashString(str) {
+            // 非加密 hash，用于生成稳定的 DOM id（同一 title/author 必然一致）
+            let h = 0;
+            for (let i = 0; i < str.length; i++) {
+                h = (h * 31 + str.charCodeAt(i)) >>> 0;
+            }
+            return h.toString(16);
+        }
+
+        function poemKeyToId(title, author) {
+            const t = normalizeTitle(title);
+            const a = normalizeAuthor(author);
+            return 'poem-' + hashString(t + '|' + a);
+        }
+
+        // Homepage directory (100 poems)
+        const poemsIndexData = [
+            {
+                key: 'ci',
+                name: '宋词',
+                items: [
+                    { title: '念奴娇·赤壁怀古', author: '苏轼' },
+                    { title: '满江红·写怀', author: '岳飞' },
+                    { title: '声声慢·寻寻觅觅', author: '李清照' },
+                    { title: '水调歌头·明月几时有', author: '苏轼' },
+                    { title: '雨霖铃·寒蝉凄切', author: '柳永' },
+                    { title: '永遇乐·京口北固亭怀古', author: '辛弃疾' },
+                    { title: '扬州慢·淮左名都', author: '姜夔' },
+                    { title: '钗头凤·红酥手', author: '陆游' },
+                    { title: '鹊桥仙·纤云弄巧', author: '秦观' },
+                    { title: '虞美人·春花秋月何时了', author: '李煜' },
+                    { title: '江城子·乙卯正月二十日夜记梦', author: '苏轼' },
+                    { title: '破阵子·为陈同甫赋壮词以寄之', author: '辛弃疾' },
+                    { title: '一剪梅·红藕香残玉簟秋', author: '李清照' },
+                    { title: '渔家傲·秋思', author: '范仲淹' },
+                    { title: '蝶恋花·庭院深深深几许', author: '欧阳修' },
+                    { title: '浣溪沙·一曲新词酒一杯', author: '晏殊' },
+                    { title: '兰陵王·柳', author: '周邦彦' },
+                    { title: '桂枝香·金陵怀古', author: '王安石' },
+                    { title: '临江仙·梦后楼台高锁', author: '晏几道' },
+                    { title: '天仙子·水调数声持酒听', author: '张先' },
+                    { title: '玉楼春·春景', author: '宋祁' },
+                    { title: '青玉案·凌波不过横塘路', author: '贺铸' },
+                    { title: '念奴娇·过洞庭', author: '张孝祥' },
+                    { title: '风入松·听风听雨过清明', author: '吴文英' },
+                    { title: '双双燕·咏燕', author: '史达祖' },
+                    { title: '沁园春·梦孚若', author: '刘克庄' },
+                    { title: '虞美人·听雨', author: '蒋捷' },
+                    { title: '眉妩·新月', author: '王沂孙' },
+                    { title: '高阳台·西湖春感', author: '张炎' },
+                    { title: '定风波·莫听穿林打叶声', author: '苏轼' },
+                    { title: '青玉案·元夕', author: '辛弃疾' },
+                    { title: '丑奴儿·书博山道中壁', author: '辛弃疾' },
+                    { title: '蝶恋花·伫倚危楼风细细', author: '柳永' },
+                    { title: '醉花阴·薄雾浓云愁永昼', author: '李清照' },
+                    { title: '如梦令·常记溪亭日暮', author: '李清照' },
+                    { title: '浪淘沙令·帘外雨潺潺', author: '李煜' },
+                    { title: '卜算子·黄州定慧院寓居作', author: '苏轼' },
+                    { title: '踏莎行·郴州旅舍', author: '秦观' },
+                    { title: '苏幕遮·燎沉香', author: '周邦彦' },
+                    { title: '暗香·旧时月色', author: '姜夔' },
+                ],
+            },
+            {
+                key: 'prose',
+                name: '古文',
+                items: [
+                    { title: '曹刿论战', author: '左传' },
+                    { title: '烛之武退秦师', author: '左传' },
+                    { title: '召公谏厉王止谤', author: '国语' },
+                    { title: '邹忌讽齐王纳谏', author: '战国策' },
+                    { title: '冯谖客孟尝君', author: '战国策' },
+                    { title: '谏逐客书', author: '李斯' },
+                    { title: '报任安书', author: '司马迁' },
+                    { title: '屈原列传', author: '司马迁' },
+                    { title: '前出师表', author: '诸葛亮' },
+                    { title: '陈情表', author: '李密' },
+                    { title: '兰亭集序', author: '王羲之' },
+                    { title: '桃花源记', author: '陶渊明' },
+                    { title: '归去来兮辞', author: '陶渊明' },
+                    { title: '谏太宗十思疏', author: '魏徵' },
+                    { title: '滕王阁序', author: '王勃' },
+                    { title: '师说', author: '韩愈' },
+                    { title: '原道', author: '韩愈' },
+                    { title: '进学解', author: '韩愈' },
+                    { title: '祭十二郎文', author: '韩愈' },
+                    { title: '捕蛇者说', author: '柳宗元' },
+                    { title: '小石潭记', author: '柳宗元' },
+                    { title: '种树郭橐驼传', author: '柳宗元' },
+                    { title: '阿房宫赋', author: '杜牧' },
+                    { title: '岳阳楼记', author: '范仲淹' },
+                    { title: '醉翁亭记', author: '欧阳修' },
+                    { title: '五代史伶官传序', author: '欧阳修' },
+                    { title: '秋声赋', author: '欧阳修' },
+                    { title: '六国论', author: '苏洵' },
+                    { title: '前赤壁赋', author: '苏轼' },
+                    { title: '后赤壁赋', author: '苏轼' },
+                    { title: '石钟山记', author: '苏轼' },
+                    { title: '记承天寺夜游', author: '苏轼' },
+                    { title: '黄州快哉亭记', author: '苏辙' },
+                    { title: '墨池记', author: '曾巩' },
+                    { title: '游褒禅山记', author: '王安石' },
+                    { title: '答司马谏议书', author: '王安石' },
+                    { title: '送东阳马生序', author: '宋濂' },
+                    { title: '卖柑者言', author: '刘基' },
+                    { title: '项脊轩志', author: '归有光' },
+                    { title: '湖心亭看雪', author: '张岱' },
+                ],
+            },
+            {
+                key: 'parallel',
+                name: '骈文',
+                items: [
+                    { title: '滕王阁序', author: '王勃' },
+                    { title: '哀江南赋序', author: '庾信' },
+                    { title: '别赋', author: '江淹' },
+                    { title: '恨赋', author: '江淹' },
+                    { title: '答谢中书书', author: '陶弘景' },
+                    { title: '与朱元思书', author: '吴均' },
+                    { title: '北山移文', author: '孔稚珪' },
+                    { title: '与陈伯之书', author: '丘迟' },
+                    { title: '文心雕龙·神思', author: '刘勰' },
+                    { title: '为徐敬业讨武曌檄', author: '骆宾王' },
+                    { title: '吊古战场文', author: '李华' },
+                    { title: '陋室铭', author: '刘禹锡' },
+                ],
+            },
+            {
+                key: 'exhort',
+                name: '檄文',
+                items: [
+                    { title: '牧誓', author: '尚书' },
+                    { title: '为袁绍檄豫州文', author: '陈琳' },
+                    { title: '为徐敬业讨武曌檄', author: '骆宾王' },
+                    { title: '为李密檄洛州文', author: '祖君彦' },
+                    { title: '谕中原檄', author: '朱元璋 / 宋濂' },
+                    { title: '讨粤匪檄', author: '曾国藩' },
+                    { title: '喻巴蜀檄', author: '司马相如' },
+                    { title: '移檄告郡国', author: '隗嚣' },
+                ],
+            },
+        ];
+
+        // Backend 离线兜底：用“100 篇目录”生成占位卡片，保证目录跳转可用
+        const indexFallbackPoems = [];
+        (function buildIndexFallback() {
+            for (const category of poemsIndexData) {
+                for (const item of category.items) {
+                    indexFallbackPoems.push({
+                        title: item.title,
+                        author: item.author,
+                        content: '（待补全原文）',
+                    });
+                }
+            }
+        })();
+
+        function renderPoemsIndex() {
+            const root = document.getElementById('poems-index');
+            if (!root) return;
+
+            let totalCount = 0;
+            root.innerHTML = '';
+
+            poemsIndexData.forEach((category) => {
+                totalCount += category.items.length;
+
+                const details = document.createElement('details');
+                // 默认为展开顶部分类，提升“首页感”
+                if (category.key === 'ci') details.open = true;
+
+                const summary = document.createElement('summary');
+                const left = document.createElement('span');
+                left.textContent = category.name;
+                const right = document.createElement('span');
+                right.className = 'count';
+                right.textContent = `（${category.items.length}）`;
+                summary.appendChild(left);
+                summary.appendChild(right);
+                details.appendChild(summary);
+
+                const list = document.createElement('ol');
+                list.className = 'poems-index-list';
+
+                category.items.forEach((item) => {
+                    const poemId = poemKeyToId(item.title, item.author);
+                    const poemTitleNorm = normalizeTitle(item.title);
+
+                    const li = document.createElement('li');
+                    li.className = 'poems-index-item';
+
+                    const a = document.createElement('a');
+                    a.href = '#';
+                    a.dataset.poemId = poemId;
+                    a.dataset.poemTitle = poemTitleNorm;
+                    a.innerHTML = `<span class="toc-line"><span class="toc-author">${item.author}</span><span class="toc-title">《${item.title}》</span></span>`;
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const el = document.getElementById(poemId);
+                        const fallbackByTitle = document.querySelector(`[data-poem-title="${CSS.escape(poemTitleNorm)}"]`);
+                        const targetEl = el || fallbackByTitle;
+
+                        if (!targetEl) {
+                            // 目录仍然能用，但若当前后端没加载到该诗词，就提示一下
+                            alert('该条目暂无对应卡片（可能后端数据未加载到）。');
+                            return;
+                        }
+
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // 简单高亮，提升“跳转感”
+                        targetEl.style.transition = 'box-shadow 0.25s ease';
+                        targetEl.style.boxShadow = '0 0 0 2px rgba(80, 180, 255, 0.35) inset, var(--shadow-lg)';
+                        setTimeout(() => {
+                            targetEl.style.boxShadow = '';
+                        }, 1200);
+                    });
+
+                    li.appendChild(a);
+                    list.appendChild(li);
+                });
+
+                details.appendChild(list);
+                root.appendChild(details);
+            });
+
+            // 给用户一个总数提示（不影响 layout）
+            const totalNote = document.createElement('div');
+            totalNote.className = 'poems-index-total';
+            totalNote.textContent = `凡 ${totalCount} 篇`;
+            root.appendChild(totalNote);
+        }
+
+        function markIndexAvailability() {
+            // 根据 DOM id 是否存在，给目录条目标记 found/not-found
+            document.querySelectorAll('#poems-index a[data-poem-id]').forEach((a) => {
+                const poemId = a.dataset.poemId;
+                const poemTitleNorm = a.dataset.poemTitle || '';
+                const el = document.getElementById(poemId);
+                const fallbackByTitle = poemTitleNorm
+                    ? document.querySelector(`[data-poem-title="${CSS.escape(poemTitleNorm)}"]`)
+                    : null;
+
+                if (el || fallbackByTitle) {
+                    a.classList.add('found');
+                    a.classList.remove('not-found');
+                } else {
+                    a.classList.add('not-found');
+                }
+            });
+        }
+
         // Function to create poem card HTML
         function createPoemCard(poem) {
             const article = document.createElement('article');
             article.className = 'poem-card';
+            article.id = poemKeyToId(poem.title, poem.author);
+            article.dataset.poemId = article.id;
+            article.dataset.poemTitle = normalizeTitle(poem.title);
+            article.dataset.poemAuthor = normalizeAuthor(poem.author);
             
             // Format author if it comes from API as "Subject" and "Dynasty"
             let authorText = poem.author;
@@ -141,7 +656,8 @@
             
             // Try to fetch from local backend first (common port 8000 or 8080)
             // Assuming the backend is running on localhost:8080 as configured
-            const API_URL = 'http://localhost:8080/api/poems';
+            // 诗词模块目录是 100 篇清单，因此这里尽量请求更大 limit
+            const API_URL = 'http://localhost:8080/api/poems?limit=200';
 
             try {
                 const response = await fetch(API_URL, { 
@@ -161,6 +677,9 @@
                 poems.forEach(poem => {
                     grid.appendChild(createPoemCard(poem));
                 });
+
+                // 同步目录“是否可跳转”的状态
+                markIndexAvailability();
                 
             } catch (error) {
                 console.log('Backend not available, using fallback data:', error);
@@ -168,15 +687,22 @@
                 loading.style.display = 'none';
                 errorMsg.style.display = 'block'; // Show "using fallback" message
                 
-                // Use fallback data
-                fallbackPoems.forEach(poem => {
+                // Use fallback data（优先使用“100 篇目录占位卡片”）
+                const usableFallback = indexFallbackPoems.length ? indexFallbackPoems : fallbackPoems;
+                usableFallback.forEach(poem => {
                     grid.appendChild(createPoemCard(poem));
                 });
+
+                // fallback 数量有限，只是标记出哪些条目当前可跳
+                markIndexAvailability();
             }
         }
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', fetchPoems);
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPoemsIndex();
+            fetchPoems();
+        });
     </script>
 </body>
 </html>

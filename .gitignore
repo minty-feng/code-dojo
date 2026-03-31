@@ -6,4 +6,5 @@ web-sites-hub/frontend-docs/*/venv/
 web-sites-hub/frontend-docs/*/*.gz
 web-sites-hub/frontend-docs/*/*.tar.gz
 .github
+.vscode
 web-sites-hub/venv/

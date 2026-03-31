@@ -1,5 +1,40 @@
 # Secure Resume 故障排查指南
 
+## 问题：CSS/JS 未加载（简历页无样式、Network 里 /static/* 失败）
+
+**症状**：访问 me.joketop.com 时页面无样式，开发者工具 Network 里 `main.css`、`resume.css`、`style.css`、`auth.js`、`main.js` 等显示失败（红叉）。
+
+**在服务器上按顺序执行：**
+
+1. **确认静态目录存在且可读**
+   ```bash
+   ls -la /home/ubuntu/backend-resume/static/
+   ```
+   应能看到 `style.css`、`main.css`、`resume.css`、`auth.js`、`main.js` 等。若你的实际部署路径不是 `/home/ubuntu/backend-resume`，请记下实际路径，后面要改 Nginx。
+
+2. **确认当前生效的 Nginx 配置**
+   ```bash
+   sudo nginx -T 2>/dev/null | grep -A 30 'server_name me.joketop.com'
+   ```
+   检查 `location ^~ /static/` 里是否**没有** `try_files $uri =404;`（有则会导致 CSS/JS 404）。且 `alias` 路径必须等于上一步的静态目录（例如 `/home/ubuntu/backend-resume/static/`）。
+
+3. **更新配置并重载 Nginx**
+   - 把本仓库里的 `joketop.conf` 中 `me.joketop.com` 的 server 块同步到服务器（或只改 `location ^~ /static/`：删掉 `try_files` 那一行，保留 `alias` + gzip 等）。
+   - 若部署路径不是 `/home/ubuntu/backend-resume`，把两处 `alias` 里的路径改成你的实际路径：
+     - `location ~* ^/static/(.+\.svg)$` 里的 `alias /home/ubuntu/backend-resume/static/$1;`
+     - `location ^~ /static/` 里的 `alias /home/ubuntu/backend-resume/static/;`
+   ```bash
+   sudo nginx -t && sudo systemctl reload nginx
+   ```
+
+4. **验证**
+   ```bash
+   curl -sI https://me.joketop.com/static/style.css
+   ```
+   应返回 `200` 和 `Content-Type: text/css`。若仍 404，再查 `error_log`：`sudo tail -20 /var/log/nginx/me.joketop.com.error.log`。
+
+---
+
 ## 问题：CDN 缓存导致静态资源或页面未更新
 
 **症状**：直接访问源站正常，但通过 CDN 访问时显示旧内容或样式未生效
