@@ -2,84 +2,77 @@
 
 本项目是一个整合了个人网站、前后端服务和文档站点的统一工作区。
 
+## 🗺️ 结构导读（先看这里）
+
+为避免目录很多时难以快速定位，建议按下面四条主线理解本仓库：
+
+1. **主站前端**：`frontend-portal/`  
+2. **文档站集合**：`frontend-docs/`  
+3. **后端能力层**：`backend-platform-py/`（当前推荐） + 其他历史/独立后端  
+4. **独立项目区**：`super-app/`、`debate-competition/`、`phd-game/`、`internship-trends/`、`trending-aggregator/`
+
+> 当前单人开发推荐主线：`frontend-portal/` + `backend-platform-py/`
+
 ## 📁 目录结构
 
 以下路径均相对于仓库根目录（即 `web-sites-hub/` 为本工作区根）。
 
-```
+```text
 web-sites-hub/
 │
-├── frontend-portal/                           # 个人网站主入口 (Static HTML/JS)
-│   ├── index.html                             # joketop.com 主页
-│   ├── diary.html                             # 生活门户（六栏入口）
-│   ├── journal.html                           # 日记
-│   ├── timeline.html                          # 时光轴
-│   ├── tianya.html                            # 天涯
-│   ├── poems.html                             # 诗词
-│   ├── goals.html                             # 目标（需后端登录）
-│   ├── ganwu.html                             # 感悟
-│   ├── learning.html                          # 学习笔记聚合页 (blog.joketop.com)
-│   ├── showcase.html                          # 项目展示页
-│   ├── resume.html                            # 简历页
-│   ├── wufu.html                              # 五福
-│   ├── fund.html                              # 基金
-│   ├── speed.html                             # 测速
-│   ├── assets/
-│   │   ├── css/                               # 主样式 (main.css, diary.css 等)
-│   │   └── js/                                # 主脚本 (main.js 等)
-│   ├── scripts/
-│   │   └── preview.sh                         # 本地预览 (默认 8000)
-│   ├── package-joketop.sh                     # 打包与版本注入
+├── frontend-portal/                           # 主站前端（核心入口）
+│   ├── index.html                             # joketop.com 首页
+│   ├── diary.html / goals.html / poems.html   # 生活与内容页面
+│   ├── showcase.html / resume.html            # 项目展示与简历页
+│   ├── assets/                                # 主样式与脚本
+│   ├── scripts/preview.sh                     # 本地预览（默认 8000）
+│   └── package-joketop.sh                     # 打包脚本
+│
+├── backend-platform-py/                       # 统一单服务后端（推荐）
+│   ├── app/                                   # FastAPI 应用代码（JWT/SQLAlchemy/SQLAdmin）
+│   ├── docs/                                  # 后端架构与运行文档
+│   ├── requirements.txt
 │   └── README.md
 │
-├── frontend-docs/                             # 静态文档站点集合
-│   ├── apple-ds-core-docs/                    # 数据结构 → blog.joketop.com/ds
-│   ├── banana-algo-core-docs/                 # 算法 → blog.joketop.com/algo
-│   ├── honey-backend-dojo-docs/               # 后端 → blog.joketop.com/backend
-│   ├── grape-frontend-dojo-docs/              # 前端 → blog.joketop.com/frontend
-│   └── cookie-os-network-docs/                # OS与网络 → blog.joketop.com/os
+├── frontend-docs/                             # 文档站点集合（blog.joketop.com/*）
+│   ├── apple-ds-core-docs/
+│   ├── banana-algo-core-docs/
+│   ├── grape-frontend-dojo-docs/
+│   ├── honey-backend-dojo-docs/
+│   └── cookie-os-network-docs/
 │
-├── backend-diary/                             # 日记/目标后端 (Django 8100 + FastAPI 8200)
-│   ├── manage.py                              # Django 入口
-│   ├── django_app/                            # 认证、目标、提醒、事件等 (端口 8100)
-│   ├── fastapi_app/                           # 数据查询服务 (端口 8200)
-│   ├── app.py                                 # 单机 FastAPI 演示 (端口 5000)
-│   ├── ARCHITECTURE.md                        # 混合架构与目标页登录说明
-│   ├── README.md
-│   └── scripts/
-│       ├── run-all.sh                         # 同时启动 Django + FastAPI
-│       └── run.sh                             # 仅 Django
+├── backend-diary/                             # 历史后端：Django + FastAPI 混合架构
+├── backend-resume/                            # Rust 简历服务
 │
-├── backend-resume/                            # 安全简历服务 (Rust Actix-web)
-│   └── src/
+├── internship-trends/                         # 独立项目（前后端）
+├── trending-aggregator/                       # 独立项目（前后端）
+├── super-app/                                 # 独立前端项目
+├── debate-competition/                        # 独立前端项目
+├── phd-game/                                  # 独立前端项目
+├── siyuan-editor/                             # 独立编辑器项目
 │
-├── internship-trends/                         # 实习趋势/面试趋势 (独立项目)
-│   ├── frontend/                              # 前端 (Vite + React/TS)
-│   └── README.md
-│
-├── trending-aggregator/                       # 热点聚合 (独立项目)
-│   ├── frontend/                              # Vue 前端
-│   └── backend/                               # Node 后端
-│
-├── super-app/                                 # 人民公社（独立前端项目，React + TS + Electron）
-├── debate-competition/                        # AI 大模型辩论赛（独立前端项目，Vite）
-├── phd-game/                                  # PhD Simulator（独立前端项目，事件驱动文字游戏）
-│
-├── backend-fund-valuation/                    # 基金估值后端（FastAPI，供 fund.html 调用）
-│
-├── backend-platform-py/                       # 单服务 Python 后端蓝图（文档 + 代码）
-│   ├── app/
-│   ├── docs/
-│   └── README.md
-│
-├── deploy-all-docs.sh                         # 统一 Nginx 部署脚本
+├── deploy-all-docs.sh                         # 统一部署脚本
 ├── apply-security-headers.sh                  # 安全头应用脚本
-├── joketop.conf                               # Nginx 核心配置
-├── DEPLOY-README.md                           # 部署详细说明
-├── NGINX-CONFIG-README.md                     # Nginx 配置说明
-├── APPLY-SECURITY-README.md                   # 安全头说明（如有）
-└── README.md                                  # 本文件
+├── joketop.conf / joketop-http.conf           # Nginx 配置
+├── DEPLOY-README.md
+├── NGINX-CONFIG-README.md
+├── APPLY-SECURITY-README.md
+└── README.md
 ```
+
+## 🧱 目录分组说明
+
+- **核心主线（推荐）**
+  - `frontend-portal/`：主站与业务页面
+  - `backend-platform-py/`：统一单服务后端（JWT、SQLAlchemy、SQLAdmin）
+  - `frontend-docs/`：文档子站构建产物
+- **历史/并行后端**
+  - `backend-diary/`：Django + FastAPI 混合架构（历史链路）
+  - `backend-resume/`：简历服务（Rust）
+- **独立项目**
+  - `internship-trends/`、`trending-aggregator/`、`super-app/`、`debate-competition/`、`phd-game/`、`siyuan-editor/`
+- **部署与运维**
+  - `joketop.conf`、`joketop-http.conf`、`deploy-all-docs.sh`、`apply-security-headers.sh`
 
 ## 🚀 服务概览
 
@@ -102,7 +95,7 @@ web-sites-hub/
 | **PhD Simulator** | `web-sites-hub/phd-game/` | 文本模拟游戏（前端构建项目） | `npm install && npm run build && npm start` |
 
 说明：
-- `backend-fund-valuation/` 为独立后端服务（FastAPI，默认 `:8081`），主要给 `frontend-portal/fund.html` 提供数据与导出接口。
+- `fund` 相关能力目前归入 `backend-platform-py`（`/api/v1/fund/*`）。
 - `internship-trends/` 与 `trending-aggregator/` 仍为独立全栈项目（前后端分目录维护）。
 
 ## 🛠️ 快速开始
