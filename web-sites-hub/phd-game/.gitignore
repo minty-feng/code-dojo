@@ -1,0 +1,9 @@
+dist
+*.db
+*/*.db
+build
+node_modules
+.vscode
+venv
+*/venv
+_*

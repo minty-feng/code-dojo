@@ -1,4 +1,8 @@
 .DS_Store
+node_modules
+.idea
+*/node_modules/
+*/*/node_modules/
 web-sites-hub/*/venv/
 web-sites-hub/*/*.gz
 web-sites-hub/*/*.tar.gz

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "removeComments": true,
+        "strictNullChecks": false,
+        "strictPropertyInitialization": false,
+        "sourceMap": true,
+        "target": "ES6",
+        "moduleResolution": "node",
+        "rootDir": "./src",
+        "outDir": "./build",
+        "lib": [
+            "DOM", "ES2016"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

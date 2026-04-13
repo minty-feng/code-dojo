@@ -61,6 +61,17 @@ web-sites-hub/
 │   ├── frontend/                              # Vue 前端
 │   └── backend/                               # Node 后端
 │
+├── super-app/                                 # 人民公社（独立前端项目，React + TS + Electron）
+├── debate-competition/                        # AI 大模型辩论赛（独立前端项目，Vite）
+├── phd-game/                                  # PhD Simulator（独立前端项目，事件驱动文字游戏）
+│
+├── backend-fund-valuation/                    # 基金估值后端（FastAPI，供 fund.html 调用）
+│
+├── backend-platform-py/                       # 单服务 Python 后端蓝图（文档 + 代码）
+│   ├── app/
+│   ├── docs/
+│   └── README.md
+│
 ├── deploy-all-docs.sh                         # 统一 Nginx 部署脚本
 ├── apply-security-headers.sh                  # 安全头应用脚本
 ├── joketop.conf                               # Nginx 核心配置
@@ -79,6 +90,20 @@ web-sites-hub/
 | **日记** | `diary.joketop.com` | `web-sites-hub/frontend-portal/diary.html` | 静态 HTML |
 | **目标/登录** | 同日记站内 | `web-sites-hub/backend-diary/` (Django 8100) | Django + JWT |
 | **文档** | `blog.joketop.com/*` | `web-sites-hub/frontend-docs/` | 静态 HTML (Alias) |
+
+## 🧩 独立前端项目（补充）
+
+以下项目与 `frontend-portal/` 分离，按独立工程维护：
+
+| 项目 | 路径 | 技术栈 | 本地启动 |
+|------|------|--------|---------|
+| **人民公社 Super App** | `web-sites-hub/super-app/` | React 18 + TypeScript + Vite + Electron | `npm install && npm run dev` |
+| **AI 大模型辩论赛** | `web-sites-hub/debate-competition/` | Vite 前端应用 | `npm install && npm run dev` |
+| **PhD Simulator** | `web-sites-hub/phd-game/` | 文本模拟游戏（前端构建项目） | `npm install && npm run build && npm start` |
+
+说明：
+- `backend-fund-valuation/` 为独立后端服务（FastAPI，默认 `:8081`），主要给 `frontend-portal/fund.html` 提供数据与导出接口。
+- `internship-trends/` 与 `trending-aggregator/` 仍为独立全栈项目（前后端分目录维护）。
 
 ## 🛠️ 快速开始
 
