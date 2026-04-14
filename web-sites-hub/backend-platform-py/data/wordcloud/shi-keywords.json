@@ -1,0 +1,106 @@
+{
+  "category": "shi",
+  "name": "唐诗高频词",
+  "items": [
+    {
+      "name": "长安",
+      "score": 410,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "春风",
+      "score": 402,
+      "color": "#7367f0"
+    },
+    {
+      "name": "明月",
+      "score": 394,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "黄河",
+      "score": 386,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "故人",
+      "score": 378,
+      "color": "#d7881d"
+    },
+    {
+      "name": "青山",
+      "score": 370,
+      "color": "#c95757"
+    },
+    {
+      "name": "万里",
+      "score": 362,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "白云",
+      "score": 354,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "江城",
+      "score": 346,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "边塞",
+      "score": 338,
+      "color": "#7367f0"
+    },
+    {
+      "name": "秋风",
+      "score": 330,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "归舟",
+      "score": 322,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "渔火",
+      "score": 314,
+      "color": "#d7881d"
+    },
+    {
+      "name": "玉关",
+      "score": 306,
+      "color": "#c95757"
+    },
+    {
+      "name": "芳草",
+      "score": 298,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "胡马",
+      "score": 290,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "天门",
+      "score": 284,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "寒山",
+      "score": 278,
+      "color": "#7367f0"
+    },
+    {
+      "name": "大漠",
+      "score": 272,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "羌笛",
+      "score": 266,
+      "color": "#2aa36b"
+    }
+  ]
+}

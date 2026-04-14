@@ -1,0 +1,542 @@
+{
+  "category": "ci_pai",
+  "name": "宋词高频词牌",
+  "items": [
+    {
+      "name": "水调歌头",
+      "score": 1000,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "念奴娇",
+      "score": 990,
+      "color": "#7367f0"
+    },
+    {
+      "name": "沁园春",
+      "score": 970,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "满江红",
+      "score": 960,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "临江仙",
+      "score": 950,
+      "color": "#d7881d"
+    },
+    {
+      "name": "西江月",
+      "score": 940,
+      "color": "#c95757"
+    },
+    {
+      "name": "鹧鸪天",
+      "score": 930,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "菩萨蛮",
+      "score": 920,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "蝶恋花",
+      "score": 910,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "虞美人",
+      "score": 900,
+      "color": "#7367f0"
+    },
+    {
+      "name": "青玉案",
+      "score": 890,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "如梦令",
+      "score": 880,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "清平乐",
+      "score": 870,
+      "color": "#d7881d"
+    },
+    {
+      "name": "南乡子",
+      "score": 860,
+      "color": "#c95757"
+    },
+    {
+      "name": "卜算子",
+      "score": 850,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "醉花阴",
+      "score": 840,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "定风波",
+      "score": 830,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "摸鱼儿",
+      "score": 820,
+      "color": "#7367f0"
+    },
+    {
+      "name": "永遇乐",
+      "score": 810,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "八声甘州",
+      "score": 800,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "声声慢",
+      "score": 790,
+      "color": "#d7881d"
+    },
+    {
+      "name": "木兰花",
+      "score": 780,
+      "color": "#c95757"
+    },
+    {
+      "name": "减字木兰花",
+      "score": 770,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "渔家傲",
+      "score": 760,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "苏幕遮",
+      "score": 750,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "踏莎行",
+      "score": 740,
+      "color": "#7367f0"
+    },
+    {
+      "name": "浣溪沙",
+      "score": 730,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "采桑子",
+      "score": 720,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "鹊桥仙",
+      "score": 710,
+      "color": "#d7881d"
+    },
+    {
+      "name": "浪淘沙",
+      "score": 700,
+      "color": "#c95757"
+    },
+    {
+      "name": "行香子",
+      "score": 690,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "江城子",
+      "score": 680,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "贺新郎",
+      "score": 670,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "雨霖铃",
+      "score": 660,
+      "color": "#7367f0"
+    },
+    {
+      "name": "玉楼春",
+      "score": 650,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "诉衷情",
+      "score": 640,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "点绛唇",
+      "score": 630,
+      "color": "#d7881d"
+    },
+    {
+      "name": "相见欢",
+      "score": 620,
+      "color": "#c95757"
+    },
+    {
+      "name": "好事近",
+      "score": 610,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "千秋岁",
+      "score": 600,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "破阵子",
+      "score": 590,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "凤凰台上忆吹箫",
+      "score": 580,
+      "color": "#7367f0"
+    },
+    {
+      "name": "祝英台近",
+      "score": 570,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "齐天乐",
+      "score": 560,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "绮罗香",
+      "score": 550,
+      "color": "#d7881d"
+    },
+    {
+      "name": "兰陵王",
+      "score": 540,
+      "color": "#c95757"
+    },
+    {
+      "name": "金缕曲",
+      "score": 530,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "扬州慢",
+      "score": 520,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "天净沙",
+      "score": 515,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "风入松",
+      "score": 510,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "木兰花慢",
+      "score": 500,
+      "color": "#7367f0"
+    },
+    {
+      "name": "水龙吟",
+      "score": 490,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "石州慢",
+      "score": 480,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "水调歌",
+      "score": 470,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "满庭芳",
+      "score": 460,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "水调引",
+      "score": 450,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "洞仙歌",
+      "score": 440,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "昭君怨",
+      "score": 430,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "少年游",
+      "score": 420,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "朝中措",
+      "score": 410,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "眼儿媚",
+      "score": 400,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "柳梢青",
+      "score": 390,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "霜天晓角",
+      "score": 180,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "小重山",
+      "score": 175,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "阮郎归",
+      "score": 170,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "画堂春",
+      "score": 165,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "桃源忆故人",
+      "score": 160,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "夜飞鹊",
+      "score": 150,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "望海潮",
+      "score": 145,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "六州歌头",
+      "score": 140,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "长相思",
+      "score": 135,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "生查子",
+      "score": 130,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "更漏子",
+      "score": 125,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "谒金门",
+      "score": 120,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "诉衷情近",
+      "score": 115,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "抛球乐",
+      "score": 105,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "河满子",
+      "score": 100,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "喜迁莺",
+      "score": 95,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "归田乐",
+      "score": 90,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "惜分飞",
+      "score": 85,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父引",
+      "score": 60,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父",
+      "score": 58,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父乐",
+      "score": 56,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父词",
+      "score": 54,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父歌",
+      "score": 52,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父曲",
+      "score": 50,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父咏",
+      "score": 48,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父吟",
+      "score": 46,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父操",
+      "score": 44,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "渔父弄",
+      "score": 42,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "调笑令",
+      "score": 40,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "天仙子",
+      "score": 38,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "风流子",
+      "score": 36,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "江神子",
+      "score": 34,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "霓裳中序第一",
+      "score": 32,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "曲游春",
+      "score": 30,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "瑞鹤仙",
+      "score": 28,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "宴清都",
+      "score": 26,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "齐天乐慢",
+      "score": 24,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "望江南",
+      "score": 22,
+      "color": "#00a6d8"
+    },
+      {
+      "name": "鹊踏枝",
+      "score": 21,
+      "color": "#00a6d8"
+    },
+      {
+      "name": "青门引",
+      "score": 20,
+      "color": "#00a6d8"
+    },
+      {
+      "name": "探春令",
+      "score": 19,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "玉漏迟",
+      "score": 17,
+      "color": "#00a6d8"
+    },
+      {
+      "name": "醉太平",
+      "score": 14,
+      "color": "#00a6d8"
+    },
+      {
+      "name": "玉蝴蝶",
+      "score": 12,
+      "color": "#00a6d8"
+    }
+    ,
+      {
+      "name": "庆春宫",
+      "score": 9,
+      "color": "#00a6d8"
+    }
+  ]
+}

@@ -40,11 +40,12 @@ def get_wordcloud() -> dict:
     data_map = PoemsWordCloudConstant.load_all()
     categories: list[dict] = []
     for key in PoemsWordCloudConstant.CATEGORY_ORDER:
+        category_data = data_map.get(key, {})
         categories.append(
             {
                 "key": key,
-                "name": PoemsWordCloudConstant.CATEGORY_META[key]["name"],
-                "words": data_map[key],
+                "name": category_data.get("name", key),
+                "words": category_data.get("words", []),
             }
         )
     return {"categories": categories}

@@ -1,0 +1,374 @@
+:root {
+    --bg: #08101f;
+    --panel: #111d33;
+    --panel-soft: #0d182c;
+    --text: #eef3ff;
+    --muted: #9fb0d1;
+    --line: rgba(255, 255, 255, 0.12);
+    --accent: #5d9bff;
+    --accent-strong: #7ab0ff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: radial-gradient(circle at 20% 0%, #162846 0%, var(--bg) 45%);
+    color: var(--text);
+    font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.5;
+}
+
+.ai-history-page {
+    width: min(1400px, 100%);
+    margin: 0 auto;
+    padding: 28px clamp(16px, 4vw, 40px) 52px;
+    display: grid;
+    gap: 20px;
+}
+
+.hero,
+.controls,
+.year-nav,
+.timeline,
+.keyword-index {
+    background: rgba(12, 20, 35, 0.85);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+}
+
+.hero {
+    padding: 24px;
+}
+
+.hero h1 {
+    margin: 6px 0 10px;
+    font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+}
+
+.hero__kicker {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hero__desc {
+    margin: 0 0 14px;
+    max-width: 920px;
+    color: #d4def4;
+}
+
+.hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(93, 155, 255, 0.12);
+    border: 1px solid rgba(93, 155, 255, 0.26);
+}
+
+.chip strong {
+    font-size: 1rem;
+    color: #e8f1ff;
+}
+
+.chip span {
+    font-size: 0.86rem;
+    color: #cadeff;
+}
+
+.controls {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.control {
+    display: grid;
+    gap: 6px;
+}
+
+.control--grow {
+    grid-column: span 2;
+}
+
+.control label {
+    color: var(--muted);
+    font-size: 0.84rem;
+}
+
+select,
+input[type="search"] {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--panel-soft);
+    color: var(--text);
+    padding: 10px 12px;
+}
+
+.year-nav {
+    padding: 12px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.year-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+button {
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--panel-soft);
+    color: var(--text);
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    border-color: rgba(122, 176, 255, 0.5);
+    color: var(--accent-strong);
+}
+
+button.active {
+    background: rgba(93, 155, 255, 0.2);
+    border-color: rgba(93, 155, 255, 0.54);
+    color: #eef5ff;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.timeline {
+    padding: 16px;
+    display: grid;
+    gap: 16px;
+}
+
+.year-section {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px;
+    background: rgba(17, 29, 51, 0.45);
+}
+
+.year-section__title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.year-section__title h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.year-section__title p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.event-card {
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    padding: 12px;
+    background: rgba(9, 17, 31, 0.8);
+    display: grid;
+    gap: 10px;
+}
+
+.event-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.event-card__head h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.event-card__year {
+    margin: 0;
+    color: var(--accent-strong);
+    font-size: 0.86rem;
+}
+
+.event-card__note {
+    margin: 0;
+    color: #d0dcf6;
+    font-size: 0.92rem;
+}
+
+.meta-block {
+    display: grid;
+    gap: 6px;
+}
+
+.meta-title {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag-list span {
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: rgba(93, 155, 255, 0.13);
+    border: 1px solid rgba(93, 155, 255, 0.25);
+}
+
+.empty-state {
+    margin: 0;
+    padding: 18px;
+    border-radius: 10px;
+    color: var(--muted);
+    border: 1px dashed var(--line);
+    background: rgba(7, 13, 24, 0.6);
+}
+
+.keyword-index {
+    padding: 16px;
+    display: grid;
+    gap: 16px;
+}
+
+.keyword-controls {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr);
+    gap: 10px;
+}
+
+.section-title h2 {
+    margin: 0;
+}
+
+.section-title p {
+    margin: 4px 0 0;
+    color: var(--muted);
+}
+
+.keyword-groups {
+    display: grid;
+    gap: 12px;
+}
+
+.keyword-group {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(8, 15, 27, 0.75);
+    padding: 12px;
+    display: grid;
+    gap: 10px;
+}
+
+.keyword-group h3 {
+    margin: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.keyword-group h3 small,
+.keyword-section h4 small {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.keyword-section {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    background: rgba(12, 23, 39, 0.6);
+    padding: 10px;
+    display: grid;
+    gap: 8px;
+}
+
+.keyword-section h4 {
+    margin: 0;
+    font-size: 0.94rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.keyword-tags span {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.74rem;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #deebff;
+    line-height: 1.45;
+}
+
+.keyword-tags mark {
+    background: rgba(122, 176, 255, 0.35);
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 0 2px;
+}
+
+@media (max-width: 900px) {
+    .control--grow {
+        grid-column: span 1;
+    }
+
+    .year-nav {
+        grid-template-columns: 1fr;
+    }
+
+    .year-nav > button {
+        width: 100%;
+    }
+}
+

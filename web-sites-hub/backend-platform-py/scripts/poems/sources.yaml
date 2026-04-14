@@ -1,13 +1,13 @@
 sources:
   - name: poet_tang_0
     enabled: true
-    local_path: /Users/didi/Workspace/code-dojo/web-sites-hub/backend-platform-py/data/chinese-poetry-master/全唐诗/poet.tang.0.json
+    local_path: data/chinese-poetry-master/全唐诗/poet.tang.0.json
     category: 古诗
     dynasty: 唐
 
   - name: poet_song_0
     enabled: true
-    local_path: /Users/didi/Workspace/code-dojo/web-sites-hub/backend-platform-py/data/chinese-poetry-master/全唐诗/poet.song.0.json
+    local_path: data/chinese-poetry-master/全唐诗/poet.song.0.json
     category: 古诗
     dynasty: 宋
 

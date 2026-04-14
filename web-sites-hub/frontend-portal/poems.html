@@ -10,48 +10,54 @@
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=ZCOOL+XiaoWei&display=swap");
-        :root{--poems-accent:#6ea6ff;--poems-strong:#7c6dff;--poems-card:rgba(16,22,35,.76);--poems-stroke:rgba(128,153,201,.25)}
-        body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:radial-gradient(1200px 620px at 12% -5%,rgba(77,139,255,.22),transparent 60%),radial-gradient(900px 500px at 88% 110%,rgba(126,91,255,.16),transparent 60%),#050914}
-        body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(125,153,211,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(125,153,211,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black 35%,transparent 85%);opacity:.45;z-index:0}
+        :root{--poems-accent:#6ea6ff;--poems-strong:#7c6dff;--poems-card:rgba(16,22,35,.76);--poems-stroke:rgba(128,153,201,.25);--poems-page-bg:radial-gradient(1200px 620px at 12% -5%,rgba(77,139,255,.22),transparent 60%),radial-gradient(900px 500px at 88% 110%,rgba(126,91,255,.16),transparent 60%),#050914;--poems-grid-line:rgba(125,153,211,.06);--poems-grid-line-x:rgba(125,153,211,.05);--poems-grid-opacity:.45;--poems-panel-bg:linear-gradient(145deg,rgba(17,24,39,.92),rgba(11,17,28,.85));--poems-panel-shadow:0 20px 45px rgba(4,8,18,.45);--poems-text:#e4ecff;--poems-subtext:#a8b3c9;--poems-input-bg:rgba(10,16,29,.72);--poems-chip-bg:rgba(21,31,50,.75);--poems-btn-bg:rgba(17,24,40,.8);--poems-top-btn-bg:rgba(27,37,59,.58);--poems-top-btn-hover-bg:rgba(38,52,83,.72);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(96,150,255,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(129,99,255,.16),transparent 58%),rgba(9,14,27,.74);--poems-title-gradient:linear-gradient(90deg,#f0f6ff,#c6d8ff 55%,#9ad4ff)}
+        [data-theme="light"]{--poems-page-bg:radial-gradient(1000px 520px at 12% -10%,rgba(213,168,83,.18),transparent 58%),radial-gradient(850px 500px at 90% 110%,rgba(185,143,72,.14),transparent 62%),#f8f1df;--poems-grid-line:rgba(158,124,72,.14);--poems-grid-line-x:rgba(158,124,72,.11);--poems-grid-opacity:.3;--poems-panel-bg:linear-gradient(145deg,rgba(255,250,236,.94),rgba(246,234,204,.9));--poems-panel-shadow:0 16px 34px rgba(120,89,40,.16);--poems-stroke:rgba(165,127,76,.32);--poems-text:#4f3a22;--poems-subtext:#7b5f3a;--poems-input-bg:rgba(255,248,228,.95);--poems-chip-bg:rgba(252,241,212,.95);--poems-btn-bg:rgba(249,236,201,.92);--poems-top-btn-bg:rgba(247,232,193,.92);--poems-top-btn-hover-bg:rgba(240,222,178,.95);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(216,175,95,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(187,145,74,.16),transparent 58%),rgba(251,242,216,.9);--poems-title-gradient:linear-gradient(90deg,#7a5525,#b07a35 45%,#d29a4d 100%)}
+        body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--poems-page-bg);color:var(--poems-text)}
+        body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(var(--poems-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--poems-grid-line-x) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black 35%,transparent 85%);opacity:var(--poems-grid-opacity);z-index:0}
         .container{max-width:min(92vw,1320px)!important;padding:0 1rem}
         .header,.diary-main{position:relative;z-index:1}
         .diary-main{max-width:none!important;width:100%}
         .header{margin-bottom:1.1rem}
-        .hero,.panel{background:linear-gradient(145deg,rgba(17,24,39,.92),rgba(11,17,28,.85));border:1px solid var(--poems-stroke);border-radius:20px;padding:1.2rem;backdrop-filter:blur(10px);box-shadow:0 20px 45px rgba(4,8,18,.45);margin-bottom:1rem}
+        .hero,.panel{background:var(--poems-panel-bg);border:1px solid var(--poems-stroke);border-radius:20px;padding:1.2rem;backdrop-filter:blur(10px);box-shadow:var(--poems-panel-shadow);margin-bottom:1rem}
         .hero{padding:1.4rem 1.4rem 1.15rem}
         .hero-head{display:flex;justify-content:space-between;gap:1.2rem;align-items:flex-end;margin-bottom:1rem}
         .hero-kicker{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:#8aa7d8}
-        .hero h1{margin:.15rem 0 .5rem;font-family:"ZCOOL XiaoWei","STKaiti","KaiTi",serif;font-size:2.45rem;font-weight:400;letter-spacing:.04em;background:linear-gradient(90deg,#f0f6ff,#c6d8ff 55%,#9ad4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .hero p{margin:0;color:#a8b3c9;font-size:1.03rem;line-height:1.7;max-width:840px}
+        .hero h1{margin:.15rem 0 .5rem;font-family:"ZCOOL XiaoWei","STKaiti","KaiTi",serif;font-size:2.45rem;font-weight:400;letter-spacing:.04em;background:var(--poems-title-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .hero p{margin:0;color:var(--poems-subtext);font-size:1.03rem;line-height:1.7;max-width:840px}
         .hero-stat{display:flex;gap:.55rem;align-items:center}
         .hero-pill{padding:.36rem .72rem;border-radius:999px;border:1px solid rgba(136,167,228,.32);background:rgba(16,28,50,.72);color:#d8e6ff;font-size:.8rem}
         .hero-grid{display:grid;grid-template-columns:1fr;gap:.9rem;margin-top:1rem}
         .cloud-card{border:1px solid rgba(132,162,228,.24);border-radius:16px;padding:.8rem;background:linear-gradient(160deg,rgba(46,78,140,.14),rgba(26,35,56,.55));transition:transform .28s ease,border-color .28s ease}
         .cloud-card:hover{transform:translateY(-2px);border-color:rgba(149,184,255,.45)}
-        .cloud-title{margin:0 0 .6rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.02rem;color:#e4eeff;letter-spacing:.04em}
-        .word-cloud{position:relative;width:90%;margin:0 auto;height:252px;border-radius:50%;background:radial-gradient(circle at 25% 24%,rgba(96,150,255,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(129,99,255,.16),transparent 58%),rgba(9,14,27,.74);overflow:hidden}
+        .cloud-title{margin:0 0 .6rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.02rem;color:var(--poems-text);letter-spacing:.04em}
+        .word-cloud{position:relative;width:90%;margin:0 auto;height:252px;border-radius:50%;background:var(--poems-cloud-bg);overflow:hidden}
         .word-cloud::after{content:"";position:absolute;inset:10px;border-radius:50%;border:1px solid rgba(147,178,236,.1);pointer-events:none}
         .word-item{position:absolute;white-space:nowrap;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-weight:700;line-height:1;opacity:.95;user-select:none;background:transparent;border:none;padding:0;cursor:pointer;transition:transform .18s ease,filter .18s ease,text-shadow .18s ease}
         .word-item:hover{transform:scale(1.08);filter:brightness(1.16);text-shadow:0 0 12px rgba(127,177,255,.45)}
-        .toolbar{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1fr 1fr 1fr;gap:.65rem}
-        .toolbar input,.toolbar select{background:rgba(10,16,29,.72);color:#e4ecff;border:1px solid rgba(136,160,212,.2);border-radius:12px;padding:.64rem .78rem;outline:none;transition:border-color .18s ease,box-shadow .18s ease}
+        .toolbar{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1fr 1fr 1fr 1fr 1fr;gap:.65rem}
+        .toolbar input,.toolbar select{background:var(--poems-input-bg);color:var(--poems-text);border:1px solid rgba(136,160,212,.2);border-radius:12px;padding:.64rem .78rem;outline:none;transition:border-color .18s ease,box-shadow .18s ease}
         .toolbar input:focus,.toolbar select:focus{border-color:rgba(136,188,255,.72);box-shadow:0 0 0 3px rgba(92,153,255,.16)}
         .toolbar-actions{display:flex;gap:.62rem;flex-wrap:wrap;margin-top:.82rem}
-        .btn{border:1px solid rgba(128,156,214,.3);background:rgba(17,24,40,.8);color:#e6eeff;border-radius:12px;padding:.56rem .9rem;cursor:pointer;transition:all .2s ease}
+        .btn{border:1px solid rgba(128,156,214,.3);background:var(--poems-btn-bg);color:var(--poems-text);border-radius:12px;padding:.56rem .9rem;cursor:pointer;transition:all .2s ease}
         .btn:hover{transform:translateY(-1px);border-color:rgba(168,194,248,.65)}
         .btn.primary{background:linear-gradient(120deg,#4c8bff,#7d6dff);color:#fff;border:none;box-shadow:0 8px 20px rgba(88,120,255,.35)}
         .btn.ghost{background:transparent}
-        .top-btn{border:1px solid rgba(130,158,212,.3);background:rgba(27,37,59,.58);color:#dce9ff;border-radius:999px;padding:.4rem .82rem;cursor:pointer;transition:.2s ease}
-        .top-btn:hover{border-color:rgba(166,196,255,.62);background:rgba(38,52,83,.72)}
-        .meta{color:#aab7cf;font-size:.88rem}
+        .header .header-content{display:flex;align-items:center;gap:.68rem}
+        .top-btn{border:1px solid rgba(130,158,212,.3);background:var(--poems-top-btn-bg);color:var(--poems-text);border-radius:14px;height:56px;display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;cursor:pointer;transition:.2s ease;font-size:1.02rem;line-height:1;white-space:nowrap}
+        .top-btn:hover{border-color:rgba(166,196,255,.62);background:var(--poems-top-btn-hover-bg)}
+        #scriptToggle{min-width:112px}
+        .page-nav-btn{min-width:108px}
+        .theme-toggle{width:56px;height:56px;border-radius:14px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+        .theme-icon{width:22px;height:22px}
+        .meta{color:var(--poems-subtext);font-size:.88rem}
         .chip-wrap{display:flex;flex-wrap:wrap;gap:.48rem;margin-top:.75rem}
-        .chip{border:1px solid rgba(131,155,206,.35);padding:.24rem .6rem;border-radius:999px;font-size:.8rem;cursor:pointer;background:rgba(21,31,50,.75);color:#dde8ff}
+        .chip{border:1px solid rgba(131,155,206,.35);padding:.24rem .6rem;border-radius:999px;font-size:.8rem;cursor:pointer;background:var(--poems-chip-bg);color:var(--poems-text)}
         .chip.active{border-color:#7ab4ff;color:#7ab4ff}
         .poem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:1rem}
         .poem-card{background:linear-gradient(160deg,rgba(16,23,37,.85),rgba(11,18,30,.8));border:1px solid rgba(128,156,206,.25);border-radius:16px;padding:1rem 1rem .95rem;position:relative;box-shadow:0 12px 28px rgba(6,10,20,.35)}
-        .poem-title{margin:0 0 .45rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.28rem;color:#e7efff;letter-spacing:.03em}
-        .poem-author{margin:0 0 .8rem;color:#9fb0cc;font-size:.88rem}
-        .poem-content{white-space:pre-line;line-height:1.78;max-height:14rem;overflow:auto;color:#cad6eb;padding-right:.25rem}
+        .poem-title{margin:0 0 .45rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.28rem;color:var(--poems-text);letter-spacing:.03em}
+        .poem-author{margin:0 0 .8rem;color:var(--poems-subtext);font-size:.88rem}
+        .poem-content{white-space:pre-line;line-height:1.78;max-height:14rem;overflow:auto;color:var(--poems-subtext);padding-right:.25rem}
         .heart-btn{position:absolute;right:.8rem;top:.8rem;width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid rgba(133,155,205,.32);background:rgba(18,27,44,.8);cursor:pointer;display:flex;align-items:center;justify-content:center}
         .heart-btn svg{width:18px;height:18px;stroke:#bcc9df;fill:none;stroke-width:2}
         .heart-btn.active svg{stroke:#ff6b85;fill:#ff5d79}
@@ -69,8 +75,10 @@
         <header class="header">
             <div class="header-content">
                 <span style="flex:1"></span>
-                <button id="scriptToggle" class="top-btn">简体</button>
-                <button id="openFavorites" class="top-btn">❤️ 收藏 <span id="favCount">0</span></button>
+                <button id="scriptToggle" type="button" class="top-btn">简体</button>
+                <button id="navCloud" type="button" class="top-btn page-nav-btn">词云页</button>
+                <button id="navDiscover" type="button" class="top-btn page-nav-btn">检索页</button>
+                <button id="navFavorites" type="button" class="top-btn page-nav-btn">收藏页</button>
                 <button class="theme-toggle" id="themeToggle" title="主题切换"><svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg></button>
             </div>
         </header>
@@ -84,34 +92,24 @@
                             <h1>诗词歌赋探索台</h1>
                             <p>以更现代的方式阅读古典文本：点击词云词条可直接检索，支持多条件筛选、排序、简繁切换与收藏沉淀。</p>
                         </div>
-                        <div class="hero-stat">
-                            <span class="hero-pill">前端词云渲染</span>
-                            <span class="hero-pill">可点击联动检索</span>
-                            <span class="hero-pill">深色高质感</span>
-                        </div>
                     </div>
                     <div class="hero-grid">
                         <div class="cloud-card">
-                            <h3 class="cloud-title">宋词高频词</h3>
+                            <h3 class="cloud-title" id="cloud-title-ci">宋词高频词</h3>
                             <div class="word-cloud" id="cloud-ci"></div>
                         </div>
                         <div class="cloud-card">
-                            <h3 class="cloud-title">唐诗高频词</h3>
+                            <h3 class="cloud-title" id="cloud-title-tang">唐诗高频词</h3>
                             <div class="word-cloud" id="cloud-tang"></div>
                         </div>
                         <div class="cloud-card">
-                            <h3 class="cloud-title">宋诗人名云</h3>
+                            <h3 class="cloud-title" id="cloud-title-song">古今诗词作家高频人名</h3>
                             <div class="word-cloud" id="cloud-song"></div>
                         </div>
                         <div class="cloud-card">
-                            <h3 class="cloud-title">词牌名词云</h3>
+                            <h3 class="cloud-title" id="cloud-title-cipai">宋词高频词牌</h3>
                             <div class="word-cloud" id="cloud-cipai"></div>
                         </div>
-                    </div>
-                    <p class="cloud-tip">提示：点击词云中的任意词条，会自动进入检索页并以该词作为关键词筛选。</p>
-                    <div class="toolbar-actions" style="margin-top:1rem">
-                        <button id="startExplore" class="btn primary">开始检索</button>
-                        <button id="gotoFavoritesFromLanding" class="btn ghost">查看我的收藏</button>
                     </div>
             </div>
         </section>
@@ -124,6 +122,13 @@
                         <input id="tagInput" type="text" placeholder="标签">
                         <select id="dynastySelect"><option value="">全部朝代</option></select>
                         <select id="categorySelect"><option value="">全部分类</option></select>
+                        <select id="pageSizeSelect">
+                            <option value="10">10/页</option>
+                            <option value="20" selected>20/页</option>
+                            <option value="50">50/页</option>
+                            <option value="100">100/页</option>
+                        </select>
+                        <input id="pageInput" type="number" min="1" step="1" value="1" placeholder="页码">
                         <select id="sortSelect">
                             <option value="default">默认排序</option>
                             <option value="title_asc">标题升序</option>
@@ -134,7 +139,6 @@
                     <div class="toolbar-actions">
                         <button id="searchBtn" class="btn primary">应用筛选</button>
                         <button id="resetBtn" class="btn">重置</button>
-                        <button id="backLandingBtn" class="btn ghost">返回首页</button>
                     </div>
                     <div class="chip-wrap" id="hotKeywords"></div>
             </div>
@@ -160,388 +164,7 @@
         </main>
     </div>
     <script src="assets/js/main.js?v=20260203"></script>
-    <script src="assets/js/poems.api.js?v=20260414"></script>
-    <script>
-        const poemsApi = window.POEMS_API || {};
-        const apiBaseUrl = poemsApi.baseUrl || "http://127.0.0.1:8300/api/v1";
-        const pageSize = Math.min(Number(poemsApi.pageSize || 100), 100);
-        const apiUrl = `${apiBaseUrl}/poems?page=1&page_size=${pageSize}`;
-        const wordcloudApiUrl = `${apiBaseUrl}/poems/meta/wordcloud`;
-        const STORAGE_KEY_FAVORITES = "poems-favorites-v1";
-        const STORAGE_KEY_SCRIPT = "poems-script-mode";
-        let scriptMode = localStorage.getItem(STORAGE_KEY_SCRIPT) || "simplified";
-        let poems = [];
-        let filtered = [];
-        let loaded = false;
-        let favorites = JSON.parse(localStorage.getItem(STORAGE_KEY_FAVORITES) || "{}");
-        let activeHot = "";
-
-        const fallback = [
-            { title: "定风波", title_simplified: "定风波", title_traditional: "定風波", author: "苏轼", dynasty: "宋", category: "宋词", tags: "豁达", content_simplified: "莫听穿林打叶声，何妨吟啸且徐行。", content_traditional: "莫聽穿林打葉聲，何妨吟嘯且徐行。" },
-            { title: "将进酒", title_simplified: "将进酒", title_traditional: "將進酒", author: "李白", dynasty: "唐", category: "古诗", tags: "豪放", content_simplified: "君不见，黄河之水天上来。", content_traditional: "君不見，黃河之水天上來。" }
-        ];
-        const defaultCloudData = {
-            ci: [
-                ["明月", 56], ["春风", 52], ["江南", 45], ["归来", 44], ["天涯", 41], ["相思", 40],
-                ["风流", 38], ["梅花", 35], ["斜阳", 33], ["楼台", 30], ["往事", 29], ["夜雨", 27]
-            ],
-            tang: [
-                ["长安", 58], ["春风", 54], ["明月", 53], ["黄河", 46], ["故人", 44], ["青山", 41],
-                ["万里", 39], ["白云", 36], ["江城", 33], ["边塞", 30], ["秋风", 28], ["归舟", 26]
-            ],
-            song: [
-                ["苏轼", 60], ["陆游", 53], ["辛弃疾", 49], ["杨万里", 43], ["范成大", 40], ["梅尧臣", 37],
-                ["王安石", 35], ["欧阳修", 33], ["黄庭坚", 31], ["晏殊", 28], ["曾巩", 26], ["秦观", 24]
-            ],
-            ci_pai: [
-                ["水调歌头", 100], ["念奴娇", 96], ["沁园春", 94], ["满江红", 92], ["临江仙", 90], ["西江月", 88],
-                ["鹧鸪天", 86], ["菩萨蛮", 84], ["蝶恋花", 82], ["虞美人", 80], ["青玉案", 78], ["如梦令", 76]
-            ]
-        };
-        let cloudData = { ...defaultCloudData };
-
-        function keyOf(poem) { return `${poem.title_simplified || poem.title}__${poem.author}`; }
-        function getTitle(poem) { return scriptMode === "traditional" ? (poem.title_traditional || poem.title) : (poem.title_simplified || poem.title); }
-        function getContent(poem) { return scriptMode === "traditional" ? (poem.content_traditional || poem.content || "") : (poem.content_simplified || poem.content || ""); }
-        function setView(name) { ["landing", "discover", "favorites"].forEach((v) => document.getElementById(`${v}View`).classList.toggle("active", v === name)); }
-        function updateScriptButton() { document.getElementById("scriptToggle").textContent = scriptMode === "traditional" ? "繁体" : "简体"; }
-        function updateFavCount() { document.getElementById("favCount").textContent = Object.keys(favorites).length; }
-        function saveFavorites() { localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favorites)); updateFavCount(); }
-
-        function createHeartSvg() {
-            return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.2-4.4-9-8.1C.7 9.9 1.5 5.8 5.2 4.4c2.4-.9 4.6-.1 6 1.6 1.5-1.7 3.7-2.5 6-1.6 3.7 1.4 4.5 5.5 2.2 8.5C18.2 16.6 12 21 12 21z"></path></svg>';
-        }
-
-        function createSeededRandom(seed) {
-            let s = seed >>> 0;
-            return () => {
-                s = (s * 1664525 + 1013904223) >>> 0;
-                return s / 4294967296;
-            };
-        }
-
-        function renderCloud(elId, words, seed) {
-            const root = document.getElementById(elId);
-            if (!root) return;
-            root.innerHTML = "";
-            const rand = createSeededRandom(seed);
-            const sourceWords = Array.isArray(words) && words.length ? words : [["空白", 10, "#7aa7ff"]];
-            const maxWeight = Math.max(...sourceWords.map((x) => Number(x[1]) || 10));
-            const minWeight = Math.min(...sourceWords.map((x) => Number(x[1]) || 10));
-            const placed = [];
-            const rootWidth = root.clientWidth || 420;
-            const rootHeight = root.clientHeight || 230;
-            const centerX = rootWidth / 2;
-            const centerY = rootHeight / 2;
-            const measureCanvas = document.createElement("canvas");
-            const measureCtx = measureCanvas.getContext("2d");
-
-            function overlap(a, b) {
-                return !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
-            }
-
-            function estimateRect(text, fontSize) {
-                let width = Math.max(26, text.length * fontSize * 1.02);
-                if (measureCtx) {
-                    measureCtx.font = `700 ${fontSize}px "Noto Serif SC","Songti SC","STSong",serif`;
-                    width = Math.max(26, measureCtx.measureText(text).width + 2);
-                }
-                const height = fontSize * 1.18;
-                return { width, height };
-            }
-
-            function inEllipse(rect) {
-                const rx = rootWidth * 0.5 - 14;
-                const ry = rootHeight * 0.5 - 12;
-                const cx = rootWidth * 0.5;
-                const cy = rootHeight * 0.5;
-                const points = [
-                    { x: rect.left, y: rect.top },
-                    { x: rect.right, y: rect.top },
-                    { x: rect.left, y: rect.bottom },
-                    { x: rect.right, y: rect.bottom }
-                ];
-                return points.every((p) => {
-                    const nx = (p.x - cx) / rx;
-                    const ny = (p.y - cy) / ry;
-                    return nx * nx + ny * ny <= 1;
-                });
-            }
-
-            function scoreRatio(weight) {
-                if (maxWeight === minWeight) return 1;
-                return (weight - minWeight) / (maxWeight - minWeight);
-            }
-
-            function scoreColor(weight) {
-                const ratio = scoreRatio(weight);
-                const hue = 210 - Math.round(ratio * 150);
-                const saturation = 74;
-                const lightness = 78 - Math.round(ratio * 30);
-                return `hsl(${hue} ${saturation}% ${lightness}%)`;
-            }
-
-            function clamp(v, min, max) {
-                return Math.max(min, Math.min(max, v));
-            }
-
-            function computeTiltAngle(rect) {
-                const itemCx = (rect.left + rect.right) / 2;
-                const itemCy = (rect.top + rect.bottom) / 2;
-                const dx = itemCx - centerX;
-                const dy = itemCy - centerY;
-                const maxRadius = Math.hypot(centerX, centerY) || 1;
-                const distRatio = Math.min(1, Math.hypot(dx, dy) / maxRadius);
-                const absAngle = 2 + distRatio * 10;
-
-                // Quadrant-based direction:
-                // Q1(+,-) / Q3(-,+) tilt one way, Q2(-,-) / Q4(+,+) tilt the opposite way.
-                const sameSign = (dx >= 0 && dy >= 0) || (dx < 0 && dy < 0);
-                return sameSign ? absAngle : -absAngle;
-            }
-
-            function tryPlaceInSpiral(size, angleOffset) {
-                const maxRadius = Math.max(rootWidth, rootHeight);
-                const step = 4.2;
-                for (let r = 0; r < maxRadius; r += step) {
-                    const theta = r * 0.18 + angleOffset;
-                    const x = centerX + r * Math.cos(theta) - size.width / 2;
-                    const y = centerY + r * Math.sin(theta) - size.height / 2;
-                    const left = clamp(Math.round(x), 0, Math.max(0, rootWidth - size.width - 2));
-                    const top = clamp(Math.round(y), 0, Math.max(0, rootHeight - size.height - 2));
-                    const rect = { left, top, right: left + size.width, bottom: top + size.height };
-                    const hit = placed.some((p) => overlap(rect, p));
-                    if (!hit && inEllipse(rect)) return rect;
-                }
-                return null;
-            }
-
-            const sorted = [...sourceWords].sort((a, b) => (Number(b[1]) || 0) - (Number(a[1]) || 0));
-            sorted.forEach(([text, weight, color]) => {
-                const item = document.createElement("button");
-                item.type = "button";
-                item.className = "word-item";
-                const numericWeight = Number(weight) || 10;
-                const ratio = numericWeight / maxWeight;
-                const fontSize = Math.round(13 + ratio * 34);
-                item.style.fontSize = `${fontSize}px`;
-                item.style.color = color || scoreColor(numericWeight);
-                item.textContent = text;
-                item.title = `点击检索「${text}」`;
-                item.addEventListener("click", () => triggerCloudSearch(text));
-
-                const size = estimateRect(text, fontSize);
-                let chosen = tryPlaceInSpiral(size, rand() * Math.PI * 2);
-                if (!chosen) {
-                    return;
-                }
-                placed.push(chosen);
-                item.style.left = `${chosen.left}px`;
-                item.style.top = `${chosen.top}px`;
-                item.style.transform = `rotate(${computeTiltAngle(chosen).toFixed(1)}deg)`;
-                root.appendChild(item);
-            });
-        }
-
-        function renderLandingClouds() {
-            renderCloud("cloud-ci", cloudData.ci, 1103);
-            renderCloud("cloud-tang", cloudData.tang, 2207);
-            renderCloud("cloud-song", cloudData.song, 3311);
-            renderCloud("cloud-cipai", cloudData.ci_pai, 4417);
-        }
-
-        function normalizeCloudData(payload) {
-            const categories = payload?.data?.categories || payload?.categories || [];
-            const map = {};
-            categories.forEach((item) => {
-                if (!item?.key || !Array.isArray(item.words)) return;
-                const list = item.words
-                    .slice(0, 100)
-                    .map((entry) => {
-                        if (!Array.isArray(entry) || entry.length < 2) return null;
-                        return [String(entry[0]), Number(entry[1]) || 10, String(entry[2] || "")];
-                    })
-                    .filter(Boolean);
-                map[item.key] = list;
-            });
-            return {
-                ci: map.ci?.length ? map.ci : defaultCloudData.ci,
-                tang: map.tang?.length ? map.tang : defaultCloudData.tang,
-                song: map.song_people?.length ? map.song_people : defaultCloudData.song,
-                ci_pai: map.ci_pai?.length ? map.ci_pai : defaultCloudData.ci_pai,
-            };
-        }
-
-        async function loadWordcloudData() {
-            try {
-                const res = await fetch(wordcloudApiUrl, { signal: AbortSignal.timeout(5000) });
-                const payload = await res.json();
-                cloudData = normalizeCloudData(payload);
-            } catch {
-                cloudData = { ...defaultCloudData };
-            }
-            renderLandingClouds();
-        }
-
-        async function triggerCloudSearch(word) {
-            await ensureLoaded();
-            setView("discover");
-            document.getElementById("keywordInput").value = word || "";
-            document.getElementById("tagInput").value = "";
-            activeHot = "";
-            applyFilters();
-        }
-
-        function renderCard(poem, favView = false) {
-            const card = document.createElement("article");
-            const key = keyOf(poem);
-            card.className = "poem-card";
-            card.innerHTML = `
-                <button class="heart-btn ${favorites[key] ? "active" : ""}" title="收藏">${createHeartSvg()}</button>
-                <h3 class="poem-title">${getTitle(poem)}</h3>
-                <p class="poem-author">${poem.dynasty ? poem.dynasty + " · " : ""}${poem.author}${poem.category ? " · " + poem.category : ""}</p>
-                <div class="poem-content">${getContent(poem)}</div>
-            `;
-            card.querySelector(".heart-btn").addEventListener("click", () => {
-                if (favorites[key]) delete favorites[key];
-                else favorites[key] = { id: poem.id, title_simplified: poem.title_simplified || poem.title, title_traditional: poem.title_traditional || poem.title, author: poem.author, dynasty: poem.dynasty, category: poem.category };
-                saveFavorites();
-                renderDiscover();
-                renderFavorites();
-                if (favView && !favorites[key]) card.remove();
-            });
-            return card;
-        }
-
-        function buildHotWords(list) {
-            const map = {};
-            list.forEach((p) => String(p.tags || "").split(/[，,、\s]+/).filter(Boolean).forEach((w) => map[w] = (map[w] || 0) + 1));
-            return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 15).map((x) => x[0]);
-        }
-
-        function renderHotWords(list) {
-            const root = document.getElementById("hotKeywords");
-            root.innerHTML = "";
-            buildHotWords(list).forEach((w) => {
-                const chip = document.createElement("button");
-                chip.className = `chip ${activeHot === w ? "active" : ""}`;
-                chip.textContent = w;
-                chip.addEventListener("click", () => {
-                    activeHot = activeHot === w ? "" : w;
-                    document.getElementById("tagInput").value = activeHot;
-                    applyFilters();
-                });
-                root.appendChild(chip);
-            });
-        }
-
-        function renderSelects() {
-            const dSet = [...new Set(poems.map((p) => p.dynasty).filter(Boolean))].sort();
-            const cSet = [...new Set(poems.map((p) => p.category).filter(Boolean))].sort();
-            document.getElementById("dynastySelect").innerHTML = '<option value="">全部朝代</option>' + dSet.map((d) => `<option value="${d}">${d}</option>`).join("");
-            document.getElementById("categorySelect").innerHTML = '<option value="">全部分类</option>' + cSet.map((c) => `<option value="${c}">${c}</option>`).join("");
-        }
-
-        function sortPoems(list) {
-            const mode = document.getElementById("sortSelect").value;
-            const arr = [...list];
-            if (mode === "title_asc") arr.sort((a, b) => getTitle(a).localeCompare(getTitle(b), "zh-Hans-CN"));
-            if (mode === "author_asc") arr.sort((a, b) => (a.author || "").localeCompare(b.author || "", "zh-Hans-CN"));
-            if (mode === "dynasty_asc") arr.sort((a, b) => (a.dynasty || "").localeCompare(b.dynasty || "", "zh-Hans-CN"));
-            return arr;
-        }
-
-        function applyFilters() {
-            const keyword = (document.getElementById("keywordInput").value || "").trim();
-            const author = (document.getElementById("authorInput").value || "").trim();
-            const tag = (document.getElementById("tagInput").value || "").trim();
-            const dynasty = document.getElementById("dynastySelect").value;
-            const category = document.getElementById("categorySelect").value;
-            filtered = poems.filter((p) => {
-                const text = `${p.title} ${p.title_simplified || ""} ${p.title_traditional || ""} ${p.author || ""} ${p.content_simplified || ""} ${p.content_traditional || ""} ${p.tags || ""}`;
-                return (!keyword || text.includes(keyword)) && (!author || (p.author || "").includes(author)) && (!tag || (p.tags || "").includes(tag)) && (!dynasty || p.dynasty === dynasty) && (!category || p.category === category);
-            });
-            filtered = sortPoems(filtered);
-            renderHotWords(filtered.length ? filtered : poems);
-            renderDiscover();
-        }
-
-        function renderDiscover() {
-            const grid = document.getElementById("poemGrid");
-            grid.innerHTML = "";
-            filtered.forEach((p) => grid.appendChild(renderCard(p)));
-            document.getElementById("discoverEmpty").style.display = filtered.length ? "none" : "block";
-            document.getElementById("resultMeta").textContent = `筛选结果 ${filtered.length} / 总数 ${poems.length}`;
-            updateScriptButton();
-            updateFavCount();
-        }
-
-        function renderFavorites() {
-            const favList = poems.filter((p) => favorites[keyOf(p)]);
-            const grid = document.getElementById("favoritesGrid");
-            grid.innerHTML = "";
-            favList.forEach((p) => grid.appendChild(renderCard(p, true)));
-            document.getElementById("favoritesEmpty").style.display = favList.length ? "none" : "block";
-        }
-
-        async function ensureLoaded() {
-            if (loaded) return;
-            try {
-                const res = await fetch(apiUrl, { signal: AbortSignal.timeout(5000) });
-                const payload = await res.json();
-                poems = payload?.data?.items || [];
-                if (!poems.length) poems = fallback;
-            } catch {
-                poems = fallback;
-            }
-            loaded = true;
-            filtered = [...poems];
-            renderSelects();
-            renderHotWords(poems);
-        }
-
-        function resetFilters() {
-            ["keywordInput", "authorInput", "tagInput"].forEach((id) => document.getElementById(id).value = "");
-            ["dynastySelect", "categorySelect", "sortSelect"].forEach((id) => document.getElementById(id).value = id === "sortSelect" ? "default" : "");
-            activeHot = "";
-            filtered = sortPoems([...poems]);
-            renderHotWords(poems);
-            renderDiscover();
-        }
-
-        function bindEvents() {
-            document.getElementById("startExplore").addEventListener("click", async () => { await ensureLoaded(); setView("discover"); renderDiscover(); });
-            document.getElementById("gotoFavoritesFromLanding").addEventListener("click", async () => { await ensureLoaded(); setView("favorites"); renderFavorites(); });
-            document.getElementById("openFavorites").addEventListener("click", async () => { await ensureLoaded(); setView("favorites"); renderFavorites(); });
-            document.getElementById("backLandingBtn").addEventListener("click", () => setView("landing"));
-            document.getElementById("backDiscoverBtn").addEventListener("click", () => setView("discover"));
-            document.getElementById("backLandingFromFav").addEventListener("click", () => setView("landing"));
-            document.getElementById("searchBtn").addEventListener("click", applyFilters);
-            document.getElementById("resetBtn").addEventListener("click", resetFilters);
-            document.getElementById("sortSelect").addEventListener("change", applyFilters);
-            document.getElementById("scriptToggle").addEventListener("click", () => {
-                scriptMode = scriptMode === "simplified" ? "traditional" : "simplified";
-                localStorage.setItem(STORAGE_KEY_SCRIPT, scriptMode);
-                if (loaded) { renderDiscover(); renderFavorites(); }
-                updateScriptButton();
-            });
-            document.getElementById("exportFavoritesBtn").addEventListener("click", () => {
-                const output = poems.filter((p) => favorites[keyOf(p)]).map((p) => ({ id: p.id, title_simplified: p.title_simplified || p.title, title_traditional: p.title_traditional || p.title, author: p.author, dynasty: p.dynasty, category: p.category, favorite: true }));
-                document.getElementById("favoritesExport").textContent = JSON.stringify(output, null, 2);
-            });
-            document.getElementById("clearFavoritesBtn").addEventListener("click", () => {
-                favorites = {};
-                saveFavorites();
-                if (loaded) { renderDiscover(); renderFavorites(); }
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            loadWordcloudData();
-            updateScriptButton();
-            updateFavCount();
-            bindEvents();
-        });
-    </script>
+    <script src="assets/js/poem.config.js?v=20260415"></script>
+    <script src="assets/js/poem.js?v=20260415b"></script>
 </body>
 </html>

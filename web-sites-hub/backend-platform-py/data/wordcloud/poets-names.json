@@ -1,0 +1,511 @@
+{
+  "category": "poets",
+  "name": "古今著名诗词作家",
+  "items": [
+    {
+      "name": "毛泽东",
+      "score": 1000,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "李白",
+      "score": 990,
+      "color": "#7367f0"
+    },
+    {
+      "name": "杜甫",
+      "score": 970,
+      "color": "#7367f0"
+    },
+    {
+      "name": "白居易",
+      "score": 960,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "苏轼",
+      "score": 950,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "辛弃疾",
+      "score": 940,
+      "color": "#d7881d"
+    },
+    {
+      "name": "陆游",
+      "score": 930,
+      "color": "#c95757"
+    },
+    {
+      "name": "王维",
+      "score": 920,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "李清照",
+      "score": 910,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "杜牧",
+      "score": 900,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "李商隐",
+      "score": 890,
+      "color": "#7367f0"
+    },
+    {
+      "name": "王安石",
+      "score": 880,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "欧阳修",
+      "score": 870,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "杨万里",
+      "score": 860,
+      "color": "#d7881d"
+    },
+    {
+      "name": "范成大",
+      "score": 850,
+      "color": "#c95757"
+    },
+    {
+      "name": "黄庭坚",
+      "score": 840,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "孟浩然",
+      "score": 830,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "岑参",
+      "score": 820,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "高适",
+      "score": 810,
+      "color": "#7367f0"
+    },
+    {
+      "name": "王昌龄",
+      "score": 800,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "韩愈",
+      "score": 790,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "柳宗元",
+      "score": 780,
+      "color": "#d7881d"
+    },
+    {
+      "name": "元稹",
+      "score": 770,
+      "color": "#c95757"
+    },
+    {
+      "name": "刘禹锡",
+      "score": 760,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "柳永",
+      "score": 750,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "秦观",
+      "score": 740,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "周邦彦",
+      "score": 730,
+      "color": "#7367f0"
+    },
+    {
+      "name": "姜夔",
+      "score": 720,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "贺铸",
+      "score": 710,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "晏殊",
+      "score": 700,
+      "color": "#d7881d"
+    },
+    {
+      "name": "晏几道",
+      "score": 690,
+      "color": "#c95757"
+    },
+    {
+      "name": "陶渊明",
+      "score": 680,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "曹操",
+      "score": 670,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "曹植",
+      "score": 660,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "谢灵运",
+      "score": 650,
+      "color": "#7367f0"
+    },
+    {
+      "name": "屈原",
+      "score": 640,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "文天祥",
+      "score": 630,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "龚自珍",
+      "score": 620,
+      "color": "#d7881d"
+    },
+    {
+      "name": "纳兰性德",
+      "score": 610,
+      "color": "#c95757"
+    },
+    {
+      "name": "袁枚",
+      "score": 600,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "于谦",
+      "score": 590,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "王勃",
+      "score": 580,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "陈子昂",
+      "score": 570,
+      "color": "#7367f0"
+    },
+    {
+      "name": "骆宾王",
+      "score": 560,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "王之涣",
+      "score": 550,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "孟郊",
+      "score": 540,
+      "color": "#d7881d"
+    },
+    {
+      "name": "贾岛",
+      "score": 530,
+      "color": "#c95757"
+    },
+    {
+      "name": "李贺",
+      "score": 520,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "韦应物",
+      "score": 510,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "温庭筠",
+      "score": 500,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "韦庄",
+      "score": 490,
+      "color": "#7367f0"
+    },
+    {
+      "name": "李煜",
+      "score": 480,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "张九龄",
+      "score": 470,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "王绩",
+      "score": 460,
+      "color": "#d7881d"
+    },
+    {
+      "name": "卢纶",
+      "score": 450,
+      "color": "#c95757"
+    },
+    {
+      "name": "李益",
+      "score": 440,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "崔颢",
+      "score": 430,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "常建",
+      "score": 420,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "王翰",
+      "score": 410,
+      "color": "#7367f0"
+    },
+    {
+      "name": "崔护",
+      "score": 400,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "张若虚",
+      "score": 390,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "梅尧臣",
+      "score": 180,
+      "color": "#d7881d"
+    },
+    {
+      "name": "陈与义",
+      "score": 175,
+      "color": "#c95757"
+    },
+    {
+      "name": "曾巩",
+      "score": 170,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "张耒",
+      "score": 165,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "朱熹",
+      "score": 160,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "司马光",
+      "score": 155,
+      "color": "#7367f0"
+    },
+    {
+      "name": "范仲淹",
+      "score": 150,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "苏辙",
+      "score": 145,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "苏洵",
+      "score": 140,
+      "color": "#d7881d"
+    },
+    {
+      "name": "张先",
+      "score": 135,
+      "color": "#c95757"
+    },
+    {
+      "name": "张孝祥",
+      "score": 130,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "吴文英",
+      "score": 125,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "史达祖",
+      "score": 120,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "周密",
+      "score": 115,
+      "color": "#7367f0"
+    },
+    {
+      "name": "蒋捷",
+      "score": 110,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "陆龟蒙",
+      "score": 105,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "皮日休",
+      "score": 100,
+      "color": "#d7881d"
+    },
+    {
+      "name": "张祜",
+      "score": 95,
+      "color": "#c95757"
+    },
+    {
+      "name": "许浑",
+      "score": 90,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "罗隐",
+      "score": 85,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "沈佺期",
+      "score": 60,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "宋之问",
+      "score": 58,
+      "color": "#7367f0"
+    },
+    {
+      "name": "崔融",
+      "score": 56,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "卢照邻",
+      "score": 54,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "杨炯",
+      "score": 52,
+      "color": "#d7881d"
+    },
+    {
+      "name": "卢思道",
+      "score": 50,
+      "color": "#c95757"
+    },
+    {
+      "name": "庾信",
+      "score": 48,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "鲍照",
+      "score": 46,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "江淹",
+      "score": 44,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "何逊",
+      "score": 42,
+      "color": "#7367f0"
+    },
+    {
+      "name": "阴铿",
+      "score": 40,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "谢朓",
+      "score": 38,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "徐陵",
+      "score": 36,
+      "color": "#d7881d"
+    },
+    {
+      "name": "王褒",
+      "score": 34,
+      "color": "#c95757"
+    },
+    {
+      "name": "孔稚珪",
+      "score": 32,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "谢庄",
+      "score": 30,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "庾肩吾",
+      "score": 28,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "徐彦伯",
+      "score": 26,
+      "color": "#7367f0"
+    },
+    {
+      "name": "上官仪",
+      "score": 24,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "沈约",
+      "score": 22,
+      "color": "#2aa36b"
+    }
+  ]
+}

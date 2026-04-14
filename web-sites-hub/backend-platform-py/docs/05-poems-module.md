@@ -152,6 +152,10 @@ uvicorn app.main:app --reload --port 8300
 
 数据源由 `scripts/poems/sources.yaml` 配置：
 
+- 推荐源数据下载地址（chinese-poetry）：
+  - `https://github.com/chinese-poetry/chinese-poetry/archive/refs/heads/master.zip`
+- 推荐流程：先下载并解压 `master.zip` 到本地目录（如 `data/chinese-poetry-master/`），再通过 `scripts/poems/run.py` 抓取/解析并入库
+
 - `name`：源名称（用于日志和 raw 文件名前缀）
 - `url`：远程 JSON 地址（可选）
 - `local_path`：本地 JSON 文件路径（优先用于离线导入）
@@ -162,6 +166,20 @@ uvicorn app.main:app --reload --port 8300
 脚本会将每个源抓取结果存为时间戳文件，例如：
 
 - `data/raw/poems/poet_tang_0__20260414103022.json`
+
+示例（下载并解压到 `data/`）：
+
+```bash
+cd web-sites-hub/backend-platform-py/data
+curl -L -o chinese-poetry-master.zip https://github.com/chinese-poetry/chinese-poetry/archive/refs/heads/master.zip
+unzip -o chinese-poetry-master.zip
+```
+
+解压后在 `scripts/poems/sources.yaml` 里配置对应的 `local_path` 或 `local_glob`，再执行：
+
+```bash
+python scripts/poems/run.py
+```
 
 ### 数据怎么更新
 

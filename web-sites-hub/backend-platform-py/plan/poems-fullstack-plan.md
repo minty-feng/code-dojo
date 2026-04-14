@@ -2,6 +2,18 @@
 
 本文档基于最初开发计划整理，并结合当前项目实际实现状态更新，作为后续迭代与验收基线。
 
+## 0. 本次 Diff 检查结论（2026-04-15）
+
+- 已基于 `git diff` 复核词云主链路改动（后端常量、服务层、前端 `poem.js`）
+- 静态检查结果：
+  - `app/core/poems_wordcloud.py` 无错误
+  - `app/services/poem_service.py` 无错误
+  - `frontend-portal/assets/js/poem.js` 无错误
+- 本轮字段对齐状态：
+  - 分类键已统一为：`ci / shi / poets / ci_pai`
+  - 词云分类 `name` 由后端从各 json 顶层 `name` 返回
+  - 前端已去掉对旧键 `tang / song_people` 的兼容分支，严格按现有 json 键读取
+
 ## 1. 项目目标
 
 - 将 `frontend-portal/poems.html` 升级为真实前后端分离页面
@@ -164,10 +176,14 @@ python scripts/poems/run.py --skip-crawl
 - 保留 fallback 兜底
 - 适配后端统一返回结构（`data.items`）
 - 增加简繁切换（读取双内容字段）
+- 页面脚本已从内联拆分为：
+  - `frontend-portal/assets/js/poem.js`
+  - `frontend-portal/assets/js/poem.config.js`
+- 词云接口已对接：`/api/v1/poems/meta/wordcloud`
+- 词云渲染字段已与后端 json 对齐：`ci / shi / poets / ci_pai`
 
 建议下一步：
 
-- 抽离内联脚本到 `assets/js/poems.js`
 - 增加关键词搜索、分类筛选、分页/加载更多
 
 ## Phase 8：联调与容错（部分完成）

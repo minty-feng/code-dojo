@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI 与大模型简史（2019-至今）：按年份翻页、全览模式、公司与模型专题索引。">
+    <title>AI 与大模型简史 | 2019-至今</title>
+    <link rel="stylesheet" href="assets/css/aihistory.css">
+</head>
+<body>
+    <div class="ai-history-page">
+        <header class="hero">
+            <p class="hero__kicker">Showcase / AI Timeline</p>
+            <h1>AI 与大模型简史（2019 - 至今）</h1>
+            <p class="hero__desc">覆盖核心模型、关键技术、应用与生态。支持按年份翻页、全览模式、按专题和公司检索，便于系统回顾 AI 发展脉络。</p>
+            <div class="hero__stats" id="stats"></div>
+        </header>
+
+        <section class="controls" aria-label="筛选控制">
+            <div class="control">
+                <label for="viewMode">浏览模式</label>
+                <select id="viewMode">
+                    <option value="timeline">按年份翻页</option>
+                    <option value="overview">全览</option>
+                </select>
+            </div>
+            <div class="control">
+                <label for="topicFilter">专题分类</label>
+                <select id="topicFilter"></select>
+            </div>
+            <div class="control">
+                <label for="companyFilter">公司/机构</label>
+                <select id="companyFilter"></select>
+            </div>
+            <div class="control control--grow">
+                <label for="searchInput">关键词搜索</label>
+                <input id="searchInput" type="search" placeholder="搜索模型、技术、应用、公司...">
+            </div>
+        </section>
+
+        <section class="year-nav" aria-label="年份导航">
+            <button id="prevYearBtn" type="button">上一年</button>
+            <div id="yearTabs" class="year-tabs"></div>
+            <button id="nextYearBtn" type="button">下一年</button>
+        </section>
+
+        <main>
+            <section class="timeline" id="timeline"></section>
+
+            <section class="keyword-index">
+                <div class="section-title">
+                    <h2>关键词全量索引</h2>
+                    <p>下列关键词按专题完整整理，可配合上方筛选进行交叉浏览。</p>
+                </div>
+                <div class="keyword-controls" aria-label="关键词检索控制">
+                    <div class="control control--grow">
+                        <label for="keywordSearchInput">检索词</label>
+                        <input id="keywordSearchInput" type="search" placeholder="输入关键词，如 RAG、量化、Agent、MCP...">
+                    </div>
+                </div>
+                <div id="keywordGroups" class="keyword-groups"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const topicOptions = [
+            { id: "all", name: "全部专题" },
+            { id: "core", name: "核心模型/产品/项目" },
+            { id: "open", name: "开源模型生态" },
+            { id: "multimodal", name: "多模态（图像/视频/音频/代码）" },
+            { id: "agent", name: "智能体与具身智能" },
+            { id: "architecture", name: "模型架构" },
+            { id: "training", name: "训练与优化" },
+            { id: "inference", name: "推理与部署" },
+            { id: "prompting", name: "提示与增强" },
+            { id: "safety", name: "评估/对齐/安全" },
+            { id: "application", name: "应用场景与产品形态" },
+            { id: "tooling", name: "开发工具/平台/生态" }
+        ];
+
+        const timelineData = [
+            {
+                year: 2019,
+                events: [
+                    {
+                        title: "预训练大模型规模化加速",
+                        topic: "core",
+                        companies: ["OpenAI", "Google", "NVIDIA"],
+                        concepts: ["GPT-2 影响延续", "Transformer", "缩放定律", "云计算与多机训练"],
+                        note: "2019 年成为通往生成式 AI 爆发前夜的关键准备期，算力、数据和模型规模共同上扬。"
+                    },
+                    {
+                        title: "中文大模型早期探索",
+                        topic: "open",
+                        companies: ["智源研究院", "北京智源", "上海人工智能实验室"],
+                        concepts: ["悟道", "开源中文语料", "中文预训练", "分布式训练"],
+                        note: "国内机构开始搭建中文大模型基线，推动后续产业化。"
+                    },
+                    {
+                        title: "多模态研究基础成熟",
+                        topic: "multimodal",
+                        companies: ["OpenAI", "Google", "Meta"],
+                        concepts: ["CLIP 思路兴起", "跨模态对齐", "视觉Transformer", "对比学习"],
+                        note: "图文联合建模逐渐形成主线，为文生图时代铺路。"
+                    }
+                ]
+            },
+            {
+                year: 2020,
+                events: [
+                    {
+                        title: "GPT-3 发布",
+                        topic: "core",
+                        companies: ["OpenAI"],
+                        concepts: ["GPT-3", "Decoder-only", "上下文学习", "零样本/少样本提示"],
+                        note: "大语言模型进入公众视野，Prompt 成为新的人机编程接口。"
+                    },
+                    {
+                        title: "企业 API 与模型服务化雏形",
+                        topic: "tooling",
+                        companies: ["OpenAI", "AWS", "Microsoft"],
+                        concepts: ["模型即服务", "API 交付", "服务部署", "推理优化"],
+                        note: "MaaS 模式开始出现，企业应用门槛显著降低。"
+                    }
+                ]
+            },
+            {
+                year: 2021,
+                events: [
+                    {
+                        title: "代码与多模态能力持续增强",
+                        topic: "multimodal",
+                        companies: ["OpenAI", "GitHub", "Google"],
+                        concepts: ["GitHub Copilot", "代码生成", "跨模态任务", "语音识别/合成"],
+                        note: "模型从聊天走向生产力工具，开发者生态成为增长引擎。"
+                    },
+                    {
+                        title: "训练范式升级",
+                        topic: "training",
+                        companies: ["DeepMind", "OpenAI", "Anthropic"],
+                        concepts: ["RLHF", "奖励模型", "PPO", "指令微调"],
+                        note: "对齐与可用性被提升到同等重要位置。"
+                    }
+                ]
+            },
+            {
+                year: 2022,
+                events: [
+                    {
+                        title: "ChatGPT 与文生图破圈",
+                        topic: "core",
+                        companies: ["OpenAI", "Stability AI", "Midjourney"],
+                        concepts: ["ChatGPT", "DALL-E 2", "Stable Diffusion 1.4/1.5/2.0/2.1", "Midjourney"],
+                        note: "生成式 AI 开始大众化，产品形态与商业模式迅速扩张。"
+                    },
+                    {
+                        title: "开源大模型生态爆发",
+                        topic: "open",
+                        companies: ["Meta", "EleutherAI", "BigScience"],
+                        concepts: ["OPT", "GPT-NeoX", "BLOOM/BLOOMZ", "Pythia"],
+                        note: "开源社区成为模型创新与微调实践的重要阵地。"
+                    }
+                ]
+            },
+            {
+                year: 2023,
+                events: [
+                    {
+                        title: "GPT-4 时代与 Agent 元年",
+                        topic: "agent",
+                        companies: ["OpenAI", "Anthropic", "Microsoft", "Google"],
+                        concepts: ["GPT-4", "Claude 1/2", "Gemini Pro", "AutoGPT", "BabyAGI", "LangChain", "LlamaIndex", "函数调用", "工具调用", "RAG"],
+                        note: "从单轮问答转向工具增强与流程自动化，Agent 成为主线。"
+                    },
+                    {
+                        title: "中国大模型产品集中上线",
+                        topic: "core",
+                        companies: ["百度", "阿里云", "腾讯", "字节跳动", "智谱", "月之暗面"],
+                        concepts: ["文心一言", "通义千问", "混元", "豆包", "ChatGLM", "Kimi Chat", "百川", "Minimax"],
+                        note: "国内模型、应用和云平台进入并行竞速阶段。"
+                    },
+                    {
+                        title: "开源模型新一轮加速",
+                        topic: "open",
+                        companies: ["Meta", "Mistral", "Cohere", "Alibaba"],
+                        concepts: ["LLaMA 1/2", "Vicuna", "Alpaca", "MPT", "Falcon", "Mistral 7B", "Mixtral", "Command R", "Qwen 开源版", "Yi 开源版"],
+                        note: "模型小型化与高性价比推理成为实践重点。"
+                    }
+                ]
+            },
+            {
+                year: 2024,
+                events: [
+                    {
+                        title: "原生多模态与低延迟交互",
+                        topic: "multimodal",
+                        companies: ["OpenAI", "Google", "Anthropic", "xAI"],
+                        concepts: ["GPT-4o", "GPT-4o mini", "Claude 3 Opus/Sonnet/Haiku", "Claude 3.5 Sonnet", "Gemini 1.5 Pro/Flash", "Grok-2", "长上下文窗口", "实时语音交互"],
+                        note: "实时、低延迟、多模态成为模型产品新标准。"
+                    },
+                    {
+                        title: "推理优化与工程化成熟",
+                        topic: "inference",
+                        companies: ["vLLM", "Hugging Face", "NVIDIA", "Intel"],
+                        concepts: ["vLLM", "TGI", "TensorRT", "ONNX Runtime", "KV Cache", "连续批处理", "INT4/INT8 量化", "边缘部署", "WebGPU"],
+                        note: "推理成本快速下降，端侧与浏览器 AI 明显提速。"
+                    },
+                    {
+                        title: "视频与3D生成进入产品化",
+                        topic: "multimodal",
+                        companies: ["OpenAI", "Runway", "Luma", "快手", "字节跳动", "Google"],
+                        concepts: ["Sora", "Runway Gen-2", "Pika", "Luma Dream Machine", "Kling", "Veo", "Shap-E", "DreamFusion", "Magic3D"],
+                        note: "文生视频和文生3D 走向商用预览与创作工具集成。"
+                    },
+                    {
+                        title: "中国模型迭代与推理能力跃升",
+                        topic: "core",
+                        companies: ["DeepSeek", "阿里云", "智谱", "腾讯", "百度", "华为云", "商汤", "零一万物"],
+                        concepts: ["DeepSeek Chat/R1", "Qwen2/2.5/2.5-Coder/2.5-VL", "GLM 系列", "腾讯元宝", "百度千帆", "盘古", "日日新", "Yi 系列"],
+                        note: "模型、平台、应用和开发工具形成较完整闭环。"
+                    }
+                ]
+            },
+            {
+                year: 2025,
+                events: [
+                    {
+                        title: "推理模型与任务型智能体深化",
+                        topic: "agent",
+                        companies: ["OpenAI", "Anthropic", "Google", "xAI", "Microsoft"],
+                        concepts: ["o1", "o1-preview", "o3-mini", "o3-mini-high", "规划器/执行器", "反思机制", "长期记忆", "多智能体编排", "AutoGen", "CrewAI", "DSPy", "MCP 协议", "A2A Agent 协同", "ReAct"],
+                        note: "复杂任务拆解、工具自治和可控执行成为企业应用核心需求。"
+                    },
+                    {
+                        title: "模型安全与评测体系升级",
+                        topic: "safety",
+                        companies: ["OpenAI", "Anthropic", "Meta", "学术社区"],
+                        concepts: ["HELM", "MMLU", "BIG-bench", "C-Eval", "CMMLU", "红队测试", "提示注入防护", "内容过滤", "持续对齐", "可解释性", "A/B 评测", "自动化安全回归", "合规审计"],
+                        note: "能力提升与安全治理同步推进。"
+                    }
+                ]
+            },
+            {
+                year: 2026,
+                events: [
+                    {
+                        title: "全栈 AI 生态常态化",
+                        topic: "tooling",
+                        companies: ["OpenAI", "Anthropic", "Google", "阿里云", "腾讯云", "百度", "华为云", "AWS", "Azure", "Hugging Face"],
+                        concepts: ["OpenAI API", "Anthropic API", "Vertex AI", "Bedrock", "Azure AI", "百炼", "千帆", "ModelArts", "Docker/Kubernetes", "MLflow", "Weights & Biases", "Pinecone/Weaviate/Qdrant/Milvus/Chroma", "可观测性", "LLMOps", "在线评测", "回放测试"],
+                        note: "模型、数据、评测、部署、监控逐渐标准化，AI 工程进入规模化运营阶段。"
+                    }
+                ]
+            }
+        ];
+
+        const keywordGroups = [
+            {
+                title: "一、核心模型、产品与项目",
+                sections: [
+                    {
+                        name: "闭源/商业大模型",
+                        tags: ["GPT-3", "GPT-3.5", "GPT-4", "GPT-4 Turbo", "GPT-4.1", "GPT-4o", "GPT-4o mini", "o1", "o1-preview", "o3-mini", "o3-mini-high", "Claude 1", "Claude 2", "Claude 3", "Claude 3 Opus", "Claude 3 Sonnet", "Claude 3 Haiku", "Claude 3.5 Sonnet", "Claude 3.7 Sonnet", "Gemini Pro", "Gemini Ultra", "Gemini Flash", "Gemini 1.5 Pro", "Gemini 1.5 Flash", "Gemini 2.0 Flash", "Gemini Advanced", "Grok", "Grok-1", "Grok-2", "Grok-3", "Inflection-2.5", "Pi AI", "文心一言", "通义千问", "通义灵码", "豆包", "混元", "腾讯元宝", "Kimi Chat", "DeepSeek Chat", "DeepSeek R1", "智谱GLM", "GLM-4", "ChatGLM", "商量", "月之暗面", "零一万物", "Yi 系列", "昆仑万维天工", "海螺AI", "阶跃星辰", "百川智能", "Baichuan", "幻方", "九章", "元象", "网易子日", "昆仑天工", "字节跳动", "腾讯", "阿里云", "百度", "华为云盘古", "商汤日日新", "澜舟", "澜舟科技", "聆心", "彩云", "硅基", "硅基流动", "Minimax", "ABAB", "西湖心辰", "面壁智能", "深言科技", "智源研究院", "北京智源", "上海人工智能实验室", "之江实验室", "IDEA研究院", "粤港澳大湾区数字经济研究院"]
+                    },
+                    {
+                        name: "开源模型",
+                        tags: ["LLaMA 1", "LLaMA 2", "LLaMA 3", "LLaMA 3.1", "LLaMA 3.2", "LLaMA-NeXT", "Code LLaMA", "LLaMA Guard", "Vicuna", "Alpaca", "Dolly", "MPT", "Falcon", "RWKV", "BLOOM", "BLOOMZ", "OPT", "GPT-NeoX", "Pythia", "Stable LM", "OLMo", "Gemma", "Gemma 2", "Mistral 7B", "Mistral 8x7B", "Mistral 8x22B", "Mixtral", "Codestral", "Command R", "Command R+", "Phi 系列", "Phi-3", "TinyLlama", "Qwen 开源版", "Qwen2", "Qwen2.5", "Qwen2.5-Coder", "Qwen2.5-VL", "DeepSeek-V2", "DeepSeek-V3", "DeepSeek-R1 开源版", "Yi 开源版", "ChatGLM 开源版", "Baichuan 开源版", "InternLM", "InternVL", "XVERSE", "Skywork", "Aquila", "OpenBMB", "BMTrain", "FlagAlpha", "悟道", "八卦炉", "封神榜", "文澜", "文图生成", "文生视频", "中文LLaMA", "Chinese-LLaMA-Alpaca", "Phoenix", "BELLE", "ChatYuan", "IDEA-CCNL", "Fengshenbang-LM", "书生·浦语", "灵积"]
+                    },
+                    {
+                        name: "多模态模型",
+                        tags: ["DALL-E 2", "DALL-E 3", "Midjourney", "Stable Diffusion 1.4", "Stable Diffusion 1.5", "Stable Diffusion 2.0", "Stable Diffusion 2.1", "Stable Diffusion XL", "Stable Diffusion 3", "SD3-Medium", "SD3-Turbo", "SDXL", "SDXL Turbo", "LCM", "Flux", "Imagen", "Parti", "CogView", "CogView2", "文心一格", "通义万相", "腾讯混元", "秒画", "盗火者", "Krea", "Leonardo AI", "Playground AI", "Adobe Firefly", "Photoshop Neural Filters", "Generative Fill", "Microsoft Designer", "Bing Image Creator", "Clipdrop", "DreamStudio", "NightCafe", "Wombo Dream", "Disco Diffusion", "NovelAI", "Niji Journey", "Sora", "Runway Gen-1", "Runway Gen-2", "Pika", "Pika Labs", "Stable Video Diffusion", "ModelScope", "VideoCrafter", "Luma Dream Machine", "Kling", "Veo", "LTX Studio", "Haiper", "羲元", "Shap-E", "Point-E", "DreamFusion", "Magic3D", "文生3D", "MusicLM", "MusicGen", "Jukebox", "OpenAI Whisper", "VALL-E", "VALL-E X", "Bark", "GitHub Copilot", "Amazon CodeWhisperer", "Tabnine", "Codeium", "Replit", "CodeGeeX", "阿里云效"]
+                    },
+                    {
+                        name: "智能体与具身模型",
+                        tags: ["OpenClaw", "Clawdbot", "Moltbot", "AutoGPT", "BabyAGI", "LangChain", "LlamaIndex", "Semantic Kernel", "Transformers Agents", "HuggingFace Agents", "DSPy", "CrewAI", "SuperAGI", "MetaGPT", "AutoGen", "TaskWeaver", "LangGraph", "AgentOps", "MCP", "A2A", "智能体编排", "工作流自动化", "Manus", "MaxClaw", "AutoClaw", "Xiaomi miclaw", "ArkClaw", "WorkBuddy", "DuClaw", "JVS Claw", "自主执行", "个性化记忆", "工具调用", "函数调用", "插件系统", "规划器", "执行器", "反思机制", "长期记忆", "短期记忆", "知识图谱集成", "人机协作", "自主智能体", "模拟仿真", "机器人基础模型", "RT-X", "PaLM-E", "RoboCat", "多模态具身模型", "视觉语言导航", "操作指令理解", "仿真训练", "虚实迁移"]
+                    }
+                ]
+            },
+            {
+                title: "二、关键技术、架构与方法论",
+                sections: [
+                    {
+                        name: "模型架构",
+                        tags: ["Transformer", "Decoder-only", "Encoder-only", "Encoder-Decoder", "自注意力", "多头注意力", "位置编码", "旋转位置编码", "相对位置编码", "ALiBi", "前馈网络", "残差连接", "层归一化", "GELU", "SwiGLU", "RMSNorm", "MoE", "稀疏 MoE", "门控网络", "负载均衡", "条件计算", "状态空间模型 SSM", "Mamba", "并行扫描", "长序列建模", "线性注意力", "扩散模型", "去噪过程", "噪声调度", "VAE", "流模型", "能量模型", "GAN", "自回归生成", "非自回归生成", "并行解码", "交叉注意力", "CLIP", "对比学习", "视觉Transformer", "多尺度特征"]
+                    },
+                    {
+                        name: "训练与优化",
+                        tags: ["监督微调", "指令微调", "RLHF", "DPO", "ORPO", "SimPO", "拒绝采样", "奖励模型", "PPO", "RLAIF", "宪法AI", "自对齐", "自监督学习", "掩码语言建模", "下一词预测", "因果语言建模", "序列到序列学习", "数据清洗", "数据去重", "合成数据", "偏好数据", "蒸馏数据", "数据增强", "课程学习", "缩放定律", "计算最优", "过拟合", "正则化", "Dropout", "权重衰减", "梯度裁剪", "AdamW", "Adam", "SGD", "学习率调度", "余弦退火", "混合精度训练", "BF16", "FP16", "FP8", "梯度检查点", "模型并行", "数据并行", "流水线并行", "张量并行", "专家并行", "ZeRO", "FSDP", "LoRA", "QLoRA", "DoRA", "PyTorch", "TensorFlow", "JAX", "MindSpore", "PaddlePaddle", "DeepSpeed", "Megatron-LM", "Colossal-AI", "FairScale", "超算", "绿色AI"]
+                    },
+                    {
+                        name: "推理与部署",
+                        tags: ["推理优化", "模型压缩", "知识蒸馏", "剪枝", "量化", "训练后量化", "量化感知训练", "INT8", "INT4", "FP4", "AWQ", "GPTQ", "GGUF", "稀疏化", "ONNX", "TensorRT", "OpenVINO", "TVM", "MLIR", "算子融合", "内核优化", "动态批处理", "连续批处理", "请求调度", "流式输出", "Token流", "增量解码", "束搜索", "Top-k", "Top-p", "上下文窗口", "位置插值", "PagedAttention", "KV Cache", "前缀缓存", "vLLM", "TGI", "SGLang", "LMDeploy", "TorchServe", "Triton Inference Server", "Ray Serve", "模型即服务", "无服务器", "端侧部署", "手机端AI", "浏览器端AI", "WebGPU", "隐私计算", "联邦学习", "同态加密", "可信执行环境"]
+                    },
+                    {
+                        name: "提示、交互与增强",
+                        tags: ["提示工程", "少样本提示", "零样本提示", "思维链 CoT", "思维树 ToT", "ReAct", "PAL", "自洽性", "系统提示", "角色扮演", "结构化输出", "JSON模式", "函数调用", "工具使用", "代码解释器", "RAG", "GraphRAG", "向量检索", "混合检索", "重新排序", "查询重写", "多轮对话", "长期记忆", "短期记忆", "知识库", "文档问答", "语音交互", "多模态交互", "情感识别", "个性化", "持续学习"]
+                    },
+                    {
+                        name: "评估、对齐与安全",
+                        tags: ["HELM", "MMLU", "MMLU-Pro", "BIG-bench", "SuperGLUE", "GLUE", "C-Eval", "CMMLU", "Gaokao", "AGIEval", "MT-Bench", "Arena-Hard", "AIME", "SWE-bench", "PinchBench", "有害性", "偏见", "毒性", "真实性", "幻觉", "事实性", "帮助性", "无害性", "红队测试", "越狱", "提示注入", "安全护栏", "内容过滤", "输出审查", "可解释性", "归因", "不确定性校准", "模型编辑", "知识更新", "持续对齐", "文化适应性", "多语言公平性"]
+                    }
+                ]
+            },
+            {
+                title: "三、应用形态、场景与产品",
+                sections: [
+                    {
+                        name: "行业应用",
+                        tags: ["AI助手", "个人助理", "智能客服", "虚拟偶像", "数字人", "智能写作", "翻译", "会议纪要", "代码开发", "代码审查", "自动化测试", "教育辅导", "医疗辅助", "病历分析", "药物发现", "AlphaFold", "法律咨询", "合同审查", "金融风控", "反欺诈", "投研助手", "平面设计", "UI设计", "游戏开发", "音乐创作", "视频剪辑", "科学研究", "自动驾驶", "智能家居", "智慧城市", "社交媒体", "内容审核", "个性化推荐", "企业搜索", "文档管理", "流程自动化", "RPA", "会议助手", "电子邮件助手", "旅行规划", "健康管理", "心理咨询", "情感陪伴", "元宇宙", "数字孪生", "虚拟现实", "增强现实", "电商运营", "直播脚本", "跨境营销", "供应链预测"]
+                    }
+                ]
+            },
+            {
+                title: "四、开发工具、框架、平台与生态",
+                sections: [
+                    {
+                        name: "框架与平台",
+                        tags: ["LangChain", "LlamaIndex", "Haystack", "Semantic Kernel", "AutoGen", "CrewAI", "DSPy", "LangGraph", "PydanticAI", "Guidance", "LMQL", "Outlines", "Instructor", "Marvin", "Mirascope", "OpenAI API", "Anthropic API", "Google AI Studio", "Vertex AI", "阿里云百炼", "腾讯云TI平台", "百度千帆", "ModelArts", "Azure AI", "AWS Bedrock", "Hugging Face Inference Endpoints", "Replicate", "Transformers", "Diffusers", "Datasets", "Spaces", "Model Hub", "GitHub", "GitLab", "PyTorch Lightning", "FastAI", "Keras", "Scikit-learn", "Jupyter", "VSCode", "Cursor", "Windsurf", "Continue", "Docker", "Kubernetes", "CI/CD", "MLflow", "Weights & Biases", "Comet", "Neptune", "Langfuse", "Helicone", "OpenTelemetry", "Optuna", "Ray Tune", "DVC", "Evidently AI", "Arize", "Pinecone", "Weaviate", "Qdrant", "Milvus", "Chroma", "ElasticSearch", "云原生", "模型市场"]
+                    }
+                ]
+            }
+        ];
+
+        const allYears = timelineData.map(item => item.year);
+        let currentYear = Math.max(...allYears);
+
+        const viewMode = document.getElementById("viewMode");
+        const topicFilter = document.getElementById("topicFilter");
+        const companyFilter = document.getElementById("companyFilter");
+        const searchInput = document.getElementById("searchInput");
+        const yearTabs = document.getElementById("yearTabs");
+        const timeline = document.getElementById("timeline");
+        const keywordGroupsContainer = document.getElementById("keywordGroups");
+        const keywordSearchInput = document.getElementById("keywordSearchInput");
+        const prevYearBtn = document.getElementById("prevYearBtn");
+        const nextYearBtn = document.getElementById("nextYearBtn");
+        const stats = document.getElementById("stats");
+
+        function dedupe(values) {
+            return [...new Set(values)].sort((a, b) => a.localeCompare(b, "zh-CN"));
+        }
+
+        function initFilters() {
+            topicOptions.forEach(topic => {
+                const option = document.createElement("option");
+                option.value = topic.id;
+                option.textContent = topic.name;
+                topicFilter.appendChild(option);
+            });
+
+            const companyValues = dedupe(timelineData.flatMap(yearItem =>
+                yearItem.events.flatMap(event => event.companies)
+            ));
+            companyFilter.innerHTML = '<option value="all">全部公司/机构</option>';
+            companyValues.forEach(name => {
+                const option = document.createElement("option");
+                option.value = name;
+                option.textContent = name;
+                companyFilter.appendChild(option);
+            });
+        }
+
+        function renderStats() {
+            const totalEvents = timelineData.reduce((sum, item) => sum + item.events.length, 0);
+            const totalKeywords = keywordGroups.reduce((sum, group) =>
+                sum + group.sections.reduce((sectionSum, section) => sectionSum + section.tags.length, 0), 0
+            );
+            const totalCompanies = dedupe(timelineData.flatMap(item => item.events.flatMap(event => event.companies))).length;
+            stats.innerHTML = `
+                <div class="chip"><strong>${allYears.length}</strong><span>年份</span></div>
+                <div class="chip"><strong>${totalEvents}</strong><span>关键里程碑</span></div>
+                <div class="chip"><strong>${totalCompanies}</strong><span>公司/机构</span></div>
+                <div class="chip"><strong>${totalKeywords}</strong><span>关键词</span></div>
+            `;
+        }
+
+        function renderYearTabs() {
+            const showOverview = viewMode.value === "overview";
+            yearTabs.innerHTML = "";
+
+            allYears.slice().sort((a, b) => a - b).forEach(year => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.textContent = String(year);
+                btn.className = year === currentYear ? "active" : "";
+                btn.disabled = showOverview;
+                btn.addEventListener("click", () => {
+                    currentYear = year;
+                    renderYearTabs();
+                    renderTimeline();
+                });
+                yearTabs.appendChild(btn);
+            });
+
+            prevYearBtn.disabled = showOverview || currentYear === Math.min(...allYears);
+            nextYearBtn.disabled = showOverview || currentYear === Math.max(...allYears);
+        }
+
+        function matchEvent(event) {
+            const topicValue = topicFilter.value;
+            const companyValue = companyFilter.value;
+            const keyword = searchInput.value.trim().toLowerCase();
+
+            const topicMatch = topicValue === "all" || event.topic === topicValue;
+            const companyMatch = companyValue === "all" || event.companies.includes(companyValue);
+
+            if (!keyword) {
+                return topicMatch && companyMatch;
+            }
+
+            const searchCorpus = [event.title, event.note, ...event.concepts, ...event.companies].join(" ").toLowerCase();
+            const keywordMatch = searchCorpus.includes(keyword);
+            return topicMatch && companyMatch && keywordMatch;
+        }
+
+        function eventCard(event, year) {
+            const topicName = topicOptions.find(item => item.id === event.topic)?.name || event.topic;
+            const conceptsHtml = event.concepts.map(item => `<span>${item}</span>`).join("");
+            const companyHtml = event.companies.map(item => `<span>${item}</span>`).join("");
+
+            return `
+                <article class="event-card">
+                    <div class="event-card__head">
+                        <h3>${event.title}</h3>
+                        <p class="event-card__year">${year}</p>
+                    </div>
+                    <p class="event-card__note">${event.note}</p>
+                    <div class="meta-block">
+                        <p class="meta-title">专题</p>
+                        <div class="tag-list"><span>${topicName}</span></div>
+                    </div>
+                    <div class="meta-block">
+                        <p class="meta-title">相关公司/机构</p>
+                        <div class="tag-list">${companyHtml}</div>
+                    </div>
+                    <div class="meta-block">
+                        <p class="meta-title">关键概念</p>
+                        <div class="tag-list">${conceptsHtml}</div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderTimeline() {
+            const isOverview = viewMode.value === "overview";
+            const yearsToShow = isOverview ? allYears.slice().sort((a, b) => a - b) : [currentYear];
+            const sections = yearsToShow.map(year => {
+                const yearData = timelineData.find(item => item.year === year);
+                if (!yearData) {
+                    return "";
+                }
+                const filteredEvents = yearData.events.filter(matchEvent);
+                const cardsHtml = filteredEvents.length
+                    ? filteredEvents.map(event => eventCard(event, year)).join("")
+                    : `<p class="empty-state">当前筛选下，${year} 年暂无匹配条目。</p>`;
+
+                return `
+                    <section class="year-section">
+                        <div class="year-section__title">
+                            <h2>${year}</h2>
+                            <p>共 ${filteredEvents.length} 条里程碑</p>
+                        </div>
+                        <div class="event-grid">${cardsHtml}</div>
+                    </section>
+                `;
+            });
+
+            timeline.innerHTML = sections.join("");
+        }
+
+        function renderKeywordGroups() {
+            const keyword = keywordSearchInput.value.trim().toLowerCase();
+
+            function escapeHtml(value) {
+                return value
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function highlightMatch(value, kw) {
+                const escaped = escapeHtml(value);
+                if (!kw) {
+                    return escaped;
+                }
+                const lower = value.toLowerCase();
+                const start = lower.indexOf(kw);
+                if (start === -1) {
+                    return escaped;
+                }
+                const end = start + kw.length;
+                const before = escapeHtml(value.slice(0, start));
+                const match = escapeHtml(value.slice(start, end));
+                const after = escapeHtml(value.slice(end));
+                return `${before}<mark>${match}</mark>${after}`;
+            }
+
+            keywordGroupsContainer.innerHTML = keywordGroups.map(group => {
+                let groupCount = 0;
+                const sections = group.sections.map(section => {
+                    const deduped = dedupe(section.tags);
+                    const filtered = keyword
+                        ? deduped.filter(tag => tag.toLowerCase().includes(keyword))
+                        : deduped;
+
+                    if (!filtered.length) {
+                        return "";
+                    }
+                    groupCount += filtered.length;
+                    const tags = filtered
+                        .map(tag => `<span>${highlightMatch(tag, keyword)}</span>`)
+                        .join("");
+                    return `
+                        <article class="keyword-section">
+                            <h4>${section.name} <small>(${filtered.length})</small></h4>
+                            <div class="keyword-tags">${tags}</div>
+                        </article>
+                    `;
+                }).join("");
+
+                if (!sections) {
+                    return "";
+                }
+                return `
+                    <section class="keyword-group">
+                        <h3>${group.title} <small>(${groupCount})</small></h3>
+                        ${sections}
+                    </section>
+                `;
+            }).join("");
+
+            if (!keywordGroupsContainer.innerHTML.trim()) {
+                keywordGroupsContainer.innerHTML = `<p class="empty-state">当前检索词暂无匹配，请尝试更短或更通用的关键词。</p>`;
+            }
+        }
+
+        function bindEvents() {
+            [viewMode, topicFilter, companyFilter].forEach(el => {
+                el.addEventListener("change", () => {
+                    renderYearTabs();
+                    renderTimeline();
+                });
+            });
+
+            searchInput.addEventListener("input", renderTimeline);
+            keywordSearchInput.addEventListener("input", renderKeywordGroups);
+
+            prevYearBtn.addEventListener("click", () => {
+                if (viewMode.value === "overview") {
+                    return;
+                }
+                const sortedYears = allYears.slice().sort((a, b) => a - b);
+                const idx = sortedYears.indexOf(currentYear);
+                if (idx > 0) {
+                    currentYear = sortedYears[idx - 1];
+                    renderYearTabs();
+                    renderTimeline();
+                }
+            });
+
+            nextYearBtn.addEventListener("click", () => {
+                if (viewMode.value === "overview") {
+                    return;
+                }
+                const sortedYears = allYears.slice().sort((a, b) => a - b);
+                const idx = sortedYears.indexOf(currentYear);
+                if (idx < sortedYears.length - 1) {
+                    currentYear = sortedYears[idx + 1];
+                    renderYearTabs();
+                    renderTimeline();
+                }
+            });
+        }
+
+        initFilters();
+        renderStats();
+        renderYearTabs();
+        renderTimeline();
+        renderKeywordGroups();
+        bindEvents();
+    </script>
+</body>
+</html>
+
