@@ -1,0 +1,506 @@
+{
+  "category": "ci",
+  "name": "宋词高频词",
+  "items": [
+    {
+      "name": "明月",
+      "score": 160,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "春风",
+      "score": 158,
+      "color": "#7367f0"
+    },
+    {
+      "name": "江南",
+      "score": 156,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "归来",
+      "score": 154,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "相思",
+      "score": 152,
+      "color": "#d7881d"
+    },
+    {
+      "name": "天涯",
+      "score": 150,
+      "color": "#c95757"
+    },
+    {
+      "name": "烟雨",
+      "score": 148,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "兰舟",
+      "score": 146,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "斜阳",
+      "score": 144,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "长亭",
+      "score": 142,
+      "color": "#7367f0"
+    },
+    {
+      "name": "柳岸",
+      "score": 140,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "残照",
+      "score": 138,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "潮声",
+      "score": 136,
+      "color": "#d7881d"
+    },
+    {
+      "name": "夜雨",
+      "score": 134,
+      "color": "#c95757"
+    },
+    {
+      "name": "玉笛",
+      "score": 132,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "孤鸿",
+      "score": 130,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "清梦",
+      "score": 128,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "落花",
+      "score": 126,
+      "color": "#7367f0"
+    },
+    {
+      "name": "楼台",
+      "score": 124,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "秋水",
+      "score": 122,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "明月2",
+      "score": 120,
+      "color": "#d7881d"
+    },
+    {
+      "name": "春风2",
+      "score": 118,
+      "color": "#c95757"
+    },
+    {
+      "name": "江南2",
+      "score": 116,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "归来2",
+      "score": 114,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "相思2",
+      "score": 112,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "天涯2",
+      "score": 110,
+      "color": "#7367f0"
+    },
+    {
+      "name": "烟雨2",
+      "score": 108,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "兰舟2",
+      "score": 106,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "斜阳2",
+      "score": 104,
+      "color": "#d7881d"
+    },
+    {
+      "name": "长亭2",
+      "score": 102,
+      "color": "#c95757"
+    },
+    {
+      "name": "柳岸2",
+      "score": 100,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "残照2",
+      "score": 98,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "潮声2",
+      "score": 96,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "夜雨2",
+      "score": 94,
+      "color": "#7367f0"
+    },
+    {
+      "name": "玉笛2",
+      "score": 92,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "孤鸿2",
+      "score": 90,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "清梦2",
+      "score": 88,
+      "color": "#d7881d"
+    },
+    {
+      "name": "落花2",
+      "score": 86,
+      "color": "#c95757"
+    },
+    {
+      "name": "楼台2",
+      "score": 84,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "秋水2",
+      "score": 82,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "明月3",
+      "score": 80,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "春风3",
+      "score": 78,
+      "color": "#7367f0"
+    },
+    {
+      "name": "江南3",
+      "score": 76,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "归来3",
+      "score": 74,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "相思3",
+      "score": 72,
+      "color": "#d7881d"
+    },
+    {
+      "name": "天涯3",
+      "score": 70,
+      "color": "#c95757"
+    },
+    {
+      "name": "烟雨3",
+      "score": 68,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "兰舟3",
+      "score": 66,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "斜阳3",
+      "score": 64,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "长亭3",
+      "score": 62,
+      "color": "#7367f0"
+    },
+    {
+      "name": "柳岸3",
+      "score": 60,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "残照3",
+      "score": 58,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "潮声3",
+      "score": 56,
+      "color": "#d7881d"
+    },
+    {
+      "name": "夜雨3",
+      "score": 54,
+      "color": "#c95757"
+    },
+    {
+      "name": "玉笛3",
+      "score": 52,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "孤鸿3",
+      "score": 50,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "清梦3",
+      "score": 48,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "落花3",
+      "score": 46,
+      "color": "#7367f0"
+    },
+    {
+      "name": "楼台3",
+      "score": 44,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "秋水3",
+      "score": 42,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "明月4",
+      "score": 40,
+      "color": "#d7881d"
+    },
+    {
+      "name": "春风4",
+      "score": 38,
+      "color": "#c95757"
+    },
+    {
+      "name": "江南4",
+      "score": 36,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "归来4",
+      "score": 34,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "相思4",
+      "score": 32,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "天涯4",
+      "score": 30,
+      "color": "#7367f0"
+    },
+    {
+      "name": "烟雨4",
+      "score": 28,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "兰舟4",
+      "score": 26,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "斜阳4",
+      "score": 24,
+      "color": "#d7881d"
+    },
+    {
+      "name": "长亭4",
+      "score": 22,
+      "color": "#c95757"
+    },
+    {
+      "name": "柳岸4",
+      "score": 20,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "残照4",
+      "score": 18,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "潮声4",
+      "score": 16,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "夜雨4",
+      "score": 14,
+      "color": "#7367f0"
+    },
+    {
+      "name": "玉笛4",
+      "score": 12,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "孤鸿4",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "清梦4",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "落花4",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "楼台4",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "秋水4",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "明月5",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "春风5",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "江南5",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "归来5",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "相思5",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "天涯5",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "烟雨5",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "兰舟5",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "斜阳5",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "长亭5",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "柳岸5",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "残照5",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "潮声5",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "夜雨5",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "玉笛5",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "孤鸿5",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "清梦5",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "落花5",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "楼台5",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "秋水5",
+      "score": 10,
+      "color": "#2aa36b"
+    }
+  ]
+}

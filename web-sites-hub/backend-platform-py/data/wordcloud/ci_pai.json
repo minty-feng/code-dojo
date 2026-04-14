@@ -1,0 +1,506 @@
+{
+  "category": "ci_pai",
+  "name": "词牌名词云",
+  "items": [
+    {
+      "name": "水调歌头",
+      "score": 180,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "念奴娇",
+      "score": 178,
+      "color": "#7367f0"
+    },
+    {
+      "name": "沁园春",
+      "score": 176,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "满江红",
+      "score": 174,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "临江仙",
+      "score": 172,
+      "color": "#d7881d"
+    },
+    {
+      "name": "西江月",
+      "score": 170,
+      "color": "#c95757"
+    },
+    {
+      "name": "鹧鸪天",
+      "score": 168,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "菩萨蛮",
+      "score": 166,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "蝶恋花",
+      "score": 164,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "虞美人",
+      "score": 162,
+      "color": "#7367f0"
+    },
+    {
+      "name": "青玉案",
+      "score": 160,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "如梦令",
+      "score": 158,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "清平乐",
+      "score": 156,
+      "color": "#d7881d"
+    },
+    {
+      "name": "南乡子",
+      "score": 154,
+      "color": "#c95757"
+    },
+    {
+      "name": "卜算子",
+      "score": 152,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "醉花阴",
+      "score": 150,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "定风波",
+      "score": 148,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "摸鱼儿",
+      "score": 146,
+      "color": "#7367f0"
+    },
+    {
+      "name": "永遇乐",
+      "score": 144,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "八声甘州",
+      "score": 142,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "声声慢",
+      "score": 140,
+      "color": "#d7881d"
+    },
+    {
+      "name": "木兰花",
+      "score": 138,
+      "color": "#c95757"
+    },
+    {
+      "name": "减字木兰花",
+      "score": 136,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "渔家傲",
+      "score": 134,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "苏幕遮",
+      "score": 132,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "踏莎行",
+      "score": 130,
+      "color": "#7367f0"
+    },
+    {
+      "name": "浣溪沙",
+      "score": 128,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "采桑子",
+      "score": 126,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "鹊桥仙",
+      "score": 124,
+      "color": "#d7881d"
+    },
+    {
+      "name": "浪淘沙",
+      "score": 122,
+      "color": "#c95757"
+    },
+    {
+      "name": "行香子",
+      "score": 120,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "江城子",
+      "score": 118,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "贺新郎",
+      "score": 116,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "雨霖铃",
+      "score": 114,
+      "color": "#7367f0"
+    },
+    {
+      "name": "玉楼春",
+      "score": 112,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "诉衷情",
+      "score": 110,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "点绛唇",
+      "score": 108,
+      "color": "#d7881d"
+    },
+    {
+      "name": "相见欢",
+      "score": 106,
+      "color": "#c95757"
+    },
+    {
+      "name": "好事近",
+      "score": 104,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "千秋岁",
+      "score": 102,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "破阵子",
+      "score": 100,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "凤凰台上忆吹箫",
+      "score": 98,
+      "color": "#7367f0"
+    },
+    {
+      "name": "祝英台近",
+      "score": 96,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "齐天乐",
+      "score": 94,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "绮罗香",
+      "score": 92,
+      "color": "#d7881d"
+    },
+    {
+      "name": "兰陵王",
+      "score": 90,
+      "color": "#c95757"
+    },
+    {
+      "name": "金缕曲",
+      "score": 88,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "扬州慢",
+      "score": 86,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "风入松",
+      "score": 84,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "木兰花慢",
+      "score": 82,
+      "color": "#7367f0"
+    },
+    {
+      "name": "水调歌头2",
+      "score": 80,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "念奴娇2",
+      "score": 78,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "沁园春2",
+      "score": 76,
+      "color": "#d7881d"
+    },
+    {
+      "name": "满江红2",
+      "score": 74,
+      "color": "#c95757"
+    },
+    {
+      "name": "临江仙2",
+      "score": 72,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "西江月2",
+      "score": 70,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "鹧鸪天2",
+      "score": 68,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "菩萨蛮2",
+      "score": 66,
+      "color": "#7367f0"
+    },
+    {
+      "name": "蝶恋花2",
+      "score": 64,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "虞美人2",
+      "score": 62,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "青玉案2",
+      "score": 60,
+      "color": "#d7881d"
+    },
+    {
+      "name": "如梦令2",
+      "score": 58,
+      "color": "#c95757"
+    },
+    {
+      "name": "清平乐2",
+      "score": 56,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "南乡子2",
+      "score": 54,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "卜算子2",
+      "score": 52,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "醉花阴2",
+      "score": 50,
+      "color": "#7367f0"
+    },
+    {
+      "name": "定风波2",
+      "score": 48,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "摸鱼儿2",
+      "score": 46,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "永遇乐2",
+      "score": 44,
+      "color": "#d7881d"
+    },
+    {
+      "name": "八声甘州2",
+      "score": 42,
+      "color": "#c95757"
+    },
+    {
+      "name": "声声慢2",
+      "score": 40,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "木兰花2",
+      "score": 38,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "减字木兰花2",
+      "score": 36,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "渔家傲2",
+      "score": 34,
+      "color": "#7367f0"
+    },
+    {
+      "name": "苏幕遮2",
+      "score": 32,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "踏莎行2",
+      "score": 30,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "浣溪沙2",
+      "score": 28,
+      "color": "#d7881d"
+    },
+    {
+      "name": "采桑子2",
+      "score": 26,
+      "color": "#c95757"
+    },
+    {
+      "name": "鹊桥仙2",
+      "score": 24,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "浪淘沙2",
+      "score": 22,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "行香子2",
+      "score": 20,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "江城子2",
+      "score": 18,
+      "color": "#7367f0"
+    },
+    {
+      "name": "贺新郎2",
+      "score": 16,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "雨霖铃2",
+      "score": 14,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "玉楼春2",
+      "score": 12,
+      "color": "#d7881d"
+    },
+    {
+      "name": "诉衷情2",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "点绛唇2",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "相见欢2",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "好事近2",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "千秋岁2",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "破阵子2",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "凤凰台上忆吹箫2",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "祝英台近2",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "齐天乐2",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "绮罗香2",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "兰陵王2",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "金缕曲2",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "扬州慢2",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "风入松2",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "木兰花慢2",
+      "score": 10,
+      "color": "#2aa36b"
+    }
+  ]
+}

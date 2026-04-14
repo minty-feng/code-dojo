@@ -1,0 +1,8 @@
+*.db
+.venv
+__pycache__/
+*.py[cod]
+/data/app.db                
+/data/logs
+data/chinese-poetry-master
+data/raw

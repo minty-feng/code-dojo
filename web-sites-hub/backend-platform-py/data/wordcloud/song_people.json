@@ -1,0 +1,506 @@
+{
+  "category": "song_people",
+  "name": "宋诗人名云",
+  "items": [
+    {
+      "name": "苏轼",
+      "score": 160,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "陆游",
+      "score": 158,
+      "color": "#7367f0"
+    },
+    {
+      "name": "辛弃疾",
+      "score": 156,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "杨万里",
+      "score": 154,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "范成大",
+      "score": 152,
+      "color": "#d7881d"
+    },
+    {
+      "name": "梅尧臣",
+      "score": 150,
+      "color": "#c95757"
+    },
+    {
+      "name": "王安石",
+      "score": 148,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "欧阳修",
+      "score": 146,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "黄庭坚",
+      "score": 144,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "晏殊",
+      "score": 142,
+      "color": "#7367f0"
+    },
+    {
+      "name": "曾巩",
+      "score": 140,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "秦观",
+      "score": 138,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "周邦彦",
+      "score": 136,
+      "color": "#d7881d"
+    },
+    {
+      "name": "姜夔",
+      "score": 134,
+      "color": "#c95757"
+    },
+    {
+      "name": "贺铸",
+      "score": 132,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "张耒",
+      "score": 130,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "陈与义",
+      "score": 128,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "文天祥",
+      "score": 126,
+      "color": "#7367f0"
+    },
+    {
+      "name": "朱熹",
+      "score": 124,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "司马光",
+      "score": 122,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "苏轼2",
+      "score": 120,
+      "color": "#d7881d"
+    },
+    {
+      "name": "陆游2",
+      "score": 118,
+      "color": "#c95757"
+    },
+    {
+      "name": "辛弃疾2",
+      "score": 116,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "杨万里2",
+      "score": 114,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "范成大2",
+      "score": 112,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "梅尧臣2",
+      "score": 110,
+      "color": "#7367f0"
+    },
+    {
+      "name": "王安石2",
+      "score": 108,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "欧阳修2",
+      "score": 106,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "黄庭坚2",
+      "score": 104,
+      "color": "#d7881d"
+    },
+    {
+      "name": "晏殊2",
+      "score": 102,
+      "color": "#c95757"
+    },
+    {
+      "name": "曾巩2",
+      "score": 100,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "秦观2",
+      "score": 98,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "周邦彦2",
+      "score": 96,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "姜夔2",
+      "score": 94,
+      "color": "#7367f0"
+    },
+    {
+      "name": "贺铸2",
+      "score": 92,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "张耒2",
+      "score": 90,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "陈与义2",
+      "score": 88,
+      "color": "#d7881d"
+    },
+    {
+      "name": "文天祥2",
+      "score": 86,
+      "color": "#c95757"
+    },
+    {
+      "name": "朱熹2",
+      "score": 84,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "司马光2",
+      "score": 82,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "苏轼3",
+      "score": 80,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "陆游3",
+      "score": 78,
+      "color": "#7367f0"
+    },
+    {
+      "name": "辛弃疾3",
+      "score": 76,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "杨万里3",
+      "score": 74,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "范成大3",
+      "score": 72,
+      "color": "#d7881d"
+    },
+    {
+      "name": "梅尧臣3",
+      "score": 70,
+      "color": "#c95757"
+    },
+    {
+      "name": "王安石3",
+      "score": 68,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "欧阳修3",
+      "score": 66,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "黄庭坚3",
+      "score": 64,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "晏殊3",
+      "score": 62,
+      "color": "#7367f0"
+    },
+    {
+      "name": "曾巩3",
+      "score": 60,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "秦观3",
+      "score": 58,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "周邦彦3",
+      "score": 56,
+      "color": "#d7881d"
+    },
+    {
+      "name": "姜夔3",
+      "score": 54,
+      "color": "#c95757"
+    },
+    {
+      "name": "贺铸3",
+      "score": 52,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "张耒3",
+      "score": 50,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "陈与义3",
+      "score": 48,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "文天祥3",
+      "score": 46,
+      "color": "#7367f0"
+    },
+    {
+      "name": "朱熹3",
+      "score": 44,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "司马光3",
+      "score": 42,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "苏轼4",
+      "score": 40,
+      "color": "#d7881d"
+    },
+    {
+      "name": "陆游4",
+      "score": 38,
+      "color": "#c95757"
+    },
+    {
+      "name": "辛弃疾4",
+      "score": 36,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "杨万里4",
+      "score": 34,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "范成大4",
+      "score": 32,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "梅尧臣4",
+      "score": 30,
+      "color": "#7367f0"
+    },
+    {
+      "name": "王安石4",
+      "score": 28,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "欧阳修4",
+      "score": 26,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "黄庭坚4",
+      "score": 24,
+      "color": "#d7881d"
+    },
+    {
+      "name": "晏殊4",
+      "score": 22,
+      "color": "#c95757"
+    },
+    {
+      "name": "曾巩4",
+      "score": 20,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "秦观4",
+      "score": 18,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "周邦彦4",
+      "score": 16,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "姜夔4",
+      "score": 14,
+      "color": "#7367f0"
+    },
+    {
+      "name": "贺铸4",
+      "score": 12,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "张耒4",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "陈与义4",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "文天祥4",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "朱熹4",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "司马光4",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "苏轼5",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "陆游5",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "辛弃疾5",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "杨万里5",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "范成大5",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "梅尧臣5",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "王安石5",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "欧阳修5",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "黄庭坚5",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "晏殊5",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "曾巩5",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "秦观5",
+      "score": 10,
+      "color": "#2aa36b"
+    },
+    {
+      "name": "周邦彦5",
+      "score": 10,
+      "color": "#d7881d"
+    },
+    {
+      "name": "姜夔5",
+      "score": 10,
+      "color": "#c95757"
+    },
+    {
+      "name": "贺铸5",
+      "score": 10,
+      "color": "#3d8cff"
+    },
+    {
+      "name": "张耒5",
+      "score": 10,
+      "color": "#8a63ff"
+    },
+    {
+      "name": "陈与义5",
+      "score": 10,
+      "color": "#2f7df6"
+    },
+    {
+      "name": "文天祥5",
+      "score": 10,
+      "color": "#7367f0"
+    },
+    {
+      "name": "朱熹5",
+      "score": 10,
+      "color": "#00a6d8"
+    },
+    {
+      "name": "司马光5",
+      "score": 10,
+      "color": "#2aa36b"
+    }
+  ]
+}

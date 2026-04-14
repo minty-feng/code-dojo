@@ -3,705 +3,544 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="经典诗词歌赋收藏">
+    <meta name="description" content="诗词歌赋检索、词云与收藏">
     <title>诗词歌赋 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
-        .poem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .poem-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 14px;
-            border: 1px solid var(--border-color);
-            position: relative;
-            text-align: center;
-            overflow: hidden;
-            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-            scroll-margin-top: 6rem;
-            box-shadow: var(--shadow-sm);
-        }
-        .poem-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, rgba(201, 123, 45, 0.65), rgba(232, 168, 88, 0.45), transparent);
-            opacity: 0.85;
-            pointer-events: none;
-        }
-        [data-theme="dark"] .poem-card::before {
-            background: linear-gradient(90deg, hsl(210 50% 55% / 0.5), hsl(265 45% 55% / 0.35), transparent);
-        }
-        .poem-card:hover {
-            transform: translateY(-4px);
-            background: var(--bg-card-hover);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(180, 150, 100, 0.22);
-        }
-        [data-theme="dark"] .poem-card:hover {
-            border-color: rgba(88, 166, 255, 0.18);
-        }
-        .poem-title {
-            font-family: 'Zhi Mang Xing', cursive;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-        .poem-author {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-        .poem-content {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 1.5rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            white-space: pre-line;
-        }
-        .ink-stain {
-            position: absolute;
-            background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        /* Poems index — 典藏目录：单层序号（仅列表符号），书名衬线层级 */
-        .poems-home {
-            margin-top: 1.5rem;
-            margin-bottom: 2.5rem;
-            max-width: 720px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0 0.25rem;
-        }
-        .poems-home-title {
-            font-family: 'Noto Serif SC', 'Songti SC', serif;
-            font-style: normal;
-            font-size: clamp(1.65rem, 4vw, 2.15rem);
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            color: var(--text-primary);
-            margin-bottom: 0.65rem;
-            padding-bottom: 0.85rem;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-        }
-        .poems-home-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -1px;
-            width: 3.5rem;
-            height: 2px;
-            background: linear-gradient(90deg, #c97b2d, #e8b858);
-            border-radius: 1px;
-        }
-        [data-theme="dark"] .poems-home-title::after {
-            background: linear-gradient(90deg, rgba(88, 166, 255, 0.75), rgba(163, 113, 247, 0.45));
-        }
-        .poems-home-subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.75;
-            margin-bottom: 1.75rem;
-            font-weight: 400;
-        }
-
-        .poems-index {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-        }
-
-        .poems-index details {
-            border: 1px solid var(--border-color);
-            background: rgba(255, 251, 245, 0.35);
-            border-radius: 14px;
-            padding: 0;
-            box-shadow: var(--shadow-sm);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            overflow: hidden;
-        }
-        [data-theme="dark"] .poems-index details {
-            background: rgba(22, 27, 34, 0.55);
-        }
-
-        .poems-index summary {
-            cursor: pointer;
-            list-style: none;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1.02rem;
-            font-family: 'Noto Serif SC', serif;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1rem 1.15rem;
-            transition: background 0.2s ease;
-        }
-        .poems-index summary:hover {
-            background: rgba(232, 168, 88, 0.08);
-        }
-        [data-theme="dark"] .poems-index summary:hover {
-            background: rgba(88, 166, 255, 0.06);
-        }
-
-        .poems-index summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .poems-index summary .count {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-family: 'Inter', system-ui, sans-serif;
-            letter-spacing: 0.02em;
-            padding: 0.2rem 0.55rem;
-            border-radius: 999px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
-        }
-
-        .poems-index summary::after {
-            content: '';
-            width: 0.45rem;
-            height: 0.45rem;
-            border-right: 2px solid var(--text-muted);
-            border-bottom: 2px solid var(--text-muted);
-            transform: rotate(45deg);
-            transition: transform 0.25s ease, opacity 0.2s ease;
-            opacity: 0.65;
-            flex-shrink: 0;
-            margin-left: 0.35rem;
-        }
-        .poems-index details[open] summary::after {
-            transform: rotate(-135deg);
-        }
-
-        .poems-index-list {
-            margin: 0;
-            padding: 0 1.15rem 1rem 2.5rem;
-            list-style: decimal;
-            list-style-position: outside;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .poems-index-item {
-            border-top: 1px solid rgba(180, 150, 100, 0.12);
-            margin: 0;
-            padding: 0;
-        }
-        [data-theme="dark"] .poems-index-item {
-            border-top-color: rgba(48, 54, 61, 0.85);
-        }
-        .poems-index-item:first-of-type {
-            border-top: none;
-        }
-
-        .poems-index-item a {
-            color: inherit;
-            text-decoration: none;
-            display: block;
-            border-radius: 0;
-            padding: 0.72rem 0.15rem 0.72rem 0;
-            border: none;
-            transition: background 0.18s ease, padding-left 0.2s ease;
-        }
-
-        .poems-index-item a:hover {
-            background: rgba(201, 123, 45, 0.06);
-            padding-left: 0.35rem;
-        }
-        [data-theme="dark"] .poems-index-item a:hover {
-            background: rgba(88, 166, 255, 0.06);
-        }
-
-        .toc-line {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 0.35rem 0.55rem;
-        }
-        .toc-author {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            letter-spacing: 0.08em;
-            font-weight: 500;
-        }
-        .toc-title {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: 0.02em;
-        }
-
-        .poems-index-item a.found .toc-title {
-            color: var(--text-primary);
-        }
-        .poems-index-item a.found .toc-author {
-            color: var(--text-secondary);
-        }
-
-        .poems-index-item a.not-found {
-            opacity: 0.45;
-        }
-        .poems-index-item a.not-found:hover {
-            opacity: 0.72;
-        }
-
-        .poems-index-total {
-            margin-top: 1.25rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            letter-spacing: 0.06em;
-            text-align: center;
-        }
-
-        @media (min-width: 900px) {
-            .poems-home {
-                max-width: 800px;
-            }
-            .poems-index-list {
-                padding-left: 2.85rem;
-            }
-        }
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=ZCOOL+XiaoWei&display=swap");
+        :root{--poems-accent:#6ea6ff;--poems-strong:#7c6dff;--poems-card:rgba(16,22,35,.76);--poems-stroke:rgba(128,153,201,.25)}
+        body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:radial-gradient(1200px 620px at 12% -5%,rgba(77,139,255,.22),transparent 60%),radial-gradient(900px 500px at 88% 110%,rgba(126,91,255,.16),transparent 60%),#050914}
+        body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(125,153,211,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(125,153,211,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black 35%,transparent 85%);opacity:.45;z-index:0}
+        .container{max-width:min(92vw,1320px)!important;padding:0 1rem}
+        .header,.diary-main{position:relative;z-index:1}
+        .diary-main{max-width:none!important;width:100%}
+        .header{margin-bottom:1.1rem}
+        .hero,.panel{background:linear-gradient(145deg,rgba(17,24,39,.92),rgba(11,17,28,.85));border:1px solid var(--poems-stroke);border-radius:20px;padding:1.2rem;backdrop-filter:blur(10px);box-shadow:0 20px 45px rgba(4,8,18,.45);margin-bottom:1rem}
+        .hero{padding:1.4rem 1.4rem 1.15rem}
+        .hero-head{display:flex;justify-content:space-between;gap:1.2rem;align-items:flex-end;margin-bottom:1rem}
+        .hero-kicker{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:#8aa7d8}
+        .hero h1{margin:.15rem 0 .5rem;font-family:"ZCOOL XiaoWei","STKaiti","KaiTi",serif;font-size:2.45rem;font-weight:400;letter-spacing:.04em;background:linear-gradient(90deg,#f0f6ff,#c6d8ff 55%,#9ad4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .hero p{margin:0;color:#a8b3c9;font-size:1.03rem;line-height:1.7;max-width:840px}
+        .hero-stat{display:flex;gap:.55rem;align-items:center}
+        .hero-pill{padding:.36rem .72rem;border-radius:999px;border:1px solid rgba(136,167,228,.32);background:rgba(16,28,50,.72);color:#d8e6ff;font-size:.8rem}
+        .hero-grid{display:grid;grid-template-columns:1fr;gap:.9rem;margin-top:1rem}
+        .cloud-card{border:1px solid rgba(132,162,228,.24);border-radius:16px;padding:.8rem;background:linear-gradient(160deg,rgba(46,78,140,.14),rgba(26,35,56,.55));transition:transform .28s ease,border-color .28s ease}
+        .cloud-card:hover{transform:translateY(-2px);border-color:rgba(149,184,255,.45)}
+        .cloud-title{margin:0 0 .6rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.02rem;color:#e4eeff;letter-spacing:.04em}
+        .word-cloud{position:relative;width:90%;margin:0 auto;height:252px;border-radius:50%;background:radial-gradient(circle at 25% 24%,rgba(96,150,255,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(129,99,255,.16),transparent 58%),rgba(9,14,27,.74);overflow:hidden}
+        .word-cloud::after{content:"";position:absolute;inset:10px;border-radius:50%;border:1px solid rgba(147,178,236,.1);pointer-events:none}
+        .word-item{position:absolute;white-space:nowrap;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-weight:700;line-height:1;opacity:.95;user-select:none;background:transparent;border:none;padding:0;cursor:pointer;transition:transform .18s ease,filter .18s ease,text-shadow .18s ease}
+        .word-item:hover{transform:scale(1.08);filter:brightness(1.16);text-shadow:0 0 12px rgba(127,177,255,.45)}
+        .toolbar{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1fr 1fr 1fr;gap:.65rem}
+        .toolbar input,.toolbar select{background:rgba(10,16,29,.72);color:#e4ecff;border:1px solid rgba(136,160,212,.2);border-radius:12px;padding:.64rem .78rem;outline:none;transition:border-color .18s ease,box-shadow .18s ease}
+        .toolbar input:focus,.toolbar select:focus{border-color:rgba(136,188,255,.72);box-shadow:0 0 0 3px rgba(92,153,255,.16)}
+        .toolbar-actions{display:flex;gap:.62rem;flex-wrap:wrap;margin-top:.82rem}
+        .btn{border:1px solid rgba(128,156,214,.3);background:rgba(17,24,40,.8);color:#e6eeff;border-radius:12px;padding:.56rem .9rem;cursor:pointer;transition:all .2s ease}
+        .btn:hover{transform:translateY(-1px);border-color:rgba(168,194,248,.65)}
+        .btn.primary{background:linear-gradient(120deg,#4c8bff,#7d6dff);color:#fff;border:none;box-shadow:0 8px 20px rgba(88,120,255,.35)}
+        .btn.ghost{background:transparent}
+        .top-btn{border:1px solid rgba(130,158,212,.3);background:rgba(27,37,59,.58);color:#dce9ff;border-radius:999px;padding:.4rem .82rem;cursor:pointer;transition:.2s ease}
+        .top-btn:hover{border-color:rgba(166,196,255,.62);background:rgba(38,52,83,.72)}
+        .meta{color:#aab7cf;font-size:.88rem}
+        .chip-wrap{display:flex;flex-wrap:wrap;gap:.48rem;margin-top:.75rem}
+        .chip{border:1px solid rgba(131,155,206,.35);padding:.24rem .6rem;border-radius:999px;font-size:.8rem;cursor:pointer;background:rgba(21,31,50,.75);color:#dde8ff}
+        .chip.active{border-color:#7ab4ff;color:#7ab4ff}
+        .poem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:1rem}
+        .poem-card{background:linear-gradient(160deg,rgba(16,23,37,.85),rgba(11,18,30,.8));border:1px solid rgba(128,156,206,.25);border-radius:16px;padding:1rem 1rem .95rem;position:relative;box-shadow:0 12px 28px rgba(6,10,20,.35)}
+        .poem-title{margin:0 0 .45rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.28rem;color:#e7efff;letter-spacing:.03em}
+        .poem-author{margin:0 0 .8rem;color:#9fb0cc;font-size:.88rem}
+        .poem-content{white-space:pre-line;line-height:1.78;max-height:14rem;overflow:auto;color:#cad6eb;padding-right:.25rem}
+        .heart-btn{position:absolute;right:.8rem;top:.8rem;width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid rgba(133,155,205,.32);background:rgba(18,27,44,.8);cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .heart-btn svg{width:18px;height:18px;stroke:#bcc9df;fill:none;stroke-width:2}
+        .heart-btn.active svg{stroke:#ff6b85;fill:#ff5d79}
+        .view{display:none}.view.active{display:block}
+        .empty{text-align:center;color:#a8b5cb;padding:2rem 0}
+        .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem;white-space:pre-wrap;word-break:break-all}
+        .cloud-tip{font-size:.83rem;color:#8fa5cb;margin-top:.56rem}
+        @media (max-width:1280px){.toolbar{grid-template-columns:repeat(3,minmax(180px,1fr))}}
+        @media (max-width:980px){.container{padding:0 .8rem}.hero-head{display:block}.hero h1{font-size:1.9rem}.poem-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
     <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
-    <div class="bg-animation">
-        <div class="bg-gradient"></div>
-        <div class="bg-particles" id="particles"></div>
-    </div>
-
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <span style="flex: 1;"></span>
-                <button class="theme-toggle" id="themeToggle">
-                         <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
-                        </svg>
-                    </button>
+                <span style="flex:1"></span>
+                <button id="scriptToggle" class="top-btn">简体</button>
+                <button id="openFavorites" class="top-btn">❤️ 收藏 <span id="favCount">0</span></button>
+                <button class="theme-toggle" id="themeToggle" title="主题切换"><svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg></button>
             </div>
         </header>
 
-        <section class="poems-home" aria-label="诗词名篇首页目录">
-            <h1 class="poems-home-title">诗词名篇目录（100篇）</h1>
-            <p class="poems-home-subtitle">按「宋词 / 古文 / 骈文 / 檄文」分组；点击条目可跳转到诗词卡片。</p>
-            <div class="poems-index" id="poems-index">
-                <details open>
-                    <summary>
-                        <span>载入目录中…</span>
-                        <span class="count">-</span>
-                    </summary>
-                </details>
+        <main class="diary-main">
+            <section id="landingView" class="view active">
+                <div class="hero">
+                    <div class="hero-head">
+                        <div>
+                            <div class="hero-kicker">POEMS ARCHIVE</div>
+                            <h1>诗词歌赋探索台</h1>
+                            <p>以更现代的方式阅读古典文本：点击词云词条可直接检索，支持多条件筛选、排序、简繁切换与收藏沉淀。</p>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-pill">前端词云渲染</span>
+                            <span class="hero-pill">可点击联动检索</span>
+                            <span class="hero-pill">深色高质感</span>
+                        </div>
+                    </div>
+                    <div class="hero-grid">
+                        <div class="cloud-card">
+                            <h3 class="cloud-title">宋词高频词</h3>
+                            <div class="word-cloud" id="cloud-ci"></div>
+                        </div>
+                        <div class="cloud-card">
+                            <h3 class="cloud-title">唐诗高频词</h3>
+                            <div class="word-cloud" id="cloud-tang"></div>
+                        </div>
+                        <div class="cloud-card">
+                            <h3 class="cloud-title">宋诗人名云</h3>
+                            <div class="word-cloud" id="cloud-song"></div>
+                        </div>
+                        <div class="cloud-card">
+                            <h3 class="cloud-title">词牌名词云</h3>
+                            <div class="word-cloud" id="cloud-cipai"></div>
+                        </div>
+                    </div>
+                    <p class="cloud-tip">提示：点击词云中的任意词条，会自动进入检索页并以该词作为关键词筛选。</p>
+                    <div class="toolbar-actions" style="margin-top:1rem">
+                        <button id="startExplore" class="btn primary">开始检索</button>
+                        <button id="gotoFavoritesFromLanding" class="btn ghost">查看我的收藏</button>
+                    </div>
             </div>
         </section>
 
-        <main class="diary-main">
-            <!-- Loading State -->
-            <div id="loading" style="text-align: center; color: var(--text-muted); padding: 2rem;">
-                <p>正在研墨...</p>
+            <section id="discoverView" class="view">
+                <div class="panel">
+                    <div class="toolbar">
+                        <input id="keywordInput" type="text" placeholder="关键词（标题/正文）">
+                        <input id="authorInput" type="text" placeholder="作者">
+                        <input id="tagInput" type="text" placeholder="标签">
+                        <select id="dynastySelect"><option value="">全部朝代</option></select>
+                        <select id="categorySelect"><option value="">全部分类</option></select>
+                        <select id="sortSelect">
+                            <option value="default">默认排序</option>
+                            <option value="title_asc">标题升序</option>
+                            <option value="author_asc">作者升序</option>
+                            <option value="dynasty_asc">朝代升序</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button id="searchBtn" class="btn primary">应用筛选</button>
+                        <button id="resetBtn" class="btn">重置</button>
+                        <button id="backLandingBtn" class="btn ghost">返回首页</button>
+                    </div>
+                    <div class="chip-wrap" id="hotKeywords"></div>
             </div>
+                <div class="panel"><div class="meta" id="resultMeta">尚未检索</div></div>
+                <div id="poemGrid" class="poem-grid"></div>
+                <div id="discoverEmpty" class="empty" style="display:none;">暂无匹配结果</div>
+            </section>
 
-            <!-- Error State -->
-            <div id="error-message" style="display: none; text-align: center; color: var(--text-muted); padding: 2rem;">
-                <p>暂时无法获取远程诗词，已加载精选集。</p>
+            <section id="favoritesView" class="view">
+                <div class="panel">
+                    <h2 style="margin:.2rem 0 .7rem">我的收藏</h2>
+                    <div class="toolbar-actions">
+                        <button id="backDiscoverBtn" class="btn">返回检索</button>
+                        <button id="backLandingFromFav" class="btn ghost">返回首页</button>
+                        <button id="exportFavoritesBtn" class="btn">导出收藏 JSON</button>
+                        <button id="clearFavoritesBtn" class="btn ghost">清空收藏</button>
             </div>
-
-            <div class="poem-grid" id="poem-grid">
-                <!-- Poems will be inserted here -->
+                    <div id="favoritesExport" class="mono"></div>
             </div>
+                <div id="favoritesGrid" class="poem-grid"></div>
+                <div id="favoritesEmpty" class="empty">还没有收藏，去检索页点 ❤️ 吧。</div>
+            </section>
         </main>
     </div>
     <script src="assets/js/main.js?v=20260203"></script>
+    <script src="assets/js/poems.api.js?v=20260414"></script>
     <script>
-        // Default backup poems in case backend is offline
-        const fallbackPoems = [
-            {
-                title: "定风波",
-                author: "宋 · 苏轼",
-                content: "莫听穿林打叶声，何妨吟啸且徐行。\n竹杖芒鞋轻胜马，谁怕？\n一蓑烟雨任平生。\n\n料峭春风吹酒醒，微冷，山头斜照却相迎。\n回首向来萧瑟处，归去，\n也无风雨也无晴。"
-            },
-            {
-                title: "将进酒",
-                author: "唐 · 李白",
-                content: "君不见，黄河之水天上来，\n奔流到海不复回。\n天生我材必有用，\n千金散尽还复来。"
-            },
-            {
-                title: "行路难",
-                author: "唐 · 李白",
-                content: "长风破浪会有时，\n直挂云帆济沧海。"
-            }
+        const poemsApi = window.POEMS_API || {};
+        const apiBaseUrl = poemsApi.baseUrl || "http://127.0.0.1:8300/api/v1";
+        const pageSize = Math.min(Number(poemsApi.pageSize || 100), 100);
+        const apiUrl = `${apiBaseUrl}/poems?page=1&page_size=${pageSize}`;
+        const wordcloudApiUrl = `${apiBaseUrl}/poems/meta/wordcloud`;
+        const STORAGE_KEY_FAVORITES = "poems-favorites-v1";
+        const STORAGE_KEY_SCRIPT = "poems-script-mode";
+        let scriptMode = localStorage.getItem(STORAGE_KEY_SCRIPT) || "simplified";
+        let poems = [];
+        let filtered = [];
+        let loaded = false;
+        let favorites = JSON.parse(localStorage.getItem(STORAGE_KEY_FAVORITES) || "{}");
+        let activeHot = "";
+
+        const fallback = [
+            { title: "定风波", title_simplified: "定风波", title_traditional: "定風波", author: "苏轼", dynasty: "宋", category: "宋词", tags: "豁达", content_simplified: "莫听穿林打叶声，何妨吟啸且徐行。", content_traditional: "莫聽穿林打葉聲，何妨吟嘯且徐行。" },
+            { title: "将进酒", title_simplified: "将进酒", title_traditional: "將進酒", author: "李白", dynasty: "唐", category: "古诗", tags: "豪放", content_simplified: "君不见，黄河之水天上来。", content_traditional: "君不見，黃河之水天上來。" }
         ];
+        const defaultCloudData = {
+            ci: [
+                ["明月", 56], ["春风", 52], ["江南", 45], ["归来", 44], ["天涯", 41], ["相思", 40],
+                ["风流", 38], ["梅花", 35], ["斜阳", 33], ["楼台", 30], ["往事", 29], ["夜雨", 27]
+            ],
+            tang: [
+                ["长安", 58], ["春风", 54], ["明月", 53], ["黄河", 46], ["故人", 44], ["青山", 41],
+                ["万里", 39], ["白云", 36], ["江城", 33], ["边塞", 30], ["秋风", 28], ["归舟", 26]
+            ],
+            song: [
+                ["苏轼", 60], ["陆游", 53], ["辛弃疾", 49], ["杨万里", 43], ["范成大", 40], ["梅尧臣", 37],
+                ["王安石", 35], ["欧阳修", 33], ["黄庭坚", 31], ["晏殊", 28], ["曾巩", 26], ["秦观", 24]
+            ],
+            ci_pai: [
+                ["水调歌头", 100], ["念奴娇", 96], ["沁园春", 94], ["满江红", 92], ["临江仙", 90], ["西江月", 88],
+                ["鹧鸪天", 86], ["菩萨蛮", 84], ["蝶恋花", 82], ["虞美人", 80], ["青玉案", 78], ["如梦令", 76]
+            ]
+        };
+        let cloudData = { ...defaultCloudData };
 
-        function normalizeAuthor(author) {
-            // 统一把作者字段清洗成「人名」尾部，避免后端格式不同导致定位失败
-            if (!author) return '';
-            const s = String(author).trim();
-            // 常见分隔符：' · ' / '·' / '.'
-            if (s.includes('/')) return s.split('/').filter(Boolean).pop().trim();
-            if (s.includes('·')) return s.split('·').filter(Boolean).pop().trim();
-            if (s.includes('.')) return s.split('.').filter(Boolean).pop().trim();
-            return s;
+        function keyOf(poem) { return `${poem.title_simplified || poem.title}__${poem.author}`; }
+        function getTitle(poem) { return scriptMode === "traditional" ? (poem.title_traditional || poem.title) : (poem.title_simplified || poem.title); }
+        function getContent(poem) { return scriptMode === "traditional" ? (poem.content_traditional || poem.content || "") : (poem.content_simplified || poem.content || ""); }
+        function setView(name) { ["landing", "discover", "favorites"].forEach((v) => document.getElementById(`${v}View`).classList.toggle("active", v === name)); }
+        function updateScriptButton() { document.getElementById("scriptToggle").textContent = scriptMode === "traditional" ? "繁体" : "简体"; }
+        function updateFavCount() { document.getElementById("favCount").textContent = Object.keys(favorites).length; }
+        function saveFavorites() { localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favorites)); updateFavCount(); }
+
+        function createHeartSvg() {
+            return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.2-4.4-9-8.1C.7 9.9 1.5 5.8 5.2 4.4c2.4-.9 4.6-.1 6 1.6 1.5-1.7 3.7-2.5 6-1.6 3.7 1.4 4.5 5.5 2.2 8.5C18.2 16.6 12 21 12 21z"></path></svg>';
         }
 
-        function normalizeTitle(title) {
-            if (!title) return '';
-            return String(title).trim();
+        function createSeededRandom(seed) {
+            let s = seed >>> 0;
+            return () => {
+                s = (s * 1664525 + 1013904223) >>> 0;
+                return s / 4294967296;
+            };
         }
 
-        function hashString(str) {
-            // 非加密 hash，用于生成稳定的 DOM id（同一 title/author 必然一致）
-            let h = 0;
-            for (let i = 0; i < str.length; i++) {
-                h = (h * 31 + str.charCodeAt(i)) >>> 0;
-            }
-            return h.toString(16);
-        }
-
-        function poemKeyToId(title, author) {
-            const t = normalizeTitle(title);
-            const a = normalizeAuthor(author);
-            return 'poem-' + hashString(t + '|' + a);
-        }
-
-        // Homepage directory (100 poems)
-        const poemsIndexData = [
-            {
-                key: 'ci',
-                name: '宋词',
-                items: [
-                    { title: '念奴娇·赤壁怀古', author: '苏轼' },
-                    { title: '满江红·写怀', author: '岳飞' },
-                    { title: '声声慢·寻寻觅觅', author: '李清照' },
-                    { title: '水调歌头·明月几时有', author: '苏轼' },
-                    { title: '雨霖铃·寒蝉凄切', author: '柳永' },
-                    { title: '永遇乐·京口北固亭怀古', author: '辛弃疾' },
-                    { title: '扬州慢·淮左名都', author: '姜夔' },
-                    { title: '钗头凤·红酥手', author: '陆游' },
-                    { title: '鹊桥仙·纤云弄巧', author: '秦观' },
-                    { title: '虞美人·春花秋月何时了', author: '李煜' },
-                    { title: '江城子·乙卯正月二十日夜记梦', author: '苏轼' },
-                    { title: '破阵子·为陈同甫赋壮词以寄之', author: '辛弃疾' },
-                    { title: '一剪梅·红藕香残玉簟秋', author: '李清照' },
-                    { title: '渔家傲·秋思', author: '范仲淹' },
-                    { title: '蝶恋花·庭院深深深几许', author: '欧阳修' },
-                    { title: '浣溪沙·一曲新词酒一杯', author: '晏殊' },
-                    { title: '兰陵王·柳', author: '周邦彦' },
-                    { title: '桂枝香·金陵怀古', author: '王安石' },
-                    { title: '临江仙·梦后楼台高锁', author: '晏几道' },
-                    { title: '天仙子·水调数声持酒听', author: '张先' },
-                    { title: '玉楼春·春景', author: '宋祁' },
-                    { title: '青玉案·凌波不过横塘路', author: '贺铸' },
-                    { title: '念奴娇·过洞庭', author: '张孝祥' },
-                    { title: '风入松·听风听雨过清明', author: '吴文英' },
-                    { title: '双双燕·咏燕', author: '史达祖' },
-                    { title: '沁园春·梦孚若', author: '刘克庄' },
-                    { title: '虞美人·听雨', author: '蒋捷' },
-                    { title: '眉妩·新月', author: '王沂孙' },
-                    { title: '高阳台·西湖春感', author: '张炎' },
-                    { title: '定风波·莫听穿林打叶声', author: '苏轼' },
-                    { title: '青玉案·元夕', author: '辛弃疾' },
-                    { title: '丑奴儿·书博山道中壁', author: '辛弃疾' },
-                    { title: '蝶恋花·伫倚危楼风细细', author: '柳永' },
-                    { title: '醉花阴·薄雾浓云愁永昼', author: '李清照' },
-                    { title: '如梦令·常记溪亭日暮', author: '李清照' },
-                    { title: '浪淘沙令·帘外雨潺潺', author: '李煜' },
-                    { title: '卜算子·黄州定慧院寓居作', author: '苏轼' },
-                    { title: '踏莎行·郴州旅舍', author: '秦观' },
-                    { title: '苏幕遮·燎沉香', author: '周邦彦' },
-                    { title: '暗香·旧时月色', author: '姜夔' },
-                ],
-            },
-            {
-                key: 'prose',
-                name: '古文',
-                items: [
-                    { title: '曹刿论战', author: '左传' },
-                    { title: '烛之武退秦师', author: '左传' },
-                    { title: '召公谏厉王止谤', author: '国语' },
-                    { title: '邹忌讽齐王纳谏', author: '战国策' },
-                    { title: '冯谖客孟尝君', author: '战国策' },
-                    { title: '谏逐客书', author: '李斯' },
-                    { title: '报任安书', author: '司马迁' },
-                    { title: '屈原列传', author: '司马迁' },
-                    { title: '前出师表', author: '诸葛亮' },
-                    { title: '陈情表', author: '李密' },
-                    { title: '兰亭集序', author: '王羲之' },
-                    { title: '桃花源记', author: '陶渊明' },
-                    { title: '归去来兮辞', author: '陶渊明' },
-                    { title: '谏太宗十思疏', author: '魏徵' },
-                    { title: '滕王阁序', author: '王勃' },
-                    { title: '师说', author: '韩愈' },
-                    { title: '原道', author: '韩愈' },
-                    { title: '进学解', author: '韩愈' },
-                    { title: '祭十二郎文', author: '韩愈' },
-                    { title: '捕蛇者说', author: '柳宗元' },
-                    { title: '小石潭记', author: '柳宗元' },
-                    { title: '种树郭橐驼传', author: '柳宗元' },
-                    { title: '阿房宫赋', author: '杜牧' },
-                    { title: '岳阳楼记', author: '范仲淹' },
-                    { title: '醉翁亭记', author: '欧阳修' },
-                    { title: '五代史伶官传序', author: '欧阳修' },
-                    { title: '秋声赋', author: '欧阳修' },
-                    { title: '六国论', author: '苏洵' },
-                    { title: '前赤壁赋', author: '苏轼' },
-                    { title: '后赤壁赋', author: '苏轼' },
-                    { title: '石钟山记', author: '苏轼' },
-                    { title: '记承天寺夜游', author: '苏轼' },
-                    { title: '黄州快哉亭记', author: '苏辙' },
-                    { title: '墨池记', author: '曾巩' },
-                    { title: '游褒禅山记', author: '王安石' },
-                    { title: '答司马谏议书', author: '王安石' },
-                    { title: '送东阳马生序', author: '宋濂' },
-                    { title: '卖柑者言', author: '刘基' },
-                    { title: '项脊轩志', author: '归有光' },
-                    { title: '湖心亭看雪', author: '张岱' },
-                ],
-            },
-            {
-                key: 'parallel',
-                name: '骈文',
-                items: [
-                    { title: '滕王阁序', author: '王勃' },
-                    { title: '哀江南赋序', author: '庾信' },
-                    { title: '别赋', author: '江淹' },
-                    { title: '恨赋', author: '江淹' },
-                    { title: '答谢中书书', author: '陶弘景' },
-                    { title: '与朱元思书', author: '吴均' },
-                    { title: '北山移文', author: '孔稚珪' },
-                    { title: '与陈伯之书', author: '丘迟' },
-                    { title: '文心雕龙·神思', author: '刘勰' },
-                    { title: '为徐敬业讨武曌檄', author: '骆宾王' },
-                    { title: '吊古战场文', author: '李华' },
-                    { title: '陋室铭', author: '刘禹锡' },
-                ],
-            },
-            {
-                key: 'exhort',
-                name: '檄文',
-                items: [
-                    { title: '牧誓', author: '尚书' },
-                    { title: '为袁绍檄豫州文', author: '陈琳' },
-                    { title: '为徐敬业讨武曌檄', author: '骆宾王' },
-                    { title: '为李密檄洛州文', author: '祖君彦' },
-                    { title: '谕中原檄', author: '朱元璋 / 宋濂' },
-                    { title: '讨粤匪檄', author: '曾国藩' },
-                    { title: '喻巴蜀檄', author: '司马相如' },
-                    { title: '移檄告郡国', author: '隗嚣' },
-                ],
-            },
-        ];
-
-        // Backend 离线兜底：用“100 篇目录”生成占位卡片，保证目录跳转可用
-        const indexFallbackPoems = [];
-        (function buildIndexFallback() {
-            for (const category of poemsIndexData) {
-                for (const item of category.items) {
-                    indexFallbackPoems.push({
-                        title: item.title,
-                        author: item.author,
-                        content: '（待补全原文）',
-                    });
-                }
-            }
-        })();
-
-        function renderPoemsIndex() {
-            const root = document.getElementById('poems-index');
+        function renderCloud(elId, words, seed) {
+            const root = document.getElementById(elId);
             if (!root) return;
+            root.innerHTML = "";
+            const rand = createSeededRandom(seed);
+            const sourceWords = Array.isArray(words) && words.length ? words : [["空白", 10, "#7aa7ff"]];
+            const maxWeight = Math.max(...sourceWords.map((x) => Number(x[1]) || 10));
+            const minWeight = Math.min(...sourceWords.map((x) => Number(x[1]) || 10));
+            const placed = [];
+            const rootWidth = root.clientWidth || 420;
+            const rootHeight = root.clientHeight || 230;
+            const centerX = rootWidth / 2;
+            const centerY = rootHeight / 2;
+            const measureCanvas = document.createElement("canvas");
+            const measureCtx = measureCanvas.getContext("2d");
 
-            let totalCount = 0;
-            root.innerHTML = '';
+            function overlap(a, b) {
+                return !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
+            }
 
-            poemsIndexData.forEach((category) => {
-                totalCount += category.items.length;
-
-                const details = document.createElement('details');
-                // 默认为展开顶部分类，提升“首页感”
-                if (category.key === 'ci') details.open = true;
-
-                const summary = document.createElement('summary');
-                const left = document.createElement('span');
-                left.textContent = category.name;
-                const right = document.createElement('span');
-                right.className = 'count';
-                right.textContent = `（${category.items.length}）`;
-                summary.appendChild(left);
-                summary.appendChild(right);
-                details.appendChild(summary);
-
-                const list = document.createElement('ol');
-                list.className = 'poems-index-list';
-
-                category.items.forEach((item) => {
-                    const poemId = poemKeyToId(item.title, item.author);
-                    const poemTitleNorm = normalizeTitle(item.title);
-
-                    const li = document.createElement('li');
-                    li.className = 'poems-index-item';
-
-                    const a = document.createElement('a');
-                    a.href = '#';
-                    a.dataset.poemId = poemId;
-                    a.dataset.poemTitle = poemTitleNorm;
-                    a.innerHTML = `<span class="toc-line"><span class="toc-author">${item.author}</span><span class="toc-title">《${item.title}》</span></span>`;
-                    a.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const el = document.getElementById(poemId);
-                        const fallbackByTitle = document.querySelector(`[data-poem-title="${CSS.escape(poemTitleNorm)}"]`);
-                        const targetEl = el || fallbackByTitle;
-
-                        if (!targetEl) {
-                            // 目录仍然能用，但若当前后端没加载到该诗词，就提示一下
-                            alert('该条目暂无对应卡片（可能后端数据未加载到）。');
-                            return;
-                        }
-
-                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        // 简单高亮，提升“跳转感”
-                        targetEl.style.transition = 'box-shadow 0.25s ease';
-                        targetEl.style.boxShadow = '0 0 0 2px rgba(80, 180, 255, 0.35) inset, var(--shadow-lg)';
-                        setTimeout(() => {
-                            targetEl.style.boxShadow = '';
-                        }, 1200);
-                    });
-
-                    li.appendChild(a);
-                    list.appendChild(li);
-                });
-
-                details.appendChild(list);
-                root.appendChild(details);
-            });
-
-            // 给用户一个总数提示（不影响 layout）
-            const totalNote = document.createElement('div');
-            totalNote.className = 'poems-index-total';
-            totalNote.textContent = `凡 ${totalCount} 篇`;
-            root.appendChild(totalNote);
-        }
-
-        function markIndexAvailability() {
-            // 根据 DOM id 是否存在，给目录条目标记 found/not-found
-            document.querySelectorAll('#poems-index a[data-poem-id]').forEach((a) => {
-                const poemId = a.dataset.poemId;
-                const poemTitleNorm = a.dataset.poemTitle || '';
-                const el = document.getElementById(poemId);
-                const fallbackByTitle = poemTitleNorm
-                    ? document.querySelector(`[data-poem-title="${CSS.escape(poemTitleNorm)}"]`)
-                    : null;
-
-                if (el || fallbackByTitle) {
-                    a.classList.add('found');
-                    a.classList.remove('not-found');
-                } else {
-                    a.classList.add('not-found');
+            function estimateRect(text, fontSize) {
+                let width = Math.max(26, text.length * fontSize * 1.02);
+                if (measureCtx) {
+                    measureCtx.font = `700 ${fontSize}px "Noto Serif SC","Songti SC","STSong",serif`;
+                    width = Math.max(26, measureCtx.measureText(text).width + 2);
                 }
+                const height = fontSize * 1.18;
+                return { width, height };
+            }
+
+            function inEllipse(rect) {
+                const rx = rootWidth * 0.5 - 14;
+                const ry = rootHeight * 0.5 - 12;
+                const cx = rootWidth * 0.5;
+                const cy = rootHeight * 0.5;
+                const points = [
+                    { x: rect.left, y: rect.top },
+                    { x: rect.right, y: rect.top },
+                    { x: rect.left, y: rect.bottom },
+                    { x: rect.right, y: rect.bottom }
+                ];
+                return points.every((p) => {
+                    const nx = (p.x - cx) / rx;
+                    const ny = (p.y - cy) / ry;
+                    return nx * nx + ny * ny <= 1;
+                });
+            }
+
+            function scoreRatio(weight) {
+                if (maxWeight === minWeight) return 1;
+                return (weight - minWeight) / (maxWeight - minWeight);
+            }
+
+            function scoreColor(weight) {
+                const ratio = scoreRatio(weight);
+                const hue = 210 - Math.round(ratio * 150);
+                const saturation = 74;
+                const lightness = 78 - Math.round(ratio * 30);
+                return `hsl(${hue} ${saturation}% ${lightness}%)`;
+            }
+
+            function clamp(v, min, max) {
+                return Math.max(min, Math.min(max, v));
+            }
+
+            function computeTiltAngle(rect) {
+                const itemCx = (rect.left + rect.right) / 2;
+                const itemCy = (rect.top + rect.bottom) / 2;
+                const dx = itemCx - centerX;
+                const dy = itemCy - centerY;
+                const maxRadius = Math.hypot(centerX, centerY) || 1;
+                const distRatio = Math.min(1, Math.hypot(dx, dy) / maxRadius);
+                const absAngle = 2 + distRatio * 10;
+
+                // Quadrant-based direction:
+                // Q1(+,-) / Q3(-,+) tilt one way, Q2(-,-) / Q4(+,+) tilt the opposite way.
+                const sameSign = (dx >= 0 && dy >= 0) || (dx < 0 && dy < 0);
+                return sameSign ? absAngle : -absAngle;
+            }
+
+            function tryPlaceInSpiral(size, angleOffset) {
+                const maxRadius = Math.max(rootWidth, rootHeight);
+                const step = 4.2;
+                for (let r = 0; r < maxRadius; r += step) {
+                    const theta = r * 0.18 + angleOffset;
+                    const x = centerX + r * Math.cos(theta) - size.width / 2;
+                    const y = centerY + r * Math.sin(theta) - size.height / 2;
+                    const left = clamp(Math.round(x), 0, Math.max(0, rootWidth - size.width - 2));
+                    const top = clamp(Math.round(y), 0, Math.max(0, rootHeight - size.height - 2));
+                    const rect = { left, top, right: left + size.width, bottom: top + size.height };
+                    const hit = placed.some((p) => overlap(rect, p));
+                    if (!hit && inEllipse(rect)) return rect;
+                }
+                return null;
+            }
+
+            const sorted = [...sourceWords].sort((a, b) => (Number(b[1]) || 0) - (Number(a[1]) || 0));
+            sorted.forEach(([text, weight, color]) => {
+                const item = document.createElement("button");
+                item.type = "button";
+                item.className = "word-item";
+                const numericWeight = Number(weight) || 10;
+                const ratio = numericWeight / maxWeight;
+                const fontSize = Math.round(13 + ratio * 34);
+                item.style.fontSize = `${fontSize}px`;
+                item.style.color = color || scoreColor(numericWeight);
+                item.textContent = text;
+                item.title = `点击检索「${text}」`;
+                item.addEventListener("click", () => triggerCloudSearch(text));
+
+                const size = estimateRect(text, fontSize);
+                let chosen = tryPlaceInSpiral(size, rand() * Math.PI * 2);
+                if (!chosen) {
+                    return;
+                }
+                placed.push(chosen);
+                item.style.left = `${chosen.left}px`;
+                item.style.top = `${chosen.top}px`;
+                item.style.transform = `rotate(${computeTiltAngle(chosen).toFixed(1)}deg)`;
+                root.appendChild(item);
             });
         }
 
-        // Function to create poem card HTML
-        function createPoemCard(poem) {
-            const article = document.createElement('article');
-            article.className = 'poem-card';
-            article.id = poemKeyToId(poem.title, poem.author);
-            article.dataset.poemId = article.id;
-            article.dataset.poemTitle = normalizeTitle(poem.title);
-            article.dataset.poemAuthor = normalizeAuthor(poem.author);
-            
-            // Format author if it comes from API as "Subject" and "Dynasty"
-            let authorText = poem.author;
-            if (poem.dynesty) {
-                authorText = `${poem.dynesty} · ${poem.author}`;
-            }
-
-            article.innerHTML = `
-                <h3 class="poem-title">${poem.title}</h3>
-                <p class="poem-author">${authorText}</p>
-                <div class="poem-content">${poem.content}</div>
-                <div class="ink-stain"></div>
-            `;
-            return article;
+        function renderLandingClouds() {
+            renderCloud("cloud-ci", cloudData.ci, 1103);
+            renderCloud("cloud-tang", cloudData.tang, 2207);
+            renderCloud("cloud-song", cloudData.song, 3311);
+            renderCloud("cloud-cipai", cloudData.ci_pai, 4417);
         }
 
-        async function fetchPoems() {
-            const grid = document.getElementById('poem-grid');
-            const loading = document.getElementById('loading');
-            const errorMsg = document.getElementById('error-message');
-            
-            // Try to fetch from local backend first (common port 8000 or 8080)
-            // Assuming the backend is running on localhost:8080 as configured
-            // 诗词模块目录是 100 篇清单，因此这里尽量请求更大 limit
-            const API_URL = 'http://localhost:8080/api/poems?limit=200';
+        function normalizeCloudData(payload) {
+            const categories = payload?.data?.categories || payload?.categories || [];
+            const map = {};
+            categories.forEach((item) => {
+                if (!item?.key || !Array.isArray(item.words)) return;
+                const list = item.words
+                    .slice(0, 100)
+                    .map((entry) => {
+                        if (!Array.isArray(entry) || entry.length < 2) return null;
+                        return [String(entry[0]), Number(entry[1]) || 10, String(entry[2] || "")];
+                    })
+                    .filter(Boolean);
+                map[item.key] = list;
+            });
+            return {
+                ci: map.ci?.length ? map.ci : defaultCloudData.ci,
+                tang: map.tang?.length ? map.tang : defaultCloudData.tang,
+                song: map.song_people?.length ? map.song_people : defaultCloudData.song,
+                ci_pai: map.ci_pai?.length ? map.ci_pai : defaultCloudData.ci_pai,
+            };
+        }
 
+        async function loadWordcloudData() {
             try {
-                const response = await fetch(API_URL, { 
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' },
-                    signal: AbortSignal.timeout(2000) // 2 second timeout
-                });
-                
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const poems = await response.json();
-                
-                // Clear loading
-                loading.style.display = 'none';
-                
-                // Render poems
-                poems.forEach(poem => {
-                    grid.appendChild(createPoemCard(poem));
-                });
-
-                // 同步目录“是否可跳转”的状态
-                markIndexAvailability();
-                
-            } catch (error) {
-                console.log('Backend not available, using fallback data:', error);
-                
-                loading.style.display = 'none';
-                errorMsg.style.display = 'block'; // Show "using fallback" message
-                
-                // Use fallback data（优先使用“100 篇目录占位卡片”）
-                const usableFallback = indexFallbackPoems.length ? indexFallbackPoems : fallbackPoems;
-                usableFallback.forEach(poem => {
-                    grid.appendChild(createPoemCard(poem));
-                });
-
-                // fallback 数量有限，只是标记出哪些条目当前可跳
-                markIndexAvailability();
+                const res = await fetch(wordcloudApiUrl, { signal: AbortSignal.timeout(5000) });
+                const payload = await res.json();
+                cloudData = normalizeCloudData(payload);
+            } catch {
+                cloudData = { ...defaultCloudData };
             }
+            renderLandingClouds();
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            renderPoemsIndex();
-            fetchPoems();
+        async function triggerCloudSearch(word) {
+            await ensureLoaded();
+            setView("discover");
+            document.getElementById("keywordInput").value = word || "";
+            document.getElementById("tagInput").value = "";
+            activeHot = "";
+            applyFilters();
+        }
+
+        function renderCard(poem, favView = false) {
+            const card = document.createElement("article");
+            const key = keyOf(poem);
+            card.className = "poem-card";
+            card.innerHTML = `
+                <button class="heart-btn ${favorites[key] ? "active" : ""}" title="收藏">${createHeartSvg()}</button>
+                <h3 class="poem-title">${getTitle(poem)}</h3>
+                <p class="poem-author">${poem.dynasty ? poem.dynasty + " · " : ""}${poem.author}${poem.category ? " · " + poem.category : ""}</p>
+                <div class="poem-content">${getContent(poem)}</div>
+            `;
+            card.querySelector(".heart-btn").addEventListener("click", () => {
+                if (favorites[key]) delete favorites[key];
+                else favorites[key] = { id: poem.id, title_simplified: poem.title_simplified || poem.title, title_traditional: poem.title_traditional || poem.title, author: poem.author, dynasty: poem.dynasty, category: poem.category };
+                saveFavorites();
+                renderDiscover();
+                renderFavorites();
+                if (favView && !favorites[key]) card.remove();
+            });
+            return card;
+        }
+
+        function buildHotWords(list) {
+            const map = {};
+            list.forEach((p) => String(p.tags || "").split(/[，,、\s]+/).filter(Boolean).forEach((w) => map[w] = (map[w] || 0) + 1));
+            return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 15).map((x) => x[0]);
+        }
+
+        function renderHotWords(list) {
+            const root = document.getElementById("hotKeywords");
+            root.innerHTML = "";
+            buildHotWords(list).forEach((w) => {
+                const chip = document.createElement("button");
+                chip.className = `chip ${activeHot === w ? "active" : ""}`;
+                chip.textContent = w;
+                chip.addEventListener("click", () => {
+                    activeHot = activeHot === w ? "" : w;
+                    document.getElementById("tagInput").value = activeHot;
+                    applyFilters();
+                });
+                root.appendChild(chip);
+            });
+        }
+
+        function renderSelects() {
+            const dSet = [...new Set(poems.map((p) => p.dynasty).filter(Boolean))].sort();
+            const cSet = [...new Set(poems.map((p) => p.category).filter(Boolean))].sort();
+            document.getElementById("dynastySelect").innerHTML = '<option value="">全部朝代</option>' + dSet.map((d) => `<option value="${d}">${d}</option>`).join("");
+            document.getElementById("categorySelect").innerHTML = '<option value="">全部分类</option>' + cSet.map((c) => `<option value="${c}">${c}</option>`).join("");
+        }
+
+        function sortPoems(list) {
+            const mode = document.getElementById("sortSelect").value;
+            const arr = [...list];
+            if (mode === "title_asc") arr.sort((a, b) => getTitle(a).localeCompare(getTitle(b), "zh-Hans-CN"));
+            if (mode === "author_asc") arr.sort((a, b) => (a.author || "").localeCompare(b.author || "", "zh-Hans-CN"));
+            if (mode === "dynasty_asc") arr.sort((a, b) => (a.dynasty || "").localeCompare(b.dynasty || "", "zh-Hans-CN"));
+            return arr;
+        }
+
+        function applyFilters() {
+            const keyword = (document.getElementById("keywordInput").value || "").trim();
+            const author = (document.getElementById("authorInput").value || "").trim();
+            const tag = (document.getElementById("tagInput").value || "").trim();
+            const dynasty = document.getElementById("dynastySelect").value;
+            const category = document.getElementById("categorySelect").value;
+            filtered = poems.filter((p) => {
+                const text = `${p.title} ${p.title_simplified || ""} ${p.title_traditional || ""} ${p.author || ""} ${p.content_simplified || ""} ${p.content_traditional || ""} ${p.tags || ""}`;
+                return (!keyword || text.includes(keyword)) && (!author || (p.author || "").includes(author)) && (!tag || (p.tags || "").includes(tag)) && (!dynasty || p.dynasty === dynasty) && (!category || p.category === category);
+            });
+            filtered = sortPoems(filtered);
+            renderHotWords(filtered.length ? filtered : poems);
+            renderDiscover();
+        }
+
+        function renderDiscover() {
+            const grid = document.getElementById("poemGrid");
+            grid.innerHTML = "";
+            filtered.forEach((p) => grid.appendChild(renderCard(p)));
+            document.getElementById("discoverEmpty").style.display = filtered.length ? "none" : "block";
+            document.getElementById("resultMeta").textContent = `筛选结果 ${filtered.length} / 总数 ${poems.length}`;
+            updateScriptButton();
+            updateFavCount();
+        }
+
+        function renderFavorites() {
+            const favList = poems.filter((p) => favorites[keyOf(p)]);
+            const grid = document.getElementById("favoritesGrid");
+            grid.innerHTML = "";
+            favList.forEach((p) => grid.appendChild(renderCard(p, true)));
+            document.getElementById("favoritesEmpty").style.display = favList.length ? "none" : "block";
+        }
+
+        async function ensureLoaded() {
+            if (loaded) return;
+            try {
+                const res = await fetch(apiUrl, { signal: AbortSignal.timeout(5000) });
+                const payload = await res.json();
+                poems = payload?.data?.items || [];
+                if (!poems.length) poems = fallback;
+            } catch {
+                poems = fallback;
+            }
+            loaded = true;
+            filtered = [...poems];
+            renderSelects();
+            renderHotWords(poems);
+        }
+
+        function resetFilters() {
+            ["keywordInput", "authorInput", "tagInput"].forEach((id) => document.getElementById(id).value = "");
+            ["dynastySelect", "categorySelect", "sortSelect"].forEach((id) => document.getElementById(id).value = id === "sortSelect" ? "default" : "");
+            activeHot = "";
+            filtered = sortPoems([...poems]);
+            renderHotWords(poems);
+            renderDiscover();
+        }
+
+        function bindEvents() {
+            document.getElementById("startExplore").addEventListener("click", async () => { await ensureLoaded(); setView("discover"); renderDiscover(); });
+            document.getElementById("gotoFavoritesFromLanding").addEventListener("click", async () => { await ensureLoaded(); setView("favorites"); renderFavorites(); });
+            document.getElementById("openFavorites").addEventListener("click", async () => { await ensureLoaded(); setView("favorites"); renderFavorites(); });
+            document.getElementById("backLandingBtn").addEventListener("click", () => setView("landing"));
+            document.getElementById("backDiscoverBtn").addEventListener("click", () => setView("discover"));
+            document.getElementById("backLandingFromFav").addEventListener("click", () => setView("landing"));
+            document.getElementById("searchBtn").addEventListener("click", applyFilters);
+            document.getElementById("resetBtn").addEventListener("click", resetFilters);
+            document.getElementById("sortSelect").addEventListener("change", applyFilters);
+            document.getElementById("scriptToggle").addEventListener("click", () => {
+                scriptMode = scriptMode === "simplified" ? "traditional" : "simplified";
+                localStorage.setItem(STORAGE_KEY_SCRIPT, scriptMode);
+                if (loaded) { renderDiscover(); renderFavorites(); }
+                updateScriptButton();
+            });
+            document.getElementById("exportFavoritesBtn").addEventListener("click", () => {
+                const output = poems.filter((p) => favorites[keyOf(p)]).map((p) => ({ id: p.id, title_simplified: p.title_simplified || p.title, title_traditional: p.title_traditional || p.title, author: p.author, dynasty: p.dynasty, category: p.category, favorite: true }));
+                document.getElementById("favoritesExport").textContent = JSON.stringify(output, null, 2);
+            });
+            document.getElementById("clearFavoritesBtn").addEventListener("click", () => {
+                favorites = {};
+                saveFavorites();
+                if (loaded) { renderDiscover(); renderFavorites(); }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadWordcloudData();
+            updateScriptButton();
+            updateFavCount();
+            bindEvents();
         });
     </script>
 </body>
