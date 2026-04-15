@@ -61,11 +61,12 @@ def _resolve_local_files(source: dict) -> list[Path]:
     return local_files
 
 
-def save_raw_payload(source_name: str, payload: list[dict], output_dir: Path) -> Path:
+def save_raw_payload(source_name: str, payload: list[dict], output_dir: Path, file_tag: str | None = None) -> Path:
     """Save raw payload to timestamped file."""
     output_dir.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-    output_path = output_dir / f"{source_name}__{timestamp}.json"
+    timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
+    suffix = f"__{file_tag}" if file_tag else ""
+    output_path = output_dir / f"{source_name}{suffix}__{timestamp}.json"
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return output_path
 
@@ -86,7 +87,7 @@ def run_spider(config_path: Path = DEFAULT_CONFIG_PATH, output_dir: Path = DEFAU
                 LOGGER.info("local_source_detected source=%s files=%s", source_name, len(local_files))
                 for local_file in local_files:
                     payload = _load_local_payload(local_file)
-                    output_file = save_raw_payload(source_name, payload, output_dir)
+                    output_file = save_raw_payload(source_name, payload, output_dir, file_tag=local_file.stem)
                     LOGGER.info("raw_saved source=%s from_local=%s path=%s", source_name, local_file, output_file)
                     output_files.append(output_file)
             else:

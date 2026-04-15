@@ -77,17 +77,15 @@ class PoemModel(Base):
     """Poems table for showcase poetry module."""
 
     __tablename__ = "poems"
-    __table_args__ = (UniqueConstraint("title", "author", name="uq_poems_title_author"),)
+    __table_args__ = (UniqueConstraint("title_simplified", "author_simplified", name="uq_poems_title_author"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    title: Mapped[str] = mapped_column(String(255), index=True)
     title_simplified: Mapped[str] = mapped_column(String(255), default="", index=True)
     title_traditional: Mapped[str] = mapped_column(String(255), default="", index=True)
-    author: Mapped[str] = mapped_column(String(128), index=True)
+    author_simplified: Mapped[str] = mapped_column(String(128), default="", index=True)
+    author_traditional: Mapped[str] = mapped_column(String(128), default="", index=True)
     dynasty: Mapped[str] = mapped_column(String(64), default="", index=True)
     category: Mapped[str] = mapped_column(String(64), default="", index=True)
-    # Keep legacy content column for compatibility with existing SQLite schema.
-    content: Mapped[str] = mapped_column(Text, default="")
     content_simplified: Mapped[str] = mapped_column(Text, default="")
     content_traditional: Mapped[str] = mapped_column(Text, default="")
     tags: Mapped[str] = mapped_column(String(255), default="")
@@ -100,7 +98,7 @@ class PoemModel(Base):
 
 
 def _ensure_poems_columns() -> None:
-    """Add new poem columns for legacy databases."""
+    """Add bilingual poem columns for legacy databases."""
     with engine.begin() as conn:
         rows = conn.execute(text("PRAGMA table_info(poems)")).fetchall()
         if not rows:
@@ -110,11 +108,40 @@ def _ensure_poems_columns() -> None:
             conn.execute(text("ALTER TABLE poems ADD COLUMN title_simplified VARCHAR(255) NOT NULL DEFAULT ''"))
         if "title_traditional" not in columns:
             conn.execute(text("ALTER TABLE poems ADD COLUMN title_traditional VARCHAR(255) NOT NULL DEFAULT ''"))
+        if "author_simplified" not in columns:
+            conn.execute(text("ALTER TABLE poems ADD COLUMN author_simplified VARCHAR(128) NOT NULL DEFAULT ''"))
+        if "author_traditional" not in columns:
+            conn.execute(text("ALTER TABLE poems ADD COLUMN author_traditional VARCHAR(128) NOT NULL DEFAULT ''"))
         if "content_simplified" not in columns:
             conn.execute(text("ALTER TABLE poems ADD COLUMN content_simplified TEXT NOT NULL DEFAULT ''"))
         if "content_traditional" not in columns:
             conn.execute(text("ALTER TABLE poems ADD COLUMN content_traditional TEXT NOT NULL DEFAULT ''"))
-        # Migrate existing content data into new columns when they are empty.
+        if "title" in columns:
+            conn.execute(
+                text(
+                    "UPDATE poems SET title_simplified = title "
+                    "WHERE title_simplified = '' AND title IS NOT NULL"
+                )
+            )
+            conn.execute(
+                text(
+                    "UPDATE poems SET title_traditional = title "
+                    "WHERE title_traditional = '' AND title IS NOT NULL"
+                )
+            )
+        if "author" in columns:
+            conn.execute(
+                text(
+                    "UPDATE poems SET author_simplified = author "
+                    "WHERE author_simplified = '' AND author IS NOT NULL"
+                )
+            )
+            conn.execute(
+                text(
+                    "UPDATE poems SET author_traditional = author "
+                    "WHERE author_traditional = '' AND author IS NOT NULL"
+                )
+            )
         if "content" in columns:
             conn.execute(
                 text(
@@ -128,8 +155,6 @@ def _ensure_poems_columns() -> None:
                     "WHERE content_traditional = '' AND content IS NOT NULL"
                 )
             )
-        conn.execute(text("UPDATE poems SET title_simplified = title WHERE title_simplified = '' AND title IS NOT NULL"))
-        conn.execute(text("UPDATE poems SET title_traditional = title WHERE title_traditional = '' AND title IS NOT NULL"))
 
 
 def init_db() -> None:

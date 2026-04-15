@@ -60,11 +60,13 @@ class PoemAdmin(ModelView, model=PoemModel):
     name = "Poem"
     name_plural = "Poems"
     icon = "fa-solid fa-feather-pointed"
-    column_list = [PoemModel.id, PoemModel.title, PoemModel.author, PoemModel.dynasty, PoemModel.category]
-    column_searchable_list = [PoemModel.title, PoemModel.author, PoemModel.category]
+    column_list = [PoemModel.id, PoemModel.title_simplified, PoemModel.author_simplified, PoemModel.dynasty, PoemModel.category]
+    column_searchable_list = [PoemModel.title_simplified, PoemModel.title_traditional, PoemModel.author_simplified, PoemModel.author_traditional, PoemModel.category]
     form_columns = [
-        PoemModel.title,
-        PoemModel.author,
+        PoemModel.title_simplified,
+        PoemModel.title_traditional,
+        PoemModel.author_simplified,
+        PoemModel.author_traditional,
         PoemModel.dynasty,
         PoemModel.category,
         PoemModel.content_simplified,

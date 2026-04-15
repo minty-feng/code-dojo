@@ -4,52 +4,51 @@
 
 ### 入库位置
 
-- 数据库类型：SQLite（当前默认）
+- 数据库类型：SQLite（默认）
 - 数据库文件：`data/app.db`
 - 目标数据表：`poems`
-- 内容字段：
-  - `content_simplified`：简体正文（默认 API `content` 使用该字段）
-  - `content_traditional`：繁体正文
 
-执行命令：
+执行命令（推荐使用项目虚拟环境）：
 
 ```bash
-python scripts/poems/run.py
+./.venv/bin/python scripts/poems/run.py
 ```
 
-会将抓取并解析后的诗词数据写入 `data/app.db` 的 `poems` 表。
+### 简繁处理规则（当前版本）
 
-### 简繁处理规则（已实现）
+入库解析阶段会统一执行 OpenCC 转换，核心文本字段只保留简繁双字段：
 
-入库前在解析阶段会统一执行简繁双向转换（基于 OpenCC）：
+- 标题：
+  - `title_simplified`
+  - `title_traditional`
+- 作者：
+  - `author_simplified`
+  - `author_traditional`
+- 正文：
+  - `content_simplified`
+  - `content_traditional`
 
-- 输入原文来自源字段：`content` 或 `paragraphs`
-- 输出并入库：
-  - `content_simplified`：转换后的简体正文
-  - `content_traditional`：转换后的繁体正文
+解析输入兼容：
 
-处理逻辑：
+- 标题来源：`title` 或（宋词）`rhythmic`
+- 正文来源：`content` 或 `paragraphs`
 
-- 如果原文是繁体，`content_simplified` 会被转换为简体，`content_traditional` 保持繁体语义
-- 如果原文是简体，`content_traditional` 会被补齐为繁体，`content_simplified` 保持简体语义
-- API 兼容字段 `content` 默认返回 `content_simplified`
-
-### `poems` 表字段说明
+### `poems` 表字段说明（无旧字段）
 
 - `id`：自增主键
-- `title`：兼容字段，默认存简体标题
-- `title_simplified`：简体标题
-- `title_traditional`：繁体标题
-- `author`：作者名
-- `dynasty`：朝代（如 唐/宋）
-- `category`：分类（如 古诗/宋词）
-- `content_simplified`：简体正文（前端默认展示）
-- `content_traditional`：繁体正文（前端可切换展示）
-- `tags`：标签，逗号分隔字符串
-- `source`：来源标识（对应 `sources.yaml` 中 `name`）
+- `title_simplified` / `title_traditional`
+- `author_simplified` / `author_traditional`
+- `dynasty`：朝代
+- `category`：分类
+- `content_simplified` / `content_traditional`
+- `tags`：标签（逗号分隔字符串）
+- `source`：来源标识（对应 source 配置中的 `name`）
 - `source_url`：来源链接（本地源可为空）
-- `created_at`：记录创建时间
-- `updated_at`：记录更新时间
+- `created_at` / `updated_at`
+
+唯一键约束：
+
+- `(title_simplified, author_simplified)`
 
 ### 后端使用链路
 
@@ -60,46 +59,38 @@ python scripts/poems/run.py
 
 ### 前端使用方式
 
-前端通过后端 API 获取数据，不直接读数据库文件：
+前端通过 API 获取数据，不直接读数据库：
 
 - `GET /api/v1/poems`
 - `GET /api/v1/poems/{poem_id}`
 - `GET /api/v1/poems/meta/categories`
+- `GET /api/v1/poems/meta/dynasties`
 
-调用路径是：前端页面 -> FastAPI 接口 -> `poems` 表查询 -> 返回 JSON。
+调用路径：前端页面 -> FastAPI 接口 -> `poems` 表查询 -> JSON 返回。
 
-### 快速验证
-
-1. 先执行入库：
-
-```bash
-python scripts/poems/run.py --skip-crawl
-```
-
-2. 启动后端：
-
-```bash
-uvicorn app.main:app --reload --port 8300
-```
-
-3. 验证数据：
-
-- 打开 `http://127.0.0.1:8300/docs` 调用 `GET /api/v1/poems`
-- 或在 `http://127.0.0.1:8300/admin` 查看 `Poems` 表数据
+> 注：收藏功能当前是前端本地 `localStorage`，不落后端。
 
 ## API 清单
 
 - `GET /api/v1/poems`
 - `GET /api/v1/poems/{poem_id}`
 - `GET /api/v1/poems/meta/categories`
+- `GET /api/v1/poems/meta/dynasties`
 
 ## 列表接口参数
 
 - `keyword`：标题/作者/内容关键词
+- `author`：作者关键词（简繁均可匹配）
+- `tag`：标签关键词
 - `category`：分类过滤
 - `dynasty`：朝代过滤
 - `page`：页码，从 1 开始
 - `page_size`：每页条数，范围 `1..100`
+- `sort`：排序方式，取值：
+  - `default`
+  - `title_asc`
+  - `author_asc`
+  - `dynasty_asc`
 
 ## 列表返回结构
 
@@ -112,11 +103,14 @@ uvicorn app.main:app --reload --port 8300
     "items": [
       {
         "id": 1,
-        "title": "定风波",
-        "author": "苏轼",
+        "title_simplified": "定风波",
+        "title_traditional": "定風波",
+        "author_simplified": "苏轼",
+        "author_traditional": "蘇軾",
         "dynasty": "宋",
         "category": "宋词",
-        "content": "...",
+        "content_simplified": "...",
+        "content_traditional": "...",
         "tags": "",
         "source": "poet_song_0",
         "source_url": ""
@@ -131,7 +125,7 @@ uvicorn app.main:app --reload --port 8300
 
 ## 数据导入
 
-执行入口：`python scripts/poems/run.py`
+执行入口：`./.venv/bin/python scripts/poems/run.py`
 
 - 默认执行顺序：抓取 -> 原始 JSON 落盘 -> 解析标准化 -> 入库（upsert）
 - 原始数据目录：`data/raw/poems/`
@@ -139,7 +133,7 @@ uvicorn app.main:app --reload --port 8300
 
 ### `--dry-run` 在做什么
 
-`python scripts/poems/run.py --dry-run` 会执行：
+`./.venv/bin/python scripts/poems/run.py --dry-run` 会执行：
 
 - 抓取远程数据源（除非同时加 `--skip-crawl`）
 - 解析并标准化字段（`title/author/dynasty/category/content/...`）
@@ -150,7 +144,13 @@ uvicorn app.main:app --reload --port 8300
 
 ### 原始数据怎么获取
 
-数据源由 `scripts/poems/sources.yaml` 配置：
+数据源由 `scripts/poems/*.yaml` 配置，常用示例：
+
+- `scripts/poems/sources.yaml`（基础示例）
+- `scripts/poems/sources.quantangshi.yaml`（全唐诗分片）
+- `scripts/poems/sources.songci.yaml`（宋词分片）
+- `scripts/poems/sources.yudingquantangshi.yaml`（御定全唐詩）
+- `scripts/poems/sources.quantangshi.single.yaml`（全唐诗单文件）
 
 - 推荐源数据下载地址（chinese-poetry）：
   - `https://github.com/chinese-poetry/chinese-poetry/archive/refs/heads/master.zip`
@@ -163,9 +163,9 @@ uvicorn app.main:app --reload --port 8300
 - `enabled`：是否启用
 - `category/dynasty`：该源默认字段（解析补齐）
 
-脚本会将每个源抓取结果存为时间戳文件，例如：
+脚本会将每个本地源文件落盘为独立 raw 文件（避免覆盖），例如：
 
-- `data/raw/poems/poet_tang_0__20260414103022.json`
+- `data/raw/poems/poet_tang_0__poet.tang.0__20260415072307841261.json`
 
 示例（下载并解压到 `data/`）：
 
@@ -178,38 +178,46 @@ unzip -o chinese-poetry-master.zip
 解压后在 `scripts/poems/sources.yaml` 里配置对应的 `local_path` 或 `local_glob`，再执行：
 
 ```bash
-python scripts/poems/run.py
+./.venv/bin/python scripts/poems/run.py
 ```
 
 ### 数据怎么更新
 
-- 更新命令（全流程）：`python scripts/poems/run.py`
-- 仅用本地已有 raw 重复导入：`python scripts/poems/run.py --skip-crawl`
-- 导入策略是 **upsert**（按 `title + author`）：
+- 更新命令（全流程）：`./.venv/bin/python scripts/poems/run.py`
+- 仅用本地已有 raw 重复导入：`./.venv/bin/python scripts/poems/run.py --skip-crawl`
+- 导入策略是 **upsert**（按 `title_simplified + author_simplified`）：
   - 已存在：更新内容与元数据
   - 不存在：插入新记录
-- 正文转换规则：
-  - 若原文为繁体，自动生成简体并保留繁体
-  - 若原文为简体，自动补齐繁体
+- 注意：当前已移除“每次导入前全表 normalize”步骤，避免历史数据标准化时触发唯一键冲突。
+
+### 重复键扫描（运维脚本）
+
+用于排查历史重复键冲突：
+
+```bash
+./.venv/bin/python scripts/poems/scan_duplicates.py --limit 200
+```
+
+输出 `duplicate_groups=0` 表示当前库不存在 `(title_simplified, author_simplified)` 重复组。
 
 ### 常用命令
 
 1. 抓取并落盘原始数据：
 
 ```bash
-python scripts/poems/run.py
+./.venv/bin/python scripts/poems/run.py
 ```
 
 2. 仅解析与校验，不写库：
 
 ```bash
-python scripts/poems/run.py --dry-run
+./.venv/bin/python scripts/poems/run.py --dry-run
 ```
 
 3. 基于已有原始数据重复导入：
 
 ```bash
-python scripts/poems/run.py --skip-crawl
+./.venv/bin/python scripts/poems/run.py --skip-crawl
 ```
 
 ### 常见问题
@@ -218,4 +226,8 @@ python scripts/poems/run.py --skip-crawl
   - 说明当前网络无法连通数据源
   - 现在可直接改为 `local_path`/`local_glob` 使用本地 `chinese-poetry` 数据
   - 或执行 `--skip-crawl` 使用已有原始文件
+- `UNIQUE constraint failed: poems.title_simplified, poems.author_simplified`：
+  - 说明存在重复唯一键冲突（常见于历史脏数据）
+  - 先执行 `scan_duplicates.py` 查看冲突组
+  - 确认冲突后再做定向合并/清理
 

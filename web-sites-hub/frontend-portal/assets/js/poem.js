@@ -5,23 +5,24 @@
 // Reads API config from window.POEMS_API (injected by poem.config.js).
 const poemsApi = window.POEMS_API || {};
 const apiBaseUrl = poemsApi.baseUrl || "http://127.0.0.1:8300/api/v1";
-const pageSize = Math.min(Number(poemsApi.pageSize || 100), 100);
-const apiUrl = `${apiBaseUrl}/poems?page=1&page_size=${pageSize}`;
 const wordcloudApiUrl = `${apiBaseUrl}/poems/meta/wordcloud`;
 const STORAGE_KEY_FAVORITES = "poems-favorites-v1";
 const STORAGE_KEY_SCRIPT = "poems-script-mode";
 let scriptMode = localStorage.getItem(STORAGE_KEY_SCRIPT) || "simplified";
 let poems = [];
-let filtered = [];
-let loaded = false;
+let listTotal = 0;
+let filterMetaLoaded = false;
+let metaCategories = [];
+let metaDynasties = [];
 let favorites = JSON.parse(localStorage.getItem(STORAGE_KEY_FAVORITES) || "{}");
 let activeHot = "";
 let currentPage = 1;
-let currentPageSize = 20;
+let currentPageSize = Math.min(Math.max(Number(poemsApi.pageSize || 20), 1), 100);
+let listLoading = false;
 
 const fallback = [
-    { title: "定风波", title_simplified: "定风波", title_traditional: "定風波", author: "苏轼", dynasty: "宋", category: "宋词", tags: "豁达", content_simplified: "莫听穿林打叶声，何妨吟啸且徐行。", content_traditional: "莫聽穿林打葉聲，何妨吟嘯且徐行。" },
-    { title: "将进酒", title_simplified: "将进酒", title_traditional: "將進酒", author: "李白", dynasty: "唐", category: "古诗", tags: "豪放", content_simplified: "君不见，黄河之水天上来。", content_traditional: "君不見，黃河之水天上來。" }
+    { title: "定风波", title_simplified: "定风波", title_traditional: "定風波", author: "苏轼", author_simplified: "苏轼", author_traditional: "蘇軾", dynasty: "宋", category: "宋词", tags: "豁达", content_simplified: "莫听穿林打叶声，何妨吟啸且徐行。", content_traditional: "莫聽穿林打葉聲，何妨吟嘯且徐行。" },
+    { title: "将进酒", title_simplified: "将进酒", title_traditional: "將進酒", author: "李白", author_simplified: "李白", author_traditional: "李白", dynasty: "唐", category: "古诗", tags: "豪放", content_simplified: "君不见，黄河之水天上来。", content_traditional: "君不見，黃河之水天上來。" }
 ];
 const defaultCloudData = {
     ci: [
@@ -65,9 +66,10 @@ function applyCloudTitles(titles = defaultCloudTitles) {
     });
 }
 
-function keyOf(poem) { return `${poem.title_simplified || poem.title}__${poem.author}`; }
-function getTitle(poem) { return scriptMode === "traditional" ? (poem.title_traditional || poem.title) : (poem.title_simplified || poem.title); }
-function getContent(poem) { return scriptMode === "traditional" ? (poem.content_traditional || poem.content || "") : (poem.content_simplified || poem.content || ""); }
+function keyOf(poem) { return `${poem.title_simplified || ""}__${poem.author_simplified || ""}`; }
+function getTitle(poem) { return scriptMode === "traditional" ? (poem.title_traditional || poem.title_simplified || "") : (poem.title_simplified || ""); }
+function getAuthor(poem) { return scriptMode === "traditional" ? (poem.author_traditional || poem.author_simplified || "") : (poem.author_simplified || ""); }
+function getContent(poem) { return scriptMode === "traditional" ? (poem.content_traditional || poem.content_simplified || "") : (poem.content_simplified || ""); }
 function updateTopNavButtons(currentView) {
     const map = {
         landing: "navCloud",
@@ -84,7 +86,16 @@ function setView(name) {
     ["landing", "discover", "favorites"].forEach((v) => document.getElementById(`${v}View`).classList.toggle("active", v === name));
     updateTopNavButtons(name);
 }
-function updateScriptButton() { document.getElementById("scriptToggle").textContent = scriptMode === "traditional" ? "繁体" : "简体"; }
+function updateScriptButton() {
+    const label = document.getElementById("scriptModeLabel");
+    const btn = document.getElementById("scriptToggle");
+    const isTraditional = scriptMode === "traditional";
+    if (label) label.textContent = isTraditional ? "繁" : "简";
+    if (btn) {
+        btn.title = isTraditional ? "当前繁体，点击切换简体" : "当前简体，点击切换繁体";
+        btn.setAttribute("aria-label", btn.title);
+    }
+}
 function saveFavorites() { localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favorites)); }
 
 function createHeartSvg() {
@@ -314,12 +325,24 @@ async function loadWordcloudData() {
 // Section 5: Discover/Favorites rendering
 // ============================================================
 async function triggerCloudSearch(word) {
-    await ensureLoaded();
+    await loadFilterMeta();
     setView("discover");
     document.getElementById("keywordInput").value = word || "";
+    document.getElementById("authorInput").value = "";
     document.getElementById("tagInput").value = "";
+    document.getElementById("dynastySelect").value = "";
+    document.getElementById("categorySelect").value = "";
+    document.getElementById("sortSelect").value = "default";
     activeHot = "";
-    applyFilters();
+    currentPageSize = Math.min(Math.max(Number(poemsApi.pageSize || 20), 1), 100);
+    document.getElementById("pageInput").value = "1";
+    syncPageSizeButtons();
+    const discoverView = document.getElementById("discoverView");
+    if (discoverView) {
+        const top = Math.max(0, discoverView.getBoundingClientRect().top + window.scrollY - 12);
+        window.scrollTo({ top, behavior: "smooth" });
+    }
+    await applyFilters();
 }
 
 function renderCard(poem, favView = false) {
@@ -329,12 +352,24 @@ function renderCard(poem, favView = false) {
     card.innerHTML = `
         <button class="heart-btn ${favorites[key] ? "active" : ""}" title="收藏">${createHeartSvg()}</button>
         <h3 class="poem-title">${getTitle(poem)}</h3>
-        <p class="poem-author">${poem.dynasty ? poem.dynasty + " · " : ""}${poem.author}${poem.category ? " · " + poem.category : ""}</p>
+        <p class="poem-author">${poem.dynasty ? poem.dynasty + " · " : ""}${getAuthor(poem)}${poem.category ? " · " + poem.category : ""}</p>
         <div class="poem-content">${getContent(poem)}</div>
     `;
     card.querySelector(".heart-btn").addEventListener("click", () => {
         if (favorites[key]) delete favorites[key];
-        else favorites[key] = { id: poem.id, title_simplified: poem.title_simplified || poem.title, title_traditional: poem.title_traditional || poem.title, author: poem.author, dynasty: poem.dynasty, category: poem.category };
+        else {
+            favorites[key] = {
+                id: poem.id,
+                title_simplified: poem.title_simplified,
+                title_traditional: poem.title_traditional || poem.title_simplified,
+                author_simplified: poem.author_simplified,
+                author_traditional: poem.author_traditional || poem.author_simplified,
+                dynasty: poem.dynasty,
+                category: poem.category,
+                content_simplified: poem.content_simplified || "",
+                content_traditional: poem.content_traditional || poem.content_simplified || "",
+            };
+        }
         saveFavorites();
         renderDiscover();
         renderFavorites();
@@ -352,7 +387,17 @@ function buildHotWords(list) {
 function renderHotWords(list) {
     const root = document.getElementById("hotKeywords");
     root.innerHTML = "";
-    buildHotWords(list).forEach((w) => {
+    const hotWords = buildHotWords(list);
+    if (!hotWords.length) {
+        root.classList.add("is-empty");
+        const empty = document.createElement("span");
+        empty.className = "chip-empty";
+        empty.textContent = "当前结果暂无高频标签";
+        root.appendChild(empty);
+        return;
+    }
+    root.classList.remove("is-empty");
+    hotWords.forEach((w) => {
         const chip = document.createElement("button");
         chip.className = `chip ${activeHot === w ? "active" : ""}`;
         chip.textContent = w;
@@ -365,97 +410,198 @@ function renderHotWords(list) {
     });
 }
 
-function renderSelects() {
-    const dSet = [...new Set(poems.map((p) => p.dynasty).filter(Boolean))].sort();
-    const cSet = [...new Set(poems.map((p) => p.category).filter(Boolean))].sort();
-    document.getElementById("dynastySelect").innerHTML = '<option value="">全部朝代</option>' + dSet.map((d) => `<option value="${d}">${d}</option>`).join("");
-    document.getElementById("categorySelect").innerHTML = '<option value="">全部分类</option>' + cSet.map((c) => `<option value="${c}">${c}</option>`).join("");
+function escapeAttr(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 }
 
-function sortPoems(list) {
+function renderSelects() {
+    document.getElementById("dynastySelect").innerHTML =
+        '<option value="">全部朝代</option>' +
+        metaDynasties.map((d) => `<option value="${escapeAttr(d)}">${escapeAttr(d)}</option>`).join("");
+    document.getElementById("categorySelect").innerHTML =
+        '<option value="">全部分类</option>' +
+        metaCategories.map((c) => `<option value="${escapeAttr(c)}">${escapeAttr(c)}</option>`).join("");
+}
+
+function sortFavoritesList(list) {
     const mode = document.getElementById("sortSelect").value;
     const arr = [...list];
     if (mode === "title_asc") arr.sort((a, b) => getTitle(a).localeCompare(getTitle(b), "zh-Hans-CN"));
-    if (mode === "author_asc") arr.sort((a, b) => (a.author || "").localeCompare(b.author || "", "zh-Hans-CN"));
+    if (mode === "author_asc") arr.sort((a, b) => (a.author_simplified || "").localeCompare(b.author_simplified || "", "zh-Hans-CN"));
     if (mode === "dynasty_asc") arr.sort((a, b) => (a.dynasty || "").localeCompare(b.dynasty || "", "zh-Hans-CN"));
     return arr;
 }
 
-function applyFilters() {
+async function loadFilterMeta() {
+    if (filterMetaLoaded) return;
+    try {
+        const [cRes, dRes] = await Promise.all([
+            fetch(`${apiBaseUrl}/poems/meta/categories`, { signal: AbortSignal.timeout(8000) }),
+            fetch(`${apiBaseUrl}/poems/meta/dynasties`, { signal: AbortSignal.timeout(8000) }),
+        ]);
+        const cJson = await cRes.json();
+        const dJson = await dRes.json();
+        metaCategories = Array.isArray(cJson?.data) ? cJson.data : [];
+        metaDynasties = Array.isArray(dJson?.data) ? dJson.data : [];
+    } catch {
+        metaCategories = [];
+        metaDynasties = [];
+    }
+    filterMetaLoaded = true;
+    renderSelects();
+}
+
+function syncPageSizeButtons() {
+    const root = document.getElementById("pageSizeGroup");
+    if (!root) return;
+    root.querySelectorAll("button[data-page-size]").forEach((btn) => {
+        btn.classList.toggle("active", Number(btn.getAttribute("data-page-size")) === currentPageSize);
+    });
+}
+
+function totalPagesFromTotal() {
+    if (listTotal <= 0) return 1;
+    return Math.max(1, Math.ceil(listTotal / currentPageSize));
+}
+
+function updatePagerChrome() {
+    const tp = totalPagesFromTotal();
+    const pageInput = document.getElementById("pageInput");
+    const totalLabel = document.getElementById("pageTotalLabel");
+    const prev = document.getElementById("pagePrev");
+    const next = document.getElementById("pageNext");
+    if (pageInput) pageInput.value = String(currentPage);
+    if (totalLabel) totalLabel.textContent = String(tp);
+    if (prev) prev.disabled = currentPage <= 1 || listLoading;
+    if (next) next.disabled = currentPage >= tp || listLoading || listTotal === 0;
+    syncPageSizeButtons();
+}
+
+function buildListQueryString() {
+    const qs = new URLSearchParams();
+    qs.set("page", String(currentPage));
+    qs.set("page_size", String(currentPageSize));
     const keyword = (document.getElementById("keywordInput").value || "").trim();
     const author = (document.getElementById("authorInput").value || "").trim();
     const tag = (document.getElementById("tagInput").value || "").trim();
     const dynasty = document.getElementById("dynastySelect").value;
     const category = document.getElementById("categorySelect").value;
-    filtered = poems.filter((p) => {
-        const text = `${p.title} ${p.title_simplified || ""} ${p.title_traditional || ""} ${p.author || ""} ${p.content_simplified || ""} ${p.content_traditional || ""} ${p.tags || ""}`;
-        return (!keyword || text.includes(keyword)) && (!author || (p.author || "").includes(author)) && (!tag || (p.tags || "").includes(tag)) && (!dynasty || p.dynasty === dynasty) && (!category || p.category === category);
-    });
-    filtered = sortPoems(filtered);
-    currentPage = 1;
-    const pageInput = document.getElementById("pageInput");
-    if (pageInput) pageInput.value = String(currentPage);
-    renderHotWords(filtered.length ? filtered : poems);
+    const sort = document.getElementById("sortSelect").value || "default";
+    if (keyword) qs.set("keyword", keyword);
+    if (author) qs.set("author", author);
+    if (tag) qs.set("tag", tag);
+    if (dynasty) qs.set("dynasty", dynasty);
+    if (category) qs.set("category", category);
+    if (sort && sort !== "default") qs.set("sort", sort);
+    return qs.toString();
+}
+
+async function fetchPoemList({ resetPage = false } = {}) {
+    if (resetPage) currentPage = 1;
+    listLoading = true;
+    const metaEl = document.getElementById("resultMeta");
+    if (metaEl) metaEl.textContent = "加载中…";
+    updatePagerChrome();
+    const qs = buildListQueryString();
+    try {
+        const res = await fetch(`${apiBaseUrl}/poems?${qs}`, { signal: AbortSignal.timeout(20000) });
+        const payload = await res.json();
+        poems = payload?.data?.items || [];
+        listTotal = Number(payload?.data?.total) || 0;
+        const tp = totalPagesFromTotal();
+        if (listTotal > 0 && currentPage > tp) {
+            currentPage = tp;
+            listLoading = false;
+            return fetchPoemList({ resetPage: false });
+        }
+        if (listTotal === 0) currentPage = 1;
+    } catch {
+        poems = [...fallback];
+        listTotal = poems.length;
+        currentPage = 1;
+    }
+    listLoading = false;
+    updatePagerChrome();
+    return poems;
+}
+
+function renderResultSummary() {
+    const el = document.getElementById("resultMeta");
+    if (!el) return;
+    if (listLoading) {
+        el.textContent = "加载中…";
+        return;
+    }
+    const tp = totalPagesFromTotal();
+    const start = listTotal === 0 ? 0 : (currentPage - 1) * currentPageSize + 1;
+    const end = listTotal === 0 ? 0 : Math.min(listTotal, currentPage * currentPageSize);
+    el.innerHTML =
+        listTotal === 0
+            ? "暂无数据（可放宽筛选或检查接口）"
+            : `共 <strong>${listTotal}</strong> 条 · 本页 <strong>${start}–${end}</strong> · 第 <strong>${currentPage}</strong> / ${tp} 页 · 每页 <strong>${currentPageSize}</strong> 条`;
+}
+
+async function applyFilters() {
+    await fetchPoemList({ resetPage: true });
+    renderHotWords(poems);
     renderDiscover();
 }
 
 function renderDiscover() {
     const grid = document.getElementById("poemGrid");
     grid.innerHTML = "";
-    const pageSizeSelect = document.getElementById("pageSizeSelect");
-    const pageInput = document.getElementById("pageInput");
-    if (pageSizeSelect) {
-        const parsedSize = Number(pageSizeSelect.value || currentPageSize);
-        currentPageSize = Number.isFinite(parsedSize) && parsedSize > 0 ? parsedSize : 20;
-    }
-    const totalPages = Math.max(1, Math.ceil(filtered.length / currentPageSize));
-    currentPage = Math.min(Math.max(1, currentPage), totalPages);
-    if (pageInput) pageInput.value = String(currentPage);
-    const start = (currentPage - 1) * currentPageSize;
-    const end = start + currentPageSize;
-    filtered.slice(start, end).forEach((p) => grid.appendChild(renderCard(p)));
-    document.getElementById("discoverEmpty").style.display = filtered.length ? "none" : "block";
-    document.getElementById("resultMeta").textContent = `筛选结果 ${filtered.length} / 总数 ${poems.length} · 第 ${currentPage}/${totalPages} 页`;
+    poems.forEach((p) => grid.appendChild(renderCard(p)));
+    document.getElementById("discoverEmpty").style.display = listTotal ? "none" : "block";
+    renderResultSummary();
+    updatePagerChrome();
     updateScriptButton();
 }
 
+function favoriteEntryToPoem(entry) {
+    return {
+        id: entry.id,
+        title_simplified: entry.title_simplified,
+        title_traditional: entry.title_traditional,
+        author_simplified: entry.author_simplified,
+        author_traditional: entry.author_traditional,
+        dynasty: entry.dynasty,
+        category: entry.category,
+        content_simplified: entry.content_simplified || "",
+        content_traditional: entry.content_traditional || "",
+        tags: "",
+    };
+}
+
 function renderFavorites() {
-    const favList = poems.filter((p) => favorites[keyOf(p)]);
+    const favList = sortFavoritesList(Object.values(favorites).map(favoriteEntryToPoem));
     const grid = document.getElementById("favoritesGrid");
     grid.innerHTML = "";
     favList.forEach((p) => grid.appendChild(renderCard(p, true)));
     document.getElementById("favoritesEmpty").style.display = favList.length ? "none" : "block";
 }
 
-async function ensureLoaded() {
-    if (loaded) return;
-    try {
-        const res = await fetch(apiUrl, { signal: AbortSignal.timeout(5000) });
-        const payload = await res.json();
-        poems = payload?.data?.items || [];
-        if (!poems.length) poems = fallback;
-    } catch {
-        poems = fallback;
-    }
-    loaded = true;
-    filtered = [...poems];
-    renderSelects();
+async function ensureDiscoverData() {
+    await loadFilterMeta();
+    await fetchPoemList({ resetPage: false });
     renderHotWords(poems);
 }
 
 function resetFilters() {
-    ["keywordInput", "authorInput", "tagInput"].forEach((id) => document.getElementById(id).value = "");
-    ["dynastySelect", "categorySelect", "sortSelect"].forEach((id) => document.getElementById(id).value = id === "sortSelect" ? "default" : "");
+    ["keywordInput", "authorInput", "tagInput"].forEach((id) => {
+        document.getElementById(id).value = "";
+    });
+    ["dynastySelect", "categorySelect", "sortSelect"].forEach((id) => {
+        document.getElementById(id).value = id === "sortSelect" ? "default" : "";
+    });
     activeHot = "";
     currentPage = 1;
-    currentPageSize = 20;
-    const pageInput = document.getElementById("pageInput");
-    if (pageInput) pageInput.value = "1";
-    const pageSizeSelect = document.getElementById("pageSizeSelect");
-    if (pageSizeSelect) pageSizeSelect.value = "20";
-    filtered = sortPoems([...poems]);
-    renderHotWords(poems);
-    renderDiscover();
+    currentPageSize = Math.min(Math.max(Number(poemsApi.pageSize || 20), 1), 100);
+    document.getElementById("pageInput").value = "1";
+    syncPageSizeButtons();
+    fetchPoemList({ resetPage: true }).then(() => {
+        renderHotWords(poems);
+        renderDiscover();
+    });
 }
 
 // ============================================================
@@ -466,37 +612,102 @@ function bindEvents() {
     const navDiscover = document.getElementById("navDiscover");
     const navFavorites = document.getElementById("navFavorites");
     if (navCloud) navCloud.addEventListener("click", () => setView("landing"));
-    if (navDiscover) navDiscover.addEventListener("click", async () => { await ensureLoaded(); setView("discover"); renderDiscover(); });
-    if (navFavorites) navFavorites.addEventListener("click", async () => { await ensureLoaded(); setView("favorites"); renderFavorites(); });
-    document.getElementById("backDiscoverBtn").addEventListener("click", () => setView("discover"));
-    document.getElementById("backLandingFromFav").addEventListener("click", () => setView("landing"));
-    document.getElementById("searchBtn").addEventListener("click", applyFilters);
+    if (navDiscover) {
+        navDiscover.addEventListener("click", async () => {
+            await ensureDiscoverData();
+            setView("discover");
+            renderDiscover();
+        });
+    }
+    if (navFavorites) {
+        navFavorites.addEventListener("click", () => {
+            setView("favorites");
+            renderFavorites();
+        });
+    }
+    document.getElementById("searchBtn").addEventListener("click", () => applyFilters());
     document.getElementById("resetBtn").addEventListener("click", resetFilters);
-    document.getElementById("sortSelect").addEventListener("change", applyFilters);
-    document.getElementById("pageSizeSelect").addEventListener("change", () => {
-        currentPage = 1;
-        renderDiscover();
-    });
-    document.getElementById("pageInput").addEventListener("change", () => {
+    document.getElementById("sortSelect").addEventListener("change", () => applyFilters());
+    const pageSizeGroup = document.getElementById("pageSizeGroup");
+    if (pageSizeGroup) {
+        pageSizeGroup.addEventListener("click", async (e) => {
+            const btn = e.target.closest("button[data-page-size]");
+            if (!btn) return;
+            const sz = Number(btn.getAttribute("data-page-size"));
+            if (!Number.isFinite(sz) || sz < 1 || sz > 100 || sz === currentPageSize) return;
+            currentPageSize = sz;
+            currentPage = 1;
+            await fetchPoemList({ resetPage: true });
+            renderHotWords(poems);
+            renderDiscover();
+        });
+    }
+    document.getElementById("pageInput").addEventListener("change", async () => {
         const pageInput = document.getElementById("pageInput");
         const next = Number(pageInput.value || 1);
-        currentPage = Number.isFinite(next) && next > 0 ? Math.floor(next) : 1;
+        const tp = totalPagesFromTotal();
+        const v = Number.isFinite(next) && next > 0 ? Math.floor(next) : 1;
+        currentPage = Math.min(Math.max(1, v), tp);
+        await fetchPoemList({ resetPage: false });
+        renderHotWords(poems);
         renderDiscover();
     });
+    const pagePrev = document.getElementById("pagePrev");
+    const pageNext = document.getElementById("pageNext");
+    if (pagePrev) {
+        pagePrev.addEventListener("click", async () => {
+            if (currentPage <= 1) return;
+            currentPage -= 1;
+            await fetchPoemList({ resetPage: false });
+            renderHotWords(poems);
+            renderDiscover();
+        });
+    }
+    if (pageNext) {
+        pageNext.addEventListener("click", async () => {
+            const tp = totalPagesFromTotal();
+            if (currentPage >= tp || listTotal === 0) return;
+            currentPage += 1;
+            await fetchPoemList({ resetPage: false });
+            renderHotWords(poems);
+            renderDiscover();
+        });
+    }
     document.getElementById("scriptToggle").addEventListener("click", () => {
         scriptMode = scriptMode === "simplified" ? "traditional" : "simplified";
         localStorage.setItem(STORAGE_KEY_SCRIPT, scriptMode);
-        if (loaded) { renderDiscover(); renderFavorites(); }
+        renderDiscover();
+        renderFavorites();
         updateScriptButton();
     });
     document.getElementById("exportFavoritesBtn").addEventListener("click", () => {
-        const output = poems.filter((p) => favorites[keyOf(p)]).map((p) => ({ id: p.id, title_simplified: p.title_simplified || p.title, title_traditional: p.title_traditional || p.title, author: p.author, dynasty: p.dynasty, category: p.category, favorite: true }));
-        document.getElementById("favoritesExport").textContent = JSON.stringify(output, null, 2);
+        const exportBtn = document.getElementById("exportFavoritesBtn");
+        const exportRoot = document.getElementById("favoritesExport");
+        if ((exportRoot.textContent || "").trim()) {
+            exportRoot.textContent = "";
+            exportBtn.textContent = "导出收藏 JSON";
+            return;
+        }
+        const output = Object.values(favorites).map((f) => ({
+            id: f.id,
+            title_simplified: f.title_simplified,
+            title_traditional: f.title_traditional,
+            author_simplified: f.author_simplified,
+            author_traditional: f.author_traditional,
+            dynasty: f.dynasty,
+            category: f.category,
+            favorite: true,
+        }));
+        exportRoot.textContent = JSON.stringify(output, null, 2);
+        exportBtn.textContent = "隐藏导出结果";
     });
     document.getElementById("clearFavoritesBtn").addEventListener("click", () => {
         favorites = {};
         saveFavorites();
-        if (loaded) { renderDiscover(); renderFavorites(); }
+        document.getElementById("favoritesExport").textContent = "";
+        document.getElementById("exportFavoritesBtn").textContent = "导出收藏 JSON";
+        renderDiscover();
+        renderFavorites();
     });
 }
 
@@ -504,5 +715,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadWordcloudData();
     updateScriptButton();
     updateTopNavButtons("landing");
+    syncPageSizeButtons();
     bindEvents();
 });

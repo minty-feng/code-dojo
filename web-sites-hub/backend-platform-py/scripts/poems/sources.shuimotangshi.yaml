@@ -1,0 +1,6 @@
+sources:
+  - name: shuimotangshi
+    enabled: true
+    local_path: data/chinese-poetry-master/水墨唐诗/shuimotangshi.json
+    category: 古诗
+    dynasty: 唐

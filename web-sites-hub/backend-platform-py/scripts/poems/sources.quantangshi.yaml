@@ -1,0 +1,12 @@
+sources:
+  - name: quantangshi
+    enabled: true
+    local_glob: data/chinese-poetry-master/全唐诗/poet.tang.*.json
+    category: 古诗
+    dynasty: 唐
+
+  - name: tangshi_300
+    enabled: true
+    local_path: data/chinese-poetry-master/全唐诗/唐诗三百首.json
+    category: 古诗
+    dynasty: 唐

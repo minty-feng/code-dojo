@@ -1,0 +1,7 @@
+sources:
+  - name: yuding_quantangshi
+    enabled: true
+    local_glob: data/chinese-poetry-master/御定全唐詩/json/*.json
+    category: 古诗
+    dynasty: 唐
+

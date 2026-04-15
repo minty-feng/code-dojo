@@ -1,0 +1,12 @@
+sources:
+  - name: songci
+    enabled: true
+    local_glob: data/chinese-poetry-master/宋词/ci.song.*.json
+    category: 宋词
+    dynasty: 宋
+
+  - name: songci_300
+    enabled: true
+    local_path: data/chinese-poetry-master/宋词/宋词三百首.json
+    category: 宋词
+    dynasty: 宋

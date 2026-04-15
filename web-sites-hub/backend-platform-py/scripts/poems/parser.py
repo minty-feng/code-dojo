@@ -28,18 +28,20 @@ def _build_bilingual_content(raw_content: str) -> tuple[str, str]:
 
 def normalize_record(raw: dict, source: str, category: str, dynasty: str) -> dict | None:
     """Normalize one raw record to unified poem fields."""
-    title_raw = str(raw.get("title", "")).strip()
-    author = str(raw.get("author", "")).strip()
+    # Some datasets (e.g. Song Ci) use "rhythmic" instead of "title".
+    title_raw = str(raw.get("title") or raw.get("rhythmic") or "").strip()
+    author_raw = str(raw.get("author", "")).strip()
     content = _normalize_content(raw.get("content") or raw.get("paragraphs"))
-    if not title_raw or not author or not content:
+    if not title_raw or not author_raw or not content:
         return None
     title_simplified, title_traditional = _build_bilingual_content(title_raw)
+    author_simplified, author_traditional = _build_bilingual_content(author_raw)
     content_simplified, content_traditional = _build_bilingual_content(content)
     return {
-        "title": title_simplified,
         "title_simplified": title_simplified,
         "title_traditional": title_traditional,
-        "author": author,
+        "author_simplified": author_simplified,
+        "author_traditional": author_traditional,
         "dynasty": str(raw.get("dynasty", dynasty)).strip(),
         "category": str(raw.get("category", category)).strip(),
         "content_simplified": content_simplified,

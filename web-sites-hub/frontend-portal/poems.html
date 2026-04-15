@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=ZCOOL+XiaoWei&display=swap");
-        :root{--poems-accent:#6ea6ff;--poems-strong:#7c6dff;--poems-card:rgba(16,22,35,.76);--poems-stroke:rgba(128,153,201,.25);--poems-page-bg:radial-gradient(1200px 620px at 12% -5%,rgba(77,139,255,.22),transparent 60%),radial-gradient(900px 500px at 88% 110%,rgba(126,91,255,.16),transparent 60%),#050914;--poems-grid-line:rgba(125,153,211,.06);--poems-grid-line-x:rgba(125,153,211,.05);--poems-grid-opacity:.45;--poems-panel-bg:linear-gradient(145deg,rgba(17,24,39,.92),rgba(11,17,28,.85));--poems-panel-shadow:0 20px 45px rgba(4,8,18,.45);--poems-text:#e4ecff;--poems-subtext:#a8b3c9;--poems-input-bg:rgba(10,16,29,.72);--poems-chip-bg:rgba(21,31,50,.75);--poems-btn-bg:rgba(17,24,40,.8);--poems-top-btn-bg:rgba(27,37,59,.58);--poems-top-btn-hover-bg:rgba(38,52,83,.72);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(96,150,255,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(129,99,255,.16),transparent 58%),rgba(9,14,27,.74);--poems-title-gradient:linear-gradient(90deg,#f0f6ff,#c6d8ff 55%,#9ad4ff)}
-        [data-theme="light"]{--poems-page-bg:radial-gradient(1000px 520px at 12% -10%,rgba(213,168,83,.18),transparent 58%),radial-gradient(850px 500px at 90% 110%,rgba(185,143,72,.14),transparent 62%),#f8f1df;--poems-grid-line:rgba(158,124,72,.14);--poems-grid-line-x:rgba(158,124,72,.11);--poems-grid-opacity:.3;--poems-panel-bg:linear-gradient(145deg,rgba(255,250,236,.94),rgba(246,234,204,.9));--poems-panel-shadow:0 16px 34px rgba(120,89,40,.16);--poems-stroke:rgba(165,127,76,.32);--poems-text:#4f3a22;--poems-subtext:#7b5f3a;--poems-input-bg:rgba(255,248,228,.95);--poems-chip-bg:rgba(252,241,212,.95);--poems-btn-bg:rgba(249,236,201,.92);--poems-top-btn-bg:rgba(247,232,193,.92);--poems-top-btn-hover-bg:rgba(240,222,178,.95);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(216,175,95,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(187,145,74,.16),transparent 58%),rgba(251,242,216,.9);--poems-title-gradient:linear-gradient(90deg,#7a5525,#b07a35 45%,#d29a4d 100%)}
+        :root{--poems-accent:#6ea6ff;--poems-strong:#7c6dff;--poems-card:linear-gradient(160deg,rgba(16,23,37,.85),rgba(11,18,30,.8));--poems-card-border:rgba(128,156,206,.25);--poems-card-shadow:0 12px 28px rgba(6,10,20,.35);--poems-heart-bg:rgba(18,27,44,.8);--poems-stroke:rgba(128,153,201,.25);--poems-page-bg:radial-gradient(1200px 620px at 12% -5%,rgba(77,139,255,.22),transparent 60%),radial-gradient(900px 500px at 88% 110%,rgba(126,91,255,.16),transparent 60%),#050914;--poems-grid-line:rgba(125,153,211,.06);--poems-grid-line-x:rgba(125,153,211,.05);--poems-grid-opacity:.45;--poems-panel-bg:linear-gradient(145deg,rgba(17,24,39,.92),rgba(11,17,28,.85));--poems-panel-shadow:0 20px 45px rgba(4,8,18,.45);--poems-text:#e4ecff;--poems-subtext:#a8b3c9;--poems-input-bg:rgba(10,16,29,.72);--poems-chip-bg:rgba(21,31,50,.75);--poems-btn-bg:rgba(17,24,40,.8);--poems-top-btn-bg:rgba(27,37,59,.58);--poems-top-btn-hover-bg:rgba(38,52,83,.72);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(96,150,255,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(129,99,255,.16),transparent 58%),rgba(9,14,27,.74);--poems-title-gradient:linear-gradient(90deg,#f0f6ff,#c6d8ff 55%,#9ad4ff)}
+        [data-theme="light"]{--poems-page-bg:radial-gradient(1000px 520px at 12% -10%,rgba(213,168,83,.18),transparent 58%),radial-gradient(850px 500px at 90% 110%,rgba(185,143,72,.14),transparent 62%),#f8f1df;--poems-grid-line:rgba(158,124,72,.14);--poems-grid-line-x:rgba(158,124,72,.11);--poems-grid-opacity:.3;--poems-panel-bg:linear-gradient(145deg,rgba(255,250,236,.94),rgba(246,234,204,.9));--poems-panel-shadow:0 16px 34px rgba(120,89,40,.16);--poems-card:linear-gradient(160deg,rgba(255,249,232,.98),rgba(247,235,204,.94));--poems-card-border:rgba(176,138,83,.34);--poems-card-shadow:0 10px 22px rgba(134,101,47,.14);--poems-heart-bg:rgba(248,236,203,.94);--poems-stroke:rgba(165,127,76,.32);--poems-text:#4f3a22;--poems-subtext:#7b5f3a;--poems-input-bg:rgba(255,248,228,.95);--poems-chip-bg:rgba(252,241,212,.95);--poems-btn-bg:rgba(249,236,201,.92);--poems-top-btn-bg:rgba(247,232,193,.92);--poems-top-btn-hover-bg:rgba(240,222,178,.95);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(216,175,95,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(187,145,74,.16),transparent 58%),rgba(251,242,216,.9);--poems-title-gradient:linear-gradient(90deg,#7a5525,#b07a35 45%,#d29a4d 100%)}
         body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--poems-page-bg);color:var(--poems-text)}
         body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(var(--poems-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--poems-grid-line-x) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black 35%,transparent 85%);opacity:var(--poems-grid-opacity);z-index:0}
         .container{max-width:min(92vw,1320px)!important;padding:0 1rem}
@@ -34,10 +34,31 @@
         .word-cloud::after{content:"";position:absolute;inset:10px;border-radius:50%;border:1px solid rgba(147,178,236,.1);pointer-events:none}
         .word-item{position:absolute;white-space:nowrap;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-weight:700;line-height:1;opacity:.95;user-select:none;background:transparent;border:none;padding:0;cursor:pointer;transition:transform .18s ease,filter .18s ease,text-shadow .18s ease}
         .word-item:hover{transform:scale(1.08);filter:brightness(1.16);text-shadow:0 0 12px rgba(127,177,255,.45)}
-        .toolbar{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1fr 1fr 1fr 1fr 1fr;gap:.65rem}
+        .toolbar{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 1.1fr;gap:.65rem;align-items:end}
         .toolbar input,.toolbar select{background:var(--poems-input-bg);color:var(--poems-text);border:1px solid rgba(136,160,212,.2);border-radius:12px;padding:.64rem .78rem;outline:none;transition:border-color .18s ease,box-shadow .18s ease}
         .toolbar input:focus,.toolbar select:focus{border-color:rgba(136,188,255,.72);box-shadow:0 0 0 3px rgba(92,153,255,.16)}
         .toolbar-actions{display:flex;gap:.62rem;flex-wrap:wrap;margin-top:.82rem}
+        .pager-shelf{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(128,156,206,.18);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+        .pager-summary{font-size:.92rem;color:var(--poems-subtext);line-height:1.55;min-width:min(100%,220px)}
+        .pager-summary strong{color:var(--poems-text);font-weight:600}
+        .pager-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem}
+        .pager-block{display:flex;align-items:center;gap:.5rem}
+        .pager-block-label{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:#8aa7d8;white-space:nowrap}
+        .page-size-group{display:inline-flex;border-radius:999px;border:1px solid rgba(128,156,214,.28);overflow:hidden;background:rgba(10,16,29,.35)}
+        [data-theme="light"] .page-size-group{background:rgba(255,252,240,.9)}
+        .page-size-group button{font:inherit;font-size:.82rem;padding:.42rem .72rem;border:none;background:transparent;color:var(--poems-subtext);cursor:pointer;transition:background .18s ease,color .18s ease}
+        .page-size-group button:hover{color:var(--poems-text);background:rgba(110,166,255,.12)}
+        .page-size-group button.active{color:#fff;background:linear-gradient(120deg,#4c8bff,#7d6dff);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+        .page-nav-group{display:inline-flex;align-items:center;gap:.35rem;border-radius:14px;border:1px solid rgba(128,156,214,.28);padding:.2rem;background:rgba(10,16,29,.35)}
+        [data-theme="light"] .page-nav-group{background:rgba(255,252,240,.9)}
+        .page-nav-group .pager-step{min-width:40px;height:40px;border-radius:10px;border:1px solid rgba(128,156,214,.25);background:var(--poems-btn-bg);color:var(--poems-text);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;line-height:1;transition:border-color .18s ease,transform .15s ease}
+        .page-nav-group .pager-step:hover:not(:disabled){border-color:rgba(168,194,248,.55);transform:translateY(-1px)}
+        .page-nav-group .pager-step:disabled{opacity:.38;cursor:not-allowed;transform:none}
+        .page-input-wrap{display:flex;align-items:center;gap:.35rem;padding:0 .45rem}
+        .page-input-wrap input{width:3.2rem;text-align:center;font:inherit;font-size:.95rem;padding:.38rem .25rem;border-radius:10px;border:1px solid rgba(136,160,212,.22);background:var(--poems-input-bg);color:var(--poems-text)}
+        .page-input-wrap input:focus{outline:none;border-color:rgba(136,188,255,.72);box-shadow:0 0 0 2px rgba(92,153,255,.14)}
+        .page-slash{color:var(--poems-subtext);font-size:.88rem;padding:0 .1rem}
+        .page-total-label{font-size:.88rem;color:var(--poems-subtext);min-width:1.5rem}
         .btn{border:1px solid rgba(128,156,214,.3);background:var(--poems-btn-bg);color:var(--poems-text);border-radius:12px;padding:.56rem .9rem;cursor:pointer;transition:all .2s ease}
         .btn:hover{transform:translateY(-1px);border-color:rgba(168,194,248,.65)}
         .btn.primary{background:linear-gradient(120deg,#4c8bff,#7d6dff);color:#fff;border:none;box-shadow:0 8px 20px rgba(88,120,255,.35)}
@@ -45,28 +66,35 @@
         .header .header-content{display:flex;align-items:center;gap:.68rem}
         .top-btn{border:1px solid rgba(130,158,212,.3);background:var(--poems-top-btn-bg);color:var(--poems-text);border-radius:14px;height:56px;display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;cursor:pointer;transition:.2s ease;font-size:1.02rem;line-height:1;white-space:nowrap}
         .top-btn:hover{border-color:rgba(166,196,255,.62);background:var(--poems-top-btn-hover-bg)}
-        #scriptToggle{min-width:112px}
+        .script-mode-toggle{min-width:72px;height:56px;border-radius:14px;border:1px dashed rgba(138,168,226,.45);background:linear-gradient(140deg,rgba(19,33,58,.82),rgba(12,21,40,.72));color:#dbe9ff;display:inline-flex;align-items:center;justify-content:center;gap:.34rem;padding:0 .75rem;cursor:pointer;transition:.2s ease}
+        .script-mode-toggle:hover{transform:translateY(-1px);border-color:rgba(170,201,255,.72);background:linear-gradient(140deg,rgba(31,49,83,.86),rgba(16,29,54,.78))}
+        .script-mode-icon{width:18px;height:18px;opacity:.92}
+        .script-mode-label{font-size:.82rem;letter-spacing:.04em;font-weight:600}
+        [data-theme="light"] .script-mode-toggle{border-color:rgba(171,136,79,.52);background:linear-gradient(140deg,rgba(252,243,219,.96),rgba(244,229,190,.9));color:#79572b}
+        [data-theme="light"] .script-mode-toggle:hover{border-color:rgba(168,124,56,.72);background:linear-gradient(140deg,rgba(249,236,205,.98),rgba(238,220,173,.92))}
         .page-nav-btn{min-width:108px}
         .theme-toggle{width:56px;height:56px;border-radius:14px;padding:0;display:inline-flex;align-items:center;justify-content:center}
         .theme-icon{width:22px;height:22px}
         .meta{color:var(--poems-subtext);font-size:.88rem}
-        .chip-wrap{display:flex;flex-wrap:wrap;gap:.48rem;margin-top:.75rem}
+        .chip-wrap{display:flex;flex-wrap:wrap;align-items:flex-start;gap:.48rem;margin-top:.75rem;min-height:2.15rem}
+        .chip-wrap.is-empty{border:1px dashed rgba(128,156,214,.24);border-radius:12px;padding:.35rem .6rem}
+        .chip-empty{font-size:.82rem;color:var(--poems-subtext);line-height:1.5}
         .chip{border:1px solid rgba(131,155,206,.35);padding:.24rem .6rem;border-radius:999px;font-size:.8rem;cursor:pointer;background:var(--poems-chip-bg);color:var(--poems-text)}
         .chip.active{border-color:#7ab4ff;color:#7ab4ff}
         .poem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:1rem}
-        .poem-card{background:linear-gradient(160deg,rgba(16,23,37,.85),rgba(11,18,30,.8));border:1px solid rgba(128,156,206,.25);border-radius:16px;padding:1rem 1rem .95rem;position:relative;box-shadow:0 12px 28px rgba(6,10,20,.35)}
+        .poem-card{background:var(--poems-card);border:1px solid var(--poems-card-border);border-radius:16px;padding:1rem 1rem .95rem;position:relative;box-shadow:var(--poems-card-shadow)}
         .poem-title{margin:0 0 .45rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.28rem;color:var(--poems-text);letter-spacing:.03em}
         .poem-author{margin:0 0 .8rem;color:var(--poems-subtext);font-size:.88rem}
         .poem-content{white-space:pre-line;line-height:1.78;max-height:14rem;overflow:auto;color:var(--poems-subtext);padding-right:.25rem}
-        .heart-btn{position:absolute;right:.8rem;top:.8rem;width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid rgba(133,155,205,.32);background:rgba(18,27,44,.8);cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .heart-btn{position:absolute;right:.8rem;top:.8rem;width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid rgba(133,155,205,.32);background:var(--poems-heart-bg);cursor:pointer;display:flex;align-items:center;justify-content:center}
         .heart-btn svg{width:18px;height:18px;stroke:#bcc9df;fill:none;stroke-width:2}
         .heart-btn.active svg{stroke:#ff6b85;fill:#ff5d79}
         .view{display:none}.view.active{display:block}
         .empty{text-align:center;color:#a8b5cb;padding:2rem 0}
         .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem;white-space:pre-wrap;word-break:break-all}
         .cloud-tip{font-size:.83rem;color:#8fa5cb;margin-top:.56rem}
-        @media (max-width:1280px){.toolbar{grid-template-columns:repeat(3,minmax(180px,1fr))}}
-        @media (max-width:980px){.container{padding:0 .8rem}.hero-head{display:block}.hero h1{font-size:1.9rem}.poem-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}}
+        @media (max-width:1280px){.toolbar{grid-template-columns:repeat(3,minmax(160px,1fr))}}
+        @media (max-width:980px){.container{padding:0 .8rem}.hero-head{display:block}.hero h1{font-size:1.9rem}.poem-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.pager-shelf{flex-direction:column;align-items:stretch}}
     </style>
 </head>
 <body>
@@ -75,10 +103,16 @@
         <header class="header">
             <div class="header-content">
                 <span style="flex:1"></span>
-                <button id="scriptToggle" type="button" class="top-btn">简体</button>
                 <button id="navCloud" type="button" class="top-btn page-nav-btn">词云页</button>
                 <button id="navDiscover" type="button" class="top-btn page-nav-btn">检索页</button>
                 <button id="navFavorites" type="button" class="top-btn page-nav-btn">收藏页</button>
+                <button id="scriptToggle" type="button" class="script-mode-toggle" title="切换简体 / 繁体" aria-label="切换简体 / 繁体">
+                    <svg class="script-mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M4 6h8"></path><path d="M8 6v12"></path><path d="M5 12h6"></path>
+                        <path d="M14 6h6"></path><path d="M17 6v12"></path><path d="M14 16h6"></path>
+                    </svg>
+                    <span class="script-mode-label" id="scriptModeLabel">简</span>
+                </button>
                 <button class="theme-toggle" id="themeToggle" title="主题切换"><svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg></button>
             </div>
         </header>
@@ -117,18 +151,11 @@
             <section id="discoverView" class="view">
                 <div class="panel">
                     <div class="toolbar">
-                        <input id="keywordInput" type="text" placeholder="关键词（标题/正文）">
-                        <input id="authorInput" type="text" placeholder="作者">
-                        <input id="tagInput" type="text" placeholder="标签">
+                        <input id="keywordInput" type="text" placeholder="关键词（标题/作者/正文）">
+                        <input id="authorInput" type="text" placeholder="作者（可部分匹配）">
+                        <input id="tagInput" type="text" placeholder="标签（子串匹配）">
                         <select id="dynastySelect"><option value="">全部朝代</option></select>
                         <select id="categorySelect"><option value="">全部分类</option></select>
-                        <select id="pageSizeSelect">
-                            <option value="10">10/页</option>
-                            <option value="20" selected>20/页</option>
-                            <option value="50">50/页</option>
-                            <option value="100">100/页</option>
-                        </select>
-                        <input id="pageInput" type="number" min="1" step="1" value="1" placeholder="页码">
                         <select id="sortSelect">
                             <option value="default">默认排序</option>
                             <option value="title_asc">标题升序</option>
@@ -141,8 +168,33 @@
                         <button id="resetBtn" class="btn">重置</button>
                     </div>
                     <div class="chip-wrap" id="hotKeywords"></div>
+                    <div class="pager-shelf">
+                        <div class="pager-summary" id="resultMeta">尚未加载</div>
+                        <div class="pager-controls">
+                            <div class="pager-block">
+                                <span class="pager-block-label">每页</span>
+                                <div class="page-size-group" id="pageSizeGroup" role="group" aria-label="每页条数">
+                                    <button type="button" data-page-size="10">10</button>
+                                    <button type="button" data-page-size="20">20</button>
+                                    <button type="button" data-page-size="50">50</button>
+                                    <button type="button" data-page-size="100">100</button>
+                                </div>
+                            </div>
+                            <div class="pager-block">
+                                <span class="pager-block-label">翻页</span>
+                                <div class="page-nav-group">
+                                    <button type="button" class="pager-step" id="pagePrev" aria-label="上一页">‹</button>
+                                    <div class="page-input-wrap">
+                                        <input id="pageInput" type="number" min="1" step="1" value="1" inputmode="numeric" aria-label="当前页码">
+                                        <span class="page-slash">/</span>
+                                        <span class="page-total-label" id="pageTotalLabel">1</span>
+                                    </div>
+                                    <button type="button" class="pager-step" id="pageNext" aria-label="下一页">›</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
-                <div class="panel"><div class="meta" id="resultMeta">尚未检索</div></div>
                 <div id="poemGrid" class="poem-grid"></div>
                 <div id="discoverEmpty" class="empty" style="display:none;">暂无匹配结果</div>
             </section>
@@ -151,8 +203,6 @@
                 <div class="panel">
                     <h2 style="margin:.2rem 0 .7rem">我的收藏</h2>
                     <div class="toolbar-actions">
-                        <button id="backDiscoverBtn" class="btn">返回检索</button>
-                        <button id="backLandingFromFav" class="btn ghost">返回首页</button>
                         <button id="exportFavoritesBtn" class="btn">导出收藏 JSON</button>
                         <button id="clearFavoritesBtn" class="btn ghost">清空收藏</button>
             </div>
@@ -165,6 +215,6 @@
     </div>
     <script src="assets/js/main.js?v=20260203"></script>
     <script src="assets/js/poem.config.js?v=20260415"></script>
-    <script src="assets/js/poem.js?v=20260415b"></script>
+    <script src="assets/js/poem.js?v=20260415c"></script>
 </body>
 </html>
