@@ -6,19 +6,39 @@
 const poemsApi = window.POEMS_API || {};
 const apiBaseUrl = poemsApi.baseUrl || "http://127.0.0.1:8300/api/v1";
 const wordcloudApiUrl = `${apiBaseUrl}/poems/meta/wordcloud`;
-const STORAGE_KEY_FAVORITES = "poems-favorites-v1";
+const favoritesApiUrl = `${apiBaseUrl}/poems/favorites`;
+const STORAGE_KEY_FAVORITES = "poems-favorites-v2";
+const STORAGE_KEY_FAVORITES_V1 = "poems-favorites-v1";
+const STORAGE_KEY_FAVORITES_MIGRATED = "poems-favorites-v2-migrated";
 const STORAGE_KEY_SCRIPT = "poems-script-mode";
+const AUTH_TOKEN_KEYS = ["authToken", "access_token", "accessToken"];
+const REFRESH_TOKEN_KEYS = ["refresh_token", "refreshToken"];
 let scriptMode = localStorage.getItem(STORAGE_KEY_SCRIPT) || "simplified";
 let poems = [];
 let listTotal = 0;
 let filterMetaLoaded = false;
 let metaCategories = [];
 let metaDynasties = [];
-let favorites = JSON.parse(localStorage.getItem(STORAGE_KEY_FAVORITES) || "{}");
+let favorites = {};
 let activeHot = "";
 let currentPage = 1;
 let currentPageSize = Math.min(Math.max(Number(poemsApi.pageSize || 20), 1), 100);
 let listLoading = false;
+let favoriteSyncInFlight = false;
+const favoritePendingKeys = new Set();
+let currentUser = null;
+let authStateReady = false;
+
+const AVATAR_PRESETS = [
+    { value: "🐒", bg: "#f7e281" }, { value: "🐼", bg: "#b06bd6" }, { value: "🐧", bg: "#f4b4a6" },
+    { value: "🕊️", bg: "#3c78dd" }, { value: "🐰", bg: "#17b8cf" }, { value: "🦄", bg: "#dce2ea" },
+    { value: "🏀", bg: "#b4e8f2" }, { value: "🚲", bg: "#3f80e6" }, { value: "🐦", bg: "#b7bdd8" },
+    { value: "🧀", bg: "#a987ef" }, { value: "🏉", bg: "#e4ec9f" }, { value: "🍜", bg: "#18c2b2" },
+    { value: "🕶️", bg: "#edbfd5" }, { value: "🍣", bg: "#3bbad8" }, { value: "📟", bg: "#ff6c3a" },
+    { value: "💿", bg: "#a9d0f2" }, { value: "🥑", bg: "#b16bd4" }, { value: "🙂", bg: "#ececec" },
+    { value: "🍦", bg: "#f2c9d5" }, { value: "🧊", bg: "#75c9f2" }, { value: "🍉", bg: "#0e9b8f" },
+    { value: "🍙", bg: "#f8d400" }, { value: "🍔", bg: "#b59df2" }, { value: "🥪", bg: "#4e8bf0" },
+];
 
 const fallback = [
     { title: "定风波", title_simplified: "定风波", title_traditional: "定風波", author: "苏轼", author_simplified: "苏轼", author_traditional: "蘇軾", dynasty: "宋", category: "宋词", tags: "豁达", content_simplified: "莫听穿林打叶声，何妨吟啸且徐行。", content_traditional: "莫聽穿林打葉聲，何妨吟嘯且徐行。" },
@@ -66,7 +86,11 @@ function applyCloudTitles(titles = defaultCloudTitles) {
     });
 }
 
-function keyOf(poem) { return `${poem.title_simplified || ""}__${poem.author_simplified || ""}`; }
+function keyOf(poem) {
+    const numericId = Number(poem?.id);
+    if (Number.isFinite(numericId) && numericId > 0) return String(numericId);
+    return `${poem?.title_simplified || ""}__${poem?.author_simplified || ""}`;
+}
 function getTitle(poem) { return scriptMode === "traditional" ? (poem.title_traditional || poem.title_simplified || "") : (poem.title_simplified || ""); }
 function getAuthor(poem) { return scriptMode === "traditional" ? (poem.author_traditional || poem.author_simplified || "") : (poem.author_simplified || ""); }
 function getContent(poem) { return scriptMode === "traditional" ? (poem.content_traditional || poem.content_simplified || "") : (poem.content_simplified || ""); }
@@ -79,7 +103,11 @@ function updateTopNavButtons(currentView) {
     Object.entries(map).forEach(([view, id]) => {
         const el = document.getElementById(id);
         if (!el) return;
-        el.style.display = view === currentView ? "none" : "inline-flex";
+        const isActive = view === currentView;
+        el.style.display = "inline-flex";
+        el.classList.toggle("active", isActive);
+        if (isActive) el.setAttribute("aria-current", "page");
+        else el.removeAttribute("aria-current");
     });
 }
 function setView(name) {
@@ -97,6 +125,593 @@ function updateScriptButton() {
     }
 }
 function saveFavorites() { localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favorites)); }
+
+let toastTimer = null;
+
+function ensureToastRoot() {
+    let root = document.getElementById("poemToast");
+    if (root) return root;
+
+    const style = document.createElement("style");
+    style.id = "poem-toast-style";
+    style.textContent = `
+        .poem-toast {
+            position: fixed;
+            right: 22px;
+            top: 20px;
+            z-index: 9999;
+            width: min(86vw, 360px);
+            padding: 11px 13px;
+            border-radius: 10px;
+            border: 1px solid #d9d9d9;
+            border-left: 4px solid #1677ff;
+            background: #ffffff;
+            color: #262626;
+            font-size: 13px;
+            line-height: 1.5;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity .18s ease, transform .18s ease;
+            pointer-events: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .poem-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .poem-toast .poem-toast-icon {
+            width: 18px;
+            text-align: center;
+            font-weight: 700;
+            margin-top: 1px;
+            flex: 0 0 18px;
+        }
+        .poem-toast .poem-toast-message {
+            flex: 1;
+        }
+        .poem-toast.success { border-left-color: #52c41a; }
+        .poem-toast.success .poem-toast-icon { color: #52c41a; }
+        .poem-toast.error { border-left-color: #ff4d4f; }
+        .poem-toast.error .poem-toast-icon { color: #ff4d4f; }
+        .poem-toast.info { border-left-color: #1677ff; }
+        .poem-toast.info .poem-toast-icon { color: #1677ff; }
+        @media (max-width: 640px) {
+            .poem-toast {
+                top: auto;
+                bottom: 14px;
+                left: 12px;
+                right: 12px;
+                width: auto;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    root = document.createElement("div");
+    root.id = "poemToast";
+    root.className = "poem-toast";
+    root.setAttribute("role", "status");
+    root.setAttribute("aria-live", "polite");
+    document.body.appendChild(root);
+    return root;
+}
+
+function showToast(message, type = "info", timeout = 1800) {
+    const root = ensureToastRoot();
+    const icon = type === "success" ? "[+]" : type === "error" ? "[!]" : "[i]";
+    root.innerHTML = `<span class="poem-toast-icon">${icon}</span><span class="poem-toast-message"></span>`;
+    const msgEl = root.querySelector(".poem-toast-message");
+    if (msgEl) msgEl.textContent = message;
+    root.className = `poem-toast ${type} show`;
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        root.classList.remove("show");
+    }, timeout);
+}
+
+function getAccessToken() {
+    for (const key of AUTH_TOKEN_KEYS) {
+        const localValue = localStorage.getItem(key);
+        if (localValue && localValue.trim()) return localValue.trim();
+        const sessionValue = sessionStorage.getItem(key);
+        if (sessionValue && sessionValue.trim()) return sessionValue.trim();
+    }
+    return "";
+}
+
+function isLoggedIn() {
+    return Boolean(getAccessToken());
+}
+
+function getRefreshToken() {
+    for (const key of REFRESH_TOKEN_KEYS) {
+        const localValue = localStorage.getItem(key);
+        if (localValue && localValue.trim()) return localValue.trim();
+        const sessionValue = sessionStorage.getItem(key);
+        if (sessionValue && sessionValue.trim()) return sessionValue.trim();
+    }
+    return "";
+}
+
+function persistAuthTokens(accessToken, refreshToken) {
+    if (accessToken) {
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("authToken", accessToken);
+    }
+    if (refreshToken) {
+        localStorage.setItem("refresh_token", refreshToken);
+        localStorage.setItem("refreshToken", refreshToken);
+    }
+}
+
+function clearAuthTokens() {
+    ["access_token", "authToken", "accessToken"].forEach((key) => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+    });
+    ["refresh_token", "refreshToken"].forEach((key) => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+    });
+}
+
+function updateAuthUi() {
+    const statusEl = document.getElementById("authStatus");
+    const loginBtn = document.getElementById("authLoginBtn");
+    const registerBtn = document.getElementById("authRegisterBtn");
+    const logoutBtn = document.getElementById("authLogoutBtn");
+    const loggedIn = Boolean(currentUser && getAccessToken());
+    const avatar = loggedIn
+        ? ((currentUser?.avatar || "🐼").trim() || "🐼")
+        : "🐟";
+
+    const avatarBtn = document.getElementById("authAvatarBtn");
+    const menuAvatar = document.getElementById("authMenuAvatar");
+    const menuName = document.getElementById("authMenuName");
+    const menuSub = document.getElementById("authMenuSub");
+    if (avatarBtn) avatarBtn.textContent = avatar;
+    if (menuAvatar) menuAvatar.textContent = avatar;
+    if (menuName) menuName.textContent = loggedIn ? (currentUser.nickname || currentUser.username) : "未登录";
+    if (menuSub) menuSub.textContent = loggedIn ? `@${currentUser.username}` : "登录后可跨设备同步收藏";
+
+    if (statusEl) {
+        statusEl.classList.remove("pending", "online", "offline");
+        let statusText = "登录状态检测中";
+        let statusClass = "pending";
+        if (authStateReady) {
+            if (loggedIn) {
+                statusText = `已登录 · ${currentUser.nickname || currentUser.username}`;
+                statusClass = "online";
+            } else {
+                statusText = "未登录 · 收藏仅本地";
+                statusClass = "offline";
+            }
+        } else {
+            statusText = "登录状态检测中";
+            statusClass = "pending";
+        }
+        statusEl.classList.add(statusClass);
+        statusEl.innerHTML = '<span class="auth-status-dot"></span><span class="auth-status-text"></span>';
+        const textEl = statusEl.querySelector(".auth-status-text");
+        if (textEl) textEl.textContent = statusText;
+    }
+    if (loginBtn) loginBtn.style.display = loggedIn ? "none" : "inline-flex";
+    if (registerBtn) registerBtn.style.display = loggedIn ? "none" : "inline-flex";
+    if (logoutBtn) logoutBtn.style.display = loggedIn ? "inline-flex" : "none";
+}
+
+async function fetchCurrentUserProfile() {
+    const token = getAccessToken();
+    if (!token) return null;
+    try {
+        const res = await fetch(`${apiBaseUrl}/users/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+            signal: AbortSignal.timeout(8000),
+        });
+        const payload = await res.json();
+        if (!res.ok || payload?.success === false) return null;
+        return payload?.data || null;
+    } catch {
+        return null;
+    }
+}
+
+async function refreshAccessTokenIfNeeded() {
+    const token = getAccessToken();
+    if (token) return token;
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) return "";
+
+    try {
+        const res = await fetch(`${apiBaseUrl}/auth/refresh`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+            signal: AbortSignal.timeout(8000),
+        });
+        const payload = await res.json();
+        if (!res.ok || payload?.success === false) return "";
+        const nextAccess = payload?.data?.access_token || "";
+        if (!nextAccess) return "";
+        persistAuthTokens(nextAccess, refreshToken);
+        return nextAccess;
+    } catch {
+        return "";
+    }
+}
+
+async function initAuthState() {
+    authStateReady = false;
+    updateAuthUi();
+    await refreshAccessTokenIfNeeded();
+    const profile = await fetchCurrentUserProfile();
+    if (!profile && getAccessToken()) {
+        clearAuthTokens();
+    }
+    currentUser = profile;
+    authStateReady = true;
+    updateAuthUi();
+}
+
+function switchAuthTab(mode) {
+    const loginTab = document.getElementById("authTabLogin");
+    const registerTab = document.getElementById("authTabRegister");
+    const loginForm = document.getElementById("authLoginForm");
+    const registerForm = document.getElementById("authRegisterForm");
+    const title = document.getElementById("authModalTitle");
+    const isLogin = mode === "login";
+    if (loginTab) loginTab.classList.toggle("active", isLogin);
+    if (registerTab) registerTab.classList.toggle("active", !isLogin);
+    if (loginForm) loginForm.classList.toggle("active", isLogin);
+    if (registerForm) registerForm.classList.toggle("active", !isLogin);
+    if (title) title.textContent = isLogin ? "账号登录" : "账号注册";
+}
+
+function openAuthModal(mode = "login") {
+    const mask = document.getElementById("authModalMask");
+    if (!mask) return;
+    closeAuthMenu();
+    switchAuthTab(mode);
+    if (mode === "register") {
+        const current = (document.getElementById("authRegisterAvatar")?.value || "🐼").trim() || "🐼";
+        renderAvatarPicker(current);
+    }
+    mask.classList.add("show");
+    mask.setAttribute("aria-hidden", "false");
+}
+
+function openAuthMenu() {
+    const menu = document.getElementById("authMenu");
+    if (!menu) return;
+    menu.classList.add("show");
+    menu.setAttribute("aria-hidden", "false");
+}
+
+function closeAuthMenu() {
+    const menu = document.getElementById("authMenu");
+    if (!menu) return;
+    menu.classList.remove("show");
+    menu.setAttribute("aria-hidden", "true");
+}
+
+function toggleAuthMenu() {
+    const menu = document.getElementById("authMenu");
+    if (!menu) return;
+    if (menu.classList.contains("show")) closeAuthMenu();
+    else openAuthMenu();
+}
+
+function renderAvatarPicker(defaultValue = "🐼") {
+    const picker = document.getElementById("avatarPicker");
+    const hidden = document.getElementById("authRegisterAvatar");
+    if (!picker || !hidden) return;
+    picker.innerHTML = "";
+    const selected = defaultValue || hidden.value || "🐼";
+    hidden.value = selected;
+
+    AVATAR_PRESETS.forEach((preset) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `avatar-option ${preset.value === selected ? "active" : ""}`;
+        btn.style.background = preset.bg;
+        btn.textContent = preset.value;
+        btn.title = `选择头像 ${preset.value}`;
+        btn.addEventListener("click", () => {
+            hidden.value = preset.value;
+            picker.querySelectorAll(".avatar-option").forEach((el) => el.classList.remove("active"));
+            btn.classList.add("active");
+        });
+        picker.appendChild(btn);
+    });
+}
+
+function closeAuthModal() {
+    const mask = document.getElementById("authModalMask");
+    if (!mask) return;
+    mask.classList.remove("show");
+    mask.setAttribute("aria-hidden", "true");
+}
+
+function loadFavoritesFromStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_FAVORITES);
+        const parsed = raw ? JSON.parse(raw) : {};
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+        const normalized = {};
+        Object.entries(parsed).forEach(([key, value]) => {
+            const numericKey = Number(key);
+            if (!Number.isFinite(numericKey) || numericKey < 1) return;
+            if (!value || typeof value !== "object") return;
+            normalized[String(numericKey)] = {
+                id: numericKey,
+                title_simplified: value.title_simplified || "",
+                title_traditional: value.title_traditional || value.title_simplified || "",
+                author_simplified: value.author_simplified || "",
+                author_traditional: value.author_traditional || value.author_simplified || "",
+                dynasty: value.dynasty || "",
+                category: value.category || "",
+                content_simplified: value.content_simplified || "",
+                content_traditional: value.content_traditional || value.content_simplified || "",
+            };
+        });
+        return normalized;
+    } catch {
+        return {};
+    }
+}
+
+function extractFavoriteSnapshotFromPoem(poem) {
+    return {
+        id: poem.id,
+        title_simplified: poem.title_simplified,
+        title_traditional: poem.title_traditional || poem.title_simplified,
+        author_simplified: poem.author_simplified,
+        author_traditional: poem.author_traditional || poem.author_simplified,
+        dynasty: poem.dynasty,
+        category: poem.category,
+        content_simplified: poem.content_simplified || "",
+        content_traditional: poem.content_traditional || poem.content_simplified || "",
+    };
+}
+
+function migrateFavoritesV1ToV2() {
+    if (localStorage.getItem(STORAGE_KEY_FAVORITES_MIGRATED) === "1") return;
+    let changed = false;
+    try {
+        const legacyRaw = localStorage.getItem(STORAGE_KEY_FAVORITES_V1);
+        const legacy = legacyRaw ? JSON.parse(legacyRaw) : {};
+        if (legacy && typeof legacy === "object" && !Array.isArray(legacy)) {
+            Object.values(legacy).forEach((item) => {
+                const numericId = Number(item?.id);
+                if (!Number.isFinite(numericId) || numericId < 1) return;
+                const key = String(numericId);
+                if (favorites[key]) return;
+                favorites[key] = {
+                    id: numericId,
+                    title_simplified: item.title_simplified || "",
+                    title_traditional: item.title_traditional || item.title_simplified || "",
+                    author_simplified: item.author_simplified || item.author || "",
+                    author_traditional: item.author_traditional || item.author_simplified || item.author || "",
+                    dynasty: item.dynasty || "",
+                    category: item.category || "",
+                    content_simplified: item.content_simplified || "",
+                    content_traditional: item.content_traditional || item.content_simplified || "",
+                };
+                changed = true;
+            });
+        }
+    } catch {
+        // Ignore malformed legacy payload.
+    }
+    if (changed) saveFavorites();
+    localStorage.setItem(STORAGE_KEY_FAVORITES_MIGRATED, "1");
+}
+
+async function requestFavoriteApi(path = "", options = {}) {
+    const token = getAccessToken();
+    if (!token) throw new Error("UNAUTHORIZED");
+    const headers = { ...(options.headers || {}), Authorization: `Bearer ${token}` };
+    if (options.body && !headers["Content-Type"]) headers["Content-Type"] = "application/json";
+    const res = await fetch(`${favoritesApiUrl}${path}`, { ...options, headers, signal: AbortSignal.timeout(10000) });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok || payload?.success === false) {
+        throw new Error(payload?.message || `HTTP_${res.status}`);
+    }
+    return payload?.data;
+}
+
+async function fetchAllServerFavorites() {
+    const pageSize = 100;
+    let page = 1;
+    let total = 0;
+    const items = [];
+    while (page <= 1000) {
+        const data = await requestFavoriteApi(`?page=${page}&page_size=${pageSize}&sort=updated_desc`, { method: "GET" });
+        const currentItems = Array.isArray(data?.items) ? data.items : [];
+        total = Number(data?.total) || 0;
+        items.push(...currentItems);
+        if (!currentItems.length || items.length >= total) break;
+        page += 1;
+    }
+    return items;
+}
+
+function applyServerFavorites(items) {
+    const next = {};
+    items.forEach((entry) => {
+        const poem = entry?.poem;
+        const numericId = Number(poem?.id || entry?.poem_id);
+        if (!Number.isFinite(numericId) || numericId < 1 || !poem) return;
+        next[String(numericId)] = extractFavoriteSnapshotFromPoem(poem);
+    });
+    favorites = next;
+    saveFavorites();
+}
+
+async function syncFavoritesWithServer() {
+    if (!isLoggedIn() || favoriteSyncInFlight) return;
+    favoriteSyncInFlight = true;
+    try {
+        const localIds = Object.keys(favorites).map((x) => Number(x)).filter((x) => Number.isFinite(x) && x > 0);
+        await requestFavoriteApi("/sync", {
+            method: "POST",
+            body: JSON.stringify({ poem_ids: localIds }),
+        });
+        const items = await fetchAllServerFavorites();
+        applyServerFavorites(items);
+    } catch {
+        // Keep local favorites as fallback when remote sync fails.
+        showToast("账号收藏同步失败，已保留本地收藏", "error", 2200);
+    } finally {
+        favoriteSyncInFlight = false;
+    }
+}
+
+async function handleLoginSubmit(e) {
+    e.preventDefault();
+    const username = (document.getElementById("authLoginUsername")?.value || "").trim();
+    const password = (document.getElementById("authLoginPassword")?.value || "").trim();
+    if (!username || !password) {
+        showToast("请输入用户名和密码", "error");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${apiBaseUrl}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+            signal: AbortSignal.timeout(10000),
+        });
+        const payload = await res.json();
+        if (!res.ok || payload?.success === false) {
+            throw new Error(payload?.message || "登录失败");
+        }
+
+        const data = payload?.data || {};
+        persistAuthTokens(data.access_token || "", data.refresh_token || "");
+        currentUser = await fetchCurrentUserProfile();
+        updateAuthUi();
+        await syncFavoritesWithServer();
+        await fetchPoemList({ resetPage: false });
+        renderDiscover();
+        renderFavorites();
+        closeAuthModal();
+        showToast("登录成功，收藏已同步", "success");
+    } catch (err) {
+        showToast(err?.message || "登录失败，请稍后重试", "error", 2200);
+    }
+}
+
+async function handleRegisterSubmit(e) {
+    e.preventDefault();
+    const username = (document.getElementById("authRegisterUsername")?.value || "").trim();
+    const nickname = (document.getElementById("authRegisterNickname")?.value || "").trim();
+    const password = (document.getElementById("authRegisterPassword")?.value || "").trim();
+    const avatar = (document.getElementById("authRegisterAvatar")?.value || "").trim() || "🐼";
+    if (!username || !password) {
+        showToast("请输入用户名和密码", "error");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${apiBaseUrl}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password, nickname, avatar }),
+            signal: AbortSignal.timeout(10000),
+        });
+        const payload = await res.json();
+        if (!res.ok || payload?.success === false) {
+            throw new Error(payload?.message || "注册失败");
+        }
+
+        const data = payload?.data || {};
+        persistAuthTokens(data.access_token || "", data.refresh_token || "");
+        currentUser = await fetchCurrentUserProfile();
+        updateAuthUi();
+        await syncFavoritesWithServer();
+        await fetchPoemList({ resetPage: false });
+        renderDiscover();
+        renderFavorites();
+        closeAuthModal();
+        showToast("注册成功，已自动登录", "success");
+    } catch (err) {
+        showToast(err?.message || "注册失败，请稍后重试", "error", 2200);
+    }
+}
+
+function bindAuthEvents() {
+    const authDemo = document.getElementById("authDemo");
+    document.getElementById("authAvatarBtn")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleAuthMenu();
+    });
+
+    document.getElementById("authLoginBtn")?.addEventListener("click", () => openAuthModal("login"));
+    document.getElementById("authRegisterBtn")?.addEventListener("click", () => openAuthModal("register"));
+    document.getElementById("authLogoutBtn")?.addEventListener("click", async () => {
+        clearAuthTokens();
+        currentUser = null;
+        updateAuthUi();
+        await fetchPoemList({ resetPage: false });
+        renderDiscover();
+        renderFavorites();
+        closeAuthMenu();
+        showToast("已退出登录，当前为本地收藏模式", "info");
+    });
+
+    document.getElementById("authModalClose")?.addEventListener("click", closeAuthModal);
+    document.getElementById("authTabLogin")?.addEventListener("click", () => switchAuthTab("login"));
+    document.getElementById("authTabRegister")?.addEventListener("click", () => switchAuthTab("register"));
+    document.getElementById("authModalMask")?.addEventListener("click", (e) => {
+        if (e.target?.id === "authModalMask") closeAuthModal();
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!authDemo || !e.target) return;
+        if (!authDemo.contains(e.target)) closeAuthMenu();
+    });
+
+    document.getElementById("authLoginForm")?.addEventListener("submit", handleLoginSubmit);
+    document.getElementById("authRegisterForm")?.addEventListener("submit", handleRegisterSubmit);
+}
+
+async function syncFavoriteStatusForCurrentPage() {
+    if (!isLoggedIn() || !poems.length) return;
+    const pageIds = poems
+        .map((poem) => Number(poem?.id))
+        .filter((id) => Number.isFinite(id) && id > 0);
+    if (!pageIds.length) return;
+
+    try {
+        const data = await requestFavoriteApi(`/status?poem_ids=${pageIds.join(",")}`, { method: "GET" });
+        const statusMap = data?.map || {};
+        let changed = false;
+        pageIds.forEach((id) => {
+            const key = String(id);
+            const serverFav = Boolean(statusMap[key]);
+            if (serverFav) {
+                if (!favorites[key]) {
+                    const poem = poems.find((item) => Number(item?.id) === id);
+                    if (poem) {
+                        favorites[key] = extractFavoriteSnapshotFromPoem(poem);
+                        changed = true;
+                    }
+                }
+            } else if (favorites[key]) {
+                delete favorites[key];
+                changed = true;
+            }
+        });
+        if (changed) saveFavorites();
+    } catch {
+        // Do not block list rendering when status refresh fails.
+    }
+}
 
 function createHeartSvg() {
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.2-4.4-9-8.1C.7 9.9 1.5 5.8 5.2 4.4c2.4-.9 4.6-.1 6 1.6 1.5-1.7 3.7-2.5 6-1.6 3.7 1.4 4.5 5.5 2.2 8.5C18.2 16.6 12 21 12 21z"></path></svg>';
@@ -355,25 +970,51 @@ function renderCard(poem, favView = false) {
         <p class="poem-author">${poem.dynasty ? poem.dynasty + " · " : ""}${getAuthor(poem)}${poem.category ? " · " + poem.category : ""}</p>
         <div class="poem-content">${getContent(poem)}</div>
     `;
-    card.querySelector(".heart-btn").addEventListener("click", () => {
-        if (favorites[key]) delete favorites[key];
-        else {
-            favorites[key] = {
-                id: poem.id,
-                title_simplified: poem.title_simplified,
-                title_traditional: poem.title_traditional || poem.title_simplified,
-                author_simplified: poem.author_simplified,
-                author_traditional: poem.author_traditional || poem.author_simplified,
-                dynasty: poem.dynasty,
-                category: poem.category,
-                content_simplified: poem.content_simplified || "",
-                content_traditional: poem.content_traditional || poem.content_simplified || "",
-            };
+    card.querySelector(".heart-btn").addEventListener("click", async () => {
+        const numericId = Number(poem?.id);
+        if (favoritePendingKeys.has(key)) return;
+        favoritePendingKeys.add(key);
+
+        const hadFavorite = Boolean(favorites[key]);
+        const loggedIn = isLoggedIn();
+        if (hadFavorite) {
+            delete favorites[key];
+        } else {
+            favorites[key] = extractFavoriteSnapshotFromPoem(poem);
         }
         saveFavorites();
         renderDiscover();
         renderFavorites();
         if (favView && !favorites[key]) card.remove();
+
+        try {
+            if (loggedIn && Number.isFinite(numericId) && numericId > 0) {
+                if (hadFavorite) {
+                    await requestFavoriteApi(`/${numericId}`, { method: "DELETE" });
+                    showToast("已取消收藏，并同步到账号", "success");
+                } else {
+                    await requestFavoriteApi("", {
+                        method: "POST",
+                        body: JSON.stringify({ poem_id: numericId }),
+                    });
+                    showToast("收藏成功，并同步到账号", "success");
+                }
+            } else if (!loggedIn) {
+                showToast(hadFavorite ? "还没登录，已取消本地收藏" : "还没登录，当前仅保存到本地收藏", "info");
+            }
+        } catch {
+            if (hadFavorite) {
+                favorites[key] = extractFavoriteSnapshotFromPoem(poem);
+            } else {
+                delete favorites[key];
+            }
+            saveFavorites();
+            renderDiscover();
+            renderFavorites();
+            showToast("收藏同步失败，已回滚，请检查登录状态", "error", 2200);
+        } finally {
+            favoritePendingKeys.delete(key);
+        }
     });
     return card;
 }
@@ -520,6 +1161,7 @@ async function fetchPoemList({ resetPage = false } = {}) {
         listTotal = poems.length;
         currentPage = 1;
     }
+    await syncFavoriteStatusForCurrentPage();
     listLoading = false;
     updatePagerChrome();
     return poems;
@@ -608,6 +1250,7 @@ function resetFilters() {
 // Section 6: Event wiring and bootstrap
 // ============================================================
 function bindEvents() {
+    bindAuthEvents();
     const navCloud = document.getElementById("navCloud");
     const navDiscover = document.getElementById("navDiscover");
     const navFavorites = document.getElementById("navFavorites");
@@ -701,7 +1344,20 @@ function bindEvents() {
         exportRoot.textContent = JSON.stringify(output, null, 2);
         exportBtn.textContent = "隐藏导出结果";
     });
-    document.getElementById("clearFavoritesBtn").addEventListener("click", () => {
+    document.getElementById("clearFavoritesBtn").addEventListener("click", async () => {
+        const ids = Object.keys(favorites)
+            .map((x) => Number(x))
+            .filter((x) => Number.isFinite(x) && x > 0);
+
+        if (isLoggedIn() && ids.length) {
+            await Promise.all(
+                ids.map((id) => requestFavoriteApi(`/${id}`, { method: "DELETE" }).catch(() => null))
+            );
+            showToast("已清空收藏并同步到账号", "success");
+        } else {
+            showToast("已清空本地收藏", "info");
+        }
+
         favorites = {};
         saveFavorites();
         document.getElementById("favoritesExport").textContent = "";
@@ -712,6 +1368,13 @@ function bindEvents() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    renderAvatarPicker("🐼");
+    favorites = loadFavoritesFromStorage();
+    migrateFavoritesV1ToV2();
+    initAuthState().then(() => syncFavoritesWithServer()).then(() => {
+        renderDiscover();
+        renderFavorites();
+    });
     loadWordcloudData();
     updateScriptButton();
     updateTopNavButtons("landing");

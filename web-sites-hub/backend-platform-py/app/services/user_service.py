@@ -13,6 +13,7 @@ def get_me(username: str) -> dict:
         "id": user["id"],
         "username": user["username"],
         "nickname": user["nickname"],
+        "avatar": user.get("avatar", "🐼"),
         "bio": user["bio"],
     }
 
@@ -26,5 +27,6 @@ def update_me(username: str, nickname: str, bio: str) -> dict:
         "id": updated["id"],
         "username": updated["username"],
         "nickname": updated["nickname"],
+        "avatar": updated.get("avatar", "🐼"),
         "bio": updated["bio"],
     }

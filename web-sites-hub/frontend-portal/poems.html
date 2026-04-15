@@ -15,7 +15,8 @@
         body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--poems-page-bg);color:var(--poems-text)}
         body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(var(--poems-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--poems-grid-line-x) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black 35%,transparent 85%);opacity:var(--poems-grid-opacity);z-index:0}
         .container{max-width:min(92vw,1320px)!important;padding:0 1rem}
-        .header,.diary-main{position:relative;z-index:1}
+        .header{position:relative;z-index:40}
+        .diary-main{position:relative;z-index:1}
         .diary-main{max-width:none!important;width:100%}
         .header{margin-bottom:1.1rem}
         .hero,.panel{background:var(--poems-panel-bg);border:1px solid var(--poems-stroke);border-radius:20px;padding:1.2rem;backdrop-filter:blur(10px);box-shadow:var(--poems-panel-shadow);margin-bottom:1rem}
@@ -63,16 +64,93 @@
         .btn:hover{transform:translateY(-1px);border-color:rgba(168,194,248,.65)}
         .btn.primary{background:linear-gradient(120deg,#4c8bff,#7d6dff);color:#fff;border:none;box-shadow:0 8px 20px rgba(88,120,255,.35)}
         .btn.ghost{background:transparent}
-        .header .header-content{display:flex;align-items:center;gap:.68rem}
+        .header .header-content{display:flex;align-items:center;justify-content:space-between;gap:.9rem;position:relative;z-index:45}
+        .header-left-tabs{display:flex;align-items:flex-end;gap:.15rem;min-width:0;flex:1;border-bottom:1px solid rgba(139,148,158,.26);padding-left:.05rem}
+        .header-right-actions{display:flex;align-items:center;justify-content:flex-end;gap:.68rem;flex-shrink:0}
         .top-btn{border:1px solid rgba(130,158,212,.3);background:var(--poems-top-btn-bg);color:var(--poems-text);border-radius:14px;height:56px;display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;cursor:pointer;transition:.2s ease;font-size:1.02rem;line-height:1;white-space:nowrap}
         .top-btn:hover{border-color:rgba(166,196,255,.62);background:var(--poems-top-btn-hover-bg)}
+        .page-nav-btn{min-width:96px;height:46px;padding:0 .86rem;border:none;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;background:transparent;color:#8b949e;font-size:.95rem;font-weight:600;letter-spacing:.01em;position:relative;top:1px}
+        .page-nav-btn:hover{border:none;border-bottom:3px solid rgba(88,166,255,.45);background:rgba(56,139,253,.1);color:#c9d1d9;transform:none}
+        .page-nav-btn.active,.page-nav-btn[aria-current="page"]{color:#f0f6fc;border-bottom-color:#58a6ff;background:rgba(56,139,253,.2)}
+        [data-theme="light"] .header-left-tabs{border-bottom-color:#d0d7de}
+        [data-theme="light"] .page-nav-btn{color:#57606a}
+        [data-theme="light"] .page-nav-btn:hover{border-bottom-color:#0969da;background:rgba(9,105,218,.1);color:#24292f}
+        [data-theme="light"] .page-nav-btn.active,[data-theme="light"] .page-nav-btn[aria-current="page"]{color:#24292f;border-bottom-color:#0969da;background:rgba(9,105,218,.15)}
+        .auth-demo{position:relative;display:inline-flex;align-items:center}
+        .auth-avatar-btn{width:40px;height:40px;border-radius:999px;border:2px solid #8b949e;background:#0d1117;color:#c9d1d9;display:inline-flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;overflow:hidden;transition:.16s ease}
+        .auth-avatar-btn:hover{border-color:#c9d1d9;transform:translateY(-1px)}
+        [data-theme="light"] .auth-avatar-btn{background:#fff;border-color:#d0d7de;color:#57606a}
+        [data-theme="light"] .auth-avatar-btn:hover{border-color:#8c959f}
+        .auth-menu{position:absolute;top:52px;right:0;min-width:280px;border-radius:12px;border:1px solid #30363d;background:#161b22;box-shadow:0 16px 34px rgba(0,0,0,.28);padding:.55rem;display:none;z-index:120}
+        .auth-menu.show{display:block}
+        [data-theme="light"] .auth-menu{background:#fff;border-color:#d0d7de;box-shadow:0 12px 28px rgba(31,35,40,.15)}
+        .auth-menu-head{display:flex;align-items:center;gap:.65rem;padding:.4rem .45rem .65rem;border-bottom:1px solid rgba(139,148,158,.25);margin-bottom:.45rem}
+        .auth-menu-avatar{width:38px;height:38px;border-radius:999px;border:2px solid #8b949e;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;background:#0d1117}
+        .auth-menu-name{font-size:.86rem;color:#c9d1d9;font-weight:600;line-height:1.35}
+        .auth-menu-sub{font-size:.74rem;color:#8b949e}
+        [data-theme="light"] .auth-menu-name{color:#24292f}
+        [data-theme="light"] .auth-menu-sub{color:#57606a}
+        .auth-status{display:inline-flex;align-items:center;gap:.42rem;height:30px;padding:0 .58rem;border-radius:999px;border:1px solid #30363d;background:#0d1117;font-size:.74rem;color:#8b949e;white-space:nowrap;line-height:1}
+        [data-theme="light"] .auth-status{background:#ffffff;border-color:#d0d7de;color:#57606a}
+        .auth-status-dot{width:7px;height:7px;border-radius:50%;background:#8b949e;flex:0 0 7px}
+        .auth-status.pending .auth-status-dot{background:#d29922;box-shadow:0 0 0 4px rgba(210,153,34,.16)}
+        .auth-status.online{color:#7ee787}
+        .auth-status.online .auth-status-dot{background:#2ea043;box-shadow:0 0 0 4px rgba(46,160,67,.16)}
+        [data-theme="light"] .auth-status.online{color:#1f883d}
+        .auth-status.offline .auth-status-dot{background:#8b949e;box-shadow:0 0 0 4px rgba(139,148,158,.14)}
+        .auth-btn{height:32px;padding:0 .72rem;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#c9d1d9;font-size:.76rem;font-weight:600;cursor:pointer;transition:.16s ease;display:inline-flex;align-items:center;justify-content:center;line-height:1;vertical-align:middle}
+        .auth-btn:hover{background:#30363d;border-color:#8b949e}
+        [data-theme="light"] .auth-btn{background:#f6f8fa;border-color:#d0d7de;color:#24292f}
+        [data-theme="light"] .auth-btn:hover{background:#f3f4f6;border-color:#8c959f}
+        .auth-btn.primary{background:#238636;border-color:#2ea043;color:#fff}
+        .auth-btn.primary:hover{background:#2ea043;border-color:#3fb950}
+        [data-theme="light"] .auth-btn.primary{background:#1f883d;border-color:#1f883d;color:#fff}
+        [data-theme="light"] .auth-btn.primary:hover{background:#1a7f37;border-color:#1a7f37}
+        .auth-btn.danger{background:#21262d;border-color:#f85149;color:#ff7b72}
+        .auth-btn.danger:hover{background:rgba(248,81,73,.12);border-color:#ff7b72}
+        [data-theme="light"] .auth-btn.danger{background:#fff5f5;border-color:#cf222e;color:#cf222e}
+        [data-theme="light"] .auth-btn.danger:hover{background:#ffebe9;border-color:#a40e26}
+        .auth-modal-mask{position:fixed;inset:0;background:rgba(3,8,18,.52);backdrop-filter:blur(4px);z-index:30;display:none;align-items:center;justify-content:center;padding:1rem}
+        .auth-modal-mask.show{display:flex}
+        .auth-modal{width:min(92vw,420px);border-radius:10px;background:#0d1117;border:1px solid #30363d;box-shadow:0 16px 40px rgba(0,0,0,.35);padding:1rem}
+        [data-theme="light"] .auth-modal{background:#fff;border-color:#d0d7de;box-shadow:0 16px 40px rgba(31,35,40,.12)}
+        .auth-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem}
+        .auth-modal-title{font-size:1.06rem;font-weight:700;color:#c9d1d9}
+        [data-theme="light"] .auth-modal-title{color:#24292f}
+        .auth-close{width:32px;height:32px;border-radius:6px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer}
+        .auth-close:hover{background:#21262d;color:#c9d1d9}
+        [data-theme="light"] .auth-close{border-color:#d0d7de;color:#57606a}
+        [data-theme="light"] .auth-close:hover{background:#f6f8fa;color:#24292f}
+        .auth-tabs{display:flex;gap:.5rem;margin-bottom:.75rem}
+        .auth-tab{flex:1;height:36px;border-radius:6px;border:1px solid #30363d;background:#161b22;color:#8b949e;cursor:pointer}
+        .auth-tab:hover{background:#21262d;color:#c9d1d9}
+        [data-theme="light"] .auth-tab{background:#f6f8fa;border-color:#d0d7de;color:#57606a}
+        [data-theme="light"] .auth-tab:hover{background:#eef1f4;color:#24292f}
+        .auth-tab.active{background:#1f6feb;color:#fff;border-color:#1f6feb}
+        [data-theme="light"] .auth-tab.active{background:#0969da;border-color:#0969da;color:#fff}
+        .auth-form{display:none;gap:.58rem;flex-direction:column}
+        .auth-form.active{display:flex}
+        .auth-form input{background:#010409;color:#c9d1d9;border:1px solid #30363d;border-radius:6px;padding:.62rem .75rem;outline:none}
+        .auth-form input:focus{border-color:#1f6feb;box-shadow:0 0 0 3px rgba(31,111,235,.2)}
+        [data-theme="light"] .auth-form input{background:#fff;color:#1f2328;border-color:#d0d7de}
+        [data-theme="light"] .auth-form input:focus{border-color:#0969da;box-shadow:0 0 0 3px rgba(9,105,218,.15)}
+        .auth-form button{height:38px;border-radius:6px;border:1px solid #2ea043;background:#238636;color:#fff;cursor:pointer}
+        .auth-form button:hover{background:#2ea043}
+        [data-theme="light"] .auth-form button{background:#1f883d;border-color:#1f883d}
+        [data-theme="light"] .auth-form button:hover{background:#1a7f37}
+        .auth-tip{font-size:.78rem;color:#8b949e;line-height:1.5}
+        [data-theme="light"] .auth-tip{color:#57606a}
+        .avatar-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:.45rem;padding:.2rem 0 .25rem}
+        .avatar-option{width:44px;height:44px;border-radius:999px;border:2px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.18rem;transition:.16s ease}
+        .avatar-option:hover{transform:translateY(-1px);border-color:#8b949e}
+        .avatar-option.active{border-color:#1f6feb;box-shadow:0 0 0 3px rgba(31,111,235,.2)}
+        .avatar-picker-note{font-size:.72rem;color:#8b949e;margin-top:.2rem}
         .script-mode-toggle{min-width:72px;height:56px;border-radius:14px;border:1px dashed rgba(138,168,226,.45);background:linear-gradient(140deg,rgba(19,33,58,.82),rgba(12,21,40,.72));color:#dbe9ff;display:inline-flex;align-items:center;justify-content:center;gap:.34rem;padding:0 .75rem;cursor:pointer;transition:.2s ease}
         .script-mode-toggle:hover{transform:translateY(-1px);border-color:rgba(170,201,255,.72);background:linear-gradient(140deg,rgba(31,49,83,.86),rgba(16,29,54,.78))}
         .script-mode-icon{width:18px;height:18px;opacity:.92}
         .script-mode-label{font-size:.82rem;letter-spacing:.04em;font-weight:600}
         [data-theme="light"] .script-mode-toggle{border-color:rgba(171,136,79,.52);background:linear-gradient(140deg,rgba(252,243,219,.96),rgba(244,229,190,.9));color:#79572b}
         [data-theme="light"] .script-mode-toggle:hover{border-color:rgba(168,124,56,.72);background:linear-gradient(140deg,rgba(249,236,205,.98),rgba(238,220,173,.92))}
-        .page-nav-btn{min-width:108px}
         .theme-toggle{width:56px;height:56px;border-radius:14px;padding:0;display:inline-flex;align-items:center;justify-content:center}
         .theme-icon{width:22px;height:22px}
         .meta{color:var(--poems-subtext);font-size:.88rem}
@@ -94,7 +172,7 @@
         .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem;white-space:pre-wrap;word-break:break-all}
         .cloud-tip{font-size:.83rem;color:#8fa5cb;margin-top:.56rem}
         @media (max-width:1280px){.toolbar{grid-template-columns:repeat(3,minmax(160px,1fr))}}
-        @media (max-width:980px){.container{padding:0 .8rem}.hero-head{display:block}.hero h1{font-size:1.9rem}.poem-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.pager-shelf{flex-direction:column;align-items:stretch}}
+        @media (max-width:980px){.container{padding:0 .8rem}.hero-head{display:block}.hero h1{font-size:1.9rem}.poem-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.pager-shelf{flex-direction:column;align-items:stretch}.header .header-content{flex-wrap:wrap;gap:.55rem}.header-left-tabs{order:1;width:100%;overflow-x:auto}.header-right-actions{order:2;width:100%;justify-content:flex-end}.auth-demo{width:auto}.auth-menu{right:0;left:auto;min-width:min(92vw,320px)}}
     </style>
 </head>
 <body>
@@ -102,18 +180,41 @@
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <span style="flex:1"></span>
-                <button id="navCloud" type="button" class="top-btn page-nav-btn">词云页</button>
-                <button id="navDiscover" type="button" class="top-btn page-nav-btn">检索页</button>
-                <button id="navFavorites" type="button" class="top-btn page-nav-btn">收藏页</button>
-                <button id="scriptToggle" type="button" class="script-mode-toggle" title="切换简体 / 繁体" aria-label="切换简体 / 繁体">
-                    <svg class="script-mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M4 6h8"></path><path d="M8 6v12"></path><path d="M5 12h6"></path>
-                        <path d="M14 6h6"></path><path d="M17 6v12"></path><path d="M14 16h6"></path>
-                    </svg>
-                    <span class="script-mode-label" id="scriptModeLabel">简</span>
-                </button>
-                <button class="theme-toggle" id="themeToggle" title="主题切换"><svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg></button>
+                <div class="header-left-tabs" role="tablist" aria-label="页面导航">
+                    <button id="navCloud" type="button" class="top-btn page-nav-btn active" aria-current="page">词云页</button>
+                    <button id="navDiscover" type="button" class="top-btn page-nav-btn">检索页</button>
+                    <button id="navFavorites" type="button" class="top-btn page-nav-btn">收藏页</button>
+                </div>
+                <div class="header-right-actions">
+                    <button id="scriptToggle" type="button" class="script-mode-toggle" title="切换简体 / 繁体" aria-label="切换简体 / 繁体">
+                        <svg class="script-mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path d="M4 6h8"></path><path d="M8 6v12"></path><path d="M5 12h6"></path>
+                            <path d="M14 6h6"></path><path d="M17 6v12"></path><path d="M14 16h6"></path>
+                        </svg>
+                        <span class="script-mode-label" id="scriptModeLabel">简</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" title="主题切换"><svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg></button>
+                    <div class="auth-demo" id="authDemo">
+                        <button id="authAvatarBtn" type="button" class="auth-avatar-btn" aria-label="账户菜单">🐟</button>
+                        <div id="authMenu" class="auth-menu" aria-hidden="true">
+                            <div class="auth-menu-head">
+                                <div id="authMenuAvatar" class="auth-menu-avatar">🐟</div>
+                                <div style="flex:1;min-width:0;">
+                                    <div id="authMenuName" class="auth-menu-name">未登录</div>
+                                    <div id="authMenuSub" class="auth-menu-sub">登录后可跨设备同步收藏</div>
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:.45rem;padding:.15rem .2rem .45rem;">
+                                <span id="authStatus" class="auth-status pending"><span class="auth-status-dot"></span><span class="auth-status-text">登录状态检测中</span></span>
+                            </div>
+                            <div style="display:flex;gap:.5rem;padding:.2rem .2rem .1rem;">
+                                <button id="authLoginBtn" type="button" class="auth-btn primary" style="flex:1">登录</button>
+                                <button id="authRegisterBtn" type="button" class="auth-btn" style="flex:1">注册</button>
+                                <button id="authLogoutBtn" type="button" class="auth-btn danger" style="display:none;flex:1">退出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -213,8 +314,40 @@
             </section>
         </main>
     </div>
+
+    <div id="authModalMask" class="auth-modal-mask" aria-hidden="true">
+        <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+            <div class="auth-modal-head">
+                <div id="authModalTitle" class="auth-modal-title">账号登录</div>
+                <button id="authModalClose" type="button" class="auth-close" aria-label="关闭">×</button>
+            </div>
+            <div class="auth-tabs">
+                <button id="authTabLogin" type="button" class="auth-tab active">登录</button>
+                <button id="authTabRegister" type="button" class="auth-tab">注册</button>
+            </div>
+            <form id="authLoginForm" class="auth-form active">
+                <input id="authLoginUsername" type="text" placeholder="用户名" autocomplete="username" required>
+                <input id="authLoginPassword" type="password" placeholder="密码" autocomplete="current-password" required>
+                <button type="submit">登录并同步收藏</button>
+            </form>
+            <form id="authRegisterForm" class="auth-form">
+                <input id="authRegisterUsername" type="text" placeholder="用户名（3-64）" minlength="3" maxlength="64" required>
+                <input id="authRegisterNickname" type="text" placeholder="昵称（选填）" maxlength="64">
+                <input id="authRegisterPassword" type="password" placeholder="密码（至少6位）" minlength="6" maxlength="128" required>
+                <input id="authRegisterAvatar" type="hidden" value="🐼">
+                <div>
+                    <div class="auth-tip" style="margin-bottom:.28rem;">选择头像（Google 风格预设）</div>
+                    <div id="avatarPicker" class="avatar-picker" role="group" aria-label="头像选择"></div>
+                    <div class="avatar-picker-note">注册后头像将显示在右上角小圆头像菜单。</div>
+                </div>
+                <button type="submit">注册并登录</button>
+            </form>
+            <div class="auth-tip">登录后收藏会自动同步到账号，支持跨设备查看。</div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js?v=20260203"></script>
     <script src="assets/js/poem.config.js?v=20260415"></script>
-    <script src="assets/js/poem.js?v=20260415c"></script>
+    <script src="assets/js/poem.js?v=20260415d"></script>
 </body>
 </html>

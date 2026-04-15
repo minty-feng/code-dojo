@@ -65,10 +65,13 @@
 - `GET /api/v1/poems/{poem_id}`
 - `GET /api/v1/poems/meta/categories`
 - `GET /api/v1/poems/meta/dynasties`
+- `GET /api/v1/poems/favorites`（鉴权）
+- `POST /api/v1/poems/favorites`（鉴权）
+- `DELETE /api/v1/poems/favorites/{poem_id}`（鉴权）
+- `GET /api/v1/poems/favorites/status?poem_ids=1,2,3`（鉴权）
+- `POST /api/v1/poems/favorites/sync`（鉴权）
 
-调用路径：前端页面 -> FastAPI 接口 -> `poems` 表查询 -> JSON 返回。
-
-> 注：收藏功能当前是前端本地 `localStorage`，不落后端。
+调用路径：前端页面 -> FastAPI 接口 -> `poems` / `poem_favorites` 表查询 -> JSON 返回。
 
 ## API 清单
 
@@ -76,6 +79,11 @@
 - `GET /api/v1/poems/{poem_id}`
 - `GET /api/v1/poems/meta/categories`
 - `GET /api/v1/poems/meta/dynasties`
+- `GET /api/v1/poems/favorites`（鉴权）
+- `POST /api/v1/poems/favorites`（鉴权）
+- `DELETE /api/v1/poems/favorites/{poem_id}`（鉴权）
+- `GET /api/v1/poems/favorites/status?poem_ids=1,2,3`（鉴权）
+- `POST /api/v1/poems/favorites/sync`（鉴权）
 
 ## 列表接口参数
 

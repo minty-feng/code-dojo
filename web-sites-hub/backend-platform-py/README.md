@@ -49,18 +49,19 @@ uvicorn app.main:app --reload --port 8300
 
 ## 认证方式（JWT）
 
-1. 调用 `POST /api/v1/auth/login` 获取 `access_token` 与 `refresh_token`
-2. 访问受保护接口时带上请求头：
+1. 新用户可先调用 `POST /api/v1/auth/register` 注册并获取 `access_token` 与 `refresh_token`
+2. 已有用户调用 `POST /api/v1/auth/login` 获取 `access_token` 与 `refresh_token`
+3. 访问受保护接口时带上请求头：
 
 ```text
 Authorization: Bearer <access_token>
 ```
 
-3. access token 过期后，调用 `POST /api/v1/auth/refresh` 刷新
+4. access token 过期后，调用 `POST /api/v1/auth/refresh` 刷新
 
 ## 已包含的业务域
 
-- `auth`：登录、刷新 token（JWT）
+- `auth`：注册、登录、刷新 token（JWT）
 - `users`：用户信息查询与更新
 - `content`：内容（诗词/文章）查询
 - `fund`：基金查询与 CSV 导出占位
@@ -68,13 +69,27 @@ Authorization: Bearer <access_token>
 - `poems`：诗词列表、详情、分类查询
 - `system`：健康检查、版本信息
 
-更多设计说明见 `docs/`。
+更多设计说明见 `docs/`，推荐阅读：
+
+- `docs/01-architecture.md`
+- `docs/02-api-design.md`
+- `docs/03-error-code.md`
+- `docs/04-runbook.md`
+- `docs/05-poems-module.md`
+- `docs/06-auth-and-user.md`
+- `docs/07-auth-production-hardening.md`
 
 ## 诗词模块 API
 
-- `GET /api/v1/poems?page=1&page_size=20&keyword=&category=&dynasty=`
+- `GET /api/v1/poems?page=1&page_size=20&keyword=&author=&tag=&category=&dynasty=&sort=`
 - `GET /api/v1/poems/{poem_id}`
 - `GET /api/v1/poems/meta/categories`
+- `GET /api/v1/poems/meta/dynasties`
+- `GET /api/v1/poems/favorites`（需 Bearer Token）
+- `POST /api/v1/poems/favorites`（需 Bearer Token）
+- `DELETE /api/v1/poems/favorites/{poem_id}`（需 Bearer Token）
+- `GET /api/v1/poems/favorites/status?poem_ids=1,2,3`（需 Bearer Token）
+- `POST /api/v1/poems/favorites/sync`（需 Bearer Token）
 
 列表接口返回结构：
 
@@ -120,7 +135,7 @@ python scripts/poems/run.py --config scripts/poems/sources.yaml
 ## SQLAdmin 管理后台
 
 - 入口：`/admin`
-- 已注册数据模型：Users / Contents / Funds / Diary Entries
+- 已注册数据模型：Users / Contents / Funds / Diary Entries / Poems / Poem Favorites
 - 可执行查看、搜索、增删改查，便于单人开发期间的运营与调试
 - 访问后台需要管理员账号密码（默认：`admin / admin123`）
 - 已启用来源限制：仅允许本机访问 `/admin`（`127.0.0.1` / `::1` / `localhost`），其他来源直接 403

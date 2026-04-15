@@ -7,7 +7,15 @@ from fastapi import FastAPI
 from sqladmin import Admin, ModelView
 
 from app.core.admin_auth import AdminAuthBackend
-from app.core.database import ContentModel, DiaryEntryModel, FundModel, PoemModel, UserModel, engine
+from app.core.database import (
+    ContentModel,
+    DiaryEntryModel,
+    FundModel,
+    PoemFavoriteModel,
+    PoemModel,
+    UserModel,
+    engine,
+)
 
 
 class UserAdmin(ModelView, model=UserModel):
@@ -77,6 +85,30 @@ class PoemAdmin(ModelView, model=PoemModel):
     ]
 
 
+class PoemFavoriteAdmin(ModelView, model=PoemFavoriteModel):
+    """Admin page for poem favorite records."""
+
+    name = "Poem Favorite"
+    name_plural = "Poem Favorites"
+    icon = "fa-solid fa-heart"
+    column_list = [
+        PoemFavoriteModel.id,
+        PoemFavoriteModel.user_id,
+        PoemFavoriteModel.poem_id,
+        PoemFavoriteModel.created_at,
+        PoemFavoriteModel.updated_at,
+        PoemFavoriteModel.deleted_at,
+    ]
+    column_searchable_list = [PoemFavoriteModel.user_id, PoemFavoriteModel.poem_id]
+    form_columns = [
+        PoemFavoriteModel.user_id,
+        PoemFavoriteModel.poem_id,
+        PoemFavoriteModel.created_at,
+        PoemFavoriteModel.updated_at,
+        PoemFavoriteModel.deleted_at,
+    ]
+
+
 def setup_admin(app: FastAPI) -> None:
     """Attach SQLAdmin to FastAPI app and register model views."""
     admin = Admin(
@@ -90,3 +122,4 @@ def setup_admin(app: FastAPI) -> None:
     admin.add_view(FundAdmin)
     admin.add_view(DiaryEntryAdmin)
     admin.add_view(PoemAdmin)
+    admin.add_view(PoemFavoriteAdmin)

@@ -7,7 +7,7 @@ Keeping models centralized makes schema evolution and migration easier.
 from datetime import datetime
 from pathlib import Path
 
-from sqlalchemy import DateTime, Float, Integer, String, Text, UniqueConstraint, create_engine, text
+from sqlalchemy import DateTime, Float, Index, Integer, String, Text, UniqueConstraint, create_engine, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 
@@ -37,6 +37,7 @@ class UserModel(Base):
     username: Mapped[str] = mapped_column(String(64), unique=True, index=True)
     password: Mapped[str] = mapped_column(String(128))
     nickname: Mapped[str] = mapped_column(String(64), default="")
+    avatar: Mapped[str] = mapped_column(String(64), default="🐼")
     bio: Mapped[str] = mapped_column(String(255), default="")
 
 
@@ -95,6 +96,26 @@ class PoemModel(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, index=True
     )
+
+
+class PoemFavoriteModel(Base):
+    """Poem favorites relation table for user-level collection state."""
+
+    __tablename__ = "poem_favorites"
+    __table_args__ = (
+        UniqueConstraint("user_id", "poem_id", name="uq_poem_favorites_user_poem"),
+        Index("idx_poem_favorites_user_deleted_updated", "user_id", "deleted_at", "updated_at"),
+        Index("idx_poem_favorites_user_poem", "user_id", "poem_id"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(Integer, index=True)
+    poem_id: Mapped[int] = mapped_column(Integer, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, index=True
+    )
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True, index=True)
 
 
 def _ensure_poems_columns() -> None:
@@ -157,14 +178,26 @@ def _ensure_poems_columns() -> None:
             )
 
 
+def _ensure_users_columns() -> None:
+    """Add optional user profile columns for legacy databases."""
+    with engine.begin() as conn:
+        rows = conn.execute(text("PRAGMA table_info(users)")).fetchall()
+        if not rows:
+            return
+        columns = {row[1] for row in rows}
+        if "avatar" not in columns:
+            conn.execute(text("ALTER TABLE users ADD COLUMN avatar VARCHAR(64) NOT NULL DEFAULT '🐼'"))
+
+
 def init_db() -> None:
     """Create tables and seed starter data when database is empty."""
     Base.metadata.create_all(bind=engine)
     _ensure_poems_columns()
+    _ensure_users_columns()
 
     with SessionLocal() as db:
         if db.query(UserModel).count() == 0:
-            db.add(UserModel(username="demo", password="demo123", nickname="Minty", bio="single service demo"))
+            db.add(UserModel(username="demo", password="demo123", nickname="Minty", avatar="🐼", bio="single service demo"))
         if db.query(ContentModel).count() == 0:
             db.add_all(
                 [

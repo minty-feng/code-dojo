@@ -4,9 +4,19 @@ Repository methods intentionally return plain dict/list so service and router
 layers remain storage-agnostic.
 """
 
-from sqlalchemy import func, or_, asc
+from datetime import datetime
 
-from app.core.database import ContentModel, DiaryEntryModel, FundModel, PoemModel, SessionLocal, UserModel
+from sqlalchemy import asc, desc, func, or_
+
+from app.core.database import (
+    ContentModel,
+    DiaryEntryModel,
+    FundModel,
+    PoemFavoriteModel,
+    PoemModel,
+    SessionLocal,
+    UserModel,
+)
 
 
 class SqlAlchemyRepository:
@@ -51,7 +61,29 @@ class SqlAlchemyRepository:
                 "username": user.username,
                 "password": user.password,
                 "nickname": user.nickname,
+                "avatar": user.avatar,
                 "bio": user.bio,
+            }
+
+    def create_user(self, username: str, password: str, nickname: str = "", avatar: str = "🐼", bio: str = "") -> dict:
+        with SessionLocal() as db:
+            row = UserModel(
+                username=username,
+                password=password,
+                nickname=nickname,
+                avatar=avatar,
+                bio=bio,
+            )
+            db.add(row)
+            db.commit()
+            db.refresh(row)
+            return {
+                "id": row.id,
+                "username": row.username,
+                "password": row.password,
+                "nickname": row.nickname,
+                "avatar": row.avatar,
+                "bio": row.bio,
             }
 
     def update_user_profile(self, username: str, nickname: str, bio: str) -> dict | None:
@@ -68,6 +100,7 @@ class SqlAlchemyRepository:
                 "username": user.username,
                 "password": user.password,
                 "nickname": user.nickname,
+                "avatar": user.avatar,
                 "bio": user.bio,
             }
 
@@ -229,6 +262,159 @@ class SqlAlchemyRepository:
                 .all()
             )
             return [row[0] for row in rows]
+
+    def list_existing_poem_ids(self, poem_ids: list[int]) -> set[int]:
+        if not poem_ids:
+            return set()
+        with SessionLocal() as db:
+            rows = db.query(PoemModel.id).filter(PoemModel.id.in_(poem_ids)).all()
+            return {int(row[0]) for row in rows}
+
+    def add_poem_favorite(self, user_id: int, poem_id: int) -> dict:
+        now = datetime.utcnow()
+        with SessionLocal() as db:
+            row = (
+                db.query(PoemFavoriteModel)
+                .filter(PoemFavoriteModel.user_id == user_id, PoemFavoriteModel.poem_id == poem_id)
+                .first()
+            )
+            if not row:
+                row = PoemFavoriteModel(
+                    user_id=user_id,
+                    poem_id=poem_id,
+                    created_at=now,
+                    updated_at=now,
+                    deleted_at=None,
+                )
+                db.add(row)
+            elif row.deleted_at is not None:
+                row.deleted_at = None
+                row.updated_at = now
+            db.commit()
+            return {"user_id": user_id, "poem_id": poem_id, "favorited": True}
+
+    def remove_poem_favorite(self, user_id: int, poem_id: int) -> dict:
+        now = datetime.utcnow()
+        with SessionLocal() as db:
+            row = (
+                db.query(PoemFavoriteModel)
+                .filter(PoemFavoriteModel.user_id == user_id, PoemFavoriteModel.poem_id == poem_id)
+                .first()
+            )
+            if row and row.deleted_at is None:
+                row.deleted_at = now
+                row.updated_at = now
+                db.commit()
+            return {"user_id": user_id, "poem_id": poem_id, "favorited": False}
+
+    def list_poem_favorites(self, user_id: int, page: int, page_size: int, sort: str) -> dict:
+        with SessionLocal() as db:
+            query = (
+                db.query(PoemFavoriteModel, PoemModel)
+                .join(PoemModel, PoemFavoriteModel.poem_id == PoemModel.id)
+                .filter(PoemFavoriteModel.user_id == user_id, PoemFavoriteModel.deleted_at.is_(None))
+            )
+            total = query.with_entities(func.count(PoemFavoriteModel.id)).scalar() or 0
+
+            if sort == "updated_asc":
+                query = query.order_by(asc(PoemFavoriteModel.updated_at), asc(PoemFavoriteModel.id))
+            elif sort == "created_desc":
+                query = query.order_by(desc(PoemFavoriteModel.created_at), desc(PoemFavoriteModel.id))
+            elif sort == "created_asc":
+                query = query.order_by(asc(PoemFavoriteModel.created_at), asc(PoemFavoriteModel.id))
+            else:
+                query = query.order_by(desc(PoemFavoriteModel.updated_at), desc(PoemFavoriteModel.id))
+
+            rows = query.offset((page - 1) * page_size).limit(page_size).all()
+            items = []
+            for fav, poem in rows:
+                items.append(
+                    {
+                        "poem_id": fav.poem_id,
+                        "created_at": fav.created_at.isoformat(),
+                        "updated_at": fav.updated_at.isoformat(),
+                        "poem": {
+                            "id": poem.id,
+                            "title_simplified": poem.title_simplified,
+                            "title_traditional": poem.title_traditional,
+                            "author_simplified": poem.author_simplified,
+                            "author_traditional": poem.author_traditional,
+                            "dynasty": poem.dynasty,
+                            "category": poem.category,
+                            "content_simplified": poem.content_simplified,
+                            "content_traditional": poem.content_traditional,
+                            "tags": poem.tags,
+                        },
+                    }
+                )
+            return {"items": items, "page": page, "page_size": page_size, "total": total}
+
+    def get_poem_favorite_status_map(self, user_id: int, poem_ids: list[int]) -> dict[str, bool]:
+        normalized_ids = sorted({int(x) for x in poem_ids if int(x) > 0})
+        if not normalized_ids:
+            return {}
+        with SessionLocal() as db:
+            rows = (
+                db.query(PoemFavoriteModel.poem_id)
+                .filter(
+                    PoemFavoriteModel.user_id == user_id,
+                    PoemFavoriteModel.deleted_at.is_(None),
+                    PoemFavoriteModel.poem_id.in_(normalized_ids),
+                )
+                .all()
+            )
+            active_ids = {int(row[0]) for row in rows}
+            return {str(poem_id): poem_id in active_ids for poem_id in normalized_ids}
+
+    def sync_poem_favorites(self, user_id: int, poem_ids: list[int]) -> dict:
+        normalized_ids = sorted({int(x) for x in poem_ids if int(x) > 0})
+        now = datetime.utcnow()
+        added = 0
+        reactivated = 0
+
+        with SessionLocal() as db:
+            existing_rows = (
+                db.query(PoemFavoriteModel)
+                .filter(PoemFavoriteModel.user_id == user_id, PoemFavoriteModel.poem_id.in_(normalized_ids))
+                .all()
+                if normalized_ids
+                else []
+            )
+            existing_map = {row.poem_id: row for row in existing_rows}
+
+            for poem_id in normalized_ids:
+                row = existing_map.get(poem_id)
+                if not row:
+                    db.add(
+                        PoemFavoriteModel(
+                            user_id=user_id,
+                            poem_id=poem_id,
+                            created_at=now,
+                            updated_at=now,
+                            deleted_at=None,
+                        )
+                    )
+                    added += 1
+                elif row.deleted_at is not None:
+                    row.deleted_at = None
+                    row.updated_at = now
+                    reactivated += 1
+
+            db.commit()
+
+            active_rows = (
+                db.query(PoemFavoriteModel.poem_id)
+                .filter(PoemFavoriteModel.user_id == user_id, PoemFavoriteModel.deleted_at.is_(None))
+                .all()
+            )
+            active_ids = sorted(int(row[0]) for row in active_rows)
+
+        return {
+            "poem_ids": active_ids,
+            "added": added,
+            "reactivated": reactivated,
+            "total": len(active_ids),
+        }
 
     def upsert_poems(self, items: list[dict]) -> dict:
         inserted = 0
