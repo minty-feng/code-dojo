@@ -12,11 +12,9 @@ NC='\033[0m' # No Color
 PACKAGE_NAME="joketop-$(date +%Y%m%d-%H%M%S).tar.gz"
 EXCLUDE_FILE=".package-exclude"
 
-# 版本号：优先环境变量 ASSETS_VERSION，否则从 version.txt 读取，用于 CDN 缓存更新
+# 版本号：优先环境变量 ASSETS_VERSION，否则直接使用当天日期，用于 CDN 缓存更新
 if [ -n "$ASSETS_VERSION" ]; then
     VERSION="$ASSETS_VERSION"
-elif [ -f "version.txt" ]; then
-    VERSION=$(tr -d '\n\r' < version.txt)
 else
     VERSION=$(date +%Y%m%d)
 fi
@@ -38,7 +36,8 @@ fi
 # 明确指定要打包的文件和目录
 echo -e "${YELLOW}正在打包文件...${NC}"
 echo -e "${YELLOW}包含的文件：${NC}"
-echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed.html, fund.html, docsearch.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html${NC}"
+echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed.html, fund.html, docsearch.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html, aihistory.html${NC}"
+echo -e "${YELLOW}  - 说明: poems.backup.html 为备份文件，不参与发布打包${NC}"
 echo -e "${YELLOW}  - 资源文件: assets/ (css, js, favicon.svg)${NC}"
 echo ""
 
@@ -48,7 +47,7 @@ trap "rm -rf $TEMP_DIR" EXIT
 
 # 复制需要打包的文件
 echo -e "${YELLOW}准备文件...${NC}"
-cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html docsearch.html invisiblechars.html ganwu.html wufu.html poems.html timeline.html goals.html tianya.html journal.html plans.html calendar.html figures.html $TEMP_DIR/ 2>/dev/null
+cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html docsearch.html invisiblechars.html ganwu.html wufu.html poems.html timeline.html goals.html tianya.html journal.html plans.html calendar.html figures.html aihistory.html $TEMP_DIR/ 2>/dev/null
 cp -r assets $TEMP_DIR/ 2>/dev/null
 
 # 统一注入版本号到 HTML（替换 ?v=xxx 为 ?v=$VERSION，触发 CDN 更新）
@@ -60,9 +59,24 @@ done
 # JS 压缩（使用 terser，需 npm 环境）
 if command -v npx &>/dev/null; then
     echo -e "${YELLOW}压缩 JS 文件...${NC}"
-    for f in $TEMP_DIR/assets/js/*.js; do
-        [ -f "$f" ] && npx --yes terser "$f" -c -m -o "$f" 2>/dev/null && echo -e "  ${GREEN}✓${NC} $(basename "$f")" || echo -e "  ${YELLOW}⚠ 跳过${NC} $(basename "$f")"
-    done
+    JS_COUNT=$(find "$TEMP_DIR/assets" -type f -name "*.js" | wc -l | tr -d ' ')
+
+    if [ "$JS_COUNT" -eq 0 ]; then
+        echo -e "  ${YELLOW}⚠ 未找到 JS 文件，跳过压缩${NC}"
+    else
+        SUCCESS_COUNT=0
+        FAILED_COUNT=0
+        while IFS= read -r -d '' f; do
+            if npx --yes terser "$f" -c -m -o "$f"; then
+                SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+                echo -e "  ${GREEN}✓${NC} ${f#$TEMP_DIR/}"
+            else
+                FAILED_COUNT=$((FAILED_COUNT + 1))
+                echo -e "  ${YELLOW}⚠ 压缩失败${NC} ${f#$TEMP_DIR/}"
+            fi
+        done < <(find "$TEMP_DIR/assets" -type f -name "*.js" -print0)
+        echo -e "${YELLOW}JS 压缩结果:${NC} 成功 ${GREEN}$SUCCESS_COUNT${NC} / 失败 ${YELLOW}$FAILED_COUNT${NC}"
+    fi
 else
     echo -e "${YELLOW}提示: 未检测到 npx，跳过 JS 压缩。安装 Node.js 后可用 terser 压缩。${NC}"
 fi
@@ -87,6 +101,7 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/plans.html" ] && MISSING_FILES+=("plans.html")
 [ ! -f "$TEMP_DIR/calendar.html" ] && MISSING_FILES+=("calendar.html")
 [ ! -f "$TEMP_DIR/figures.html" ] && MISSING_FILES+=("figures.html")
+[ ! -f "$TEMP_DIR/aihistory.html" ] && MISSING_FILES+=("aihistory.html")
 [ ! -d "$TEMP_DIR/assets" ] && MISSING_FILES+=("assets/")
 [ ! -f "$TEMP_DIR/assets/favicon.svg" ] && MISSING_FILES+=("assets/favicon.svg")
 
@@ -123,8 +138,17 @@ if [ $? -eq 0 ]; then
     echo -e "  文件位置: ${GREEN}$(pwd)/$PACKAGE_NAME${NC}"
     echo -e "${GREEN}========================================${NC}"
     echo -e "${YELLOW}下一步：${NC}"
-    echo -e "  1. 将 $PACKAGE_NAME 上传到服务器"
-    echo -e "  2. 在服务器上执行: ./deploy-joketop.sh $PACKAGE_NAME"
+    echo -e "  1. 上传到服务器:"
+    echo -e "     scp $PACKAGE_NAME tencent-ubuntu-1:~/web-deploy"
+    echo -e "  2. 登录服务器:"
+    echo -e "     ssh tencent-ubuntu-1"
+    echo -e "  3. 进入目录并部署:"
+    echo -e "     cd ~/web-deploy"
+    echo -e "     sudo ./deploy-joketop.sh $PACKAGE_NAME"
+    echo -e "  4. 如本次涉及站点/路由/静态目录变更，请同步更新 nginx conf:"
+    echo -e "     # 例如: /etc/nginx/sites-available/joketop.conf"
+    echo -e "     sudo nginx -t && sudo systemctl reload nginx"
+    echo -e "     # 说明: deploy-joketop.sh 不会自动更新 nginx 配置"
 else
     echo -e "${YELLOW}✗ 打包失败！${NC}"
     exit 1

@@ -42,7 +42,6 @@
 ```
 frontend-portal/
 ├── index.html              # 主页面
-├── version.txt             # 资源版本号（CSS/JS ?v=xxx），打包时自动注入
 ├── assets/
 │   ├── css/
 │   │   └── main.css       # 主样式文件
@@ -108,11 +107,11 @@ frontend-portal/
 
 ### 统一版本配置
 
-版本号由 **`version.txt`** 或环境变量 **`ASSETS_VERSION`** 统一管理，打包时自动注入到所有 HTML：
+版本号默认由打包当天日期生成，也可通过环境变量 **`ASSETS_VERSION`** 覆盖，打包时自动注入到所有 HTML：
 
 | 方式 | 说明 |
 |------|------|
-| `version.txt` | 编辑此文件，写入新版本号（如 `20260207`），打包时自动读取 |
+| 当天日期 | 默认生成 `YYYYMMDD`，如 `20260416` |
 | `ASSETS_VERSION` | 环境变量覆盖：`ASSETS_VERSION=20260207 ./package-joketop.sh` |
 
 ### 工作原理
@@ -126,7 +125,7 @@ frontend-portal/
 ### 更新步骤
 
 1. 修改 CSS/JS 文件
-2. 编辑 `version.txt` 更新版本号（或使用 `ASSETS_VERSION`）
+2. 如需自定义版本号，设置 `ASSETS_VERSION`（否则默认使用当天日期）
 3. 执行 `./package-joketop.sh` 打包（自动注入版本号）
 4. 部署
 

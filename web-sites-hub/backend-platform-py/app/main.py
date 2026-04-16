@@ -58,22 +58,20 @@ setup_admin(app)
 
 @app.middleware("http")
 async def admin_localhost_only(request, call_next):
-    """Protect /admin so only local machine requests are allowed.
+    """Protect /admin with optional localhost-only policy.
 
-    Allowed hosts:
-    - 127.0.0.1 (IPv4 loopback)
-    - ::1 (IPv6 loopback)
-    - localhost (dev proxies may resolve to this)
+    By default, admin is localhost-only.
+    Set ADMIN_ALLOW_REMOTE=true to allow remote access through Nginx.
     """
     if request.url.path.startswith("/admin"):
         client_host = request.client.host if request.client else ""
-        if client_host not in {"127.0.0.1", "::1", "localhost"}:
+        if (not settings.admin_allow_remote) and client_host not in {"127.0.0.1", "::1", "localhost"}:
             return JSONResponse(
                 status_code=403,
                 content={
                     "success": False,
                     "code": "FORBIDDEN",
-                    "message": "Admin panel is restricted to localhost only",
+                    "message": "Admin panel is restricted to localhost only (set ADMIN_ALLOW_REMOTE=true to allow remote access)",
                     "data": None,
                 },
             )

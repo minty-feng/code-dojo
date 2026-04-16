@@ -22,6 +22,12 @@ class Settings(BaseModel):
     admin_username: str = os.getenv("ADMIN_USERNAME", "admin")
     admin_password: str = os.getenv("ADMIN_PASSWORD", "admin123")
     admin_session_secret: str = os.getenv("ADMIN_SESSION_SECRET", "change-admin-session-secret")
+    admin_allow_remote: bool = os.getenv("ADMIN_ALLOW_REMOTE", "false").lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
     admin_rate_limit_max_requests: int = int(os.getenv("ADMIN_RATE_LIMIT_MAX_REQUESTS", "30"))
     admin_rate_limit_window_seconds: int = int(os.getenv("ADMIN_RATE_LIMIT_WINDOW_SECONDS", "60"))
     cors_allow_origins: list[str] = [

@@ -4,7 +4,25 @@
 // Poems page runtime entry.
 // Reads API config from window.POEMS_API (injected by poem.config.js).
 const poemsApi = window.POEMS_API || {};
-const apiBaseUrl = poemsApi.baseUrl || "http://127.0.0.1:8300/api/v1";
+
+function resolveApiBaseUrl(config) {
+    const explicit = String(config?.baseUrl || "").trim();
+    if (explicit) return explicit.replace(/\/+$/, "");
+
+    const { protocol, hostname, origin } = window.location;
+    const isLocalHost = hostname === "127.0.0.1" || hostname === "localhost";
+    const isFileProtocol = protocol === "file:";
+
+    // Local preview/dev keeps talking to the Python service directly.
+    if (isFileProtocol || isLocalHost) {
+        return "http://127.0.0.1:8300/api/v1";
+    }
+
+    // Production prefers same-origin reverse proxy, e.g. https://site.com/api/v1.
+    return `${origin}/api/v1`;
+}
+
+const apiBaseUrl = resolveApiBaseUrl(poemsApi);
 const wordcloudApiUrl = `${apiBaseUrl}/poems/meta/wordcloud`;
 const favoritesApiUrl = `${apiBaseUrl}/poems/favorites`;
 const STORAGE_KEY_FAVORITES = "poems-favorites-v2";
@@ -416,13 +434,18 @@ function renderAvatarPicker(defaultValue = "🐼") {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = `avatar-option ${preset.value === selected ? "active" : ""}`;
+        btn.setAttribute("aria-pressed", preset.value === selected ? "true" : "false");
         btn.style.background = preset.bg;
         btn.textContent = preset.value;
         btn.title = `选择头像 ${preset.value}`;
         btn.addEventListener("click", () => {
             hidden.value = preset.value;
-            picker.querySelectorAll(".avatar-option").forEach((el) => el.classList.remove("active"));
+            picker.querySelectorAll(".avatar-option").forEach((el) => {
+                el.classList.remove("active");
+                el.setAttribute("aria-pressed", "false");
+            });
             btn.classList.add("active");
+            btn.setAttribute("aria-pressed", "true");
         });
         picker.appendChild(btn);
     });

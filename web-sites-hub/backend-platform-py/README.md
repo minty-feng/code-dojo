@@ -78,6 +78,7 @@ Authorization: Bearer <access_token>
 - `docs/05-poems-module.md`
 - `docs/06-auth-and-user.md`
 - `docs/07-auth-production-hardening.md`
+- `docs/08-server-deployment.md`
 
 ## 诗词模块 API
 
@@ -138,7 +139,7 @@ python scripts/poems/run.py --config scripts/poems/sources.yaml
 - 已注册数据模型：Users / Contents / Funds / Diary Entries / Poems / Poem Favorites
 - 可执行查看、搜索、增删改查，便于单人开发期间的运营与调试
 - 访问后台需要管理员账号密码（默认：`admin / admin123`）
-- 已启用来源限制：仅允许本机访问 `/admin`（`127.0.0.1` / `::1` / `localhost`），其他来源直接 403
+- 默认仅允许本机访问 `/admin`（`127.0.0.1` / `::1` / `localhost`）；如需公网域名访问，设置 `ADMIN_ALLOW_REMOTE=true`
 - 已启用访问频率限制：默认每个来源 `30` 次 / `60` 秒（超限返回 429）
 
 可通过环境变量覆盖默认管理员配置：
@@ -147,6 +148,7 @@ python scripts/poems/run.py --config scripts/poems/sources.yaml
 export ADMIN_USERNAME=your_admin
 export ADMIN_PASSWORD=your_strong_password
 export ADMIN_SESSION_SECRET=your_session_secret
+export ADMIN_ALLOW_REMOTE=true
 export ADMIN_RATE_LIMIT_MAX_REQUESTS=30
 export ADMIN_RATE_LIMIT_WINDOW_SECONDS=60
 ```

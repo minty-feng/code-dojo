@@ -96,32 +96,51 @@ sudo chown -R $USER:$USER /var/www/joketop.com
 sudo chmod -R 755 /var/www/joketop.com
 ```
 
-#### 步骤 2：上传文件
+#### 步骤 2：上传打包文件
 
-**方式一：使用 scp**
+先在本地执行：
+
 ```bash
-# 在本地项目目录执行
-scp -r * user@your-server-ip:/var/www/joketop.com/
+./package-joketop.sh
 ```
 
-**方式二：使用 rsync（推荐）**
-```bash
-# 在本地项目目录执行
-rsync -avz --delete \
-    --exclude '.git' \
-    --exclude 'node_modules' \
-    --exclude '.DS_Store' \
-    ./ user@your-server-ip:/var/www/joketop.com/
+得到类似：
+
+```text
+joketop-20260416-213000.tar.gz
 ```
 
-**方式三：使用 Git**
+再上传到服务器部署目录，例如：
+
 ```bash
-# 在服务器上
-cd /var/www/joketop.com
-git clone https://github.com/your-username/your-repo.git .
+scp joketop-20260416-213000.tar.gz tencent-ubuntu-1:~/web-deploy
 ```
 
-#### 步骤 3：配置 Nginx
+如果你刚打包完，也可以直接用当前文件名：
+
+```bash
+scp $PACKAGE_NAME tencent-ubuntu-1:~/web-deploy
+```
+
+登录服务器：
+
+```bash
+ssh tencent-ubuntu-1
+cd ~/web-deploy
+```
+
+#### 步骤 3：执行部署脚本
+
+```bash
+sudo ./deploy-joketop.sh joketop-20260416-213000.tar.gz
+```
+
+说明：
+
+- `deploy-joketop.sh` 会解压到 `/var/www/html/joketop`
+- 该脚本需要 root 权限，所以前面必须带 `sudo`
+
+#### 步骤 4：配置 Nginx
 
 ```bash
 # 复制配置文件
@@ -137,7 +156,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-#### 步骤 4：配置 SSL（Let's Encrypt）
+#### 步骤 5：配置 SSL（Let's Encrypt）
 
 ```bash
 # 安装 certbot
