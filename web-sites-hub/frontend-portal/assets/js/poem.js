@@ -136,7 +136,7 @@ function updateScriptButton() {
     const label = document.getElementById("scriptModeLabel");
     const btn = document.getElementById("scriptToggle");
     const isTraditional = scriptMode === "traditional";
-    if (label) label.textContent = isTraditional ? "繁" : "简";
+    if (label) label.textContent = isTraditional ? "简" : "繁";
     if (btn) {
         btn.title = isTraditional ? "当前繁体，点击切换简体" : "当前简体，点击切换繁体";
         btn.setAttribute("aria-label", btn.title);
@@ -983,17 +983,46 @@ async function triggerCloudSearch(word) {
     await applyFilters();
 }
 
+function createViewSvg() {
+    return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
 function renderCard(poem, favView = false) {
     const card = document.createElement("article");
     const key = keyOf(poem);
     card.className = "poem-card";
     card.innerHTML = `
-        <button class="heart-btn ${favorites[key] ? "active" : ""}" title="收藏">${createHeartSvg()}</button>
+        <div class="card-actions">
+            <button class="view-btn" title="高级鉴赏">${createViewSvg()}</button>
+            <button class="heart-btn ${favorites[key] ? "active" : ""}" title="收藏">${createHeartSvg()}</button>
+        </div>
         <h3 class="poem-title">${getTitle(poem)}</h3>
         <p class="poem-author">${poem.dynasty ? poem.dynasty + " · " : ""}${getAuthor(poem)}${poem.category ? " · " + poem.category : ""}</p>
         <div class="poem-content">${getContent(poem)}</div>
     `;
-    card.querySelector(".heart-btn").addEventListener("click", async () => {
+
+    const openModal = () => {
+        const mask = document.getElementById("poemDetailMask");
+        if (mask) {
+            document.getElementById("poemDetailTitle").textContent = getTitle(poem);
+            document.getElementById("poemDetailDynasty").textContent = poem.dynasty || '';
+            document.getElementById("poemDetailAuthorName").textContent = getAuthor(poem);
+            document.getElementById("poemDetailContent").textContent = getContent(poem);
+            mask.classList.add("show");
+            mask.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden"; // Prevent background scrolling
+        }
+    };
+
+    card.addEventListener("click", openModal);
+
+    card.querySelector(".view-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        openModal();
+    });
+
+    card.querySelector(".heart-btn").addEventListener("click", async (e) => {
+        e.stopPropagation();
         const numericId = Number(poem?.id);
         if (favoritePendingKeys.has(key)) return;
         favoritePendingKeys.add(key);
@@ -1239,9 +1268,28 @@ function favoriteEntryToPoem(entry) {
 
 function renderFavorites() {
     const favList = sortFavoritesList(Object.values(favorites).map(favoriteEntryToPoem));
+    
+    // 未登录且收藏为空时，默认显示这首诗
+    if (favList.length === 0 && !isLoggedIn()) {
+        favList.push({
+            id: -1,
+            title_simplified: "竹枝词九首 二",
+            title_traditional: "竹枝詞九首 二",
+            author_simplified: "刘禹锡",
+            author_traditional: "劉禹錫",
+            dynasty: "唐",
+            category: "古诗",
+            content_simplified: "山桃红花满上头，蜀江春水拍山流。\n花红易衰似郎意，水流无限似侬愁。",
+            content_traditional: "山桃紅花滿上頭，蜀江春水拍山流。\n花紅易衰似郎意，水流無限似儂愁。",
+            tags: "",
+        });
+    }
+
     const grid = document.getElementById("favoritesGrid");
     grid.innerHTML = "";
     favList.forEach((p) => grid.appendChild(renderCard(p, true)));
+    
+    // 如果插入了默认诗，则不显示为空提示
     document.getElementById("favoritesEmpty").style.display = favList.length ? "none" : "block";
 }
 
@@ -1388,6 +1436,23 @@ function bindEvents() {
         renderDiscover();
         renderFavorites();
     });
+
+    const poemDetailMask = document.getElementById("poemDetailMask");
+    const poemDetailClose = document.getElementById("poemDetailClose");
+    if (poemDetailMask && poemDetailClose) {
+        poemDetailClose.addEventListener("click", () => {
+            poemDetailMask.classList.remove("show");
+            poemDetailMask.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = ""; // Restore background scrolling
+        });
+        poemDetailMask.addEventListener("click", (e) => {
+            if (e.target === poemDetailMask) {
+                poemDetailMask.classList.remove("show");
+                poemDetailMask.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+            }
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

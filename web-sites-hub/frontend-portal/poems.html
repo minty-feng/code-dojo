@@ -9,9 +9,110 @@
     <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="stylesheet" href="assets/css/diary.css?v=20260203">
     <style>
+        /* 呦呦彩蛋样式 */
+        .yoyo-logo {
+            cursor: pointer;
+            font-family: "ZCOOL XiaoWei", "STKaiti", "KaiTi", serif;
+            font-size: 0.95rem;
+            color: var(--poems-accent);
+            padding: 0 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+            user-select: none;
+            background: transparent;
+            position: relative; /* 为爱心效果准备 */
+        }
+        .yoyo-logo:hover {
+            transform: scale(1.1) rotate(-3deg);
+            text-shadow: 0 0 10px rgba(255,107,133,0.6);
+            color: #ff6b85;
+        }
+        /* 向上跑爱心的动画与伪元素 */
+        .yoyo-love-particle {
+            position: absolute;
+            color: #ff6b85;
+            font-size: 1rem;
+            pointer-events: none;
+            animation: floatHeart 1.5s ease-out forwards;
+            opacity: 0;
+            z-index: 100;
+        }
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-40px) scale(1.2);
+                opacity: 0;
+            }
+        }
+        .yoyo-modal-mask {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .yoyo-modal-mask.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .yoyo-modal {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 107, 133, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            text-align: center;
+            font-family: "ZCOOL XiaoWei", "STKaiti", "KaiTi", serif;
+            color: var(--poems-text);
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .yoyo-modal-mask.show .yoyo-modal {
+            transform: translateY(0) scale(1);
+        }
+        .yoyo-modal h2 {
+            font-size: 2rem;
+            margin: 0 0 1rem;
+            font-weight: normal;
+            background: linear-gradient(90deg, #ff8da1, #ff5d79);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .yoyo-modal p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 0;
+            color: var(--poems-text);
+        }
+        [data-theme="light"] .yoyo-modal {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 107, 133, 0.3);
+            color: #4f3a22;
+        }
+
         @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=ZCOOL+XiaoWei&display=swap");
         :root{--poems-accent:#6ea6ff;--poems-strong:#7c6dff;--poems-card:linear-gradient(160deg,rgba(16,23,37,.85),rgba(11,18,30,.8));--poems-card-border:rgba(128,156,206,.25);--poems-card-shadow:0 12px 28px rgba(6,10,20,.35);--poems-heart-bg:rgba(18,27,44,.8);--poems-stroke:rgba(128,153,201,.25);--poems-page-bg:radial-gradient(1200px 620px at 12% -5%,rgba(77,139,255,.22),transparent 60%),radial-gradient(900px 500px at 88% 110%,rgba(126,91,255,.16),transparent 60%),#050914;--poems-grid-line:rgba(125,153,211,.06);--poems-grid-line-x:rgba(125,153,211,.05);--poems-grid-opacity:.45;--poems-panel-bg:linear-gradient(145deg,rgba(17,24,39,.92),rgba(11,17,28,.85));--poems-panel-shadow:0 20px 45px rgba(4,8,18,.45);--poems-text:#e4ecff;--poems-subtext:#a8b3c9;--poems-input-bg:rgba(10,16,29,.72);--poems-chip-bg:rgba(21,31,50,.75);--poems-btn-bg:rgba(17,24,40,.8);--poems-top-btn-bg:rgba(27,37,59,.58);--poems-top-btn-hover-bg:rgba(38,52,83,.72);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(96,150,255,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(129,99,255,.16),transparent 58%),rgba(9,14,27,.74);--poems-title-gradient:linear-gradient(90deg,#f0f6ff,#c6d8ff 55%,#9ad4ff)}
         [data-theme="light"]{--poems-page-bg:radial-gradient(1000px 520px at 12% -10%,rgba(213,168,83,.18),transparent 58%),radial-gradient(850px 500px at 90% 110%,rgba(185,143,72,.14),transparent 62%),#f8f1df;--poems-grid-line:rgba(158,124,72,.14);--poems-grid-line-x:rgba(158,124,72,.11);--poems-grid-opacity:.3;--poems-panel-bg:linear-gradient(145deg,rgba(255,250,236,.94),rgba(246,234,204,.9));--poems-panel-shadow:0 16px 34px rgba(120,89,40,.16);--poems-card:linear-gradient(160deg,rgba(255,249,232,.98),rgba(247,235,204,.94));--poems-card-border:rgba(176,138,83,.34);--poems-card-shadow:0 10px 22px rgba(134,101,47,.14);--poems-heart-bg:rgba(248,236,203,.94);--poems-stroke:rgba(165,127,76,.32);--poems-text:#4f3a22;--poems-subtext:#7b5f3a;--poems-input-bg:rgba(255,248,228,.95);--poems-chip-bg:rgba(252,241,212,.95);--poems-btn-bg:rgba(249,236,201,.92);--poems-top-btn-bg:rgba(247,232,193,.92);--poems-top-btn-hover-bg:rgba(240,222,178,.95);--poems-cloud-bg:radial-gradient(circle at 25% 24%,rgba(216,175,95,.2),transparent 56%),radial-gradient(circle at 80% 78%,rgba(187,145,74,.16),transparent 58%),rgba(251,242,216,.9);--poems-title-gradient:linear-gradient(90deg,#7a5525,#b07a35 45%,#d29a4d 100%)}
+        [data-theme="light"] .heart-btn,[data-theme="light"] .view-btn{background:#faf8f5;border-color:#e8e1d5}
+        [data-theme="light"] .heart-btn svg,[data-theme="light"] .view-btn svg{stroke:#a69b8d}
+        [data-theme="light"] .heart-btn.active svg{stroke:#e66a7b;fill:#ea7b8b}
+        [data-theme="light"] .view-btn:hover{background:rgba(166,155,141,.08)}
+        [data-theme="light"] .view-btn:hover svg{stroke:#7b5f3a}
         body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--poems-page-bg);color:var(--poems-text)}
         body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(var(--poems-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--poems-grid-line-x) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black 35%,transparent 85%);opacity:var(--poems-grid-opacity);z-index:0}
         .container{max-width:min(92vw,1320px)!important;padding:0 1rem}
@@ -33,6 +134,16 @@
         .cloud-title{margin:0 0 .6rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.02rem;color:var(--poems-text);letter-spacing:.04em}
         .word-cloud{position:relative;width:90%;margin:0 auto;height:252px;border-radius:50%;background:var(--poems-cloud-bg);overflow:hidden}
         .word-cloud::after{content:"";position:absolute;inset:10px;border-radius:50%;border:1px solid rgba(147,178,236,.1);pointer-events:none}
+        @media (max-width:600px){
+            .word-cloud{
+                width: 100%;
+                max-width: 280px;
+                aspect-ratio: 1 / 1;
+                height: auto;
+                border-radius: 50%;
+            }
+            .container{padding:0 .5rem;}
+        }
         .word-item{position:absolute;white-space:nowrap;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-weight:700;line-height:1;opacity:.95;user-select:none;background:transparent;border:none;padding:0;cursor:pointer;transition:transform .18s ease,filter .18s ease,text-shadow .18s ease}
         .word-item:hover{transform:scale(1.08);filter:brightness(1.16);text-shadow:0 0 12px rgba(127,177,255,.45)}
         .toolbar{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 1.1fr;gap:.65rem;align-items:end}
@@ -79,8 +190,8 @@
         .auth-demo{position:relative;display:inline-flex;align-items:center}
         .auth-avatar-btn{width:40px;height:40px;border-radius:999px;border:2px solid #8b949e;background:#0d1117;color:#c9d1d9;display:inline-flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;overflow:hidden;transition:.16s ease}
         .auth-avatar-btn:hover{border-color:#c9d1d9;transform:translateY(-1px)}
-        [data-theme="light"] .auth-avatar-btn{background:#fff;border-color:#d0d7de;color:#57606a}
-        [data-theme="light"] .auth-avatar-btn:hover{border-color:#8c959f}
+        [data-theme="light"] .auth-avatar-btn{background:linear-gradient(140deg,rgba(252,243,219,.96),rgba(244,229,190,.9));border-color:rgba(171,136,79,.52);color:#79572b}
+        [data-theme="light"] .auth-avatar-btn:hover{border-color:rgba(168,124,56,.72);background:linear-gradient(140deg,rgba(249,236,205,.98),rgba(238,220,173,.92))}
         .auth-menu{position:absolute;top:52px;right:0;min-width:280px;border-radius:12px;border:1px solid #30363d;background:#161b22;box-shadow:0 16px 34px rgba(0,0,0,.28);padding:.55rem;display:none;z-index:120}
         .auth-menu.show{display:block}
         [data-theme="light"] .auth-menu{background:#fff;border-color:#d0d7de;box-shadow:0 12px 28px rgba(31,35,40,.15)}
@@ -156,6 +267,8 @@
         [data-theme="light"] .script-mode-toggle{border-color:rgba(171,136,79,.52);background:linear-gradient(140deg,rgba(252,243,219,.96),rgba(244,229,190,.9));color:#79572b}
         [data-theme="light"] .script-mode-toggle:hover{border-color:rgba(168,124,56,.72);background:linear-gradient(140deg,rgba(249,236,205,.98),rgba(238,220,173,.92))}
         .theme-toggle{width:56px;height:56px;border-radius:14px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+        [data-theme="light"] .theme-toggle{border-color:rgba(171,136,79,.52);background:linear-gradient(140deg,rgba(252,243,219,.96),rgba(244,229,190,.9));color:#79572b}
+        [data-theme="light"] .theme-toggle:hover{border-color:rgba(168,124,56,.72);background:linear-gradient(140deg,rgba(249,236,205,.98),rgba(238,220,173,.92))}
         .theme-icon{width:22px;height:22px}
         .meta{color:var(--poems-subtext);font-size:.88rem}
         .chip-wrap{display:flex;flex-wrap:wrap;align-items:flex-start;gap:.48rem;margin-top:.75rem;min-height:2.15rem}
@@ -168,19 +281,174 @@
         .poem-title{margin:0 0 .45rem;font-family:"Noto Serif SC","Songti SC","STSong",serif;font-size:1.28rem;color:var(--poems-text);letter-spacing:.03em}
         .poem-author{margin:0 0 .8rem;color:var(--poems-subtext);font-size:.88rem}
         .poem-content{white-space:pre-line;line-height:1.78;max-height:14rem;overflow:auto;color:var(--poems-subtext);padding-right:.25rem}
-        .heart-btn{position:absolute;right:.8rem;top:.8rem;width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid rgba(133,155,205,.32);background:var(--poems-heart-bg);cursor:pointer;display:flex;align-items:center;justify-content:center}
-        .heart-btn svg{width:18px;height:18px;stroke:#bcc9df;fill:none;stroke-width:2}
+        .card-actions{position:absolute;right:.8rem;top:.8rem;display:flex;gap:.5rem}
+        .heart-btn,.view-btn{width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid rgba(133,155,205,.32);background:var(--poems-heart-bg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+        .heart-btn svg,.view-btn svg{width:16px;height:16px;stroke:#bcc9df;fill:none;stroke-width:2.5}
         .heart-btn.active svg{stroke:#ff6b85;fill:#ff5d79}
+        .view-btn:hover{background:rgba(133,155,205,.1)}
+        .view-btn:hover svg{stroke:#8aa7d8}
         .view{display:none}.view.active{display:block}
         .empty{text-align:center;color:#a8b5cb;padding:2rem 0}
         .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem;white-space:pre-wrap;word-break:break-all}
         .cloud-tip{font-size:.83rem;color:#8fa5cb;margin-top:.56rem}
         @media (max-width:1280px){.toolbar{grid-template-columns:repeat(3,minmax(160px,1fr))}}
-        @media (max-width:980px){.container{padding:0 .8rem}.hero-head{display:block}.hero h1{font-size:1.9rem}.poem-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.pager-shelf{flex-direction:column;align-items:stretch}.header .header-content{flex-wrap:wrap;gap:.55rem}.header-left-tabs{order:1;width:100%;overflow-x:auto}.header-right-actions{order:2;width:100%;justify-content:flex-end}.auth-demo{width:auto}.auth-menu{right:0;left:auto;min-width:min(92vw,320px)}}
+        @media (max-width:980px){
+            .container{padding:0 .8rem}
+            .hero-head{display:block}
+            .hero h1{font-size:1.9rem}
+            .poem-grid{grid-template-columns:1fr}
+            .toolbar{grid-template-columns:1fr}
+            .pager-shelf{flex-direction:column;align-items:stretch}
+            .header .header-content{flex-wrap:wrap;gap:.55rem}
+            .header-left-tabs{order:1;width:100%;overflow-x:auto}
+            .header-right-actions{order:2;width:100%;justify-content:flex-end}
+            .yoyo-logo{padding-left:0.5rem;font-size:0.85rem;margin-right:0}
+            .auth-demo{width:auto}
+            .auth-menu{right:0;left:auto;min-width:min(92vw,320px)}
+        }
+
+        /* 诗词全屏鉴赏高级弹窗 */
+        .poem-detail-mask {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 8, 18, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 1.5rem;
+        }
+        .poem-detail-mask.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .poem-detail-container {
+            background: linear-gradient(135deg, rgba(22, 28, 45, 0.95), rgba(11, 15, 26, 0.95));
+            border: 1px solid rgba(136, 167, 228, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 3rem 4rem 4rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(30px) scale(0.98);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-align: center;
+        }
+        .poem-detail-mask.show .poem-detail-container {
+            transform: translateY(0) scale(1);
+        }
+        [data-theme="light"] .poem-detail-container {
+            background: linear-gradient(135deg, rgba(255, 250, 238, 0.98), rgba(246, 238, 220, 0.95));
+            border: 1px solid rgba(210, 180, 130, 0.3);
+            box-shadow: 0 30px 60px rgba(120, 90, 40, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        .poem-detail-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #a8b3c9;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .poem-detail-close:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+        [data-theme="light"] .poem-detail-close {
+            color: #7b5f3a;
+            background: rgba(165,127,76,0.08);
+            border-color: rgba(165,127,76,0.15);
+        }
+        [data-theme="light"] .poem-detail-close:hover {
+            background: rgba(165,127,76,0.15);
+            color: #4f3a22;
+        }
+        .poem-detail-title {
+            font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+            font-size: 2.2rem;
+            color: var(--poems-text);
+            margin: 0 0 1rem;
+            letter-spacing: 0.05em;
+            line-height: 1.3;
+        }
+        .poem-detail-author {
+            font-size: 1rem;
+            color: #8aa7d8;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.15em;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+        .poem-detail-author::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: rgba(136, 167, 228, 0.4);
+            border-radius: 2px;
+        }
+        [data-theme="light"] .poem-detail-author {
+            color: #a57f4c;
+        }
+        [data-theme="light"] .poem-detail-author::after {
+            background: rgba(165, 127, 76, 0.3);
+        }
+        .poem-detail-content {
+            font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+            font-size: 1.35rem;
+            line-height: 2.2;
+            color: var(--poems-text);
+            white-space: pre-line;
+            letter-spacing: 0.02em;
+        }
+        .poem-detail-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .poem-detail-container::-webkit-scrollbar-thumb {
+            background: rgba(136, 167, 228, 0.3);
+            border-radius: 3px;
+        }
+        [data-theme="light"] .poem-detail-container::-webkit-scrollbar-thumb {
+            background: rgba(165, 127, 76, 0.2);
+        }
+        @media (max-width: 600px) {
+            .poem-detail-container {
+                padding: 2.5rem 1.5rem 3rem;
+            }
+            .poem-detail-title {
+                font-size: 1.8rem;
+            }
+            .poem-detail-content {
+                font-size: 1.15rem;
+                line-height: 2;
+            }
+        }
     </style>
 </head>
 <body>
-    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <!-- 返回箭头已移除 -->
     <div class="container">
         <header class="header">
             <div class="header-content">
@@ -190,6 +458,7 @@
                     <button id="navFavorites" type="button" class="top-btn page-nav-btn">收藏页</button>
                 </div>
                 <div class="header-right-actions">
+                    <div id="yoyoLogo" class="yoyo-logo" title="送给老婆的彩蛋">💗 呦呦 💗</div>
                     <button id="scriptToggle" type="button" class="script-mode-toggle" title="切换简体 / 繁体" aria-label="切换简体 / 繁体">
                         <svg class="script-mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                             <path d="M4 6h8"></path><path d="M8 6v12"></path><path d="M5 12h6"></path>
@@ -350,8 +619,74 @@
         </div>
     </div>
 
+    <!-- 呦呦情话弹窗 -->
+    <div id="yoyoModalMask" class="yoyo-modal-mask" aria-hidden="true">
+        <div class="yoyo-modal" role="dialog" aria-modal="true" aria-labelledby="yoyoModalTitle">
+            <h2 id="yoyoModalTitle">致 呦呦</h2>
+            <p>星河滚烫，不如你眼眸明亮；<br>万物可爱，不及你嘴角微扬。</p>
+        </div>
+    </div>
+
+    <!-- 诗词全屏鉴赏蒙层 -->
+    <div id="poemDetailMask" class="poem-detail-mask" aria-hidden="true">
+        <div class="poem-detail-container">
+            <div id="poemDetailClose" class="poem-detail-close">&times;</div>
+            <h2 id="poemDetailTitle" class="poem-detail-title"></h2>
+            <div class="poem-detail-author"><span id="poemDetailDynasty"></span> · <span id="poemDetailAuthorName"></span></div>
+            <div id="poemDetailContent" class="poem-detail-content"></div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js?v=20260203"></script>
     <script src="assets/js/poem.config.js?v=20260415"></script>
-    <script src="assets/js/poem.js?v=20260415d"></script>
+    <script src="assets/js/poem.js?v=20260417_v1"></script>
+    <script>
+    // 呦呦彩蛋交互
+    const yoyoLogo = document.getElementById('yoyoLogo');
+    const yoyoMask = document.getElementById('yoyoModalMask');
+    
+    if(yoyoLogo) {
+        // 创建小心心飘出动画
+        let hoverTimer;
+        yoyoLogo.addEventListener('mouseenter', function() {
+            clearInterval(hoverTimer);
+            function spawnHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'yoyo-love-particle';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = '10px';
+                heart.style.position = 'absolute';
+                yoyoLogo.appendChild(heart);
+                setTimeout(() => {
+                    if(heart.parentNode) heart.parentNode.removeChild(heart);
+                }, 1500);
+            }
+            spawnHeart();
+            hoverTimer = setInterval(spawnHeart, 300);
+        });
+        
+        yoyoLogo.addEventListener('mouseleave', function() {
+            clearInterval(hoverTimer);
+        });
+        
+        if (yoyoMask) {
+            yoyoLogo.addEventListener('click', function() {
+                yoyoMask.classList.add('show');
+                yoyoMask.setAttribute('aria-hidden', 'false');
+            });
+            yoyoMask.addEventListener('click', function() {
+                yoyoMask.classList.remove('show');
+                yoyoMask.setAttribute('aria-hidden', 'true');
+            });
+            const yoyoModal = yoyoMask.querySelector('.yoyo-modal');
+            if (yoyoModal) {
+                yoyoModal.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        }
+    }
+    </script>
 </body>
 </html>
