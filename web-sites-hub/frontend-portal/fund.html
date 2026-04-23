@@ -3,176 +3,979 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基金估值助手 | Fund Valuation</title>
+    <meta name="description" content="黄金专题：国际现货盯盘、人民币估值助手、风控提醒。美股与港股模块暂不开放。">
+    <title>黄金估值与盯盘助手 | Gold Desk</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Axios for Networking (Optional, but useful if backend is connected later) -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3b82f6; --secondary: #64748b; --success: #10b981; --danger: #ef4444;
-            --background: #f8fafc; --surface: #ffffff; --text-primary: #1e293b; --text-secondary: #64748b;
-            --border: #e2e8f0; --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --radius: 12px;
+            --gd-bg0: #0a0c10;
+            --gd-bg1: #12151c;
+            --gd-surface: rgba(22, 26, 34, 0.92);
+            --gd-border: rgba(212, 175, 55, 0.22);
+            --gd-gold: #e6c35c;
+            --gd-gold-dim: #9a7b2d;
+            --gd-amber: #f59e0b;
+            --gd-text: #e8eaef;
+            --gd-muted: #8b93a7;
+            --gd-up: #f87171;
+            --gd-down: #4ade80;
+            --gd-radius: 14px;
+            --gd-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
         }
-
-        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--background); color: var(--text-primary); margin: 0; line-height: 1.5; }
-        
-        /* Background Animation */
-        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; filter: blur(100px); opacity: 0.6; pointer-events: none; }
-        .blob { position: absolute; border-radius: 50%; animation: float 20s infinite ease-in-out; }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #e0e7ff; }
-        .blob-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: #dbeafe; animation-delay: -5s; }
-        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -50px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } 100% { transform: translate(0, 0) scale(1); } }
-
-        /* Layout */
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-        .back-link { 
-            display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); text-decoration: none; 
-            font-weight: 500; margin-bottom: 2rem; padding: 0.5rem 1rem; background: var(--surface); 
-            border-radius: 9999px; box-shadow: 0 2px 4px rgb(0 0 0 / 0.05); transition: all 0.2s; cursor: pointer; border: none; font-size: 1rem;
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "DM Sans", "PingFang SC", system-ui, sans-serif;
+            background: radial-gradient(1200px 600px at 10% -10%, rgba(212, 175, 55, 0.12), transparent 55%),
+                radial-gradient(900px 500px at 95% 110%, rgba(245, 158, 11, 0.08), transparent 50%),
+                var(--gd-bg0);
+            color: var(--gd-text);
+            min-height: 100vh;
+            line-height: 1.55;
         }
-        .back-link:hover { color: var(--primary); transform: translateX(-5px); }
-
-        /* UI Components */
-        .hero { text-align: center; margin-bottom: 3rem; animation: slideDown 0.8s ease-out; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--primary), #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .market-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; animation: fadeIn 0.8s backwards; }
-        .overview-card { background: var(--surface); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; }
-        .icon-box { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: var(--background); }
-        .card-value { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
-        .trend-up { color: var(--danger); font-weight: 600; }
-        .trend-down { color: var(--success); font-weight: 600; }
-
-        .toolbar { background: var(--surface); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 2rem; animation: fadeIn 0.8s 0.2s backwards; }
-        .search-box { position: relative; flex: 1; min-width: 250px; }
-        .search-box input { width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid var(--border); border-radius: 8px; background: var(--background); box-sizing: border-box; }
-        .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
-        
-        .filter-group { display: flex; gap: 0.5rem; }
-        .filter-btn { padding: 0.5rem 1rem; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; border-radius: 6px; transition: all 0.2s; }
-        .filter-btn:hover { background: var(--background); color: var(--primary); }
-        .filter-btn.active { background: var(--primary); color: white; }
-        
-        .action-btn { background: linear-gradient(135deg, var(--primary), #2563eb); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
-
-        .table-container { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; animation: highlight 1s 0.4s backwards; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #f1f5f9; padding: 1rem; text-align: left; font-weight: 600; color: var(--text-secondary); }
-        td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text-primary); transition: background 0.2s; cursor: pointer; }
-        tr:hover td { background: #f8fafc; }
-        .badge { padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.8rem; background: #e0f2fe; color: var(--primary); }
-        .code-cell { font-family: monospace; color: var(--primary); font-weight: 600; }
-
-        /* Detail View Styles */
-        .hidden { display: none !important; }
-        .detail-header h2 { font-size: 2rem; margin: 0; }
-        .detail-content { background: var(--surface); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); margin-top: 2rem; }
-        .chart-placeholder { height: 300px; background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(255, 255, 255, 0) 100%); display: flex; align-items: flex-end; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--border); }
-        .chart-bar { width: 4%; border-radius: 4px; transition: height 1s ease; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes highlight { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        a { color: var(--gd-gold); }
+        .container { max-width: 1180px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+        .nav-back-icon {
+            position: fixed; top: 14px; left: 14px; z-index: 50;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--gd-surface); border: 1px solid var(--gd-border);
+            color: var(--gd-muted); text-decoration: none;
+            transition: color .2s, border-color .2s;
+        }
+        .nav-back-icon:hover { color: var(--gd-gold); border-color: rgba(212, 175, 55, 0.45); }
+        .hero {
+            text-align: center;
+            padding: 2.6rem 0.5rem 1.5rem;
+        }
+        .hero-kicker {
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--gd-gold-dim);
+            margin-bottom: 0.6rem;
+        }
+        .hero h1 {
+            font-size: clamp(1.65rem, 4vw, 2.35rem);
+            font-weight: 700;
+            margin: 0 0 0.5rem;
+            background: linear-gradient(105deg, #fff6d4, var(--gd-gold) 42%, #c9a227);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p { color: var(--gd-muted); max-width: 52ch; margin: 0 auto; font-size: 0.95rem; }
+        .legal-strip {
+            margin: 1rem auto 0;
+            max-width: 720px;
+            font-size: 0.78rem;
+            color: var(--gd-muted);
+            border: 1px dashed rgba(212, 175, 55, 0.25);
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+            background: rgba(0, 0, 0, 0.25);
+        }
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 1.35rem;
+            margin-top: 1.75rem;
+            align-items: start;
+        }
+        @media (max-width: 960px) {
+            .workspace-grid { grid-template-columns: 1fr; }
+        }
+        .main-stack {
+            display: grid;
+            gap: 1.25rem;
+            min-width: 0;
+        }
+        .side-stack {
+            display: grid;
+            gap: 1rem;
+            position: sticky;
+            top: 18px;
+            align-self: start;
+        }
+        @media (max-width: 960px) {
+            .side-stack {
+                position: static;
+            }
+        }
+        .card {
+            background: var(--gd-surface);
+            border: 1px solid var(--gd-border);
+            border-radius: var(--gd-radius);
+            box-shadow: var(--gd-shadow);
+            padding: 1.25rem 1.35rem;
+        }
+        .card h2 {
+            margin: 0 0 1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--gd-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .overview-grid {
+            margin-top: 1.35rem;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.95rem;
+        }
+        @media (max-width: 1100px) {
+            .overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 720px) {
+            .overview-grid { grid-template-columns: 1fr; }
+        }
+        .overview-card {
+            background: linear-gradient(160deg, rgba(20, 24, 32, 0.96), rgba(11, 14, 20, 0.96));
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            border-radius: 18px;
+            padding: 1rem 1.05rem;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+            min-height: 138px;
+        }
+        .overview-label {
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gd-muted);
+        }
+        .overview-value {
+            margin-top: 0.28rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gd-text);
+            font-variant-numeric: tabular-nums;
+        }
+        .overview-note {
+            margin-top: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--gd-muted);
+            line-height: 1.5;
+        }
+        .overview-subrow {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: 0.45rem;
+        }
+        .overview-subvalue {
+            font-size: 0.88rem;
+            color: var(--gd-text);
+            font-variant-numeric: tabular-nums;
+        }
+        .overview-card.emphasis {
+            background: linear-gradient(145deg, rgba(212, 175, 55, 0.12), rgba(15, 18, 25, 0.98));
+        }
+        .spot-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) 300px;
+            gap: 1rem;
+            align-items: stretch;
+        }
+        @media (max-width: 920px) {
+            .spot-shell { grid-template-columns: 1fr; }
+        }
+        .spot-hero-panel {
+            background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.08));
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1rem 1.05rem;
+        }
+        .spot-side-panel {
+            background: rgba(0, 0, 0, 0.22);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 0.95rem 1rem;
+            display: grid;
+            gap: 0.7rem;
+            align-content: start;
+        }
+        .spot-side-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.65rem;
+        }
+        .spot-side-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 0.65rem 0.72rem;
+        }
+        .spot-side-item span {
+            display: block;
+            font-size: 0.74rem;
+            color: var(--gd-muted);
+        }
+        .spot-side-item strong {
+            display: block;
+            margin-top: 0.18rem;
+            font-size: 0.98rem;
+            color: var(--gd-text);
+            font-variant-numeric: tabular-nums;
+        }
+        .spot-summary-strip {
+            margin-top: 0.85rem;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.7rem;
+        }
+        @media (max-width: 720px) {
+            .spot-summary-strip { grid-template-columns: 1fr; }
+        }
+        .spot-summary-chip {
+            padding: 0.7rem 0.75rem;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.24);
+            color: var(--gd-muted);
+            font-size: 0.8rem;
+        }
+        .spot-summary-chip strong {
+            display: block;
+            margin-top: 0.18rem;
+            color: var(--gd-text);
+            font-size: 0.98rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .spot-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.75rem 1.25rem;
+        }
+        .spot-price {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+        .spot-price.up { color: var(--gd-up); }
+        .spot-price.down { color: var(--gd-down); }
+        .spot-meta { font-size: 0.85rem; color: var(--gd-muted); }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid var(--gd-border);
+            color: var(--gd-gold-dim);
+        }
+        .badge.live { border-color: rgba(74, 222, 128, 0.45); color: #86efac; }
+        .badge.demo { border-color: rgba(251, 191, 36, 0.5); color: #fcd34d; }
+        .spark-wrap {
+            margin-top: 1.1rem;
+            height: 64px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            padding: 0.35rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .spark-bar {
+            flex: 1;
+            min-width: 3px;
+            border-radius: 3px 3px 0 0;
+            background: linear-gradient(180deg, var(--gd-gold), rgba(212, 175, 55, 0.25));
+            opacity: 0.85;
+            transition: height 0.35s ease;
+        }
+        .subgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        @media (max-width: 520px) { .subgrid { grid-template-columns: 1fr; } }
+        .mini {
+            background: rgba(0, 0, 0, 0.28);
+            border-radius: 10px;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.82rem;
+            color: var(--gd-muted);
+        }
+        .mini strong { color: var(--gd-text); font-variant-numeric: tabular-nums; }
+        label.field {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--gd-muted);
+            margin-bottom: 0.28rem;
+        }
+        input.inp, select.inp {
+            width: 100%;
+            padding: 0.55rem 0.65rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.35);
+            color: var(--gd-text);
+            font-size: 0.92rem;
+            font-variant-numeric: tabular-nums;
+        }
+        input.inp:focus, select.inp:focus {
+            outline: none;
+            border-color: rgba(212, 175, 55, 0.55);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            padding: 0.55rem 0.9rem;
+            border-radius: 9px;
+            border: 1px solid var(--gd-border);
+            background: rgba(212, 175, 55, 0.12);
+            color: var(--gd-gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover { background: rgba(212, 175, 55, 0.2); }
+        .btn.secondary { background: transparent; color: var(--gd-muted); border-color: rgba(255, 255, 255, 0.12); }
+        .tool-stack {
+            display: grid;
+            gap: 0.9rem;
+        }
+        .tool-block {
+            background: rgba(0, 0, 0, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 0.9rem 0.95rem;
+        }
+        .tool-block.collapsed .tool-body {
+            display: none;
+        }
+        .tool-toggle {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: var(--gd-text);
+            cursor: pointer;
+            text-align: left;
+        }
+        .tool-toggle h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--gd-text);
+        }
+        .tool-toggle span {
+            color: var(--gd-muted);
+            font-size: 1rem;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+        .tool-block.collapsed .tool-toggle span {
+            transform: rotate(-90deg);
+        }
+        .tool-body {
+            margin-top: 0.7rem;
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.7rem;
+        }
+        @media (max-width: 720px) {
+            .tool-grid { grid-template-columns: 1fr; }
+        }
+        .calc-out {
+            margin-top: 0.85rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.35);
+            font-size: 0.84rem;
+            color: var(--gd-muted);
+            line-height: 1.65;
+        }
+        .calc-out .hl { color: var(--gd-text); font-weight: 600; font-variant-numeric: tabular-nums; }
+        .calc-out .pos { color: var(--gd-down); }
+        .calc-out .neg { color: var(--gd-up); }
+        table.ref {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            margin-top: 0.5rem;
+        }
+        table.ref th, table.ref td {
+            text-align: left;
+            padding: 0.55rem 0.45rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        table.ref th { color: var(--gd-muted); font-weight: 500; }
+        .footer-note {
+            margin-top: 2.25rem;
+            font-size: 0.75rem;
+            color: var(--gd-muted);
+            line-height: 1.7;
+            max-width: 90ch;
+        }
+        .toast-host {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: min(92vw, 340px);
+        }
+        .toast {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(30, 34, 44, 0.96);
+            border: 1px solid var(--gd-border);
+            font-size: 0.82rem;
+            color: var(--gd-text);
+            box-shadow: var(--gd-shadow);
+            animation: tin 0.25s ease;
+        }
+        @keyframes tin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .status-line { font-size: 0.78rem; color: var(--gd-muted); margin-top: 0.5rem; }
+        .day-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.8rem;
+        }
+        @media (max-width: 860px) {
+            .day-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+        }
+        .day-box {
+            background: rgba(0, 0, 0, 0.28);
+            border-radius: 10px;
+            padding: 0.62rem 0.7rem;
+            color: var(--gd-muted);
+            font-size: 0.8rem;
+        }
+        .day-box strong {
+            display: block;
+            margin-top: 0.2rem;
+            color: var(--gd-text);
+            font-variant-numeric: tabular-nums;
+            font-size: 1rem;
+        }
+        .day-estimate {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.35);
+            color: var(--gd-muted);
+            font-size: 0.84rem;
+            line-height: 1.7;
+        }
+        .day-estimate .hl { color: var(--gd-text); font-weight: 600; font-variant-numeric: tabular-nums; }
+        .history-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+        @media (max-width: 860px) {
+            .history-stats-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+        }
+        .stat-box {
+            background: rgba(0, 0, 0, 0.24);
+            border-radius: 10px;
+            padding: 0.7rem 0.75rem;
+            color: var(--gd-muted);
+            font-size: 0.8rem;
+        }
+        .stat-box strong {
+            display: block;
+            margin-top: 0.2rem;
+            color: var(--gd-text);
+            font-size: 1rem;
+            font-variant-numeric: tabular-nums;
+        }
+        table.hist {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.8rem;
+            font-size: 0.82rem;
+        }
+        table.hist th, table.hist td {
+            text-align: left;
+            padding: 0.5rem 0.45rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-variant-numeric: tabular-nums;
+        }
+        table.hist th { color: var(--gd-muted); font-weight: 500; }
+        .hist-note { margin-top: 0.55rem; font-size: 0.78rem; color: var(--gd-muted); }
+        .history-tabs {
+            margin-top: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+        }
+        .history-tab-btn {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--gd-muted);
+            border-radius: 999px;
+            padding: 0.38rem 0.76rem;
+            font-size: 0.77rem;
+            cursor: pointer;
+        }
+        .history-tab-btn.active {
+            border-color: rgba(212, 175, 55, 0.45);
+            color: var(--gd-gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+        .history-panel {
+            margin-top: 0.85rem;
+            display: none;
+        }
+        .history-panel.active {
+            display: block;
+        }
+        .history-table-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.45rem;
+            color: var(--gd-muted);
+            font-size: 0.78rem;
+        }
+        .history-table-wrap {
+            overflow-x: auto;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.22);
+        }
+        .line-wrap {
+            margin-top: 0.85rem;
+            background: rgba(0, 0, 0, 0.28);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.65rem 0.75rem;
+            position: relative;
+        }
+        .line-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.45rem;
+            color: var(--gd-muted);
+            font-size: 0.78rem;
+        }
+        .line-meta strong { color: var(--gd-text); font-variant-numeric: tabular-nums; }
+        .line-actions { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .pill-btn {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--gd-muted);
+            border-radius: 999px;
+            padding: 0.28rem 0.62rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .pill-btn.active {
+            border-color: rgba(212, 175, 55, 0.55);
+            color: var(--gd-gold);
+            background: rgba(212, 175, 55, 0.12);
+        }
+        .line-canvas {
+            width: 100%;
+            height: 260px;
+            display: block;
+            border-radius: 8px;
+        }
+        .line-tip {
+            margin-top: 0.45rem;
+            font-size: 0.78rem;
+            color: var(--gd-muted);
+        }
+        .line-float-tip {
+            position: absolute;
+            z-index: 4;
+            pointer-events: none;
+            min-width: 180px;
+            max-width: 260px;
+            padding: 0.4rem 0.52rem;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.48);
+            background: rgba(8, 12, 22, 0.92);
+            color: #e8eaef;
+            font-size: 0.74rem;
+            line-height: 1.45;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+            display: none;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+        .range-tools {
+            margin-top: 0.75rem;
+            display: flex;
+            gap: 0.55rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .range-tools .btn {
+            width: auto;
+            padding: 0.44rem 0.75rem;
+            font-size: 0.78rem;
+        }
     </style>
 </head>
 <body>
-    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
-    <div class="bg-animation">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回展示页">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </a>
 
     <div class="container">
-        <!-- HEADER / NAVIGATION -->
-
-        <!-- VIEW: LIST -->
-        <div id="view-list">
-            <div class="hero">
-                <h1>📊 基金估值助手</h1>
-                <p>实时追踪基金净值，智能辅助投资决策 (Vanilla JS)</p>
+        <header class="hero">
+            <div class="hero-kicker">Gold desk · XAU</div>
+            <h1>黄金估值与盯盘助手</h1>
+            <p>围绕国际现货黄金（美元/盎司）做盯盘、人民币折算与持仓损益估算。接入自有后端行情后可作为商用前台骨架；未配置行情源时使用服务端演示数据。</p>
+            <div class="legal-strip">
+                本页工具与展示不构成投资建议。贵金属与杠杆品种有风险。实盘请以交易所、银行及持牌机构报价为准；跨境品种注意时差与流动性。
             </div>
+        </header>
 
-            <div class="market-overview">
-                <!-- Static Cards for Demo -->
-                <div class="overview-card">
-                    <div class="icon-box">📈</div>
-                    <div>
-                        <h3 style="margin:0 0 5px 0; color:var(--text-secondary)">上证指数</h3>
-                        <div class="card-value">3,256.32</div>
-                        <div class="trend-up" style="font-size: 0.9rem">+1.2%</div>
+        <section class="overview-grid" aria-label="首屏总览">
+            <div class="overview-card emphasis">
+                <div class="overview-label">市场总览</div>
+                <div class="overview-value" id="overview-market-main">--</div>
+                <div class="overview-subrow">
+                    <div class="overview-subvalue" id="overview-market-sub">--</div>
+                    <div class="overview-subvalue" id="overview-market-tag">--</div>
+                </div>
+                <div class="overview-note" id="overview-market-note">等待行情接入</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-label">持仓快照</div>
+                <div class="overview-value" id="overview-holding-main">--</div>
+                <div class="overview-subrow">
+                    <div class="overview-subvalue" id="overview-holding-sub">--</div>
+                    <div class="overview-subvalue" id="overview-holding-cost">--</div>
+                </div>
+                <div class="overview-note" id="overview-holding-note">输入持仓后计算</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-label">区间与预估</div>
+                <div class="overview-value" id="overview-range-main">--</div>
+                <div class="overview-subrow">
+                    <div class="overview-subvalue" id="overview-range-sub">--</div>
+                    <div class="overview-subvalue" id="overview-est-sub">--</div>
+                </div>
+                <div class="overview-note" id="overview-range-note">等待历史样本</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-label">判断与计划</div>
+                <div class="overview-value" id="overview-signal-main">--</div>
+                <div class="overview-subrow">
+                    <div class="overview-subvalue" id="overview-signal-sub">--</div>
+                    <div class="overview-subvalue" id="overview-signal-plan">--</div>
+                </div>
+                <div class="overview-note" id="overview-signal-note">结合偏离、区间位置与估值区间</div>
+            </div>
+        </section>
+
+        <div class="workspace-grid">
+            <div class="main-stack">
+            <section class="card" id="card-spot">
+                <h2><span aria-hidden="true">◆</span> 国际现货黄金 · 盯盘</h2>
+                <div class="spot-shell">
+                    <div class="spot-hero-panel">
+                        <div class="spot-row">
+                            <div>
+                                <div class="spot-price" id="spot-price">--</div>
+                                <div class="spot-meta" id="spot-unit">USD / 金衡盎司</div>
+                            </div>
+                            <div>
+                                <div id="spot-change" class="spot-meta">--</div>
+                                <div id="spot-time" class="spot-meta">--</div>
+                            </div>
+                            <div>
+                                <span class="badge demo" id="spot-source-badge">数据加载中</span>
+                            </div>
+                        </div>
+                        <div class="spark-wrap" id="spark-wrap" aria-hidden="true"></div>
+                        <div class="spot-summary-strip">
+                            <div class="spot-summary-chip">人民币理论折算<strong id="spot-cny-g">--</strong></div>
+                            <div class="spot-summary-chip">上次轮询<strong id="spot-poll">--</strong></div>
+                            <div class="spot-summary-chip">估值判断<strong id="spot-quick-stance">--</strong></div>
+                        </div>
+                        <p class="status-line" id="spot-status">正在连接 <code id="spot-api-endpoint"></code></p>
+                    </div>
+                    <div class="spot-side-panel">
+                        <div class="spot-side-grid">
+                            <div class="spot-side-item"><span>历史区间位置</span><strong id="spot-side-position">--</strong></div>
+                            <div class="spot-side-item"><span>预估区间</span><strong id="spot-side-estimate">--</strong></div>
+                            <div class="spot-side-item"><span>国内偏离</span><strong id="spot-side-premium">--</strong></div>
+                            <div class="spot-side-item"><span>持仓盈亏</span><strong id="spot-side-pnl">--</strong></div>
+                        </div>
+                        <div class="calc-out" id="spot-dashboard-note">等待行情和历史样本后，这里会汇总当前盘面位置与估值结论。</div>
                     </div>
                 </div>
-                <div class="overview-card">
-                    <div class="icon-box">📉</div>
-                    <div>
-                        <h3 style="margin:0 0 5px 0; color:var(--text-secondary)">深证成指</h3>
-                        <div class="card-value">10,432.11</div>
-                        <div class="trend-down" style="font-size: 0.9rem">-0.5%</div>
+            </section>
+
+        <section class="card" id="day-model-card">
+            <h2><span aria-hidden="true">◈</span> 历史序列与估算</h2>
+            <p style="margin:0;color:var(--gd-muted);font-size:.83rem">按所选历史区间加载价格序列；优先使用本地月均样本，无本地数据时回退日线样本，用于估算均值、波动率与价格区间。</p>
+            <div class="day-grid">
+                <div class="day-box"><span id="day-sample-label">样本数量</span><strong id="day-sample-size">--</strong></div>
+                <div class="day-box"><span id="day-mean-label">近20期均收益</span><strong id="day-mean-ret">--</strong></div>
+                <div class="day-box"><span id="day-vol-label">近20期波动率</span><strong id="day-vol">--</strong></div>
+                <div class="day-box">数据状态<strong id="day-source">已连接</strong></div>
+            </div>
+            <div class="day-estimate" id="day-estimate-out">等待历史数据...</div>
+            <p class="status-line" id="day-status">历史接口连接中 <code id="day-api-endpoint"></code></p>
+            <div class="range-tools">
+                <label class="field" for="day-range" style="margin:0">历史区间</label>
+                <select id="day-range" class="inp" style="width:140px;padding:.42rem .55rem">
+                    <option value="365">近1年</option>
+                    <option value="1095">近3年</option>
+                    <option value="1825">近5年</option>
+                    <option value="3650" selected>近10年</option>
+                </select>
+                <button type="button" class="btn secondary" id="btn-reload-history">刷新历史</button>
+            </div>
+            <div class="history-tabs" role="tablist" aria-label="历史视图">
+                <button type="button" class="history-tab-btn active" data-history-tab="chart">图表</button>
+                <button type="button" class="history-tab-btn" data-history-tab="stats">统计</button>
+                <button type="button" class="history-tab-btn" data-history-tab="table">明细</button>
+            </div>
+            <div class="history-panel active" id="history-panel-chart">
+            <div class="line-wrap">
+                <div class="line-meta">
+                    <span>折线：<strong id="line-series-name">USD/oz</strong></span>
+                    <span class="line-actions">
+                        <button type="button" class="pill-btn active" id="line-unit-usd">USD/oz</button>
+                        <button type="button" class="pill-btn" id="line-unit-cny">RMB/g</button>
+                        <span>时间单位：<strong id="line-time-unit">--</strong></span>
+                    </span>
+                </div>
+                <div id="line-float-tip" class="line-float-tip"></div>
+                <canvas id="history-line-canvas" class="line-canvas" width="1000" height="260"></canvas>
+                <div class="line-tip" id="line-hover-tip">移动鼠标查看该点时间与价格（十字线）</div>
+            </div>
+            </div>
+            <div class="history-panel" id="history-panel-stats">
+            <div class="history-stats-grid">
+                <div class="stat-box">区间低点 / 高点<strong id="hist-stat-lowhigh">--</strong></div>
+                <div class="stat-box">当前位置<strong id="hist-stat-position">--</strong></div>
+                <div class="stat-box">区间振幅<strong id="hist-stat-amplitude">--</strong></div>
+                <div class="stat-box">区间累计涨跌<strong id="hist-stat-span">--</strong></div>
+            </div>
+            <div class="hist-note">
+                折算公式：USD/oz × USD/CNY ÷ 31.1034768。仅做估算参考。
+            </div>
+            </div>
+            <div class="history-panel" id="history-panel-table">
+            <div class="history-table-panel active" id="history-table-panel">
+                <div class="history-table-meta">
+                    <span>最近样本明细</span>
+                    <span id="history-table-meta">等待历史数据...</span>
+                </div>
+                <div class="history-table-wrap">
+                    <table class="hist">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>USD/oz</th>
+                                <th>RMB/g</th>
+                                <th>区间涨跌</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="4">等待历史数据...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><span aria-hidden="true">◎</span> 情景推演</h2>
+            <p style="margin:0;color:var(--gd-muted);font-size:.83rem">输入目标金价、目标汇率和加仓计划，推演对应的理论克价、新均价与盈亏变化。</p>
+            <div class="tool-grid" style="margin-top:0.85rem">
+                <div>
+                    <label class="field" for="inp-scenario-gold">目标金价（USD/oz）</label>
+                    <input class="inp" id="inp-scenario-gold" type="number" step="0.01" placeholder="例如 2900" inputmode="decimal">
+                </div>
+                <div>
+                    <label class="field" for="inp-scenario-fx">目标汇率（USD/CNY）</label>
+                    <input class="inp" id="inp-scenario-fx" type="number" step="0.0001" placeholder="默认沿用当前汇率" inputmode="decimal">
+                </div>
+                <div>
+                    <label class="field" for="inp-scenario-add-grams">计划加仓克重</label>
+                    <input class="inp" id="inp-scenario-add-grams" type="number" step="0.01" value="0" min="0" inputmode="decimal">
+                </div>
+                <div>
+                    <label class="field" for="inp-scenario-add-price">加仓成交价（元/克）</label>
+                    <input class="inp" id="inp-scenario-add-price" type="number" step="0.01" placeholder="例如 688" inputmode="decimal">
+                </div>
+            </div>
+            <div style="margin-top:0.75rem">
+                <label class="field" for="inp-scenario-fee">额外费用（元）</label>
+                <input class="inp" id="inp-scenario-fee" type="number" step="0.01" value="0" min="0" inputmode="decimal">
+            </div>
+            <div class="calc-out" id="scenario-out">输入目标条件后，这里会推演新均价与盈亏变化。</div>
+        </section>
+
+        <section class="card">
+            <h2>常见标的（教育说明）</h2>
+            <p style="margin:0 0 0.75rem;font-size:0.84rem;color:var(--gd-muted)">下表为品种说明，非实时行情。实盘请使用交易所或经纪商终端。</p>
+            <table class="ref">
+                <thead>
+                    <tr>
+                        <th>品种 / 代码</th>
+                        <th>特点</th>
+                        <th>与 XAU/USD 关系</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>上金所 AU(T+D)</td>
+                        <td>人民币计价、保证金、有递延费</td>
+                        <td>与国际价联动，含汇率与国内溢价</td>
+                    </tr>
+                    <tr>
+                        <td>黄金 ETF（如 518880）</td>
+                        <td>证券账户买卖、跟踪现货</td>
+                        <td>中长期贴近现货，盘中受申赎与折溢价影响</td>
+                    </tr>
+                    <tr>
+                        <td>银行账户金 / 积存金</td>
+                        <td>点差与报价规则因行而异</td>
+                        <td>适合实物或定投，注意买卖价差</td>
+                    </tr>
+                    <tr>
+                        <td>XAU/USD CFD</td>
+                        <td>海外经纪商差价合约，杠杆高</td>
+                        <td>贴近国际现货但存在隔夜与强平风险</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="footer-note">
+            <strong>商用部署建议：</strong>在服务端配置 <code>GOLDAPI_IO_TOKEN</code>（或替换为已签约的数据商），由 Nginx 将 <code>/api/v1</code> 反代至本仓库 <code>backend-platform-py</code>；前端仅请求同源接口以保护密钥并便于限流。演示模式下返回的合成价格仅用于联调 UI。
+        </footer>
+            </div>
+
+            <aside class="side-stack">
+            <section class="card" id="card-calc">
+                <h2><span aria-hidden="true">◇</span> 估值与计划</h2>
+                <div class="tool-stack">
+                    <div class="tool-block" data-collapse="open">
+                        <button type="button" class="tool-toggle" data-collapse-toggle>
+                            <h3>基础持仓</h3>
+                            <span>▾</span>
+                        </button>
+                        <div class="tool-body">
+                        <div class="tool-grid">
+                            <div>
+                                <label class="field" for="inp-fx">美元兑人民币</label>
+                                <input class="inp" id="inp-fx" type="number" step="0.0001" value="7.12" min="0.0001" inputmode="decimal">
+                            </div>
+                            <div>
+                                <label class="field" for="inp-domestic-quote">国内参考报价（元/克）</label>
+                                <input class="inp" id="inp-domestic-quote" type="number" step="0.01" placeholder="例如 728" inputmode="decimal">
+                            </div>
+                            <div>
+                                <label class="field" for="inp-grams">持仓克重</label>
+                                <input class="inp" id="inp-grams" type="number" step="0.01" value="100" min="0" inputmode="decimal">
+                            </div>
+                            <div>
+                                <label class="field" for="inp-cost">持仓均价（元/克）</label>
+                                <input class="inp" id="inp-cost" type="number" step="0.01" value="620" min="0" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div style="margin-top:0.7rem">
+                            <label class="field" for="inp-fee">一次性费用（元，含手续费等）</label>
+                            <input class="inp" id="inp-fee" type="number" step="0.01" value="0" min="0" inputmode="decimal">
+                        </div>
+                        <div class="calc-out" id="calc-out">输入参数后自动计算。</div>
+                        </div>
+                    </div>
+                    <div class="tool-block collapsed" data-collapse="closed">
+                        <button type="button" class="tool-toggle" data-collapse-toggle>
+                            <h3>国内报价偏离</h3>
+                            <span>▾</span>
+                        </button>
+                        <div class="tool-body">
+                        <div class="calc-out" id="domestic-out">输入国内参考报价后判断偏贵或偏便宜。</div>
+                        </div>
+                    </div>
+                    <div class="tool-block collapsed" data-collapse="closed">
+                        <button type="button" class="tool-toggle" data-collapse-toggle>
+                            <h3>目标价计划</h3>
+                            <span>▾</span>
+                        </button>
+                        <div class="tool-body">
+                        <div class="tool-grid">
+                            <div>
+                                <label class="field" for="inp-plan-add-target">加仓观察价（元/克）</label>
+                                <input class="inp" id="inp-plan-add-target" type="number" step="0.01" placeholder="例如 680" inputmode="decimal">
+                            </div>
+                            <div>
+                                <label class="field" for="inp-plan-reduce-target">减仓观察价（元/克）</label>
+                                <input class="inp" id="inp-plan-reduce-target" type="number" step="0.01" placeholder="例如 760" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div style="margin-top:0.7rem">
+                            <label class="field" for="inp-plan-step-grams">单次计划克重</label>
+                            <input class="inp" id="inp-plan-step-grams" type="number" step="0.01" value="20" min="0" inputmode="decimal">
+                        </div>
+                        <div class="calc-out" id="target-plan-out">设置目标价后，这里会给出加仓 / 减仓的计划结果。</div>
+                        </div>
+                    </div>
+                    <div class="tool-block collapsed" data-collapse="closed">
+                        <button type="button" class="tool-toggle" data-collapse-toggle>
+                            <h3>价格提醒（本机）</h3>
+                            <span>▾</span>
+                        </button>
+                        <div class="tool-body">
+                        <div class="tool-grid">
+                            <div>
+                                <label class="field" for="inp-alert-high">美元/盎司 上破</label>
+                                <input class="inp" id="inp-alert-high" type="number" step="0.01" placeholder="例如 2750" inputmode="decimal">
+                            </div>
+                            <div>
+                                <label class="field" for="inp-alert-low">美元/盎司 下破</label>
+                                <input class="inp" id="inp-alert-low" type="number" step="0.01" placeholder="例如 2550" inputmode="decimal">
+                            </div>
+                        </div>
+                        <button type="button" class="btn" id="btn-save-alerts" style="margin-top:0.7rem">保存提醒条件</button>
+                        <button type="button" class="btn secondary" id="btn-notify" style="margin-top:0.5rem">请求浏览器通知权限</button>
+                        </div>
                     </div>
                 </div>
-                <div class="overview-card">
-                    <div class="icon-box">💹</div>
-                    <div>
-                        <h3 style="margin:0 0 5px 0; color:var(--text-secondary)">监控基金数</h3>
-                        <div class="card-value" id="total-count">--</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="toolbar">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="search-input" placeholder="搜索基金代码/名称...">
-                </div>
-                <div class="filter-group" id="filter-container">
-                    <button class="filter-btn active" data-type="all">全部</button>
-                    <button class="filter-btn" data-type="股票型">股票型</button>
-                    <button class="filter-btn" data-type="混合型">混合型</button>
-                    <button class="filter-btn" data-type="债券型">债券型</button>
-                    <button class="filter-btn" data-type="指数型">指数型</button>
-                </div>
-                <button class="action-btn" onclick="alert('下载功能演示')">
-                    💾 下载数据
-                </button>
-            </div>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>代码</th>
-                            <th>基金名称</th>
-                            <th>类型</th>
-                            <th>单位净值</th>
-                            <th>估算净值</th>
-                            <th>估算涨幅</th>
-                            <th>更新时间</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fund-table-body">
-                        <!-- Data injected here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- VIEW: DETAIL -->
-        <div id="view-detail" class="hidden">
-            <button class="back-link" id="btn-back-to-list">← 返回列表</button>
-            
-            <div id="detail-container">
-                <!-- Detail injected here -->
-            </div>
+            </section>
+            </aside>
         </div>
     </div>
 
-    <script src="assets/js/fund.js?v=20260203"></script>
+    <div class="toast-host" id="toast-host" aria-live="polite"></div>
+
+    <script>
+        window.FUND_API = window.FUND_API || {};
+    </script>
+    <script src="assets/js/fund.js?v=20260426"></script>
 </body>
 </html>

@@ -132,6 +132,13 @@ function setView(name) {
     ["landing", "discover", "favorites"].forEach((v) => document.getElementById(`${v}View`).classList.toggle("active", v === name));
     updateTopNavButtons(name);
 }
+
+function scrollViewSectionIntoView(viewId) {
+    const el = document.getElementById(viewId);
+    if (!el) return;
+    const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - 12);
+    window.scrollTo({ top, behavior: "smooth" });
+}
 function updateScriptButton() {
     const label = document.getElementById("scriptModeLabel");
     const btn = document.getElementById("scriptToggle");
@@ -1325,18 +1332,28 @@ function bindEvents() {
     const navCloud = document.getElementById("navCloud");
     const navDiscover = document.getElementById("navDiscover");
     const navFavorites = document.getElementById("navFavorites");
-    if (navCloud) navCloud.addEventListener("click", () => setView("landing"));
+    if (navCloud) {
+        navCloud.addEventListener("click", () => {
+            const already = document.getElementById("landingView")?.classList.contains("active");
+            setView("landing");
+            if (already) scrollViewSectionIntoView("landingView");
+        });
+    }
     if (navDiscover) {
         navDiscover.addEventListener("click", async () => {
+            const already = document.getElementById("discoverView")?.classList.contains("active");
             await ensureDiscoverData();
             setView("discover");
             renderDiscover();
+            if (already) scrollViewSectionIntoView("discoverView");
         });
     }
     if (navFavorites) {
         navFavorites.addEventListener("click", () => {
+            const already = document.getElementById("favoritesView")?.classList.contains("active");
             setView("favorites");
             renderFavorites();
+            if (already) scrollViewSectionIntoView("favoritesView");
         });
     }
     document.getElementById("searchBtn").addEventListener("click", () => applyFilters());

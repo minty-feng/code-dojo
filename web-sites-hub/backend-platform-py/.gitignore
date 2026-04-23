@@ -5,4 +5,5 @@ __pycache__/
 /data/app.db                
 /data/logs
 data/chinese-poetry-master
+data/*.xlsx
 data/raw

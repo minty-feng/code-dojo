@@ -8,7 +8,9 @@ cd "$ROOT"
 ACTION="${1:-start}"
 HOST="${HOST:-127.0.0.1}"
 PORT="${PORT:-8300}"
-PYTHON_BIN="${PYTHON_BIN:-python3.12}"
+VENV_DIR="${VENV_DIR:-$ROOT/.venv}"
+VENV_ACTIVATE="$VENV_DIR/bin/activate"
+VENV_PYTHON="$VENV_DIR/bin/python"
 ENV_FILE="${ENV_FILE:-$ROOT/deploy/config/backend-platform-py.env}"
 LOG_FILE="${LOG_FILE:-$ROOT/backend-platform-py.log}"
 PID_FILE="${PID_FILE:-$ROOT/backend-platform-py.pid}"
@@ -41,17 +43,39 @@ get_running_pid() {
     return 1
 }
 
+check_venv() {
+    if [ ! -d "$VENV_DIR" ]; then
+        echo "错误: 未找到虚拟环境目录: $VENV_DIR"
+        echo "请先执行: python3.12 -m venv .venv"
+        exit 1
+    fi
+
+    if [ ! -f "$VENV_ACTIVATE" ] || [ ! -x "$VENV_PYTHON" ]; then
+        echo "错误: .venv 不完整，缺少 activate 或 python 可执行文件"
+        echo "请重建虚拟环境: rm -rf .venv && python3.12 -m venv .venv"
+        exit 1
+    fi
+    echo ".venv 目录校验通过✅ ($VENV_DIR)"
+}
+
+activate_venv() {
+    # shellcheck disable=SC1090
+    source "$VENV_ACTIVATE"
+    PYTHON_BIN="${PYTHON_BIN:-$VENV_PYTHON}"
+    export PYTHON_BIN
+    echo "虚拟环境激活通过✅ ($VENV_DIR)"
+}
+
 check_python() {
     if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
-        echo "错误: 未找到 Python: $PYTHON_BIN"
-        echo "安装提示: Ubuntu 可执行 sudo apt install -y python3.12 python3.12-venv"
+        echo "错误: 虚拟环境内未找到 Python: $PYTHON_BIN"
         exit 1
     fi
     echo "Python 可执行文件校验通过✅ ($PYTHON_BIN)"
 
     if ! "$PYTHON_BIN" -c 'import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 12) else 1)'; then
         echo "错误: 当前 Python 版本不是 3.12"
-        echo "安装提示: 请安装 Python 3.12，并通过 PYTHON_BIN=python3.12 指定解释器"
+        echo "请使用 Python 3.12 重建 .venv：rm -rf .venv && python3.12 -m venv .venv"
         exit 1
     fi
     echo "Python 3.12 版本校验通过✅"
@@ -92,6 +116,8 @@ start_server() {
     fi
 
     rm -f "$PID_FILE"
+    check_venv
+    activate_venv
     check_python
     check_fastapi
 

@@ -30,6 +30,12 @@ class Settings(BaseModel):
     }
     admin_rate_limit_max_requests: int = int(os.getenv("ADMIN_RATE_LIMIT_MAX_REQUESTS", "30"))
     admin_rate_limit_window_seconds: int = int(os.getenv("ADMIN_RATE_LIMIT_WINDOW_SECONDS", "60"))
+    # Optional: https://www.goldapi.io — server-side only, never expose in frontend.
+    goldapi_io_token: str = os.getenv("GOLDAPI_IO_TOKEN", "")
+    # Protect low-quota upstream keys (e.g. 100/day): throttle upstream refresh.
+    goldapi_upstream_min_interval_seconds: int = int(
+        os.getenv("GOLDAPI_UPSTREAM_MIN_INTERVAL_SECONDS", "900")
+    )
     cors_allow_origins: list[str] = [
         origin.strip()
         for origin in os.getenv(

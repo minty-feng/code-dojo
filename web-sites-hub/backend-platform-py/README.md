@@ -65,6 +65,7 @@ Authorization: Bearer <access_token>
 - `users`：用户信息查询与更新
 - `content`：内容（诗词/文章）查询
 - `fund`：基金查询与 CSV 导出占位
+- `market`：行情辅助（`GET /api/v1/market/gold/quote`，可选 `GOLDAPI_IO_TOKEN` 对接 goldapi.io）
 - `diary`：日记创建与查询
 - `poems`：诗词列表、详情、分类查询
 - `system`：健康检查、版本信息
@@ -79,6 +80,7 @@ Authorization: Bearer <access_token>
 - `docs/06-auth-and-user.md`
 - `docs/07-auth-production-hardening.md`
 - `docs/08-server-deployment.md`
+- `docs/09-fund-gold-desk.md`（基金占位、`fund.html` 黄金专题、`/market/gold/quote`）
 
 ## 诗词模块 API
 
@@ -91,6 +93,20 @@ Authorization: Bearer <access_token>
 - `DELETE /api/v1/poems/favorites/{poem_id}`（需 Bearer Token）
 - `GET /api/v1/poems/favorites/status?poem_ids=1,2,3`（需 Bearer Token）
 - `POST /api/v1/poems/favorites/sync`（需 Bearer Token）
+
+## Gold xlsx 入库脚本
+
+将 `data/gold_price_since_1978.xlsx` 与 `data/gold-premiums.xlsx` 导入 `data/app.db`：
+
+```bash
+cd web-sites-hub/backend-platform-py
+python scripts/gold/import_xlsx.py
+```
+
+说明：
+- 会自动按文件名创建/覆盖两张表（如 `gold_price_since_1978`、`gold_premiums`）
+- Excel 首个非空行作为表头，列名自动规范化
+- 每次重跑会覆盖目标表，适合重复导入
 
 列表接口返回结构：
 

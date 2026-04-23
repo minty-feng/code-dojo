@@ -16,6 +16,7 @@
 | **VS Code** | 代码编辑 | 轻量级代码编辑器，丰富的扩展生态 |
 | **绘图工具** | 可视化 | 数据可视化和图表绘制工具集合 |
 | **Clash Meta** | 网络代理 | Mihomo 服务端安装、订阅与局域网代理（合规使用） |
+| **OpenClaw** | AI 网关 | macOS 本地安装自托管多平台消息 AI Gateway |
 
 ## 🚀 快速开始
 
@@ -24,6 +25,7 @@
 - **环境部署** → Docker容器化
 - **远程连接** → SSH安全连接
 - **代理 / 分流（服务端）** → Clash Meta（Mihomo）
+- **自托管 AI 网关（macOS）** → OpenClaw
 - **代码编写** → VS Code编辑器
 - **数据展示** → 绘图工具集合
 
@@ -91,6 +93,9 @@
   - 在线工具：Draw.io、Mermaid
   - 科学计算：MATLAB、R语言
   - 设计工具：Figma、Adobe Illustrator
+
+### 🤖 AI 网关与助手
+- [OpenClaw（macOS）](08-openclaw-macos.md) - 自托管多平台消息 AI Gateway：Node 版本、一键安装、Onboarding、守护进程、Dashboard 与排障
 
 ---
 

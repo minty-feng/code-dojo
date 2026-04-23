@@ -1,6 +1,6 @@
 # backend-platform-py deploy
 
-这个目录提供一套最小可用的后端部署模板，目标是：
+提供一套最小可用的后端部署模板，目标是：
 
 - 本地一键打包后端代码
 - 服务器快速解包并通过目录内脚本启动 `uvicorn`
@@ -67,11 +67,19 @@ cd /opt/backend-platform-py
 
 脚本会：
 
-- 自动创建 `.venv`（如果还没有）
-- 自动安装 / 更新依赖
+- 启动前校验项目根目录下 `.venv`
+- 自动激活 `.venv` 后再启动服务
 - 优先加载 `deploy/config/backend-platform-py.env`
 - 使用 `nohup` 后台启动 `uvicorn`
 - 把日志写到项目根目录 `backend-platform-py.log`
+
+首次启动前请先准备虚拟环境并安装依赖：
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
 如线上机器访问默认 PyPI 慢，可先手动安装依赖：
 
