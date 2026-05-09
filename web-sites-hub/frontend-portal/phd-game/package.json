@@ -3,8 +3,12 @@
   "version": "0.0.2",
   "description": "A random event driven text-based game engine, for simulating a PhD student's life.",
   "scripts": {
+    "dev": "npx webpack --watch",
     "build": "npx webpack",
     "start": "node app.js"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "author": "Mianzhi Wang",
   "license": "MIT",
