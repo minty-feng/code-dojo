@@ -3,33 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人简历 - 需要邀请码</title>
+    <title>个人简历 · 邀请验证</title>
     <link rel="icon" type="image/svg+xml" href="/static/resume/favicon.svg">
     <link rel="stylesheet" href="/static/resume/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="auth-section">
-            <div class="logo">👤</div>
-            <h1>个人简历</h1>
-            <p class="subtitle">请输入邀请码查看完整简历内容</p>
+<body class="auth-page">
+    <div class="auth-bg" aria-hidden="true">
+        <div class="auth-bg-glow auth-bg-glow--1"></div>
+        <div class="auth-bg-glow auth-bg-glow--2"></div>
+        <div class="auth-bg-grid"></div>
+    </div>
 
-            <div class="input-group">
-                <input type="text" id="inviteCode" placeholder="输入32位邀请码" maxlength="32" autocomplete="off">
+    <main class="auth-shell">
+        <div class="auth-card">
+            <div class="auth-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="8" y="20" width="32" height="22" rx="3"></rect>
+                    <path d="M16 20V14a8 8 0 0 1 16 0v6"></path>
+                    <circle cx="24" cy="31" r="2.5" fill="currentColor" stroke="none"></circle>
+                    <path d="M24 33.5v3"></path>
+                </svg>
             </div>
 
-            <button onclick="verifyInvite()" class="auth-btn">
-                <span class="btn-icon">🔐</span>
-                验证邀请码
-            </button>
+            <p class="auth-eyebrow">Private Resume</p>
+            <h1 class="auth-title">个人简历</h1>
+            <p class="auth-subtitle">请输入邀请码以查看完整简历内容</p>
 
-            <div id="statusBubble" class="status-bubble" aria-live="polite">
-                <span class="status-icon">💬</span>
+            <form class="auth-form" onsubmit="event.preventDefault(); verifyInvite();">
+                <label class="auth-field" for="inviteCode">
+                    <span class="auth-field-label">邀请码</span>
+                    <input
+                        type="text"
+                        id="inviteCode"
+                        placeholder="请输入邀请码"
+                        maxlength="64"
+                        autocomplete="off"
+                        spellcheck="false"
+                        inputmode="text"
+                    >
+                </label>
+
+                <button type="submit" class="auth-btn" id="authSubmitBtn">
+                    <span class="auth-btn-text">验证并进入</span>
+                    <svg class="auth-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+                </button>
+            </form>
+
+            <div id="statusBubble" class="auth-hint" aria-live="polite">
+                <svg class="auth-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><circle cx="12" cy="16.5" r="0.5" fill="currentColor" stroke="none"></circle></svg>
                 <span class="status-text">请联系简历主人获取邀请码</span>
             </div>
         </div>
-    </div>
+
+        <footer class="auth-footer-note">me.joketop.com · 仅限受邀访问</footer>
+    </main>
+
     <script src="/static/resume/auth.js"></script>
 </body>
 </html>
-

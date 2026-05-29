@@ -7,7 +7,7 @@
     <title>代码片段 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/css/main.css?v=20260312">
-    <link rel="stylesheet" href="assets/css/snippets.css?v=20260507">
+    <link rel="stylesheet" href="assets/css/snippets.css?v=20260530">
     <link rel="stylesheet" id="hljsTheme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,11 +44,13 @@
 
             <section class="snippets-main">
                 <div class="snippets-head">
-                    <h2 id="snippetTitle" class="snippets-title">—</h2>
+                    <h2 id="snippetTitle" class="snippets-title snippets-title--loading"><span class="snippets-title-skeleton" aria-hidden="true"></span></h2>
                     <button type="button" id="copySnippetBtn" class="snippets-copy-btn" disabled>复制代码</button>
                 </div>
-                <div id="snippetViewer" class="snippets-viewer">
-                    <div class="snippets-empty">选择左侧片段</div>
+                <div id="snippetViewer" class="snippets-viewer snippets-viewer--initial">
+                    <div class="snippets-loading" role="status" aria-label="加载中">
+                        <div class="snippets-spinner"></div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -58,6 +60,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
     <script src="assets/js/main.js?v=20260529"></script>
     <script src="assets/js/snippets.config.js?v=20260509"></script>
-    <script src="assets/js/snippets.js?v=20260509"></script>
+    <script src="assets/js/snippets.js?v=20260530"></script>
 </body>
 </html>

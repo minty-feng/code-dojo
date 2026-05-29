@@ -27,7 +27,7 @@ function downloadResumePDF() {
     const element = document.querySelector('.resume-main');
     const opt = {
         margin: [10, 10, 10, 10],
-        filename: 'minty-feng-resume.pdf',
+        filename: '赵亚锋-简历.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
             scale: 2,
@@ -44,13 +44,7 @@ function downloadResumePDF() {
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
 
-    // 根据当前主题设置背景色
-    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    if (isDark) {
-        opt.html2canvas.backgroundColor = '#0a0a0f';
-    } else {
         opt.html2canvas.backgroundColor = '#ffffff';
-    }
 
     // 生成 PDF
     html2pdf().set(opt).from(element).save().then(function() {

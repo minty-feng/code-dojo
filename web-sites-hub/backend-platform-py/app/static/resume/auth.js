@@ -1,19 +1,12 @@
 let statusBubble;
-let statusIcon;
 let statusText;
 let defaultMessage = '请联系简历主人获取邀请码';
-let defaultIcon = '💬';
 
 document.addEventListener('DOMContentLoaded', function () {
     const inviteInput = document.getElementById('inviteCode');
     statusBubble = document.getElementById('statusBubble');
-
-    if (statusBubble) {
-        statusIcon = statusBubble.querySelector('.status-icon');
-        statusText = statusBubble.querySelector('.status-text');
-        defaultMessage = statusText?.textContent?.trim() || defaultMessage;
-        defaultIcon = statusIcon?.textContent?.trim() || defaultIcon;
-    }
+    statusText = statusBubble?.querySelector('.status-text');
+    defaultMessage = statusText?.textContent?.trim() || defaultMessage;
 
     inviteInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
@@ -32,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function verifyInvite() {
     const codeInput = document.getElementById('inviteCode');
     const code = codeInput.value.trim();
-    const authBtn = document.querySelector('.auth-btn');
+    const authBtn = document.getElementById('authSubmitBtn');
 
     if (!code) {
         showStatus('请输入邀请码', 'error');
@@ -43,11 +36,10 @@ async function verifyInvite() {
         return;
     }
 
-    const originalText = authBtn.innerHTML;
-    authBtn.innerHTML =
-        '<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> 验证中...';
+    const originalHtml = authBtn.innerHTML;
+    authBtn.innerHTML = '<span class="spinner"></span><span class="auth-btn-text">验证中</span>';
     authBtn.disabled = true;
-    showStatus('正在验证邀请码...', 'info');
+    showStatus('正在验证邀请码…');
 
     try {
         const response = await fetch('/api/v1/resume/auth', {
@@ -72,20 +64,17 @@ async function verifyInvite() {
         console.error('验证错误:', error);
         showStatus('网络错误，请检查连接后重试', 'error');
     } finally {
-        authBtn.innerHTML = originalText;
+        authBtn.innerHTML = originalHtml;
         authBtn.disabled = false;
     }
 }
 
 function showStatus(message, type = 'info') {
-    if (!statusBubble || !statusIcon || !statusText) {
+    if (!statusBubble || !statusText) {
         return;
     }
 
     const text = message ? message.trim() : defaultMessage;
-    const isError = type === 'error';
-
-    statusBubble.classList.toggle('error', isError);
-    statusIcon.textContent =  defaultIcon;
+    statusBubble.classList.toggle('error', type === 'error');
     statusText.textContent = text || defaultMessage;
 }

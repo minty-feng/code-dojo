@@ -32,16 +32,36 @@
     const HLJS_LIGHT = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
     const HLJS_DARK = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
 
-    function syncHljsTheme() {
-        const link = document.getElementById('hljsTheme');
-        if (!link) return;
-        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-        link.href = dark ? HLJS_DARK : HLJS_LIGHT;
+    const LOADING_MARKUP = `
+        <div class="snippets-loading" role="status" aria-label="加载中">
+            <div class="snippets-spinner"></div>
+        </div>`;
+
+    function setTitleLoading(loading) {
+        titleEl.classList.toggle('snippets-title--loading', loading);
+        if (loading) {
+            titleEl.textContent = '';
+            if (!titleEl.querySelector('.snippets-title-skeleton')) {
+                titleEl.innerHTML = '<span class="snippets-title-skeleton" aria-hidden="true"></span>';
+            }
+        }
+    }
+
+    function setTitleText(text) {
+        titleEl.classList.remove('snippets-title--loading');
+        titleEl.textContent = text;
+    }
+
+    function showLoadingState() {
+        viewerEl.classList.add('snippets-viewer--loading');
+        viewerEl.innerHTML = LOADING_MARKUP;
+        copyBtn.disabled = true;
     }
 
     function showViewerMessage(message) {
+        viewerEl.classList.remove('snippets-viewer--loading', 'snippets-viewer--initial');
         viewerEl.innerHTML = `<div class="snippets-empty">${message}</div>`;
-        titleEl.textContent = '—';
+        setTitleText('—');
         activeCode = '';
         copyBtn.disabled = true;
     }
@@ -67,7 +87,7 @@
 
     function renderSnippet(snippet) {
         activeSnippetSlug = snippet.slug;
-        titleEl.textContent = snippet.title;
+        setTitleText(snippet.title);
         activeCode = snippet.code || '';
         copyBtn.disabled = !activeCode;
 
@@ -80,6 +100,7 @@
         if (window.hljs) {
             html = hljs.highlight(activeCode, { language: snippet.lang || 'plaintext' }).value;
         }
+        viewerEl.classList.remove('snippets-viewer--loading', 'snippets-viewer--initial');
         viewerEl.innerHTML = `<pre><code class="hljs language-${snippet.lang || 'plaintext'}">${html}</code></pre>`;
 
         document.querySelectorAll('.snippets-item').forEach((el) => {
@@ -103,7 +124,8 @@
 
     async function selectSnippet(slug) {
         try {
-            showViewerMessage('加载中…');
+            showLoadingState();
+            setTitleLoading(true);
             const snippet = await fetchSnippetDetail(slug);
             renderSnippet(snippet);
             syncHljsTheme();
@@ -115,7 +137,9 @@
     async function loadSnippets() {
         if (listLoading) return;
         listLoading = true;
-        treeEl.innerHTML = '<div class="snippets-empty">加载中…</div>';
+        treeEl.innerHTML = `<div class="snippets-loading snippets-loading--compact" role="status" aria-label="加载中"><div class="snippets-spinner"></div></div>`;
+        showLoadingState();
+        setTitleLoading(true);
 
         try {
             const res = await fetch(`${listApiUrl}?page=1&page_size=100`);
@@ -142,6 +166,13 @@
         } finally {
             listLoading = false;
         }
+    }
+
+    function syncHljsTheme() {
+        const link = document.getElementById('hljsTheme');
+        if (!link) return;
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        link.href = dark ? HLJS_DARK : HLJS_LIGHT;
     }
 
     copyBtn.addEventListener('click', async () => {
