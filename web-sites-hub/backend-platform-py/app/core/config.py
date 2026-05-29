@@ -36,6 +36,9 @@ class Settings(BaseModel):
     goldapi_upstream_min_interval_seconds: int = int(
         os.getenv("GOLDAPI_UPSTREAM_MIN_INTERVAL_SECONDS", "900")
     )
+    # Invite key settings.
+    invite_key_min_count: int = int(os.getenv("INVITE_KEY_MIN_COUNT", "3"))
+    invite_key_expire_days: int = int(os.getenv("INVITE_KEY_EXPIRE_DAYS", "30"))
     cors_allow_origins: list[str] = [
         origin.strip()
         for origin in os.getenv(

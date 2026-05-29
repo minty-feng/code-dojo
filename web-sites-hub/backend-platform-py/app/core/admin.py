@@ -11,6 +11,7 @@ from app.core.database import (
     ContentModel,
     DiaryEntryModel,
     FundModel,
+    InviteKeyModel,
     PoemFavoriteModel,
     PoemModel,
     SnippetModel,
@@ -141,6 +142,27 @@ class PoemFavoriteAdmin(ModelView, model=PoemFavoriteModel):
     ]
 
 
+class InviteKeyAdmin(ModelView, model=InviteKeyModel):
+    """Admin page for invite key records."""
+
+    name = "Invite Key"
+    name_plural = "Invite Keys"
+    icon = "fa-solid fa-key"
+    can_create = False
+    column_list = [
+        InviteKeyModel.id,
+        InviteKeyModel.key,
+        InviteKeyModel.purpose,
+        InviteKeyModel.created_at,
+        InviteKeyModel.expires_at,
+        InviteKeyModel.used,
+        InviteKeyModel.used_at,
+        InviteKeyModel.visitor_ip,
+    ]
+    column_searchable_list = [InviteKeyModel.key, InviteKeyModel.purpose, InviteKeyModel.visitor_ip]
+    column_sortable_list = [InviteKeyModel.created_at, InviteKeyModel.expires_at, InviteKeyModel.used]
+
+
 def setup_admin(app: FastAPI) -> None:
     """Attach SQLAdmin to FastAPI app and register model views."""
     admin = Admin(
@@ -156,3 +178,4 @@ def setup_admin(app: FastAPI) -> None:
     admin.add_view(PoemAdmin)
     admin.add_view(SnippetAdmin)
     admin.add_view(PoemFavoriteAdmin)
+    admin.add_view(InviteKeyAdmin)

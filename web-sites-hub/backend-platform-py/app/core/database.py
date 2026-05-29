@@ -121,6 +121,21 @@ class SnippetModel(Base):
     )
 
 
+class InviteKeyModel(Base):
+    """Invite key table for access-controlled resume/feature unlocking."""
+
+    __tablename__ = "invite_keys"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    key: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    purpose: Mapped[str] = mapped_column(String(64), default="resume_access", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    used: Mapped[bool] = mapped_column(Integer, default=False)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    visitor_ip: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
+
 class PoemFavoriteModel(Base):
     """Poem favorites relation table for user-level collection state."""
 
@@ -212,6 +227,33 @@ def _ensure_users_columns() -> None:
             conn.execute(text("ALTER TABLE users ADD COLUMN avatar VARCHAR(64) NOT NULL DEFAULT '🐼'"))
 
 
+def _ensure_invite_keys(min_count: int = 3, expire_days: int = 30) -> None:
+    """Ensure at least *min_count* valid (unused, non-expired) invite keys exist."""
+    import secrets
+    from datetime import timedelta
+
+    now = datetime.utcnow()
+    with SessionLocal() as db:
+        valid_count = (
+            db.query(InviteKeyModel)
+            .filter(
+                InviteKeyModel.used == False,  # noqa: E712
+                InviteKeyModel.expires_at > now,
+            )
+            .count()
+        )
+        for _ in range(max(0, min_count - valid_count)):
+            db.add(
+                InviteKeyModel(
+                    key=secrets.token_urlsafe(24),
+                    purpose="resume_access",
+                    created_at=now,
+                    expires_at=now + timedelta(days=expire_days),
+                )
+            )
+        db.commit()
+
+
 def init_db() -> None:
     """Create tables and seed starter data when database is empty."""
     from app.core.snippet_seed import DEFAULT_SNIPPETS
@@ -256,3 +298,4 @@ def init_db() -> None:
                 ]
             )
         db.commit()
+    _ensure_invite_keys()
