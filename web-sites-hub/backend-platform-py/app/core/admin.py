@@ -13,6 +13,7 @@ from app.core.database import (
     FundModel,
     PoemFavoriteModel,
     PoemModel,
+    SnippetModel,
     UserModel,
     engine,
 )
@@ -85,6 +86,37 @@ class PoemAdmin(ModelView, model=PoemModel):
     ]
 
 
+class SnippetAdmin(ModelView, model=SnippetModel):
+    """Admin page for code snippet records."""
+
+    name = "Snippet"
+    name_plural = "Snippets"
+    icon = "fa-solid fa-code"
+    column_list = [
+        SnippetModel.id,
+        SnippetModel.slug,
+        SnippetModel.title,
+        SnippetModel.file_name,
+        SnippetModel.lang,
+        SnippetModel.category,
+        SnippetModel.sort_order,
+        SnippetModel.is_published,
+    ]
+    column_searchable_list = [SnippetModel.slug, SnippetModel.title, SnippetModel.file_name, SnippetModel.tags]
+    form_columns = [
+        SnippetModel.slug,
+        SnippetModel.title,
+        SnippetModel.file_name,
+        SnippetModel.lang,
+        SnippetModel.code,
+        SnippetModel.description,
+        SnippetModel.category,
+        SnippetModel.tags,
+        SnippetModel.sort_order,
+        SnippetModel.is_published,
+    ]
+
+
 class PoemFavoriteAdmin(ModelView, model=PoemFavoriteModel):
     """Admin page for poem favorite records."""
 
@@ -122,4 +154,5 @@ def setup_admin(app: FastAPI) -> None:
     admin.add_view(FundAdmin)
     admin.add_view(DiaryEntryAdmin)
     admin.add_view(PoemAdmin)
+    admin.add_view(SnippetAdmin)
     admin.add_view(PoemFavoriteAdmin)

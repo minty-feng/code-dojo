@@ -15,6 +15,7 @@ from app.core.database import (
     PoemFavoriteModel,
     PoemModel,
     SessionLocal,
+    SnippetModel,
     UserModel,
 )
 
@@ -484,6 +485,103 @@ class SqlAlchemyRepository:
                     inserted += 1
             db.commit()
         return {"inserted": inserted, "updated": updated, "total": len(items), "deduplicated": deduplicated}
+
+    def _snippet_summary(self, row: SnippetModel) -> dict:
+        return {
+            "id": row.id,
+            "slug": row.slug,
+            "title": row.title,
+            "file_name": row.file_name,
+            "lang": row.lang,
+            "description": row.description,
+            "category": row.category,
+            "tags": row.tags,
+            "sort_order": row.sort_order,
+        }
+
+    def _snippet_detail(self, row: SnippetModel) -> dict:
+        return {**self._snippet_summary(row), "code": row.code}
+
+    def list_snippets(
+        self,
+        keyword: str | None,
+        lang: str | None,
+        category: str | None,
+        page: int,
+        page_size: int,
+    ) -> dict:
+        with SessionLocal() as db:
+            query = db.query(SnippetModel).filter(SnippetModel.is_published.is_(True))
+            if keyword:
+                like = f"%{keyword}%"
+                query = query.filter(
+                    or_(
+                        SnippetModel.title.like(like),
+                        SnippetModel.file_name.like(like),
+                        SnippetModel.description.like(like),
+                        SnippetModel.tags.like(like),
+                        SnippetModel.code.like(like),
+                    )
+                )
+            if lang:
+                query = query.filter(SnippetModel.lang == lang)
+            if category:
+                query = query.filter(SnippetModel.category == category)
+
+            total = query.with_entities(func.count(SnippetModel.id)).scalar() or 0
+            offset = (page - 1) * page_size
+            rows = (
+                query.order_by(SnippetModel.sort_order.asc(), SnippetModel.id.asc())
+                .offset(offset)
+                .limit(page_size)
+                .all()
+            )
+            items = [self._snippet_summary(row) for row in rows]
+            return {"items": items, "page": page, "page_size": page_size, "total": total}
+
+    def get_snippet(self, snippet_id: int) -> dict | None:
+        with SessionLocal() as db:
+            row = (
+                db.query(SnippetModel)
+                .filter(SnippetModel.id == snippet_id, SnippetModel.is_published.is_(True))
+                .first()
+            )
+            if not row:
+                return None
+            return self._snippet_detail(row)
+
+    def get_snippet_by_slug(self, slug: str) -> dict | None:
+        with SessionLocal() as db:
+            row = (
+                db.query(SnippetModel)
+                .filter(SnippetModel.slug == slug, SnippetModel.is_published.is_(True))
+                .first()
+            )
+            if not row:
+                return None
+            return self._snippet_detail(row)
+
+    def list_snippet_categories(self) -> list[str]:
+        with SessionLocal() as db:
+            rows = (
+                db.query(SnippetModel.category)
+                .filter(SnippetModel.category != "", SnippetModel.is_published.is_(True))
+                .distinct()
+                .order_by(SnippetModel.category.asc())
+                .all()
+            )
+            return [row[0] for row in rows]
+
+    def list_snippet_langs(self) -> list[str]:
+        with SessionLocal() as db:
+            rows = (
+                db.query(SnippetModel.lang)
+                .filter(SnippetModel.lang != "", SnippetModel.is_published.is_(True))
+                .distinct()
+                .order_by(SnippetModel.lang.asc())
+                .all()
+            )
+            return [row[0] for row in rows]
 
 
 repo = SqlAlchemyRepository()

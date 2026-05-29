@@ -20,7 +20,7 @@ from app.core.exceptions import (
     app_exception_handler,
     unhandled_exception_handler,
 )
-from app.routers import auth, content, diary, fund, market, poems, system, users
+from app.routers import auth, content, diary, fund, market, poems, snippets, system, users
 
 REQUIRED_PYTHON_MAJOR = 3
 REQUIRED_PYTHON_MINOR = 12
@@ -113,6 +113,7 @@ app.include_router(fund.router, prefix=settings.api_prefix)
 app.include_router(market.router, prefix=settings.api_prefix)
 app.include_router(diary.router, prefix=settings.api_prefix)
 app.include_router(poems.router, prefix=settings.api_prefix)
+app.include_router(snippets.router, prefix=settings.api_prefix)
 app.include_router(system.router, prefix=settings.api_prefix)
 
 

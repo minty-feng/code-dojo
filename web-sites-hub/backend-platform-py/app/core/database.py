@@ -7,7 +7,7 @@ Keeping models centralized makes schema evolution and migration easier.
 from datetime import datetime
 from pathlib import Path
 
-from sqlalchemy import DateTime, Float, Index, Integer, String, Text, UniqueConstraint, create_engine, text
+from sqlalchemy import Boolean, DateTime, Float, Index, Integer, String, Text, UniqueConstraint, create_engine, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 
@@ -92,6 +92,29 @@ class PoemModel(Base):
     tags: Mapped[str] = mapped_column(String(255), default="")
     source: Mapped[str] = mapped_column(String(128), default="")
     source_url: Mapped[str] = mapped_column(String(512), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, index=True
+    )
+
+
+class SnippetModel(Base):
+    """Code snippets table for algorithm and practice code showcase."""
+
+    __tablename__ = "snippets"
+    __table_args__ = (UniqueConstraint("slug", name="uq_snippets_slug"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    slug: Mapped[str] = mapped_column(String(64), default="", index=True)
+    title: Mapped[str] = mapped_column(String(255), default="", index=True)
+    file_name: Mapped[str] = mapped_column(String(128), default="", index=True)
+    lang: Mapped[str] = mapped_column(String(32), default="cpp", index=True)
+    code: Mapped[str] = mapped_column(Text, default="")
+    description: Mapped[str] = mapped_column(Text, default="")
+    category: Mapped[str] = mapped_column(String(64), default="", index=True)
+    tags: Mapped[str] = mapped_column(String(255), default="")
+    sort_order: Mapped[int] = mapped_column(Integer, default=0, index=True)
+    is_published: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, index=True
@@ -191,6 +214,8 @@ def _ensure_users_columns() -> None:
 
 def init_db() -> None:
     """Create tables and seed starter data when database is empty."""
+    from app.core.snippet_seed import DEFAULT_SNIPPETS
+
     Base.metadata.create_all(bind=engine)
     _ensure_poems_columns()
     _ensure_users_columns()
@@ -210,6 +235,24 @@ def init_db() -> None:
                 [
                     FundModel(code="000001", name="成长精选", nav=1.234, change=0.21),
                     FundModel(code="000002", name="价值优选", nav=0.978, change=-0.13),
+                ]
+            )
+        if db.query(SnippetModel).count() == 0:
+            db.add_all(
+                [
+                    SnippetModel(
+                        slug=item["slug"],
+                        title=item["title"],
+                        file_name=item["file_name"],
+                        lang=item["lang"],
+                        code=item["code"],
+                        description=item.get("description", ""),
+                        category=item.get("category", ""),
+                        tags=item.get("tags", ""),
+                        sort_order=item.get("sort_order", 0),
+                        is_published=True,
+                    )
+                    for item in DEFAULT_SNIPPETS
                 ]
             )
         db.commit()
