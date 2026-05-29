@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="代码片段收藏 - 算法与练习代码展示">
+    <title>代码片段 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+    <link rel="stylesheet" href="assets/css/snippets.css?v=20260507">
+    <link rel="stylesheet" id="hljsTheme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="snippets-page">
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回项目展示">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </a>
+
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <span style="flex: 1;"></span>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="snippets-layout">
+            <aside class="snippets-sidebar">
+                <h1>代码片段</h1>
+                <nav id="snippetTree" class="snippets-tree" aria-label="片段目录"></nav>
+            </aside>
+
+            <section class="snippets-main">
+                <div class="snippets-head">
+                    <h2 id="snippetTitle" class="snippets-title">—</h2>
+                    <button type="button" id="copySnippetBtn" class="snippets-copy-btn" disabled>复制代码</button>
+                </div>
+                <div id="snippetViewer" class="snippets-viewer">
+                    <div class="snippets-empty">选择左侧片段</div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script src="assets/js/main.js?v=20260529"></script>
+    <script src="assets/js/snippets.config.js?v=20260509"></script>
+    <script src="assets/js/snippets.js?v=20260509"></script>
+</body>
+</html>

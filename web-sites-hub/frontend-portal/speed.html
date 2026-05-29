@@ -263,12 +263,13 @@
 
         <footer class="footer">
             <div class="footer-content">
-                <p class="footer-text">&copy; 2026 minty-feng</p>
+                <p class="footer-text" data-site-copyright></p>
                 <p class="footer-accent">Network Speed Test Center</p>
             </div>
         </footer>
     </div>
     
+    <script src="assets/js/site.config.js?v=20260529"></script>
     <script>
        // Simple Theme Toggle Logic (inline for simplicity)
        const themeToggle = document.getElementById('themeToggle');
@@ -279,8 +280,8 @@
            body.setAttribute('data-theme', 'dark');
        } else if (localStorage.getItem('theme') === 'light') {
            body.setAttribute('data-theme', 'light');
-       } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-           body.setAttribute('data-theme', 'dark');
+       } else {
+           body.setAttribute('data-theme', 'light');
        }
 
        themeToggle.addEventListener('click', () => {

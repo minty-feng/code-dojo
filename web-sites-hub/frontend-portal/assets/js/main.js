@@ -5,17 +5,21 @@ console.log('✅ main.js loaded');
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
 
-// Check for saved theme preference or default to dark mode (CSS default is dark)
-const currentTheme = localStorage.getItem('theme') || 'dark';
+// Check for saved theme preference or page default (data-default-theme on <html>, else light)
+const pageDefault = html.getAttribute('data-default-theme') || 'light';
+const currentTheme = localStorage.getItem('theme') || pageDefault;
 html.setAttribute('data-theme', currentTheme);
 
 // Update theme icon based on current theme
 function updateThemeIcon() {
+    if (!themeToggle) return;
     const themeIcon = themeToggle.querySelector('.theme-icon');
-    const currentTheme = html.getAttribute('data-theme');
+    if (!themeIcon) return;
+
+    const activeTheme = html.getAttribute('data-theme');
     
     // Update icon path based on theme
-    if (currentTheme === 'dark') {
+    if (activeTheme === 'dark') {
         // Moon icon for dark mode
         themeIcon.innerHTML = `
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -30,23 +34,25 @@ function updateThemeIcon() {
 }
 
 // Theme toggle handler
-themeToggle.addEventListener('click', () => {
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    // Update icon animation
-    themeToggle.style.transform = 'rotate(360deg)';
-    setTimeout(() => {
-        themeToggle.style.transform = 'rotate(0deg)';
-        updateThemeIcon();
-    }, 300);
-});
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const activeTheme = html.getAttribute('data-theme');
+        const newTheme = activeTheme === 'light' ? 'dark' : 'light';
+        
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Update icon animation
+        themeToggle.style.transform = 'rotate(360deg)';
+        setTimeout(() => {
+            themeToggle.style.transform = 'rotate(0deg)';
+            updateThemeIcon();
+        }, 300);
+    });
 
-// Initialize theme icon
-updateThemeIcon();
+    // Initialize theme icon
+    updateThemeIcon();
+}
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
