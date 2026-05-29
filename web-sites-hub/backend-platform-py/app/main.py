@@ -6,9 +6,11 @@ This file wires routers, exception handlers, and global app config.
 import time
 import sys
 from collections import defaultdict, deque
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -20,7 +22,8 @@ from app.core.exceptions import (
     app_exception_handler,
     unhandled_exception_handler,
 )
-from app.routers import auth, content, diary, fund, market, poems, snippets, system, users
+from app.routers import auth, content, diary, fund, invite, market, poems, snippets, system, users
+from app.routers.resume import api_router as resume_api_router, page_router as resume_page_router
 
 REQUIRED_PYTHON_MAJOR = 3
 REQUIRED_PYTHON_MINOR = 12
@@ -54,6 +57,10 @@ app.add_middleware(
 
 # Mount SQLAdmin dashboard at /admin.
 setup_admin(app)
+
+# Mount resume static assets.
+_RESUME_STATIC_DIR = Path(__file__).resolve().parent / "static" / "resume"
+app.mount("/static/resume", StaticFiles(directory=_RESUME_STATIC_DIR), name="resume_static")
 
 
 @app.middleware("http")
@@ -114,7 +121,11 @@ app.include_router(market.router, prefix=settings.api_prefix)
 app.include_router(diary.router, prefix=settings.api_prefix)
 app.include_router(poems.router, prefix=settings.api_prefix)
 app.include_router(snippets.router, prefix=settings.api_prefix)
+app.include_router(invite.router, prefix=settings.api_prefix)
 app.include_router(system.router, prefix=settings.api_prefix)
+# Resume: page route at /resume (no prefix), API sub-routes under /api/v1/resume.
+app.include_router(resume_page_router)
+app.include_router(resume_api_router, prefix=settings.api_prefix)
 
 
 @app.on_event("startup")
