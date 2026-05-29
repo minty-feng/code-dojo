@@ -4,7 +4,7 @@
 
 ### 一键集成部署
 
-`deploy-joketop.sh` 脚本会自动解压 gz 包并调用 `deploy-all-docs.sh` 一起部署。
+`deploy-joketop.sh` 脚本会自动解压 gz 包并调用 `deploy-joketop-nginx.sh` 一起部署。
 
 #### 1. 本地打包
 ```bash
@@ -29,7 +29,7 @@ cd /tmp
 # 赋予执行权限
 chmod +x deploy-joketop.sh
 
-# 执行部署（会自动调用 deploy-all-docs.sh）
+# 执行部署（会自动调用 deploy-joketop-nginx.sh）
 sudo ./deploy-joketop.sh joketop-*.tar.gz
 ```
 
@@ -66,10 +66,10 @@ sudo ./deploy-joketop.sh joketop-*.tar.gz
 ```bash
 # 在服务器上
 cd /path/to/code-dojo/web-sites-hub
-sudo ./deploy-all-docs.sh
+sudo ./deploy-joketop-nginx.sh
 
 # 或使用 SSL
-sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email riseat7am@gmail.com
 ```
 
 ## 配置说明
@@ -103,9 +103,9 @@ Nginx 会按照以下顺序匹配：
 
 ### 脚本路径查找
 
-`deploy-joketop.sh` 会自动查找 `deploy-all-docs.sh` 脚本，按以下顺序尝试：
-1. `../code-dojo/web-sites-hub/deploy-all-docs.sh`（相对路径）
-2. `/var/www/code-dojo/web-sites-hub/deploy-all-docs.sh`（服务器常见路径）
+`deploy-joketop.sh` 会自动查找 `deploy-joketop-nginx.sh` 脚本，按以下顺序尝试：
+1. `../code-dojo/web-sites-hub/deploy-joketop-nginx.sh`（相对路径）
+2. `/var/www/code-dojo/web-sites-hub/deploy-joketop-nginx.sh`（服务器常见路径）
 3. 脚本所在目录的相对路径
 
 如果找不到脚本，会跳过文档服务部署，但主站部署会正常完成。

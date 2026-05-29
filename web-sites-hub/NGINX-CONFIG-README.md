@@ -19,7 +19,7 @@
 - 用于 Let's Encrypt 域名验证
 - 证书获取成功后会被 `joketop.conf` 替换
 
-### 3. `deploy-all-docs.sh` - 部署脚本
+### 3. `deploy-joketop-nginx.sh` - 部署脚本
 完全简化的部署脚本，**不包含任何配置生成代码**：
 - 检查服务目录
 - Let's Encrypt 证书管理
@@ -42,7 +42,7 @@ vim web-sites-hub/joketop.conf
 sudo nginx -t
 
 # 应用配置
-sudo ./deploy-all-docs.sh
+sudo ./deploy-joketop-nginx.sh
 ```
 
 ### 方法2: 修改后手动拷贝
@@ -83,7 +83,7 @@ location = /newservice {
 }
 ```
 
-然后运行 `sudo ./deploy-all-docs.sh` 应用配置。
+然后运行 `sudo ./deploy-joketop-nginx.sh` 应用配置。
 
 ## 🔐 证书管理
 
@@ -91,7 +91,7 @@ location = /newservice {
 
 ```bash
 # 获取证书并部署
-sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email riseat7am@gmail.com
 ```
 
 ## 📊 配置文件结构
@@ -114,7 +114,7 @@ joketop.conf
 
 ## ⚠️  注意事项
 
-1. 修改 `joketop.conf` 后，需要运行 `deploy-all-docs.sh` 或手动拷贝到 `/etc/nginx/sites-available/`
+1. 修改 `joketop.conf` 后，需要运行 `deploy-joketop-nginx.sh` 或手动拷贝到 `/etc/nginx/sites-available/`
 2. 证书路径已经在配置文件中固定，如果证书位置变化需要修改配置文件
 3. 所有服务路由都在 `blog.joketop.com` 的 server 块内
 4. 配置文件使用 HTTPS 配置，如果证书不存在，Nginx 将无法启动
@@ -127,7 +127,7 @@ vim web-sites-hub/joketop.conf
 
 # 2. 部署（包含证书管理）
 cd web-sites-hub
-sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email riseat7am@gmail.com
 
 # 3. 验证
 curl -I https://blog.joketop.com

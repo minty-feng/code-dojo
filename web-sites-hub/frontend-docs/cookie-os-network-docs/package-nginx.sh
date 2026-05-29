@@ -49,10 +49,10 @@ Nginx 部署说明
 3. 配置 Nginx（使用统一脚本）：
 
    # HTTP 部署
-   sudo bash deploy-all-docs.sh
+   sudo bash deploy-joketop-nginx.sh
 
    # HTTPS 部署（Let's Encrypt 自动证书）
-   sudo bash deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
+   sudo bash deploy-joketop-nginx.sh --letsencrypt --email riseat7am@gmail.com
 
 4. 访问地址：
    HTTP:  http://blog.joketop.com/os
@@ -64,7 +64,7 @@ Nginx 部署说明
 - Let's Encrypt 证书: /etc/letsencrypt/live/blog.joketop.com/
 
 注意：
-- Nginx 配置由统一脚本 deploy-all-docs.sh 管理
+- Nginx 配置由统一脚本 deploy-joketop-nginx.sh 管理
 - 部署脚本 deploy-os-network.sh 只负责解压和拷贝文件
 EOF
 
@@ -94,6 +94,6 @@ echo ""
 echo "💡 提示："
 echo "   1. 上传到服务器"
 echo "   2. 解压部署: sudo bash deploy-os-network.sh $PACKAGE_NAME"
-echo "   3. 配置 Nginx: sudo bash deploy-all-docs.sh [--letsencrypt --email your@email.com]"
+echo "   3. 配置 Nginx: sudo bash deploy-joketop-nginx.sh [--letsencrypt --email your@email.com]"
 echo "   4. 访问: http://blog.joketop.com/os (或 https:// 如果启用)"
 

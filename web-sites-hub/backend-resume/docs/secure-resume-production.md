@@ -94,7 +94,7 @@ server {
 }
 ```
 
-- `deploy-all-docs.sh` 会将仓库中的 `joketop.conf` 拷贝到 `/etc/nginx/sites-available/joketop.conf`，修改脚本参数即可启用 HTTPS。
+- `deploy-joketop-nginx.sh` 会将仓库中的 `joketop.conf` 拷贝到 `/etc/nginx/sites-available/joketop.conf`，修改脚本参数即可启用 HTTPS。
 - CDN 作为前置节点时，需要尊重 `no-store` 头，或在 CDN 管理台为 `me.joketop.com` 关闭缓存。
 
 ### 5. HTTPS 与 Cookie 设置
@@ -117,7 +117,7 @@ rsync -av static/ user@server:/home/ubuntu/secure-resume/static/
 ssh user@server 'cd /home/ubuntu/secure-resume && pkill -F secure-resume.pid 2>/dev/null; SECURE_RESUME_SECURE_COOKIE=1 RUST_LOG=info nohup ./secure_resume > secure-resume.log 2>&1 & echo $! > secure-resume.pid'
 
 # 4. 更新 Nginx 配置
-ssh user@server 'cd /home/ubuntu/code-dojo/web-sites-hub && sudo ./deploy-all-docs.sh'
+ssh user@server 'cd /home/ubuntu/code-dojo/web-sites-hub && sudo ./deploy-joketop-nginx.sh'
 ```
 
 ### 7. 运行与监控
@@ -133,6 +133,6 @@ ssh user@server 'cd /home/ubuntu/code-dojo/web-sites-hub && sudo ./deploy-all-do
 - 建议定期轮换 `secure_resume_session` Cookie 名称或 Actix `Key`（通过持久化密钥而非随机生成）。
 - 考虑将邀请码生成接口限制为管理 IP 或加密令牌。
 
-该文档配合仓库中的 `joketop.conf` 与 `deploy-all-docs.sh` 一起使用，可实现 HTTPS、CDN 及 Rust 服务的统一部署。
+该文档配合仓库中的 `joketop.conf` 与 `deploy-joketop-nginx.sh` 一起使用，可实现 HTTPS、CDN 及 Rust 服务的统一部署。
 
 

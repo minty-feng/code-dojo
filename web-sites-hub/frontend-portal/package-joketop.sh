@@ -36,19 +36,19 @@ fi
 # 明确指定要打包的文件和目录
 echo -e "${YELLOW}正在打包文件...${NC}"
 echo -e "${YELLOW}包含的文件：${NC}"
-echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, diary.html, speed.html, fund.html, docsearch.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html, aihistory.html${NC}"
+echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, snippets.html, diary.html, speed.html, fund.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html, aihistory.html${NC}"
 echo -e "${YELLOW}  - 说明: poems.backup.html 为备份文件，不参与发布打包${NC}"
 echo -e "${YELLOW}  - 资源文件: assets/ (css, js, favicon.svg)${NC}"
+echo -e "${YELLOW}  - 子项目目录: phd-game/, super-app/, debate-competition/, internship-trends/ (均不带 dist 层级)${NC}"
 echo ""
 
 # 创建临时目录结构
 TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
-# 复制需要打包的文件
+# 复制需要打包的文件（统一目录结构：子项目路径不带 dist）
 echo -e "${YELLOW}准备文件...${NC}"
-cp index.html resume.html learning.html showcase.html diary.html speed.html fund.html docsearch.html invisiblechars.html ganwu.html wufu.html poems.html timeline.html goals.html tianya.html journal.html plans.html calendar.html figures.html aihistory.html $TEMP_DIR/ 2>/dev/null
-cp -r assets $TEMP_DIR/ 2>/dev/null
+./scripts/prepare-preview-site.sh "$TEMP_DIR"
 
 # 统一注入版本号到 HTML（替换 ?v=xxx 为 ?v=$VERSION，触发 CDN 更新）
 echo -e "${YELLOW}注入版本号 v=${GREEN}$VERSION${NC}"
@@ -87,6 +87,7 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/resume.html" ] && MISSING_FILES+=("resume.html")
 [ ! -f "$TEMP_DIR/learning.html" ] && MISSING_FILES+=("learning.html")
 [ ! -f "$TEMP_DIR/showcase.html" ] && MISSING_FILES+=("showcase.html")
+[ ! -f "$TEMP_DIR/snippets.html" ] && MISSING_FILES+=("snippets.html")
 [ ! -f "$TEMP_DIR/diary.html" ] && MISSING_FILES+=("diary.html")
 [ ! -f "$TEMP_DIR/speed.html" ] && MISSING_FILES+=("speed.html")
 [ ! -f "$TEMP_DIR/fund.html" ] && MISSING_FILES+=("fund.html")
@@ -96,7 +97,6 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/goals.html" ] && MISSING_FILES+=("goals.html")
 [ ! -f "$TEMP_DIR/tianya.html" ] && MISSING_FILES+=("tianya.html")
 [ ! -f "$TEMP_DIR/journal.html" ] && MISSING_FILES+=("journal.html")
-[ ! -f "$TEMP_DIR/docsearch.html" ] && MISSING_FILES+=("docsearch.html")
 [ ! -f "$TEMP_DIR/invisiblechars.html" ] && MISSING_FILES+=("invisiblechars.html")
 [ ! -f "$TEMP_DIR/plans.html" ] && MISSING_FILES+=("plans.html")
 [ ! -f "$TEMP_DIR/calendar.html" ] && MISSING_FILES+=("calendar.html")
@@ -104,6 +104,10 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/aihistory.html" ] && MISSING_FILES+=("aihistory.html")
 [ ! -d "$TEMP_DIR/assets" ] && MISSING_FILES+=("assets/")
 [ ! -f "$TEMP_DIR/assets/favicon.svg" ] && MISSING_FILES+=("assets/favicon.svg")
+[ ! -d "$TEMP_DIR/phd-game" ] && MISSING_FILES+=("phd-game/")
+[ ! -d "$TEMP_DIR/super-app" ] && MISSING_FILES+=("super-app/")
+[ ! -d "$TEMP_DIR/debate-competition" ] && MISSING_FILES+=("debate-competition/")
+[ ! -d "$TEMP_DIR/internship-trends" ] && MISSING_FILES+=("internship-trends/")
 
 if [ ${#MISSING_FILES[@]} -gt 0 ]; then
     echo -e "${YELLOW}警告: 以下文件不存在: ${MISSING_FILES[*]}${NC}"
@@ -138,17 +142,40 @@ if [ $? -eq 0 ]; then
     echo -e "  文件位置: ${GREEN}$(pwd)/$PACKAGE_NAME${NC}"
     echo -e "${GREEN}========================================${NC}"
     echo -e "${YELLOW}下一步：${NC}"
+    echo ""
+    echo -e "${YELLOW}【方式 A】仅更新主站静态（joketop.com / showcase 等 HTML）${NC}"
     echo -e "  1. 上传到服务器:"
-    echo -e "     scp $PACKAGE_NAME tencent-ubuntu-1:~/web-deploy"
-    echo -e "  2. 登录服务器:"
+    echo -e "     scp $PACKAGE_NAME deploy-joketop.sh tencent-ubuntu-1:~/web-deploy"
+    echo -e "  2. 登录并部署:"
     echo -e "     ssh tencent-ubuntu-1"
-    echo -e "  3. 进入目录并部署:"
     echo -e "     cd ~/web-deploy"
     echo -e "     sudo ./deploy-joketop.sh $PACKAGE_NAME"
-    echo -e "  4. 如本次涉及站点/路由/静态目录变更，请同步更新 nginx conf:"
-    echo -e "     # 例如: /etc/nginx/sites-available/joketop.conf"
-    echo -e "     sudo nginx -t && sudo systemctl reload nginx"
-    echo -e "     # 说明: deploy-joketop.sh 不会自动更新 nginx 配置"
+    echo ""
+    echo -e "${YELLOW}【方式 B】全站集成部署（推荐：静态 + Nginx 多域名配置）${NC}"
+    echo -e "  1. 上传打包文件与部署脚本:"
+    echo -e "     scp $PACKAGE_NAME deploy-joketop.sh deploy-all-joketop.sh tencent-ubuntu-1:~/web-deploy"
+    echo -e "     # deploy-all-joketop.sh 会调用 web-sites-hub/deploy-joketop-nginx.sh"
+    echo -e "  2. 登录并一键部署:"
+    echo -e "     ssh tencent-ubuntu-1"
+    echo -e "     cd ~/web-deploy"
+    echo -e "     chmod +x deploy-all-joketop.sh"
+    echo -e "     sudo ./deploy-all-joketop.sh $PACKAGE_NAME"
+    echo -e "  3. 首次部署或续期证书:"
+    echo -e "     sudo ./deploy-all-joketop.sh $PACKAGE_NAME --letsencrypt --email your@email.com"
+    echo ""
+    echo -e "${YELLOW}【方式 C】仅更新 Nginx 配置（未改静态文件时）${NC}"
+    echo -e "     cd ~/code-dojo/web-sites-hub   # 或服务器上的 web-sites-hub 路径"
+    echo -e "     sudo ./deploy-joketop-nginx.sh"
+    echo -e "     sudo ./deploy-joketop-nginx.sh --letsencrypt --email your@email.com"
+    echo ""
+    echo -e "${YELLOW}【可选】安全头加固${NC}"
+    echo -e "     cd ~/code-dojo/web-sites-hub"
+    echo -e "     sudo ./apply-security-headers.sh"
+    echo ""
+    echo -e "${YELLOW}说明:${NC}"
+    echo -e "  - deploy-joketop.sh 只解压到 /var/www/html/joketop，不更新 nginx"
+    echo -e "  - deploy-all-joketop.sh = deploy-joketop.sh + deploy-joketop-nginx.sh"
+    echo -e "  - 若改了 joketop.conf，需跑 deploy-joketop-nginx.sh 或 deploy-all-joketop.sh"
 else
     echo -e "${YELLOW}✗ 打包失败！${NC}"
     exit 1

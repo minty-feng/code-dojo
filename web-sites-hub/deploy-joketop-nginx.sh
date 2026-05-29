@@ -1,6 +1,6 @@
 #!/bin/bash
-# 统一文档部署脚本
-# 用于同时部署多个文档服务到 Nginx
+# joketop 全站 Nginx 配置部署脚本
+# 将 joketop.conf 应用到服务器，并管理 SSL 证书流程（不部署文档 HTML 内容）
 
 set -e
 
@@ -13,8 +13,7 @@ NGINX_CONF_FILE="$NGINX_SITES_AVAILABLE/joketop.conf"
 # 获取脚本所在目录
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NGINX_CONF_TEMPLATE="$SCRIPT_DIR/joketop.conf"
-NGINX_CONF_TEMPLATE_HTTP="$SCRIPT_DIR/joketop-http.conf"
-NGINX_LETSENCRYPT_TEMP="$SCRIPT_DIR/joketop-letsencrypt-temp.conf"
+NGINX_CONF_TEMPLATE_ACME="$SCRIPT_DIR/joketop-letsencrypt-temp.conf"
 
 
 # 服务配置数组
@@ -126,7 +125,7 @@ fi
 
 echo ""
 echo "=========================================="
-echo "  📦 统一文档部署脚本"
+echo "  📦 joketop Nginx 配置部署"
 echo "=========================================="
 echo ""
 
@@ -173,13 +172,13 @@ if [ "$ENABLE_HTTPS" = "letsencrypt" ]; then
     echo "   🔧 部署临时 HTTP 配置（用于 Let's Encrypt 验证）..."
     
     # 检查临时配置文件是否存在
-    if [ ! -f "$NGINX_LETSENCRYPT_TEMP" ]; then
-        echo "❌ 错误: Let's Encrypt 临时配置不存在: $NGINX_LETSENCRYPT_TEMP"
+    if [ ! -f "$NGINX_CONF_TEMPLATE_ACME" ]; then
+        echo "❌ 错误: Let's Encrypt 临时配置不存在: $NGINX_CONF_TEMPLATE_ACME"
         exit 1
     fi
     
-    # 拷贝临时配置文件（只包含 HTTP，因为证书还不存在）
-    cp "$NGINX_LETSENCRYPT_TEMP" "$NGINX_CONF_FILE"
+    # 拷贝临时配置文件（只包含 HTTP ACME 验证，证书尚不存在）
+    cp "$NGINX_CONF_TEMPLATE_ACME" "$NGINX_CONF_FILE"
     
     # 创建符号链接并测试
     ln -sf "$NGINX_CONF_FILE" "$NGINX_SITES_ENABLED/joketop.conf"
@@ -325,7 +324,7 @@ echo "   ✅ 部署目录检查通过"
 echo ""
 
 # 检查配置文件模板是否存在
-SELECTED_TEMPLATE="$NGINX_CONF_TEMPLATE_HTTP"
+SELECTED_TEMPLATE="$NGINX_CONF_TEMPLATE_ACME"
 if [ "$ENABLE_HTTPS" = "https" ]; then
     SELECTED_TEMPLATE="$NGINX_CONF_TEMPLATE"
 fi
@@ -392,12 +391,13 @@ if nginx -t 2>&1 | grep -q "successful"; then
         echo "   ✅ 项目展示: https://showcase.joketop.com"
         echo "   ✅ 生活日记: https://diary.joketop.com"
     else
-        # HTTP 配置
-        echo "   ⚠️  主站: http://joketop.com (需要配置 DNS 和证书)"
-        echo "   ⚠️  简历: http://me.joketop.com (需要配置 DNS 和证书)"
-        echo "   ⚠️  学习站点: http://blog.joketop.com (需要配置 DNS 和证书)"
-        echo "   ⚠️  项目展示: http://showcase.joketop.com (需要配置 DNS 和证书)"
-        echo "   ⚠️  生活日记: http://diary.joketop.com (需要配置 DNS 和证书)"
+        # 无证书时仅部署 ACME 临时配置（用于后续申请证书）
+        echo "   ⚠️  当前为 ACME 临时配置（仅 .well-known 验证，站点需证书后使用 joketop.conf）"
+        echo "   ⚠️  主站: http://joketop.com (需 --letsencrypt 获取证书后启用 HTTPS)"
+        echo "   ⚠️  简历: http://me.joketop.com (需 --letsencrypt 获取证书后启用 HTTPS)"
+        echo "   ⚠️  学习站点: http://blog.joketop.com (需 --letsencrypt 获取证书后启用 HTTPS)"
+        echo "   ⚠️  项目展示: http://showcase.joketop.com (需 --letsencrypt 获取证书后启用 HTTPS)"
+        echo "   ⚠️  生活日记: http://diary.joketop.com (需 --letsencrypt 获取证书后启用 HTTPS)"
     fi
     echo ""
     

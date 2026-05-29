@@ -1,8 +1,10 @@
-# 统一文档部署脚本使用说明
+# joketop Nginx 配置部署说明
 
 ## 概述
 
-`deploy-all-docs.sh` 是一个统一的部署脚本，可以同时部署多个文档服务到 Nginx，无需单独部署每个服务。
+`deploy-joketop-nginx.sh` 将仓库中的 `joketop.conf` 部署到服务器 Nginx，覆盖 joketop 全站域名路由（主站、简历、showcase、diary、blog 文档路径等），并管理 SSL 证书流程。
+
+**注意**：它不部署文档 HTML 内容；各教程内容由 `frontend-docs/*/deploy-*.sh` 单独发布到 `/var/www/html/` 对应目录。
 
 ## 核心文件
 
@@ -14,36 +16,37 @@
    - 用于证书获取时的 HTTP 验证
    - 一般不需要修改
 
-3. **deploy-all-docs.sh** - 部署脚本（374行）
+3. **deploy-joketop-nginx.sh** - 部署脚本（374行）
    - 完全无 EOF，简洁高效
    - 只负责拷贝配置和重启服务
 
 ## 功能特点
 
 - ✅ 配置和脚本分离，易于维护
-- ✅ 统一管理所有文档服务
-- ✅ 支持 HTTP 和 HTTPS 部署
-- ✅ 支持 Let's Encrypt 自动证书
+- ✅ 统一管理 joketop 全站 Nginx 路由（含 blog 文档路径）
+- ✅ 支持 Let's Encrypt 自动证书（临时 ACME 配置 + 正式 HTTPS 配置）
 - ✅ 简单易用，一个命令完成所有部署
 
 ## 使用方法
 
-### 1. HTTP 部署
+### 1. 仅部署 ACME 临时配置（无证书时）
 
 ```bash
-sudo ./deploy-all-docs.sh
+sudo ./deploy-joketop-nginx.sh
 ```
+
+仅写入 `joketop-letsencrypt-temp.conf`（供 `.well-known/acme-challenge/` 验证），**不会**提供完整 HTTP 站点。生产环境请使用下方 HTTPS 部署。
 
 ### 2. HTTPS 部署（Let's Encrypt）
 
 ```bash
-sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email riseat7am@gmail.com
 ```
 
 ### 3. HTTPS 部署（手动证书）
 
 ```bash
-sudo ./deploy-all-docs.sh --cert /path/to/cert.pem --key /path/to/key.pem
+sudo ./deploy-joketop-nginx.sh --cert /path/to/cert.pem --key /path/to/key.pem
 ```
 
 ## 修改配置
@@ -72,7 +75,7 @@ location = /newservice {
 
 ### 修改服务目录
 
-同时需要更新 `deploy-all-docs.sh` 中的 `SERVICES` 数组：
+同时需要更新 `deploy-joketop-nginx.sh` 中的 `SERVICES` 数组：
 
 ```bash
 declare -a SERVICES=(

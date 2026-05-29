@@ -42,18 +42,18 @@ web-sites-hub/
 │   └── cookie-os-network-docs/
 │
 ├── backend-diary/                             # 历史后端：Django + FastAPI 混合架构
-├── backend-resume/                            # Rust 简历服务
+├── backend-resume/                            # Rust 简历服务（参考/练习，已迁入 py）
 │
-├── internship-trends/                         # 独立项目（前后端）
+├── internship-trends/                         # 独立项目（Vite 前端在子项目根）
 ├── trending-aggregator/                       # 独立项目（前后端）
 ├── super-app/                                 # 独立前端项目
 ├── debate-competition/                        # 独立前端项目
 ├── phd-game/                                  # 独立前端项目
 ├── siyuan-editor/                             # 独立编辑器项目
 │
-├── deploy-all-docs.sh                         # 统一部署脚本
+├── deploy-joketop-nginx.sh                         # 统一部署脚本
 ├── apply-security-headers.sh                  # 安全头应用脚本
-├── joketop.conf / joketop-http.conf           # Nginx 配置
+├── joketop.conf / joketop-letsencrypt-temp.conf  # Nginx 配置（生产 / 证书申请临时）
 ├── DEPLOY-README.md
 ├── NGINX-CONFIG-README.md
 ├── APPLY-SECURITY-README.md
@@ -68,18 +68,18 @@ web-sites-hub/
   - `frontend-docs/`：文档子站构建产物
 - **历史/并行后端**
   - `backend-diary/`：Django + FastAPI 混合架构（历史链路）
-  - `backend-resume/`：简历服务（Rust）
+  - `backend-resume/`：Rust 原版简历服务（参考实现；线上已迁入 `backend-platform-py`）
 - **独立项目**
   - `internship-trends/`、`trending-aggregator/`、`super-app/`、`debate-competition/`、`phd-game/`、`siyuan-editor/`
 - **部署与运维**
-  - `joketop.conf`、`joketop-http.conf`、`deploy-all-docs.sh`、`apply-security-headers.sh`
+  - `joketop.conf`、`joketop-letsencrypt-temp.conf`、`deploy-joketop-nginx.sh`、`apply-security-headers.sh`
 
 ## 🚀 服务概览
 
 | 服务/站点 | 域名 | 本地路径 | 部署技术 |
 |----------|------|----------|---------|
 | **主站** | `joketop.com` | `web-sites-hub/frontend-portal/` | 静态 HTML |
-| **简历** | `me.joketop.com` | `web-sites-hub/backend-resume/` | Rust (反向代理) |
+| **简历** | `me.joketop.com` | `web-sites-hub/backend-platform-py/` (`/resume`, invite) | FastAPI :8300 |
 | **日记** | `diary.joketop.com` | `web-sites-hub/frontend-portal/diary.html` | 静态 HTML |
 | **目标/登录** | 同日记站内 | `web-sites-hub/backend-diary/` (Django 8100) | Django + JWT |
 | **文档** | `blog.joketop.com/*` | `web-sites-hub/frontend-docs/` | 静态 HTML (Alias) |
@@ -96,7 +96,8 @@ web-sites-hub/
 
 说明：
 - `fund` 相关能力目前归入 `backend-platform-py`（`/api/v1/fund/*`）。
-- `internship-trends/` 与 `trending-aggregator/` 仍为独立全栈项目（前后端分目录维护）。
+- 邀请码简历（`me.joketop.com`）已迁入 `backend-platform-py`（`/resume`、`/api/v1/resume/*`、`/api/v1/invite/*`）。
+- `internship-trends/` 前端在子项目根（与门户内其它 SPA 一致）；`trending-aggregator/` 仍为独立仓库式结构。
 
 ## 🛠️ 快速开始
 
@@ -124,7 +125,7 @@ python manage.py runserver 127.0.0.1:8100
 
 ```bash
 cd web-sites-hub
-sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email your@email.com
 ```
 
 ## 📖 访问地址
@@ -144,7 +145,8 @@ sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 
 ### 模块化分层
 - **frontend-***: 所有前端资源，包括主站门户 (`portal`) 和文档 (`docs`)。
-- **backend-***: 动态服务后端，按功能拆分 (`poems`, `resume`)。
+- **backend-platform-py**: 统一后端（诗词、片段、基金、邀请码简历、JWT 用户等）。
+- **backend-resume**: Rust 参考实现，供对照与练习，不参与现网部署。
 
 ### 统一配置管理
 
@@ -173,14 +175,14 @@ sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
 ## 🔒 证书管理
 
 脚本自动处理 Let's Encrypt 证书：
-- 首次部署时使用临时 HTTP 配置
-- 获取证书后切换到 HTTPS 配置
+- 首次申请证书时使用 `joketop-letsencrypt-temp.conf`（仅 ACME 验证）
+- 证书就绪后部署 `joketop.conf`（完整 HTTPS）
 - 每个域名独立证书目录
 
 ## 📝 添加新服务
 
 1. 在 `web-sites-hub/joketop.conf` 中添加 location 块
-2. 在 `web-sites-hub/deploy-all-docs.sh` 的 SERVICES 数组中添加条目
+2. 在 `web-sites-hub/deploy-joketop-nginx.sh` 的 SERVICES 数组中添加条目
 3. 重新部署
 
 详见 `web-sites-hub/DEPLOY-README.md`。

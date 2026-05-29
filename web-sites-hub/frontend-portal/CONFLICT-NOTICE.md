@@ -4,7 +4,7 @@
 
 `blog.joketop.com` 域名在两个部署脚本中都有使用：
 
-1. **deploy-all-docs.sh** (code-dojo/web-sites-hub/)
+1. **deploy-joketop-nginx.sh** (code-dojo/web-sites-hub/)
    - 用途：文档服务（Sphinx 文档）
    - 路径：`/backend`, `/frontend`, `/ds`, `/algo`, `/os`
    - 配置文件：`/etc/nginx/sites-available/docs-code-dojo`

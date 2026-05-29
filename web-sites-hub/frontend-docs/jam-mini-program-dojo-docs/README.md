@@ -53,10 +53,10 @@ sudo ./deploy-miniprogram.sh miniprogram-docs-nginx-*.tar.gz
 
 ```bash
 # HTTP 部署
-sudo ./deploy-all-docs.sh
+sudo ./deploy-joketop-nginx.sh
 
 # HTTPS 部署（Let's Encrypt）
-sudo ./deploy-all-docs.sh --letsencrypt --email your@email.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email your@email.com
 ```
 
 ## 📁 目录结构

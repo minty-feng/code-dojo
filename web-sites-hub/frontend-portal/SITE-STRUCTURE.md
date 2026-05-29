@@ -100,7 +100,7 @@ sudo ./deploy-joketop.sh joketop-*.tar.gz
 
 # 5. 配置 Nginx 和 SSL（使用统一脚本）
 cd /path/to/code-dojo/web-sites-hub/
-sudo ./deploy-all-docs.sh --letsencrypt --email riseat7am@gmail.com
+sudo ./deploy-joketop-nginx.sh --letsencrypt --email riseat7am@gmail.com
 
 # 6. 验证访问
 # https://joketop.com

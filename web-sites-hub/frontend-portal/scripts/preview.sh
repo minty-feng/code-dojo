@@ -11,7 +11,7 @@ echo ""
 echo "按 Ctrl+C 停止服务器"
 echo ""
 
-# 切换到项目根目录（确保静态资源路径正确）
+# 切换到项目根目录（本地直接 serve 源码树，子项目入口为各自的 dist/）
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 cd "$PROJECT_ROOT"
