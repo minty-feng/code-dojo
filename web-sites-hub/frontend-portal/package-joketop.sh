@@ -37,7 +37,6 @@ fi
 echo -e "${YELLOW}正在打包文件...${NC}"
 echo -e "${YELLOW}包含的文件：${NC}"
 echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, snippets.html, diary.html, speed.html, fund.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html, aihistory.html${NC}"
-echo -e "${YELLOW}  - 说明: poems.backup.html 为备份文件，不参与发布打包${NC}"
 echo -e "${YELLOW}  - 资源文件: assets/ (css, js, favicon.svg)${NC}"
 echo -e "${YELLOW}  - 子项目目录: phd-game/, super-app/, debate-competition/, internship-trends/ (均不带 dist 层级)${NC}"
 echo ""
@@ -48,12 +47,15 @@ trap "rm -rf $TEMP_DIR" EXIT
 
 # 复制需要打包的文件（统一目录结构：子项目路径不带 dist）
 echo -e "${YELLOW}准备文件...${NC}"
-./scripts/prepare-preview-site.sh "$TEMP_DIR"
+if ! ./scripts/prepare-preview-site.sh "$TEMP_DIR"; then
+    echo -e "${YELLOW}✗ 准备文件失败，已中止打包${NC}"
+    exit 1
+fi
 
 # 统一注入版本号到 HTML（替换 ?v=xxx 为 ?v=$VERSION，触发 CDN 更新）
 echo -e "${YELLOW}注入版本号 v=${GREEN}$VERSION${NC}"
 for f in $TEMP_DIR/*.html; do
-    [ -f "$f" ] && sed -i.bak "s/?v=[0-9]*/?v=$VERSION/g" "$f" && rm -f "${f}.bak"
+    [ -f "$f" ] && sed -i.bak "s/?v=[0-9a-zA-Z]*/?v=$VERSION/g" "$f" && rm -f "${f}.bak"
 done
 
 # JS 压缩（使用 terser，需 npm 环境）

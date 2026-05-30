@@ -34,9 +34,16 @@ tar -czf "$PACKAGE_NAME" -C "$TEMP_DIR" backend-platform-py
 FILE_SIZE=$(du -h "$PACKAGE_NAME" | cut -f1)
 FILE_COUNT=$(tar -tzf "$PACKAGE_NAME" | wc -l | tr -d ' ')
 
-echo -e "${GREEN}✓ 打包成功${NC}"
+echo ""
+echo -e "${GREEN}========================================${NC}"
+echo -e "${GREEN}  文件信息${NC}"
+echo -e "${GREEN}========================================${NC}"
 echo -e "  文件名: ${GREEN}$PACKAGE_NAME${NC}"
 echo -e "  文件大小: ${GREEN}$FILE_SIZE${NC}"
 echo -e "  文件数量: ${GREEN}$FILE_COUNT${NC}"
-echo -e "  当前路径: ${GREEN}$(pwd)/$PACKAGE_NAME${NC}"
-echo -e "  说明: ${YELLOW}本包不包含 data/ 目录${NC}"
+echo -e "  文件位置: ${GREEN}$(pwd)/$PACKAGE_NAME${NC}"
+echo -e "  包含 data/: ${YELLOW}否（保留线上数据库）${NC}"
+
+# shellcheck disable=SC1091
+source "$(dirname "${BASH_SOURCE[0]}")/print-deploy-hints.sh"
+print_deploy_hints "$PACKAGE_NAME" "no-data"

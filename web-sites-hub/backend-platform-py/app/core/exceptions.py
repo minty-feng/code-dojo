@@ -1,9 +1,13 @@
 """Custom exception definitions and handlers."""
 
+import logging
+
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from app.core.response import fail
+
+logger = logging.getLogger(__name__)
 
 
 class AppException(Exception):
@@ -26,6 +30,7 @@ async def app_exception_handler(_: Request, exc: AppException) -> JSONResponse:
 
 async def unhandled_exception_handler(_: Request, exc: Exception) -> JSONResponse:
     """Catch unexpected errors and hide internal details from clients."""
+    logger.exception("Unhandled API error: %s", exc)
     return JSONResponse(
         status_code=500,
         content=fail(code="INTERNAL_ERROR", message="Internal server error"),

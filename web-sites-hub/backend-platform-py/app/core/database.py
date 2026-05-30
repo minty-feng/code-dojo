@@ -131,7 +131,7 @@ class InviteKeyModel(Base):
     purpose: Mapped[str] = mapped_column(String(64), default="resume_access", index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
-    used: Mapped[bool] = mapped_column(Integer, default=False)
+    used: Mapped[bool] = mapped_column(Boolean, default=False)
     used_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     visitor_ip: Mapped[str | None] = mapped_column(String(64), nullable=True)
 

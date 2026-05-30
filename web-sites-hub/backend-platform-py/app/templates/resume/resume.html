@@ -6,7 +6,7 @@
     <meta name="description" content="赵亚锋的个人简历 - 自动驾驶系统开发工程师">
     <title>个人简历 - 赵亚锋</title>
     <link rel="icon" type="image/svg+xml" href="/static/resume/favicon.svg">
-    <link rel="stylesheet" href="/static/resume/resume.css">
+    <link rel="stylesheet" href="/static/resume/resume.css?v=20260530c">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
             if (window.location.protocol === 'file:') {
                 const replacements = [
                     { selector: 'link[href="/static/resume/favicon.svg"]', attr: 'href', value: '../static/resume/favicon.svg' },
-                    { selector: 'link[href="/static/resume/resume.css"]', attr: 'href', value: '../static/resume/resume.css' },
+                    { selector: 'link[href^="/static/resume/resume.css"]', attr: 'href', value: '../static/resume/resume.css?v=20260530c' },
                     { selector: 'img[src="/static/resume/avatar.jpg"]', attr: 'src', value: '../static/resume/avatar.jpg' }
                 ];
                 replacements.forEach(({ selector, attr, value }) => {
@@ -163,12 +163,12 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="/static/resume/resume.js?v=20260530b"></script>
+    <script src="/static/resume/resume.js?v=20260530c"></script>
     <script>
         (function() {
             if (window.location.protocol === 'file:' && window.__adjustStaticPath) {
-                const el = document.querySelector('script[src="/static/resume/resume.js"]');
-                if (el) el.setAttribute('src', '../static/resume/resume.js');
+                const el = document.querySelector('script[src^="/static/resume/resume.js"]');
+                if (el) el.setAttribute('src', '../static/resume/resume.js?v=20260530c');
             }
         })();
     </script>

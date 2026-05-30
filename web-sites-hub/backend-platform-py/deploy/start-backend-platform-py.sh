@@ -31,7 +31,7 @@ else
     echo "环境变量文件不存在，跳过加载✅ ($ENV_FILE)"
 fi
 
-get_running_pid() {
+get_pid_file_pid() {
     if [ -f "$PID_FILE" ]; then
         local pid
         pid="$(cat "$PID_FILE" 2>/dev/null || true)"
@@ -41,6 +41,43 @@ get_running_pid() {
         fi
     fi
     return 1
+}
+
+get_port_pids() {
+    local pids=""
+
+    if command -v lsof >/dev/null 2>&1; then
+        pids="$(lsof -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true)"
+    elif command -v ss >/dev/null 2>&1; then
+        pids="$(ss -ltnp "sport = :$PORT" 2>/dev/null | grep -oE 'pid=[0-9]+' | cut -d= -f2 || true)"
+    elif command -v fuser >/dev/null 2>&1; then
+        pids="$(fuser -n tcp "$PORT" 2>/dev/null | tr -s ' ' '\n' | grep -E '^[0-9]+$' || true)"
+    fi
+
+    if [ -n "$pids" ]; then
+        printf '%s\n' $pids
+        return 0
+    fi
+
+    # 兜底：不依赖 lsof/ss，匹配本项目的 uvicorn 进程
+    pgrep -f "uvicorn app\.main:app.*--port ${PORT}" 2>/dev/null || true
+}
+
+ensure_data_writable() {
+    local data_dir="$ROOT/data"
+    local db_file="$data_dir/app.db"
+    mkdir -p "$data_dir"
+    if [ ! -w "$data_dir" ]; then
+        echo "错误: data/ 目录不可写: $data_dir"
+        echo "请执行: sudo chown -R \$(whoami):\$(whoami) $data_dir && chmod 755 $data_dir"
+        exit 1
+    fi
+    if [ -f "$db_file" ] && [ ! -w "$db_file" ]; then
+        echo "错误: SQLite 数据库不可写: $db_file"
+        echo "请执行: sudo chown \$(whoami):\$(whoami) $db_file && chmod 664 $db_file"
+        exit 1
+    fi
+    echo "data/ 目录可写✅ ($data_dir)"
 }
 
 check_venv() {
@@ -91,31 +128,53 @@ check_fastapi() {
 }
 
 stop_server() {
-    local pid
-    if pid="$(get_running_pid)"; then
+    local pid stopped=0
+    while IFS= read -r pid; do
+        [ -n "$pid" ] || continue
         kill "$pid" 2>/dev/null || true
-        sleep 1
+        stopped=1
+    done < <(get_port_pids | sort -u)
+
+    if pid="$(get_pid_file_pid)"; then
+        kill "$pid" 2>/dev/null || true
+        stopped=1
+    fi
+
+    sleep 1
+
+    while IFS= read -r pid; do
+        [ -n "$pid" ] || continue
         if kill -0 "$pid" 2>/dev/null; then
-            echo "进程未退出，发送 SIGKILL: $pid"
+            echo "端口 $PORT 仍被占用，发送 SIGKILL: $pid"
             kill -9 "$pid" 2>/dev/null || true
+            stopped=1
         fi
-        rm -f "$PID_FILE"
-        echo "backend-platform-py 已停止 (pid $pid)"
+    done < <(get_port_pids | sort -u)
+
+    rm -f "$PID_FILE"
+    if [ "$stopped" -eq 1 ]; then
+        echo "backend-platform-py 已停止"
+    elif [ -n "$(get_port_pids | head -1)" ]; then
+        echo "警告: 仍有进程占用端口 $PORT，请手动检查: ps -ef | grep uvicorn"
     else
-        rm -f "$PID_FILE"
         echo "backend-platform-py 未运行"
     fi
 }
 
 start_server() {
     local pid
-    if pid="$(get_running_pid)"; then
+    if pid="$(get_pid_file_pid)"; then
         echo "backend-platform-py 已在运行 (pid $pid)"
         echo "日志文件: $LOG_FILE"
         exit 0
     fi
+    if [ -n "$(get_port_pids | head -1)" ]; then
+        echo "警告: 端口 $PORT 已被其他进程占用，请先执行: $0 stop"
+        exit 1
+    fi
 
     rm -f "$PID_FILE"
+    ensure_data_writable
     check_venv
     activate_venv
     check_python
@@ -124,8 +183,22 @@ start_server() {
     echo "Starting backend-platform-py on http://$HOST:$PORT"
     nohup "$PYTHON_BIN" -m uvicorn app.main:app --host "$HOST" --port "$PORT" > "$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
-    echo "backend-platform-py started (pid $(cat "$PID_FILE")), logging to $LOG_FILE"
-    echo "服务启动完成✅"
+    sleep 1
+    if ! kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        echo "错误: 服务启动失败，最近日志:"
+        tail -20 "$LOG_FILE" 2>/dev/null || true
+        rm -f "$PID_FILE"
+        exit 1
+    fi
+    if [ -n "$(get_port_pids | head -1)" ]; then
+        echo "backend-platform-py started (pid $(cat "$PID_FILE")), logging to $LOG_FILE"
+        echo "服务启动完成✅"
+    else
+        echo "错误: 进程已退出或未能监听 $PORT，最近日志:"
+        tail -20 "$LOG_FILE" 2>/dev/null || true
+        rm -f "$PID_FILE"
+        exit 1
+    fi
 }
 
 case "$ACTION" in

@@ -28,14 +28,19 @@
     let activeCode = '';
     let activeSnippetSlug = null;
     let listLoading = false;
+    let viewerOverlayEl = null;
 
     const HLJS_LIGHT = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
     const HLJS_DARK = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
 
-    const LOADING_MARKUP = `
+    const INITIAL_VIEWER_MARKUP = `
         <div class="snippets-loading" role="status" aria-label="加载中">
             <div class="snippets-spinner"></div>
         </div>`;
+
+    function getSnippetPreview(slug) {
+        return snippets.find((item) => item.slug === slug);
+    }
 
     function setTitleLoading(loading) {
         titleEl.classList.toggle('snippets-title--loading', loading);
@@ -49,20 +54,71 @@
 
     function setTitleText(text) {
         titleEl.classList.remove('snippets-title--loading');
-        titleEl.textContent = text;
+        titleEl.textContent = text || '';
     }
 
-    function showLoadingState() {
-        viewerEl.classList.add('snippets-viewer--loading');
-        viewerEl.innerHTML = LOADING_MARKUP;
-        copyBtn.disabled = true;
+    const MIN_LOADING_MS = 200;
+
+    function waitNextPaint() {
+        return new Promise((resolve) => {
+            requestAnimationFrame(() => requestAnimationFrame(resolve));
+        });
+    }
+
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function waitMinLoading(startedAt) {
+        const elapsed = performance.now() - startedAt;
+        if (elapsed < MIN_LOADING_MS) {
+            await delay(MIN_LOADING_MS - elapsed);
+        }
+    }
+
+    function clearViewerOverlay() {
+        viewerOverlayEl?.remove();
+        viewerOverlayEl = null;
+    }
+
+    function showViewerOverlay() {
+        clearViewerOverlay();
+        const overlay = document.createElement('div');
+        overlay.className = 'snippets-viewer-overlay';
+        overlay.setAttribute('role', 'status');
+        overlay.setAttribute('aria-label', '加载中');
+        overlay.innerHTML = '<div class="snippets-spinner" aria-hidden="true"></div>';
+        viewerEl.appendChild(overlay);
+        viewerOverlayEl = overlay;
+    }
+
+    function setViewerBusy(busy) {
+        viewerEl.classList.toggle('snippets-viewer--busy', busy);
+        if (busy) {
+            const hasContent = viewerEl.querySelector('pre, .snippets-empty');
+            if (!hasContent) {
+                clearViewerOverlay();
+                viewerEl.innerHTML = INITIAL_VIEWER_MARKUP;
+                viewerEl.classList.add('snippets-viewer--initial');
+            } else {
+                viewerEl.classList.remove('snippets-viewer--initial');
+                showViewerOverlay();
+            }
+            copyBtn.disabled = true;
+            return;
+        }
+        clearViewerOverlay();
+        viewerEl.classList.remove('snippets-viewer--busy', 'snippets-viewer--initial');
+        copyBtn.disabled = !activeCode;
     }
 
     function showViewerMessage(message) {
-        viewerEl.classList.remove('snippets-viewer--loading', 'snippets-viewer--initial');
+        clearViewerOverlay();
+        viewerEl.classList.remove('snippets-viewer--busy', 'snippets-viewer--initial');
         viewerEl.innerHTML = `<div class="snippets-empty">${message}</div>`;
-        setTitleText('—');
+        setTitleText('');
         activeCode = '';
+        activeSnippetSlug = null;
         copyBtn.disabled = true;
     }
 
@@ -100,7 +156,8 @@
         if (window.hljs) {
             html = hljs.highlight(activeCode, { language: snippet.lang || 'plaintext' }).value;
         }
-        viewerEl.classList.remove('snippets-viewer--loading', 'snippets-viewer--initial');
+        clearViewerOverlay();
+        viewerEl.classList.remove('snippets-viewer--busy', 'snippets-viewer--initial');
         viewerEl.innerHTML = `<pre><code class="hljs language-${snippet.lang || 'plaintext'}">${html}</code></pre>`;
 
         document.querySelectorAll('.snippets-item').forEach((el) => {
@@ -122,15 +179,32 @@
         return payload.data;
     }
 
-    async function selectSnippet(slug) {
-        try {
-            showLoadingState();
+    async function selectSnippet(slug, { initial = false, force = false } = {}) {
+        if (!force && slug === activeSnippetSlug && activeCode) {
+            return;
+        }
+
+        const preview = getSnippetPreview(slug);
+        if (initial) {
             setTitleLoading(true);
+        } else if (preview) {
+            setTitleText(preview.title || preview.file_name || '');
+        }
+
+        setViewerBusy(true);
+        const loadingStarted = performance.now();
+        await waitNextPaint();
+
+        try {
             const snippet = await fetchSnippetDetail(slug);
+            await waitMinLoading(loadingStarted);
             renderSnippet(snippet);
             syncHljsTheme();
         } catch (error) {
+            await waitMinLoading(loadingStarted);
             showViewerMessage(error.message || '加载片段失败');
+        } finally {
+            setViewerBusy(false);
         }
     }
 
@@ -138,8 +212,8 @@
         if (listLoading) return;
         listLoading = true;
         treeEl.innerHTML = `<div class="snippets-loading snippets-loading--compact" role="status" aria-label="加载中"><div class="snippets-spinner"></div></div>`;
-        showLoadingState();
         setTitleLoading(true);
+        setViewerBusy(true);
 
         try {
             const res = await fetch(`${listApiUrl}?page=1&page_size=100`);
@@ -155,7 +229,7 @@
                 || snippets.find((item) => item.file_name === params.get('file'))?.slug;
             const initial = snippets.find((item) => item.slug === wanted) || snippets[0];
             if (initial) {
-                await selectSnippet(initial.slug);
+                await selectSnippet(initial.slug, { initial: true });
             } else {
                 showViewerMessage('选择左侧片段');
             }
@@ -191,7 +265,19 @@
         document.getElementById('themeToggle')?.addEventListener('click', () => {
             setTimeout(() => {
                 syncHljsTheme();
-                if (activeSnippetSlug) selectSnippet(activeSnippetSlug);
+                if (activeSnippetSlug && activeCode) {
+                    const item = getSnippetPreview(activeSnippetSlug);
+                    renderSnippet({
+                        slug: activeSnippetSlug,
+                        title: titleEl.textContent,
+                        code: activeCode,
+                        lang: item?.lang || 'cpp',
+                    });
+                    return;
+                }
+                if (activeSnippetSlug) {
+                    selectSnippet(activeSnippetSlug, { force: true });
+                }
             }, 0);
         });
 
