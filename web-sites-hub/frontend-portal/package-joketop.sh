@@ -36,7 +36,7 @@ fi
 # 明确指定要打包的文件和目录
 echo -e "${YELLOW}正在打包文件...${NC}"
 echo -e "${YELLOW}包含的文件：${NC}"
-echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, snippets.html, diary.html, speed.html, fund.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html, aihistory.html${NC}"
+echo -e "${YELLOW}  - HTML 文件: index.html, resume.html, learning.html, showcase.html, snippets.html, diary.html, speed.html, tool.html, fund.html, invisiblechars.html, wufu.html, poems.html, timeline.html, goals.html, tianya.html, journal.html, ganwu.html, plans.html, calendar.html, figures.html, aihistory.html${NC}"
 echo -e "${YELLOW}  - 资源文件: assets/ (css, js, favicon.svg)${NC}"
 echo -e "${YELLOW}  - 子项目目录: phd-game/, super-app/, debate-competition/, internship-trends/ (均不带 dist 层级)${NC}"
 echo ""
@@ -92,6 +92,7 @@ MISSING_FILES=()
 [ ! -f "$TEMP_DIR/snippets.html" ] && MISSING_FILES+=("snippets.html")
 [ ! -f "$TEMP_DIR/diary.html" ] && MISSING_FILES+=("diary.html")
 [ ! -f "$TEMP_DIR/speed.html" ] && MISSING_FILES+=("speed.html")
+[ ! -f "$TEMP_DIR/tool.html" ] && MISSING_FILES+=("tool.html")
 [ ! -f "$TEMP_DIR/fund.html" ] && MISSING_FILES+=("fund.html")
 [ ! -f "$TEMP_DIR/wufu.html" ] && MISSING_FILES+=("wufu.html")
 [ ! -f "$TEMP_DIR/poems.html" ] && MISSING_FILES+=("poems.html")

@@ -30,7 +30,7 @@ mkdir -p "$OUTPUT_DIR"
 # 门户主站静态文件
 cp "$PROJECT_ROOT"/index.html "$PROJECT_ROOT"/resume.html "$PROJECT_ROOT"/learning.html \
    "$PROJECT_ROOT"/showcase.html "$PROJECT_ROOT"/snippets.html "$PROJECT_ROOT"/diary.html "$PROJECT_ROOT"/speed.html \
-   "$PROJECT_ROOT"/fund.html "$PROJECT_ROOT"/invisiblechars.html \
+   "$PROJECT_ROOT"/tool.html "$PROJECT_ROOT"/fund.html "$PROJECT_ROOT"/invisiblechars.html \
    "$PROJECT_ROOT"/ganwu.html "$PROJECT_ROOT"/wufu.html "$PROJECT_ROOT"/poems.html \
    "$PROJECT_ROOT"/timeline.html "$PROJECT_ROOT"/goals.html "$PROJECT_ROOT"/tianya.html \
    "$PROJECT_ROOT"/journal.html "$PROJECT_ROOT"/plans.html "$PROJECT_ROOT"/calendar.html \

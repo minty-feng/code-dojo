@@ -15,7 +15,7 @@
 
 | 项目名称 | 描述 | 技术栈 | 链接/状态 |
 |---------|------|-------|----------|
-| **CLI 工具集** | 日常开发工具集合，包含代码生成、文件处理等实用命令。 | Node.js, Commander | [GitHub](#) |
+| **工具集** | 工欲善其事，必先利其器 — 网络、内存、VPN、IDE、画图等分类工具索引。 | CLI, DevOps | [`tool.html`](tool.html) / [`/tool`](/tool) |
 | **基金估值助手** | 实时追踪基金净值，智能辅助投资决策。 | Python, FastAPI, Vanilla JS | [`fund.html`](fund.html) |
 | **全球网速测试** | 集成 Speedtest, Fast, Cloudflare 等主流测速工具。 | HTML5, Utility | [`speed.html`](speed.html) |
 
@@ -40,7 +40,7 @@
 
 ## 📅 更新日志
 
-- **2026-05-29**: 移除占位项目卡片（API 网关服务、Markdown 编辑器、健康追踪 App、微服务框架）；移除「文件检索平台」；不可见字符页增加主题切换。
+- **2026-05-30**: 新增 **工具集** (`tool.html`，路由 `/tool`)，按 IDE / 网络 / VPN / 内存 / 文件 / Git / 容器 / 画图等分类索引常用工具。
 - **2026-04-28**: `showcase.html` 与本文档补充 **debate-competition**、**internship-trends**，Monorepo 表集中记录 phd-game、super-app、debate-competition、internship-trends、`aihistory`。
 - **2026-02-03**: 新增「全球网速测试」 (`speed.html`)。
 - **2026-02-03**: 新增「百福迎春生成器」 (`wufu.html`)。

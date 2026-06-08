@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="开发工具集 - 工欲善其事，必先利其器">
+    <title>工具集 | minty-feng</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260312">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .cli-hero {
+            text-align: center;
+            margin: 2rem 0 3rem;
+        }
+        .cli-hero .section-subtitle {
+            max-width: 36rem;
+            margin: 0.75rem auto 0;
+            line-height: 1.7;
+        }
+        .cli-category {
+            margin-bottom: 3.5rem;
+        }
+        .cli-category-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+            color: var(--text-primary);
+        }
+        .cli-category-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+        .cli-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.25rem;
+        }
+        .cli-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.25rem 1.35rem;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(16px);
+        }
+        .cli-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(102, 126, 234, 0.35);
+            box-shadow: var(--shadow-md);
+        }
+        .cli-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .cli-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .cli-tag {
+            flex-shrink: 0;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(102, 126, 234, 0.12);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        .cli-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 0.85rem;
+        }
+        .cli-install {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.75rem;
+            padding: 0.55rem 0.65rem;
+            border-radius: 0.5rem;
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-primary);
+            word-break: break-all;
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .cli-install {
+            background: rgba(0, 0, 0, 0.04);
+        }
+        .cli-link {
+            display: inline-block;
+            margin-top: 0.65rem;
+            font-size: 0.8rem;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .cli-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <a href="showcase.html" class="nav-back-icon" aria-label="返回上一级"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <span style="flex: 1;"></span>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="cli-hero">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-title-text">工具集</span>
+                    </h2>
+                    <p class="section-subtitle">工欲善其事，必先利其器 — 按场景整理的命令行与开发利器</p>
+                </div>
+            </div>
+
+            <!-- IDE / 编辑器 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">🖥️ IDE / 编辑器</h3>
+                <p class="cli-category-desc">写代码、调试、重构的主战场</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Cursor</span><span class="cli-tag">AI IDE</span></div>
+                        <p class="cli-desc">AI 原生编辑器，基于 VS Code 生态，适合结对编程与代码库问答。</p>
+                        <div class="cli-install">brew install --cask cursor</div>
+                        <a class="cli-link" href="https://cursor.com" target="_blank" rel="noopener">cursor.com →</a>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">VS Code</span><span class="cli-tag">通用</span></div>
+                        <p class="cli-desc">插件生态最丰富，Remote SSH / Dev Containers 远程开发标配。</p>
+                        <div class="cli-install">brew install --cask visual-studio-code</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">JetBrains</span><span class="cli-tag">IDE 套件</span></div>
+                        <p class="cli-desc">IntelliJ / PyCharm / GoLand / WebStorm，重构与静态分析强。</p>
+                        <div class="cli-install">brew install --cask intellij-idea</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Neovim</span><span class="cli-tag">终端</span></div>
+                        <p class="cli-desc">可配置的终端编辑器，LazyVim / AstroNvim 等发行版开箱即用。</p>
+                        <div class="cli-install">brew install neovim</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Zed</span><span class="cli-tag">高性能</span></div>
+                        <p class="cli-desc">Rust 编写，启动快、协作编辑，适合大仓库日常编辑。</p>
+                        <div class="cli-install">brew install --cask zed</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 网络 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">🌐 网络诊断</h3>
+                <p class="cli-category-desc">连通性、DNS、带宽与抓包</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">curl</span><span class="cli-tag">HTTP</span></div>
+                        <p class="cli-desc">调试 API、下载文件、查看响应头，`-v` / `-I` 日常必备。</p>
+                        <div class="cli-install">curl -vI https://example.com</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">dig / nslookup</span><span class="cli-tag">DNS</span></div>
+                        <p class="cli-desc">查询 A/AAAA/CNAME/MX 记录，排查域名解析问题。</p>
+                        <div class="cli-install">dig +short joketop.com A</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">mtr</span><span class="cli-tag">路由</span></div>
+                        <p class="cli-desc">实时 traceroute + ping，定位链路丢包与延迟跳点。</p>
+                        <div class="cli-install">brew install mtr && sudo mtr -rwzc 100 8.8.8.8</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">nmap</span><span class="cli-tag">扫描</span></div>
+                        <p class="cli-desc">端口扫描与服务探测，内网资产与安全自查。</p>
+                        <div class="cli-install">brew install nmap && nmap -sV localhost</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">tcpdump</span><span class="cli-tag">抓包</span></div>
+                        <p class="cli-desc">命令行抓包，配合 `-i any port 443` 过滤 HTTPS 握手。</p>
+                        <div class="cli-install">sudo tcpdump -i any -nn port 443</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">iperf3</span><span class="cli-tag">带宽</span></div>
+                        <p class="cli-desc">点对点 TCP/UDP 吞吐测试，测内网或云主机间带宽。</p>
+                        <div class="cli-install">brew install iperf3</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">speedtest-cli</span><span class="cli-tag">测速</span></div>
+                        <p class="cli-desc">命令行跑 Speedtest，脚本化监控出口带宽。</p>
+                        <div class="cli-install">brew install speedtest-cli</div>
+                        <a class="cli-link" href="speed.html">网页测速合集 →</a>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Wireshark</span><span class="cli-tag">GUI</span></div>
+                        <p class="cli-desc">图形化协议分析，HTTP/TLS/WebSocket 深度排查。</p>
+                        <div class="cli-install">brew install --cask wireshark</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VPN / 代理 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">🔐 VPN / 代理 / 隧道</h3>
+                <p class="cli-category-desc">科学上网、内网穿透与加密通道</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Clash / Mihomo</span><span class="cli-tag">规则代理</span></div>
+                        <p class="cli-desc">规则分流、TUN 模式，配合订阅与 Dashboard 管理节点。</p>
+                        <div class="cli-install">brew install mihomo</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">sing-box</span><span class="cli-tag">全能</span></div>
+                        <p class="cli-desc">VLESS / Hysteria2 / TUIC 等新协议，配置灵活。</p>
+                        <div class="cli-install">brew install sing-box</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">WireGuard</span><span class="cli-tag">VPN</span></div>
+                        <p class="cli-desc">现代 VPN 协议，内核实现、配置简单、性能好。</p>
+                        <div class="cli-install">brew install wireguard-tools</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">OpenVPN</span><span class="cli-tag">经典 VPN</span></div>
+                        <p class="cli-desc">企业远程办公常用，`.ovpn` 配置文件连接。</p>
+                        <div class="cli-install">brew install openvpn</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">SSH 隧道</span><span class="cli-tag">内置</span></div>
+                        <p class="cli-desc">本地端口转发、动态 SOCKS 代理，无需额外客户端。</p>
+                        <div class="cli-install">ssh -D 1080 -N user@jump-host</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">frp / ngrok</span><span class="cli-tag">内网穿透</span></div>
+                        <p class="cli-desc">把本地服务暴露到公网，Webhook 调试与临时演示。</p>
+                        <div class="cli-install">brew install frpc / ngrok</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 内存 / 性能 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">📊 内存与性能</h3>
+                <p class="cli-category-desc">CPU、内存、磁盘 IO 与进程监控</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">htop / btop</span><span class="cli-tag">进程</span></div>
+                        <p class="cli-desc">交互式 top，看 CPU/内存占用、线程与命令行。</p>
+                        <div class="cli-install">brew install btop</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">vm_stat</span><span class="cli-tag">macOS</span></div>
+                        <p class="cli-desc">macOS 内存页统计，排查 swap 与内存压力。</p>
+                        <div class="cli-install">vm_stat 1</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">free / /proc</span><span class="cli-tag">Linux</span></div>
+                        <p class="cli-desc">查看可用内存、缓存与 swap 使用量。</p>
+                        <div class="cli-install">free -h && cat /proc/meminfo</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">valgrind</span><span class="cli-tag">C/C++</span></div>
+                        <p class="cli-desc">内存泄漏与非法访问检测，C/C++ 调试经典工具。</p>
+                        <div class="cli-install">brew install valgrind</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Instruments</span><span class="cli-tag">macOS</span></div>
+                        <p class="cli-desc">Apple 官方性能分析：Leaks、Time Profiler、Allocations。</p>
+                        <div class="cli-install">Xcode → Open Developer Tool</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">perf</span><span class="cli-tag">Linux</span></div>
+                        <p class="cli-desc">内核级采样 profiler，火焰图与热点函数分析。</p>
+                        <div class="cli-install">perf record -g ./your_app</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">iostat / iotop</span><span class="cli-tag">磁盘 IO</span></div>
+                        <p class="cli-desc">磁盘吞吐与 IO 等待，排查慢查询与日志写满。</p>
+                        <div class="cli-install">iostat -xz 1</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 文件 / 文本 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">📁 文件与文本处理</h3>
+                <p class="cli-category-desc">搜索、批量改名、JSON/YAML 处理</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">ripgrep (rg)</span><span class="cli-tag">搜索</span></div>
+                        <p class="cli-desc">比 grep 更快的代码搜索，尊重 .gitignore。</p>
+                        <div class="cli-install">brew install ripgrep && rg "pattern" .</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">fd</span><span class="cli-tag">查找</span></div>
+                        <p class="cli-desc">快速找文件，语法比 find 友好。</p>
+                        <div class="cli-install">brew install fd && fd -e js</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">fzf</span><span class="cli-tag">模糊</span></div>
+                        <p class="cli-desc">交互式模糊选择，配合 history / fd 极快。</p>
+                        <div class="cli-install">brew install fzf</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">jq / yq</span><span class="cli-tag">结构化</span></div>
+                        <p class="cli-desc">命令行处理 JSON / YAML，管道里格式化与提取字段。</p>
+                        <div class="cli-install">echo '{}' | jq .</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">bat</span><span class="cli-tag">cat</span></div>
+                        <p class="cli-desc">带语法高亮的 cat，分页与 git 集成。</p>
+                        <div class="cli-install">brew install bat</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">sed / awk</span><span class="cli-tag">经典</span></div>
+                        <p class="cli-desc">流编辑与列处理，日志清洗与一键替换。</p>
+                        <div class="cli-install">sed -i '' 's/old/new/g' file</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Git / 协作 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">🔀 版本控制与协作</h3>
+                <p class="cli-category-desc">Git 工作流与 GitHub 自动化</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">git</span><span class="cli-tag">核心</span></div>
+                        <p class="cli-desc">分支、rebase、stash、bisect — 版本管理基础。</p>
+                        <div class="cli-install">git log --oneline --graph -20</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">gh</span><span class="cli-tag">GitHub CLI</span></div>
+                        <p class="cli-desc">PR、Issue、Actions、Release 全在终端完成。</p>
+                        <div class="cli-install">brew install gh && gh pr create</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">lazygit</span><span class="cli-tag">TUI</span></div>
+                        <p class="cli-desc">终端图形化 Git，暂存、提交、冲突解决更直观。</p>
+                        <div class="cli-install">brew install lazygit</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">delta</span><span class="cli-tag">diff</span></div>
+                        <p class="cli-desc">美化 git diff / log， side-by-side 与语法高亮。</p>
+                        <div class="cli-install">brew install git-delta</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 容器 / 部署 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">🐳 容器与部署</h3>
+                <p class="cli-category-desc">本地环境、K8s 与 Web 服务</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">docker</span><span class="cli-tag">容器</span></div>
+                        <p class="cli-desc">镜像构建与运行，docker compose 编排多服务。</p>
+                        <div class="cli-install">docker compose up -d</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">kubectl</span><span class="cli-tag">K8s</span></div>
+                        <p class="cli-desc">集群资源管理，logs / exec / port-forward 调试。</p>
+                        <div class="cli-install">brew install kubectl</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">nginx</span><span class="cli-tag">反向代理</span></div>
+                        <p class="cli-desc">静态站点与 API 网关，`-t` 测配置后 reload。</p>
+                        <div class="cli-install">nginx -t && nginx -s reload</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">rsync / scp</span><span class="cli-tag">同步</span></div>
+                        <p class="cli-desc">增量同步代码与静态资源到远程服务器。</p>
+                        <div class="cli-install">rsync -avz ./dist/ user@host:/var/www/</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 画图 / 架构 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">✏️ 画图与架构设计</h3>
+                <p class="cli-category-desc">流程图、架构图、白板与文档插图</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">draw.io</span><span class="cli-tag">流程图</span></div>
+                        <p class="cli-desc">架构图、网络拓扑、UML，可离线桌面版。</p>
+                        <div class="cli-install">brew install --cask drawio</div>
+                        <a class="cli-link" href="https://app.diagrams.net" target="_blank" rel="noopener">diagrams.net →</a>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Excalidraw</span><span class="cli-tag">白板</span></div>
+                        <p class="cli-desc">手绘风格示意图，技术分享与头脑风暴。</p>
+                        <div class="cli-install">brew install --cask excalidraw</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Mermaid CLI</span><span class="cli-tag">代码画图</span></div>
+                        <p class="cli-desc">用文本生成流程图/时序图，嵌入 Markdown 文档。</p>
+                        <div class="cli-install">npm i -g @mermaid-js/mermaid-cli</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">PlantUML</span><span class="cli-tag">UML</span></div>
+                        <p class="cli-desc">类图、时序图、组件图，适合设计文档。</p>
+                        <div class="cli-install">brew install plantuml</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">tldraw</span><span class="cli-tag">协作</span></div>
+                        <p class="cli-desc">在线白板，快速画系统边界与交互草图。</p>
+                        <a class="cli-link" href="https://www.tldraw.com" target="_blank" rel="noopener">tldraw.com →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 包管理 / 运行时 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">📦 包管理与运行时</h3>
+                <p class="cli-category-desc">语言版本、依赖与多工具链切换</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">Homebrew</span><span class="cli-tag">macOS</span></div>
+                        <p class="cli-desc">macOS 命令行软件包管理，本页多数工具通过 brew 安装。</p>
+                        <div class="cli-install">/bin/bash -c "$(curl -fsSL ...)"</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">mise</span><span class="cli-tag">多版本</span></div>
+                        <p class="cli-desc">统一管理 Node / Python / Go / Rust 等运行时版本。</p>
+                        <div class="cli-install">brew install mise</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">nvm / fnm</span><span class="cli-tag">Node</span></div>
+                        <p class="cli-desc">按项目切换 Node 版本，避免全局版本冲突。</p>
+                        <div class="cli-install">brew install fnm</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">pyenv / uv</span><span class="cli-tag">Python</span></div>
+                        <p class="cli-desc">Python 版本管理与极速包安装，uv 可替代 pip。</p>
+                        <div class="cli-install">brew install uv</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">rustup</span><span class="cli-tag">Rust</span></div>
+                        <p class="cli-desc">Rust 工具链与 cross-compile target 管理。</p>
+                        <div class="cli-install">curl --proto '=https' -sSf https://sh.rustup.rs | sh</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 安全 -->
+            <section class="cli-category">
+                <h3 class="cli-category-title">🛡️ 安全与证书</h3>
+                <p class="cli-category-desc">密钥、证书与加密</p>
+                <div class="cli-grid">
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">openssl</span><span class="cli-tag">TLS</span></div>
+                        <p class="cli-desc">生成 CSR、查看证书、测试 TLS 握手与加密运算。</p>
+                        <div class="cli-install">openssl s_client -connect host:443</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">ssh-keygen</span><span class="cli-tag">SSH</span></div>
+                        <p class="cli-desc">生成 Ed25519 密钥对，配置 Git 与服务器免密登录。</p>
+                        <div class="cli-install">ssh-keygen -t ed25519 -C "you@email"</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">gpg</span><span class="cli-tag">签名</span></div>
+                        <p class="cli-desc">提交签名、文件加密与密钥管理。</p>
+                        <div class="cli-install">gpg --full-generate-key</div>
+                    </div>
+                    <div class="cli-card">
+                        <div class="cli-card-head"><span class="cli-name">certbot</span><span class="cli-tag">Let's Encrypt</span></div>
+                        <p class="cli-desc">免费 HTTPS 证书申请与自动续期。</p>
+                        <div class="cli-install">certbot certonly --nginx -d example.com</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text" data-site-copyright></p>
+                <p class="footer-accent">工欲善其事，必先利其器</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/site.config.js?v=20260529"></script>
+    <script src="assets/js/main.js?v=20260529"></script>
+</body>
+</html>
