@@ -1,14 +1,10 @@
 // Debug: Check if script is loaded
 console.log('✅ main.js loaded');
 
-// Theme Toggle
+// Theme Toggle (preference synced via cookie on .joketop.com — see theme.js)
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
-
-// Check for saved theme preference or page default (data-default-theme on <html>, else light)
-const pageDefault = html.getAttribute('data-default-theme') || 'light';
-const currentTheme = localStorage.getItem('theme') || pageDefault;
-html.setAttribute('data-theme', currentTheme);
+const themeApi = window.JoketopTheme;
 
 // Update theme icon based on current theme
 function updateThemeIcon() {
@@ -38,9 +34,14 @@ if (themeToggle) {
     themeToggle.addEventListener('click', () => {
         const activeTheme = html.getAttribute('data-theme');
         const newTheme = activeTheme === 'light' ? 'dark' : 'light';
-        
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+
+        if (themeApi) {
+            themeApi.persistTheme(newTheme);
+            themeApi.applyTheme(newTheme);
+        } else {
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
         
         // Update icon animation
         themeToggle.style.transform = 'rotate(360deg)';
@@ -207,5 +208,3 @@ console.log('%c🚀 Welcome to minty-feng\'s personal website!', 'color: #667eea
 console.log('%cBuilt with ❤️', 'color: #764ba2; font-size: 12px;');
 
 // 本地/线上链接切换已移至 index.html 内联脚本，优先执行
-
-

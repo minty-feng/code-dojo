@@ -7,3 +7,4 @@ __pycache__/
 data/chinese-poetry-master
 data/*.xlsx
 data/raw
+deploy/backend-platform-py.env

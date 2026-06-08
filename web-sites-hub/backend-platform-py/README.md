@@ -66,7 +66,6 @@ Authorization: Bearer <access_token>
 - `content`：内容（诗词/文章）查询
 - `fund`：基金查询与 CSV 导出占位
 - `market`：行情辅助（`GET /api/v1/market/gold/quote`，可选 `GOLDAPI_IO_TOKEN` 对接 goldapi.io）
-- `diary`：日记创建与查询
 - `poems`：诗词列表、详情、分类查询
 - `system`：健康检查、版本信息
 

@@ -9,7 +9,6 @@ from sqladmin import Admin, ModelView
 from app.core.admin_auth import AdminAuthBackend
 from app.core.database import (
     ContentModel,
-    DiaryEntryModel,
     FundModel,
     InviteKeyModel,
     PoemFavoriteModel,
@@ -51,17 +50,6 @@ class FundAdmin(ModelView, model=FundModel):
     column_list = [FundModel.code, FundModel.name, FundModel.nav, FundModel.change]
     column_searchable_list = [FundModel.code, FundModel.name]
     form_columns = [FundModel.code, FundModel.name, FundModel.nav, FundModel.change]
-
-
-class DiaryEntryAdmin(ModelView, model=DiaryEntryModel):
-    """Admin page for diary entry records."""
-
-    name = "Diary Entry"
-    name_plural = "Diary Entries"
-    icon = "fa-solid fa-note-sticky"
-    column_list = [DiaryEntryModel.id, DiaryEntryModel.title, DiaryEntryModel.created_at]
-    column_searchable_list = [DiaryEntryModel.title]
-    form_columns = [DiaryEntryModel.title, DiaryEntryModel.content]
 
 
 class PoemAdmin(ModelView, model=PoemModel):
@@ -174,7 +162,6 @@ def setup_admin(app: FastAPI) -> None:
     admin.add_view(UserAdmin)
     admin.add_view(ContentAdmin)
     admin.add_view(FundAdmin)
-    admin.add_view(DiaryEntryAdmin)
     admin.add_view(PoemAdmin)
     admin.add_view(SnippetAdmin)
     admin.add_view(PoemFavoriteAdmin)

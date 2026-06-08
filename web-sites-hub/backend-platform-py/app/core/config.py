@@ -30,6 +30,27 @@ class Settings(BaseModel):
     }
     admin_rate_limit_max_requests: int = int(os.getenv("ADMIN_RATE_LIMIT_MAX_REQUESTS", "30"))
     admin_rate_limit_window_seconds: int = int(os.getenv("ADMIN_RATE_LIMIT_WINDOW_SECONDS", "60"))
+    # Protect invite management routes (/invite/list|stats|generate).
+    admin_api_key: str = os.getenv("ADMIN_API_KEY", "")
+    rate_limit_enabled: bool = os.getenv("RATE_LIMIT_ENABLED", "true").lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+    auth_rate_limit_max_requests: int = int(os.getenv("AUTH_RATE_LIMIT_MAX_REQUESTS", "10"))
+    auth_rate_limit_window_seconds: int = int(os.getenv("AUTH_RATE_LIMIT_WINDOW_SECONDS", "60"))
+    invite_verify_rate_limit_max_requests: int = int(
+        os.getenv("INVITE_VERIFY_RATE_LIMIT_MAX_REQUESTS", "5")
+    )
+    invite_verify_rate_limit_window_seconds: int = int(
+        os.getenv("INVITE_VERIFY_RATE_LIMIT_WINDOW_SECONDS", "60")
+    )
+    # Public read catalogs (GET /poems*, /snippets*) — anti-scrape / DB load.
+    catalog_rate_limit_max_requests: int = int(os.getenv("CATALOG_RATE_LIMIT_MAX_REQUESTS", "120"))
+    catalog_rate_limit_window_seconds: int = int(
+        os.getenv("CATALOG_RATE_LIMIT_WINDOW_SECONDS", "60")
+    )
     # Optional: https://www.goldapi.io — server-side only, never expose in frontend.
     goldapi_io_token: str = os.getenv("GOLDAPI_IO_TOKEN", "")
     # Protect low-quota upstream keys (e.g. 100/day): throttle upstream refresh.

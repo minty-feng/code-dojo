@@ -10,7 +10,6 @@ from sqlalchemy import asc, desc, func, or_
 
 from app.core.database import (
     ContentModel,
-    DiaryEntryModel,
     FundModel,
     PoemFavoriteModel,
     PoemModel,
@@ -124,32 +123,6 @@ class SqlAlchemyRepository:
         with SessionLocal() as db:
             rows = db.query(FundModel).order_by(FundModel.code.asc()).all()
             return [{"code": r.code, "name": r.name, "nav": r.nav, "change": r.change} for r in rows]
-
-    def create_diary(self, title: str, content: str) -> dict:
-        with SessionLocal() as db:
-            row = DiaryEntryModel(title=title, content=content)
-            db.add(row)
-            db.commit()
-            db.refresh(row)
-            return {
-                "id": row.id,
-                "title": row.title,
-                "content": row.content,
-                "created_at": row.created_at.isoformat(),
-            }
-
-    def list_diary(self) -> list[dict]:
-        with SessionLocal() as db:
-            rows = db.query(DiaryEntryModel).order_by(DiaryEntryModel.id.desc()).all()
-            return [
-                {
-                    "id": r.id,
-                    "title": r.title,
-                    "content": r.content,
-                    "created_at": r.created_at.isoformat(),
-                }
-                for r in rows
-            ]
 
     def list_poem_dynasties(self) -> list[str]:
         with SessionLocal() as db:

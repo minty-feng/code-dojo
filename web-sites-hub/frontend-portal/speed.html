@@ -6,6 +6,7 @@
     <meta name="description" content="网速测试工具集合 - 快速访问各大测速平台">
     <title>网速测试 | minty-feng</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <script src="assets/js/theme.js?v=20260531"></script>
     <link rel="stylesheet" href="assets/css/main.css?v=20260312">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -270,26 +271,6 @@
     </div>
     
     <script src="assets/js/site.config.js?v=20260529"></script>
-    <script>
-       // Simple Theme Toggle Logic (inline for simplicity)
-       const themeToggle = document.getElementById('themeToggle');
-       const body = document.body;
-       
-       // Check saved theme
-       if (localStorage.getItem('theme') === 'dark') {
-           body.setAttribute('data-theme', 'dark');
-       } else if (localStorage.getItem('theme') === 'light') {
-           body.setAttribute('data-theme', 'light');
-       } else {
-           body.setAttribute('data-theme', 'light');
-       }
-
-       themeToggle.addEventListener('click', () => {
-           const currentTheme = body.getAttribute('data-theme');
-           const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-           body.setAttribute('data-theme', newTheme);
-           localStorage.setItem('theme', newTheme);
-       });
-    </script>
+    <script src="assets/js/main.js?v=20260531"></script>
 </body>
 </html>

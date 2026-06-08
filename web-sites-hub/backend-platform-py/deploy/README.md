@@ -10,11 +10,14 @@
 
 ```text
 deploy/
-├── config/
-│   └── backend-platform-py.env.example
+├── backend-platform-py.env.example   # 环境变量模板（可提交 Git）
+├── backend-platform-py.env           # 实际配置（含密钥，勿提交）
+├── generate-admin-api-key.sh
 ├── package-backend-platform-py-no-data.sh
 ├── package-backend-platform-py.sh
-└── start-backend-platform-py.sh
+├── print-deploy-hints.sh
+├── start-backend-platform-py.sh
+└── verify-api-security.sh
 ```
 
 ## 1. 本地打包
@@ -47,8 +50,8 @@ sudo tar -xzf backend-platform-py-20260416-213000.tar.gz -C /opt/backend-platfor
 ## 3. 准备环境变量
 
 ```bash
-cp deploy/config/backend-platform-py.env.example deploy/config/backend-platform-py.env
-vim deploy/config/backend-platform-py.env
+cp deploy/backend-platform-py.env.example deploy/backend-platform-py.env
+vim deploy/backend-platform-py.env
 ```
 
 至少修改：
@@ -56,6 +59,7 @@ vim deploy/config/backend-platform-py.env
 - `JWT_SECRET`
 - `ADMIN_PASSWORD`
 - `ADMIN_SESSION_SECRET`
+- `ADMIN_API_KEY`（可运行 `./deploy/generate-admin-api-key.sh` 生成）
 - `CORS_ALLOW_ORIGINS`
 
 ## 4. 启动后端
@@ -69,7 +73,7 @@ cd /opt/backend-platform-py
 
 - 启动前校验项目根目录下 `.venv`
 - 自动激活 `.venv` 后再启动服务
-- 优先加载 `deploy/config/backend-platform-py.env`
+- 优先加载 `deploy/backend-platform-py.env`
 - 使用 `nohup` 后台启动 `uvicorn`
 - 把日志写到项目根目录 `backend-platform-py.log`
 

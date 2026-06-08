@@ -11,7 +11,7 @@ PORT="${PORT:-8300}"
 VENV_DIR="${VENV_DIR:-$ROOT/.venv}"
 VENV_ACTIVATE="$VENV_DIR/bin/activate"
 VENV_PYTHON="$VENV_DIR/bin/python"
-ENV_FILE="${ENV_FILE:-$ROOT/deploy/config/backend-platform-py.env}"
+ENV_FILE="${ENV_FILE:-$ROOT/deploy/backend-platform-py.env}"
 LOG_FILE="${LOG_FILE:-$ROOT/backend-platform-py.log}"
 PID_FILE="${PID_FILE:-$ROOT/backend-platform-py.pid}"
 

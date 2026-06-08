@@ -27,11 +27,6 @@
 
 详见 `docs/09-fund-gold-desk.md`（产品边界、公式、配置与商用建议）。
 
-## Diary
-
-- `POST /api/v1/diary/entries`
-- `GET /api/v1/diary/entries`
-
 ## System
 
 - `GET /api/v1/system/health`

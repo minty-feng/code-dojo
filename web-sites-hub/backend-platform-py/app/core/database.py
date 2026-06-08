@@ -63,16 +63,6 @@ class FundModel(Base):
     change: Mapped[float] = mapped_column(Float)
 
 
-class DiaryEntryModel(Base):
-    """Diary table for user entry records."""
-
-    __tablename__ = "diary_entries"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    title: Mapped[str] = mapped_column(String(120))
-    content: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
-
 
 class PoemModel(Base):
     """Poems table for showcase poetry module."""
@@ -254,11 +244,18 @@ def _ensure_invite_keys(min_count: int = 3, expire_days: int = 30) -> None:
         db.commit()
 
 
+def _drop_legacy_diary_entries_table() -> None:
+    """Remove unused diary_entries table from legacy databases."""
+    with engine.begin() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS diary_entries"))
+
+
 def init_db() -> None:
     """Create tables and seed starter data when database is empty."""
     from app.core.snippet_seed import DEFAULT_SNIPPETS
 
     Base.metadata.create_all(bind=engine)
+    _drop_legacy_diary_entries_table()
     _ensure_poems_columns()
     _ensure_users_columns()
 

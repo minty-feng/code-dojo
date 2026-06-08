@@ -4,7 +4,7 @@
 
 - 前端：`web-sites-hub/frontend-portal/fund.html`、`web-sites-hub/frontend-portal/assets/js/fund.js`
 - 后端：`app/routers/fund.py`、`app/routers/market.py`、`app/services/fund_service.py`、`app/services/market_service.py`
-- 配置：`app/core/config.py`（`GOLDAPI_IO_TOKEN`）、`deploy/config/backend-platform-py.env`
+- 配置：`app/core/config.py`（`GOLDAPI_IO_TOKEN`）、`deploy/backend-platform-py.env`
 
 ---
 
@@ -217,7 +217,7 @@ flowchart LR
 | `CORS_ALLOW_ORIGINS` | 服务端 | 必须包含实际托管 `fund.html` 的 HTTPS 源，否则浏览器跨域失败。 |
 | `window.FUND_API.baseUrl` | 浏览器 | 可选，强制指定 API 根路径。 |
 
-部署示例见 `deploy/config/backend-platform-py.env` 注释。
+部署示例见 `deploy/backend-platform-py.env` 注释。
 
 ---
 

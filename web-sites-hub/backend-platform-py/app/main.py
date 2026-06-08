@@ -3,9 +3,7 @@
 This file wires routers, exception handlers, and global app config.
 """
 
-import time
 import sys
-from collections import defaultdict, deque
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -22,7 +20,8 @@ from app.core.exceptions import (
     app_exception_handler,
     unhandled_exception_handler,
 )
-from app.routers import auth, content, diary, fund, invite, market, poems, snippets, system, users
+from app.core.rate_limit import get_client_ip, is_rate_limited, too_many_requests_response
+from app.routers import auth, content, fund, invite, market, poems, snippets, system, users
 from app.routers.resume import api_router as resume_api_router, page_router as resume_page_router
 
 REQUIRED_PYTHON_MAJOR = 3
@@ -41,9 +40,19 @@ app = FastAPI(
     description="Single-service backend blueprint for multi-frontend projects.",
 )
 
-# In-memory admin rate limit buckets.
-# Key: client host, Value: deque of request timestamps (seconds)
-ADMIN_RATE_BUCKETS: dict[str, deque[float]] = defaultdict(deque)
+_API_AUTH_PATHS = frozenset(
+    {
+        f"{settings.api_prefix}/auth/login",
+        f"{settings.api_prefix}/auth/register",
+    }
+)
+_API_INVITE_VERIFY_PATHS = frozenset(
+    {
+        f"{settings.api_prefix}/invite/verify",
+        f"{settings.api_prefix}/resume/auth",
+    }
+)
+_API_INVITE_GENERATE_PATH = f"{settings.api_prefix}/invite/generate"
 
 # Session middleware is required for SQLAdmin login state.
 app.add_middleware(SessionMiddleware, secret_key=settings.admin_session_secret)
@@ -63,6 +72,70 @@ _RESUME_STATIC_DIR = Path(__file__).resolve().parent / "static" / "resume"
 app.mount("/static/resume", StaticFiles(directory=_RESUME_STATIC_DIR), name="resume_static")
 
 
+def _is_catalog_read_path(path: str) -> bool:
+    """Return True for public poem/snippet GET routes that should be rate-limited."""
+    prefix = settings.api_prefix
+    return path.startswith(f"{prefix}/snippets") or path.startswith(f"{prefix}/poems")
+
+
+@app.middleware("http")
+async def api_rate_limit_middleware(request, call_next):
+    """Rate-limit sensitive POST routes and public catalog GET routes by client IP."""
+    if not settings.rate_limit_enabled:
+        return await call_next(request)
+
+    path = request.url.path
+    client_ip = get_client_ip(request)
+
+    if request.method == "POST":
+        if path in _API_AUTH_PATHS:
+            bucket_key = f"auth:{client_ip}"
+            if is_rate_limited(
+                bucket_key,
+                settings.auth_rate_limit_max_requests,
+                settings.auth_rate_limit_window_seconds,
+            ):
+                return too_many_requests_response(
+                    settings.auth_rate_limit_max_requests,
+                    settings.auth_rate_limit_window_seconds,
+                )
+        elif path in _API_INVITE_VERIFY_PATHS:
+            bucket_key = f"invite_verify:{client_ip}"
+            if is_rate_limited(
+                bucket_key,
+                settings.invite_verify_rate_limit_max_requests,
+                settings.invite_verify_rate_limit_window_seconds,
+            ):
+                return too_many_requests_response(
+                    settings.invite_verify_rate_limit_max_requests,
+                    settings.invite_verify_rate_limit_window_seconds,
+                )
+        elif path == _API_INVITE_GENERATE_PATH:
+            bucket_key = f"invite_generate:{client_ip}"
+            if is_rate_limited(
+                bucket_key,
+                settings.invite_verify_rate_limit_max_requests,
+                settings.invite_verify_rate_limit_window_seconds,
+            ):
+                return too_many_requests_response(
+                    settings.invite_verify_rate_limit_max_requests,
+                    settings.invite_verify_rate_limit_window_seconds,
+                )
+    elif request.method == "GET" and _is_catalog_read_path(path):
+        bucket_key = f"catalog:{client_ip}"
+        if is_rate_limited(
+            bucket_key,
+            settings.catalog_rate_limit_max_requests,
+            settings.catalog_rate_limit_window_seconds,
+        ):
+            return too_many_requests_response(
+                settings.catalog_rate_limit_max_requests,
+                settings.catalog_rate_limit_window_seconds,
+            )
+
+    return await call_next(request)
+
+
 @app.middleware("http")
 async def admin_localhost_only(request, call_next):
     """Protect /admin with optional localhost-only policy.
@@ -71,7 +144,7 @@ async def admin_localhost_only(request, call_next):
     Set ADMIN_ALLOW_REMOTE=true to allow remote access through Nginx.
     """
     if request.url.path.startswith("/admin"):
-        client_host = request.client.host if request.client else ""
+        client_host = get_client_ip(request)
         if (not settings.admin_allow_remote) and client_host not in {"127.0.0.1", "::1", "localhost"}:
             return JSONResponse(
                 status_code=403,
@@ -82,30 +155,16 @@ async def admin_localhost_only(request, call_next):
                     "data": None,
                 },
             )
-        now = time.time()
-        window_start = now - settings.admin_rate_limit_window_seconds
-        bucket = ADMIN_RATE_BUCKETS[client_host]
-
-        # Drop expired timestamps out of the rate-limit window.
-        while bucket and bucket[0] < window_start:
-            bucket.popleft()
-
-        # Enforce request quota for /admin.
-        if len(bucket) >= settings.admin_rate_limit_max_requests:
-            return JSONResponse(
-                status_code=429,
-                content={
-                    "success": False,
-                    "code": "TOO_MANY_REQUESTS",
-                    "message": (
-                        "Too many admin requests; "
-                        f"limit={settings.admin_rate_limit_max_requests}/"
-                        f"{settings.admin_rate_limit_window_seconds}s"
-                    ),
-                    "data": None,
-                },
+        bucket_key = f"admin:{client_host}"
+        if is_rate_limited(
+            bucket_key,
+            settings.admin_rate_limit_max_requests,
+            settings.admin_rate_limit_window_seconds,
+        ):
+            return too_many_requests_response(
+                settings.admin_rate_limit_max_requests,
+                settings.admin_rate_limit_window_seconds,
             )
-        bucket.append(now)
     return await call_next(request)
 
 # Register custom exception handlers.
@@ -118,7 +177,6 @@ app.include_router(users.router, prefix=settings.api_prefix)
 app.include_router(content.router, prefix=settings.api_prefix)
 app.include_router(fund.router, prefix=settings.api_prefix)
 app.include_router(market.router, prefix=settings.api_prefix)
-app.include_router(diary.router, prefix=settings.api_prefix)
 app.include_router(poems.router, prefix=settings.api_prefix)
 app.include_router(snippets.router, prefix=settings.api_prefix)
 app.include_router(invite.router, prefix=settings.api_prefix)

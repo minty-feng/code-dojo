@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
 from app.core.response import ok
+from app.dependencies import require_admin_api_key
 from app.schemas.invite import GenerateKeyRequest, InviteKeyOut, VerifyKeyRequest
 from app.services import invite_service
 
@@ -40,6 +41,7 @@ def verify_invite_key(
 def generate_invite_key(
     payload: GenerateKeyRequest = GenerateKeyRequest(),
     db: Session = Depends(_get_db),
+    _: None = Depends(require_admin_api_key),
 ) -> dict:
     """Manually trigger creation of one new invite key."""
     obj = invite_service.generate_key(db, purpose=payload.purpose, expire_days=payload.expire_days)
@@ -47,13 +49,19 @@ def generate_invite_key(
 
 
 @router.get("/list")
-def list_invite_keys(db: Session = Depends(_get_db)) -> dict:
+def list_invite_keys(
+    db: Session = Depends(_get_db),
+    _: None = Depends(require_admin_api_key),
+) -> dict:
     """List all invite keys ordered by creation time descending."""
     keys = invite_service.list_keys(db)
     return ok([InviteKeyOut.model_validate(k).model_dump() for k in keys])
 
 
 @router.get("/stats")
-def invite_stats(db: Session = Depends(_get_db)) -> dict:
+def invite_stats(
+    db: Session = Depends(_get_db),
+    _: None = Depends(require_admin_api_key),
+) -> dict:
     """Return aggregate statistics for the invite key pool."""
     return ok(invite_service.get_stats(db))
